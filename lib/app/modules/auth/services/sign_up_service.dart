@@ -10,19 +10,26 @@ import '../../../storage/my_shared_pref.dart';
 /// at the first index it returns the id of the user ,
 /// ath the second index it returnes if signup process is successful
 /// if signup process is Not successful then userId is Null
-Future<List> signupService(String email, String password) async {
+Future<List> signupService(String email, String password, String fullName, String nickName,
+    String dateOfBirth, String phoneNumber) async {
   String? userId;
-  try {
-    FormData formData = FormData.fromMap({
-      'email': email,
-      'password': password,
-      'name': 'Admin',
-    });
 
+  log('sign up service ********');
+  log('email: $email********');
+  log('phone: $phoneNumber********');
+  try {
     final response = await dio.post(
-      signUp,
-      data: formData,
+      SIGN_UP_URL,
+      queryParameters: {
+        'email': email,
+        'password': password,
+        'name': fullName,
+        'nick_name': nickName,
+        'date_of_birth': dateOfBirth,
+        'phone': phoneNumber,
+      },
     );
+    log(response.toString());
     log(response.data.toString());
 
     final responseData = response.data['Data'];
@@ -35,6 +42,7 @@ Future<List> signupService(String email, String password) async {
 
     return [userId, true];
   } on DioError catch (e) {
+    log(e.error.toString());
     CustomSnackBar.showCustomErrorSnackBar(
       title: 'Failed',
       message: formatErrorMsg(e.response!.data),

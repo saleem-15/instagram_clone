@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/modules/comments/controllers/comments_controller.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
 class PostController extends GetxController {
@@ -9,8 +8,12 @@ class PostController extends GetxController {
   }
 
   void comment(Post post) {
-    Get.toNamed(Routes.COMMENTS);
-    Get.find<CommentsController>().textFieldFocusNode.requestFocus();
+    Get.toNamed(
+      Routes.COMMENTS,
+      parameters: {'isTextFieldFocused': 'true'},
+    );
+
+    // Get.find<CommentsController>().
   }
 
   void onHeartPressed(Post post) {

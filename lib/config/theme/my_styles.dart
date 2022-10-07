@@ -104,7 +104,7 @@ class MyStyles {
   static ElevatedButtonThemeData getElevatedButtonTheme() => ElevatedButtonThemeData(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(7.5.r)),
           ),
           elevation: MaterialStateProperty.all(0),
           textStyle: getElevatedButtonTextStyle(),

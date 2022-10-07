@@ -1,17 +1,20 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 
 import '../../../storage/my_shared_pref.dart';
 import '../services/logout_service.dart';
 
 class AuthController extends GetxController {
-  bool isUserSignedIn = MySharedPref.getToken == null ? false : true;
+  bool isAuthorized = MySharedPref.getToken == null ? false : true;
 
   void tokenListener(dynamic token) {
+    log('token changed');
     if (token == null) {
-      isUserSignedIn = false;
+      isAuthorized = false;
       update(['auth_listener']);
     } else {
-      isUserSignedIn = true;
+      isAuthorized = true;
       update(['auth_listener']);
     }
   }
@@ -20,7 +23,6 @@ class AuthController extends GetxController {
   void onInit() {
     // log('------------Auth controller is initilized-------------');
     // log('My token:${MySharedPref.getToken}');
-    // log('is User logged in: $isUserSignedIn');
 
     MySharedPref.userTokenListener(tokenListener);
     super.onInit();
@@ -29,7 +31,7 @@ class AuthController extends GetxController {
   void logout() {
     Get.back();
     MySharedPref.setUserToken(null);
-    isUserSignedIn = false;
+    isAuthorized = false;
     logoutService();
     update(['auth_listener']);
   }

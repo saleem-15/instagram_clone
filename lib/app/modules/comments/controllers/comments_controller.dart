@@ -16,6 +16,7 @@ class CommentsController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
     comments = [
       Comment(
         id: '1',
@@ -48,6 +49,9 @@ class CommentsController extends GetxController {
         text: 'Lorem ipsum dolor sit  accusantium consectetur?',
       ),
     ];
-    super.onInit();
+
+    if (Get.parameters['isTextFieldFocused'] == 'true') {
+      textFieldFocusNode.requestFocus();
+    }
   }
 }

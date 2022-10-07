@@ -33,7 +33,7 @@ class InfoView extends GetView<SignupController> {
                 TextFormField(
                   controller: controller.fullNameController,
                   validator: controller.fullNameFieldValidator,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.name,
                   decoration: const InputDecoration(
                     hintText: 'Full name',
@@ -43,13 +43,37 @@ class InfoView extends GetView<SignupController> {
                   height: verticalSpace,
                 ),
                 TextFormField(
+                  controller: controller.userNameController,
+                  validator: controller.userNameFieldValidator,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.name,
+                  decoration: const InputDecoration(
+                    hintText: 'Username',
+                  ),
+                ),
+                SizedBox(
+                  height: verticalSpace,
+                ),
+                TextFormField(
                   controller: controller.passwordController,
                   validator: controller.passwordFieldValidator,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Password',
+                  ),
+                ),
+                SizedBox(
+                  height: verticalSpace,
+                ),
+                TextFormField(
+                  controller: controller.dateOfBirthController,
+                  validator: controller.dateOfBirthFieldValidator,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.datetime,
+                  decoration: const InputDecoration(
+                    hintText: 'Date of birth',
                   ),
                 ),
                 SizedBox(

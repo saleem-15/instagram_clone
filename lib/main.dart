@@ -1,3 +1,7 @@
+// ignore_for_file: unused_import
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -5,28 +9,26 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/auth_conroller.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/signin_controller.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
-import 'package:instagram_clone/app/modules/auth/screens/signin_screen.dart';
+import 'package:instagram_clone/app/modules/auth/services/sign_in_service.dart';
 import 'package:instagram_clone/app/modules/comments/controllers/comments_controller.dart';
+import 'package:instagram_clone/app/modules/explorer/controllers/explorer_controller.dart';
 import 'package:instagram_clone/app/modules/home/controllers/home_controller.dart';
 import 'package:instagram_clone/app/modules/home/controllers/post_controller.dart';
-import 'package:instagram_clone/app/modules/profile/controllers/followers_controller.dart';
+import 'package:instagram_clone/app/modules/profile/controllers/followers_tab_controller.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/profile_controller.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
+import 'app/modules/auth/screens/signin_screen.dart';
 import 'app/my_app.dart';
+import 'app/my_app_binding.dart';
 import 'app/routes/app_pages.dart';
 import 'config/theme/my_theme.dart';
 
 Future<void> main() async {
   await MySharedPref.init();
-  Get.put(HomeController());
-  Get.put(AuthController(), permanent: true);
-  Get.lazyPut(() => SignupController(), fenix: true);
-  Get.lazyPut(() => SigninController());
-  Get.put(PostController(), permanent: true);
-  Get.lazyPut(() => CommentsController(), fenix: true);
-  Get.lazyPut(() => FollowersController(), fenix: true);
-  Get.put(ProfileController());
+
+  MySharedPref.setUserToken(null);
+
   runApp(const Main());
 }
 
@@ -37,6 +39,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
+        initialBinding: MyAppBinding(),
         debugShowCheckedModeBanner: false,
         title: "Instagram clone",
         getPages: AppPages.routes,
@@ -51,14 +54,15 @@ class Main extends StatelessWidget {
           );
         },
         home:
-            // const MyApp()
+            //  const MyApp()
             Container(
           color: Colors.blue,
           child: GetBuilder<AuthController>(
             assignId: true,
             id: 'auth_listener',
             builder: (controller) {
-              return controller.isUserSignedIn ? const MyApp() : const SigninScreen();
+              log('********* auth_listener is build *********');
+              return controller.isAuthorized ? const MyApp() : const SigninScreen();
             },
           ),
         ),

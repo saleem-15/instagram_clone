@@ -10,10 +10,12 @@ class ProfileController extends GetxController {
   int followingNum = 33;
 
   void goToFollowers() {
+    // FollowersTabController.goToFollowersView();
     Get.toNamed(Routes.FOLLOWERS);
   }
 
   void goToFollowing() {
-    Get.toNamed(Routes.FOLLOWERS);
+    // FollowersTabController.goToFollowingView();
+    Get.toNamed(Routes.FOLLOWING);
   }
 }

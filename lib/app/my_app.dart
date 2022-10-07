@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/home/views/home_view.dart';
-import 'package:instagram_clone/app/modules/profile/views/profile_view.dart';
+import 'package:instagram_clone/app/modules/profile/screens/profile_screen.dart';
 import 'package:instagram_clone/app/modules/reels/views/reels_view.dart';
 
 import 'modules/explorer/views/explorer_view.dart';
@@ -37,8 +37,8 @@ class MyApp extends StatelessWidget {
               iconSize: 25.sp,
               currentIndex: selectedIndex.value,
               onTap: (index) => selectedIndex.value = index,
-              unselectedFontSize: 0, // <-- To also NOT saving space for the label
-              selectedFontSize: 0, // <-- To also NOT saving space for the labe
+              unselectedFontSize: 0, // <-- for NOT saving space for the label
+              selectedFontSize: 0, // <-- for NOT saving space for the labe
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
                   return const ReelsView();
 
                 default:
-                  return const ProfileView();
+                  return const ProfileScreen();
               }
             },
           );

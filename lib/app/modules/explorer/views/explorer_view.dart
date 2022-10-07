@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/shared/search_field.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controllers/explorer_controller.dart';
@@ -46,7 +47,10 @@ class ExplorerView extends GetView<ExplorerController> {
                 ],
               ),
             ),
-        
+
+            SearchTextField(
+              onEditingComplete: controller.search,
+            )
           ],
         ),
       ),

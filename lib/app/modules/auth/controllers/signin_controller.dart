@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
-import '../../../../main.dart';
-import '../screens/signup_screen.dart';
 import '../services/sign_in_service.dart';
 
 class SigninController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
-  final emailController = TextEditingController();
+  final firstFieledController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String get firstFieled => firstFieledController.text.trim();
+  String get password => passwordController.text.trim();
 
   RxBool isButtonDisable = true.obs;
 
@@ -21,13 +23,11 @@ class SigninController extends GetxController {
       return;
     }
 
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-    final isSuccessfull = await signInService(email, password);
+    final isSuccessfull = await signInService(firstFieled, password);
 
-    if (isSuccessfull) {
-      Get.off(() => const Main());
-    }
+    // if (isSuccessfull) {
+    //   Get.off(() => const Main());
+    // }
   }
 
   @override
@@ -37,11 +37,11 @@ class SigninController extends GetxController {
   }
 
   String? emailFieldValidator(String? value) {
-    if (emailController.text.isEmail) {
-      return null;
+    if (firstFieled.isBlank!) {
+      return 'required';
     }
 
-    return 'Enter a valid email';
+    return null;
   }
 
   String? passwordFieldValidator(String? value) {
@@ -52,21 +52,21 @@ class SigninController extends GetxController {
   }
 
   void goToSignup() {
-    Get.off(() => const SignupScreen());
+    Get.offNamed(Routes.SIGNUP);
   }
 
   void forgetPassword() {}
 
   void autoDisableLoginButton() {
-    emailController.addListener(() {
-      if (emailController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+    firstFieledController.addListener(() {
+      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }
       isButtonDisable(false);
     });
     passwordController.addListener(() {
-      if (emailController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }

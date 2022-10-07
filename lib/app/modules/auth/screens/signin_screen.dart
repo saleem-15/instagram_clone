@@ -78,7 +78,7 @@ class SigninScreen extends GetView<SigninController> {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: controller.emailController,
+                        controller: controller.firstFieledController,
                         validator: controller.emailFieldValidator,
                         textInputAction: TextInputAction.next, // Moves focus to next field
                         decoration: InputDecoration(
