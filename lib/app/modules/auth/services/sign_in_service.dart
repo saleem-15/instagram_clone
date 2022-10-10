@@ -11,6 +11,7 @@ import '../../../storage/my_shared_pref.dart';
 /// it returnes true if signup process is successful
 Future<bool> signInService(String firstField, String password) async {
   try {
+    log('sign in');
     final response = await dio.post(
       SIGN_IN_URL,
       queryParameters: {

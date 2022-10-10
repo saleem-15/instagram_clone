@@ -227,4 +227,15 @@ class MyStyles {
           },
         ),
       );
+
+  static ButtonStyle getPostCommentButtonStyle() => ButtonStyle(
+        overlayColor: MaterialStateProperty.all(Colors.transparent),
+        foregroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.disabled)) {
+            return LightThemeColors.authButtonColor.withOpacity(.4);
+          }
+
+          return LightThemeColors.authButtonColor;
+        }),
+      );
 }

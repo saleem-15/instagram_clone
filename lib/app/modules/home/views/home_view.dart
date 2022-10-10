@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 import 'post_view.dart';
-import 'stories_view.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final pagingController = controller.pagingController;
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
       ),
       body: Column(
         children: [
-          const StoriesView(),
+          // const StoriesView(),
           Expanded(
             child: ListView.builder(
               itemCount: controller.posts.length,
@@ -33,7 +33,27 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
             ),
-          )
+          ),
+          // Expanded(
+          //   child: PagedListView(
+          //     pagingController: pagingController,
+          //     builderDelegate: PagedChildBuilderDelegate(
+          //       itemBuilder: (context, item, index) {
+          //         final post = pagingController.itemList![index];
+
+          //         return PostView(post: post);
+          //       },
+          //       firstPageErrorIndicatorBuilder: (context) => Text(pagingController.error.toString()),
+          //       noItemsFoundIndicatorBuilder: (context) => Center(
+          //         child: Text(
+          //           'No posts was Found',
+          //           style: Theme.of(context).textTheme.headline6,
+          //         ),
+          //       ),
+          //       newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

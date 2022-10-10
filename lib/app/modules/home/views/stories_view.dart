@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
 class StoriesView extends StatelessWidget {
   const StoriesView({super.key});
@@ -17,7 +19,9 @@ class StoriesView extends StatelessWidget {
               itemCount: favorites.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.STORY);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(

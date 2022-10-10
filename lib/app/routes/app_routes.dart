@@ -2,8 +2,6 @@ part of 'app_pages.dart';
 // DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
 abstract class Routes {
-  
-
   Routes._();
   static const String SIGN_IN = _Paths.SIGN_IN;
   static const String SIGNUP = _Paths.SIGNUP;
@@ -16,10 +14,10 @@ abstract class Routes {
   static const FOLLOWERS = _Paths.FOLLOWERS;
   static const FOLLOWING = _Paths.FOLLOWING;
   static const INFO_VIEW = _Paths.INFO_VIEW;
+  static const STORY = _Paths.STORY;
 }
 
 abstract class _Paths {
-
   _Paths._();
 
   static const SIGN_IN = '/sign_in';
@@ -33,4 +31,5 @@ abstract class _Paths {
   static const COMMENTS = '/comments';
   static const FOLLOWERS = '/followers';
   static const FOLLOWING = '/following';
+  static const STORY = '/story';
 }

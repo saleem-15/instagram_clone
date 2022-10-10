@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/views/info_view.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
-import '../screens/signin_screen.dart';
 import '../services/sign_up_service.dart';
 
 class SignupController extends GetxController {

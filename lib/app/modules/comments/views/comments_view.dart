@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
+import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/comments_controller.dart';
 import 'comment_tile_view.dart';
@@ -14,11 +15,7 @@ class CommentsView extends GetView<CommentsController> {
     final horizontalPadding = 10.w;
     return Scaffold(
       appBar: AppBar(
-        iconTheme: Theme.of(context).iconTheme,
-        title: const Text(
-          'Comments',
-          // style: Theme.of(context).textTheme.headlineSmall,
-        ),
+        title: const Text('Comments'),
       ),
       body: Column(
         children: [
@@ -36,13 +33,19 @@ class CommentsView extends GetView<CommentsController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       /// Account Name
-                      Text(controller.accountName),
+                      Text(
+                        controller.accountName,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
                       SizedBox(
-                        height: 10.sp,
+                        height: 3.sp,
                       ),
 
                       /// post
-                      Text(controller.postText),
+                      Text(
+                        controller.postText,
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                     ],
                   ),
                 )
@@ -104,12 +107,12 @@ class CommentsView extends GetView<CommentsController> {
                       maxLines: 6,
                     ),
                   ),
-                  TextButton(
-                    style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  Obx(
+                    () => TextButton(
+                      style: MyStyles.getPostCommentButtonStyle(),
+                      onPressed: controller.isPostButtonDisabled.isTrue ? null : controller.postComment,
+                      child: const Text('Post'),
                     ),
-                    onPressed: () {},
-                    child: const Text('Post'),
                   )
                 ],
               ),

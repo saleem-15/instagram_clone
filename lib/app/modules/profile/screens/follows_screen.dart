@@ -7,8 +7,8 @@ import 'package:instagram_clone/app/modules/profile/controllers/followers_tab_co
 import 'package:instagram_clone/app/modules/profile/views/followers_view.dart';
 import 'package:instagram_clone/app/modules/profile/views/following_view.dart';
 
-class Follower_Following_Screen extends GetView<FollowsTabController> {
-  const Follower_Following_Screen({
+class FollowsScreen extends GetView<FollowsTabController> {
+  const FollowsScreen({
     Key? key,
     required this.pageIndex,
   }) : super(key: key);

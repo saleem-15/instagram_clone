@@ -68,5 +68,4 @@ class FollowsTabController extends GetxController with GetSingleTickerProviderSt
   final int numOfFollowers = 12;
   final int numOfFollowing = 33;
 
-  void search() {}
 }

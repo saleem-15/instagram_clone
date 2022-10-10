@@ -22,12 +22,13 @@ import 'app/modules/auth/screens/signin_screen.dart';
 import 'app/my_app.dart';
 import 'app/my_app_binding.dart';
 import 'app/routes/app_pages.dart';
+import 'app/x.dart';
 import 'config/theme/my_theme.dart';
 
 Future<void> main() async {
   await MySharedPref.init();
 
-  MySharedPref.setUserToken(null);
+  // MySharedPref.setUserToken(null);
 
   runApp(const Main());
 }
@@ -61,6 +62,7 @@ class Main extends StatelessWidget {
             assignId: true,
             id: 'auth_listener',
             builder: (controller) {
+              // return const VideoPlayerScreen();
               log('********* auth_listener is build *********');
               return controller.isAuthorized ? const MyApp() : const SigninScreen();
             },

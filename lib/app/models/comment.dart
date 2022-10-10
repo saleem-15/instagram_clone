@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:instagram_clone/app/models/user.dart';
 
 class Comment {
@@ -14,4 +12,13 @@ class Comment {
     required this.user,
     required this.text,
   });
+
+  factory Comment.fromMap(Map<String, dynamic> map) {
+    return Comment(
+      id: map['id'].toString(),
+      postId: map['postId'].toString(),
+      user: User.fromMap(map['user']),
+      text: map['text'],
+    );
+  }
 }

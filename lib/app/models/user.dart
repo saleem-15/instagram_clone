@@ -9,6 +9,11 @@ class User {
     required this.image,
   });
 
-  
-  
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'].toString(),
+      name: map['name'],
+      image: map['image'],
+    );
+  }
 }

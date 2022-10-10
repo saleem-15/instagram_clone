@@ -9,14 +9,21 @@ class CommentsController extends GetxController {
 
   String accountName = 'resrito';
   final addCommentTextController = TextEditingController();
+  String get commentText => addCommentTextController.text.trim();
+
+  RxBool isPostButtonDisabled = true.obs;
 
   late List<Comment> comments;
 
   final textFieldFocusNode = FocusNode();
 
+  void postComment() {}
+
   @override
   void onInit() {
     super.onInit();
+
+    autoDisableButton();
     comments = [
       Comment(
         id: '1',
@@ -53,5 +60,11 @@ class CommentsController extends GetxController {
     if (Get.parameters['isTextFieldFocused'] == 'true') {
       textFieldFocusNode.requestFocus();
     }
+  }
+
+  void autoDisableButton() {
+    addCommentTextController.addListener(
+      () => isPostButtonDisabled(commentText.isBlank! ? true : false),
+    );
   }
 }
