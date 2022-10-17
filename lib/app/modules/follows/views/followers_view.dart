@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
 
 import '../controllers/followers_controller.dart';
@@ -20,25 +21,12 @@ class FollowersView extends GetView<FollowersController> {
           textController: controller.searchTextController,
           onEditingComplete: controller.search,
         ),
-        // Expanded(
-        //   child: ListView.builder(
-        //     itemCount: 4,
-        //     itemBuilder: (context, index) => const FollowerTileView(),
-        //   ),
-        // ),
         Expanded(
           child: PagedListView(
             pagingController: pagingController,
-            builderDelegate: PagedChildBuilderDelegate(
-              itemBuilder: (context, item, index) {
-                final follower = pagingController.itemList![index];
-
-                return FollowerTileView(
-                  follower: follower,
-                );
-              },
+            builderDelegate: PagedChildBuilderDelegate<User>(
+              itemBuilder: (context, follower, index) => FollowerTileView(follower: follower),
               firstPageErrorIndicatorBuilder: (context) => Text(pagingController.error.toString()),
-              // firstPageProgressIndicatorBuilder: (context) => const Text('hi'),
               noItemsFoundIndicatorBuilder: (context) => Center(
                 child: Text(
                   'you dont have any followers',

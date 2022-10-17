@@ -11,25 +11,31 @@ import 'package:instagram_clone/app/modules/auth/controllers/signin_controller.d
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/app/modules/auth/services/sign_in_service.dart';
 import 'package:instagram_clone/app/modules/comments/controllers/comments_controller.dart';
+import 'package:instagram_clone/app/modules/comments/services/add_comment_service.dart';
 import 'package:instagram_clone/app/modules/explorer/controllers/explorer_controller.dart';
 import 'package:instagram_clone/app/modules/home/controllers/home_controller.dart';
-import 'package:instagram_clone/app/modules/home/controllers/post_controller.dart';
-import 'package:instagram_clone/app/modules/profile/controllers/followers_tab_controller.dart';
+import 'package:instagram_clone/app/modules/profile/controllers/post_bottom_sheet_controller.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/profile_controller.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
+import 'app/models/user.dart';
 import 'app/modules/auth/screens/signin_screen.dart';
 import 'app/my_app.dart';
 import 'app/my_app_binding.dart';
 import 'app/routes/app_pages.dart';
-import 'app/x.dart';
 import 'config/theme/my_theme.dart';
+
+final myUser = User(
+    id: '333',
+    name: 'saleem',
+    image:
+        'https://images-us.nivea.com/-/media/global/advice/nivea-men/expert-beard-grooming/expert-beard-grooming-thumbnail-image.jpg?rx=0&ry=68&rw=590&rh=327');
 
 Future<void> main() async {
   await MySharedPref.init();
 
   // MySharedPref.setUserToken(null);
-
+  Get.lazyPut(() => AddPostBottomSheetController(), fenix: true);
   runApp(const Main());
 }
 
@@ -62,7 +68,6 @@ class Main extends StatelessWidget {
             assignId: true,
             id: 'auth_listener',
             builder: (controller) {
-              // return const VideoPlayerScreen();
               log('********* auth_listener is build *********');
               return controller.isAuthorized ? const MyApp() : const SigninScreen();
             },

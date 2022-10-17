@@ -1,20 +1,30 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/comment.dart';
 
 import '../../../../utils/constants/api.dart';
+import '../controllers/comments_controller.dart';
 import '/utils/custom_snackbar.dart';
 import '../../../../utils/helpers.dart';
 
-Future<List<Comment>> getPostCommentsService(String postId) async {
+Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async {
   try {
-    final response = await dio.get('$COMMNETS_URL/$postId');
+    final response = await dio.get(
+      COMMNETS_URL,
+      queryParameters: {
+        'post_id': postId,
+        'page': pageKey,
+      },
+    );
 
-    final responseData = response.data['Data'];
-    log(responseData.toString());
+    final commentsData = response.data['data'];
 
-    return _convertDataToCommentsList(responseData as List);
+    Get.find<CommentsController>().numOfPages = response.data['meta']['last_page'];
+    log(response.toString());
+
+    return _convertDataToCommentsList(commentsData as List);
   } on DioError catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(

@@ -2,11 +2,13 @@
 class User {
   String id;
   String name;
-  String image;
+  String? image;
+  bool isHasNewStory;
   User({
     required this.id,
     required this.name,
     required this.image,
+    this.isHasNewStory = true,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {

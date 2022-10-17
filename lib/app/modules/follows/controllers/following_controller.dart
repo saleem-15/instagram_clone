@@ -1,35 +1,32 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/modules/home/services/fetch_posts_service.dart';
+import 'package:instagram_clone/app/models/user.dart';
 
-class HomeController extends GetxController {
-  
-  int numOfPages = 5;
-   final   pagingController = PagingController<int, Post>(
-      firstPageKey: 1,
-    );
+import '../services/get_following_service.dart';
 
+class FollowingController extends GetxController {
   final searchTextController = TextEditingController();
 
-  @override
-  void onInit() {
+  int numOfPages = 1;
+  int setNumOfPages = 1;
+  int totalNumOfProducts = 1;
 
+  final pagingController = PagingController<int, User>(
+    firstPageKey: 1,
+  );
+
+  @override
+  void onReady() {
+    super.onReady();
     pagingController.addPageRequestListener((pageKey) async {
-      fetchPosts(pageKey);
+      fetchFollowers(pageKey);
     });
-    super.onInit();
   }
 
-
-
-  Future<void> fetchPosts(int pageKey) async {
+  Future<void> fetchFollowers(int pageKey) async {
     try {
-      log('fetch posts');
-      final followersNewPage = await fetchPostsService(pageKey);
+      final followersNewPage = await fetchFollowingsService(pageKey);
 
       final isLastPage = numOfPages == pageKey;
 
@@ -44,4 +41,6 @@ class HomeController extends GetxController {
       rethrow;
     }
   }
+
+  void search() {}
 }

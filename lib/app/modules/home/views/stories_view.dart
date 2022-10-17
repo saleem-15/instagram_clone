@@ -1,187 +1,146 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/routes/app_pages.dart';
+
+import '../../../../config/theme/my_fonts.dart';
+import '../../../models/user.dart';
 
 class StoriesView extends StatelessWidget {
   const StoriesView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final favorites = Message.favorites;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 120,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: favorites.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed(Routes.STORY);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(favorites[index].imageUrl),
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          favorites[index].name,
-                          style: const TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+    return Column(
+      children: [
+        SizedBox(
+          height: 100,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              return StoryTile(user: users[index]);
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class StoryTile extends StatelessWidget {
+  StoryTile({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  bool isWatched = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.STORY);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(
+          right: 10,
+          left: 10,
+          top: 10,
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(2.5),
+              decoration: BoxDecoration(
+                gradient: isWatched
+                    ? null
+                    : const LinearGradient(
+                        begin: Alignment.topCenter,
+                        colors: [
+                          Color(0xff515BD4),
+                          Color(0xff8134AF),
+                          Color(0xffDD2A7B),
+                          Color(0xffFEDA77),
+                          Color(0xffF58529),
+                        ],
+                      ),
+                shape: BoxShape.circle,
+                border: isWatched
+                    ? Border.all(
+                        color: Colors.grey.shade300,
+                        width: 2,
+                        style: BorderStyle.solid,
+                      )
+                    : null,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: AssetImage(user.image ?? 'assets/images/greg.jpg'),
+                ).marginAll(3),
+              ),
             ),
-          )
-        ],
+            const SizedBox(
+              height: 1,
+            ),
+            Text(
+              user.name,
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: MyFonts.bodySmallTextSize),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class Message {
-  final TempUser sender;
-  final String time;
-  final String text;
-  bool isLiked;
-  final bool unread;
-
-  Message({
-    required this.isLiked,
-    required this.sender,
-    required this.text,
-    required this.time,
-    required this.unread,
-  });
-
-//me
-  static TempUser currentUser = TempUser(
-    id: 0,
-    name: 'Current User',
-    imageUrl: 'assets/images/james.jpg',
-  );
-
-  //USERS
-  static TempUser james = TempUser(
-    id: 1,
+List<User> users = [
+  User(
+    id: '0',
+    name: 'Ahmed',
+    image: 'assets/images/james.jpg',
+  ),
+  User(
+    id: '1',
     name: 'james',
-    imageUrl: 'assets/images/james.jpg',
-  );
-
-  static TempUser john = TempUser(
-    id: 2,
+    image: 'assets/images/james.jpg',
+  ),
+  User(
+    id: '2',
     name: 'john',
-    imageUrl: 'assets/images/john.jpg',
-  );
-
-  static TempUser greg = TempUser(
-    id: 3,
+    image: 'assets/images/john.jpg',
+  ),
+  User(
+    id: '3',
     name: 'greg',
-    imageUrl: 'assets/images/greg.jpg',
-  );
-
-  static TempUser olivia = TempUser(
-    id: 4,
+    image: 'assets/images/greg.jpg',
+  ),
+  User(
+    id: '4',
     name: 'Olivia',
-    imageUrl: 'assets/images/olivia.jpg',
-  );
-
-  static TempUser sam = TempUser(
-    id: 5,
+    image: 'assets/images/olivia.jpg',
+  ),
+  User(
+    id: '5',
     name: 'Sam',
-    imageUrl: 'assets/images/sam.jpg',
-  );
-
-  static TempUser sophia = TempUser(
-    id: 6,
+    image: 'assets/images/sam.jpg',
+  ),
+  User(
+    id: '6',
     name: 'Sophia',
-    imageUrl: 'assets/images/sophia.jpg',
-  );
-
-  static TempUser steven = TempUser(
-    id: 7,
+    image: 'assets/images/sophia.jpg',
+  ),
+  User(
+    id: '7',
     name: 'Steven',
-    imageUrl: 'assets/images/steven.jpg',
-  );
-
-  static List<TempUser> favorites = [sam, steven, olivia, john, greg];
-
-  static List<Message> chats = [
-    Message(
-      sender: james,
-      time: '5:30 PM ',
-      text: 'Hey , how\'s it going ? What did you do today ?',
-      isLiked: false,
-      unread: true,
-    ),
-    Message(
-      sender: olivia,
-      time: '4:30 PM ',
-      text: 'Hey , how\'s it going ? What did you do today ?',
-      isLiked: false,
-      unread: true,
-    ),
-    Message(
-      sender: john,
-      time: '3:30 PM',
-      text: ' Hey , how \'s it going ? What did you do today ? ',
-      isLiked: false,
-      unread: false,
-    ),
-    Message(
-      sender: sophia,
-      time: '2:30 PM',
-      text: ' Hey , how\'s it going ? What did you do today ? ',
-      isLiked: false,
-      unread: true,
-    ),
-    Message(
-      sender: steven,
-      time: '1:30 PM',
-      text: ' Hey , how\'s it going ? What did you do today ? ',
-      isLiked: false,
-      unread: false,
-    ),
-    Message(
-      sender: sam,
-      time: '12:30 PM',
-      text: ' Hey , how\'s it going ? What did you do today ? ',
-      isLiked: false,
-      unread: false,
-    ),
-    Message(
-      sender: greg,
-      time: '11:30 PM',
-      text: ' Hey , how\'s it going ? What did you do today ? ',
-      isLiked: false,
-      unread: false,
-    ),
-  ];
-}
-
-class TempUser {
-  final int id;
-  final String name;
-  final String imageUrl;
-
-  TempUser({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-  });
-}
+    image: 'assets/images/steven.jpg',
+  ),
+];

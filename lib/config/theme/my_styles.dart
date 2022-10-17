@@ -54,9 +54,10 @@ class MyStyles {
             color: LightThemeColors.bodyTextColor),
 
         //
-        bodyText2: (MyFonts.bodyTextStyle)
-            .copyWith(fontSize: MyFonts.body2TextSize, color: LightThemeColors.bodyTextColor),
-        //
+        bodyText2: (MyFonts.bodyTextStyle).copyWith(
+          fontSize: MyFonts.body2TextSize,
+          color: LightThemeColors.bodyTextColor,
+        ),
         headline1: (MyFonts.headlineTextStyle).copyWith(
             fontSize: MyFonts.headline1TextSize,
             fontWeight: FontWeight.bold,
@@ -130,6 +131,7 @@ class MyStyles {
   static getDividerTheme() => const DividerThemeData(
         color: LightThemeColors.dividerColor,
         space: 0,
+        thickness: .5,
       );
 
   /// dialog theme
@@ -140,11 +142,23 @@ class MyStyles {
       );
 
   /// card theme
-  static getCardTheme() => CardTheme(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r),
-        ),
+  static getCardTheme() => const CardTheme(
+        margin: EdgeInsets.zero,
       );
+
+
+  // bottom sheet theme
+  static BottomSheetThemeData getBottomSheetTheme() {
+    return BottomSheetThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15.r),
+          topRight: Radius.circular(15.r),
+        ),
+      ),
+      clipBehavior: Clip.antiAlias,
+    );
+  }
 
   static InputDecorationTheme getInputDecorationTheme() => InputDecorationTheme(
         filled: true,

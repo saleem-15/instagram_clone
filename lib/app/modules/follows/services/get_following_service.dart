@@ -6,7 +6,7 @@ import '../../../../utils/constants/api.dart';
 import '../../../models/user.dart';
 import '/utils/custom_snackbar.dart';
 
-Future<List<User>> getFollowingService() async {
+Future<List<User>> fetchFollowingsService(int pageNum) async {
   try {
     final response = await dio.get(FOLLOWEING_PATH);
     final data = response.data['data'];

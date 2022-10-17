@@ -4,20 +4,26 @@ import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 import 'package:video_player/video_player.dart';
 
-class PostController extends GetxController {
-
+class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};
   final Map<String, VideoPlayerController> cashedVideos = {};
-  void viewPostComments(Post post) => Get.toNamed(Routes.COMMENTS);
 
   final carouselController = CarouselController();
 
+  void viewPostComments(Post post) {
+    Get.toNamed(
+      Routes.COMMENTS,
+      arguments: post,
+    );
+  }
+
   void comment(Post post) {
-    // carouselController.
     Get.toNamed(
       Routes.COMMENTS,
       parameters: {'isTextFieldFocused': 'true'},
+      arguments: post,
     );
+
   }
 
   void onHeartPressed(Post post) {
@@ -57,18 +63,19 @@ class PostController extends GetxController {
     }
     final videoController = VideoPlayerController.network(videoUrl);
     await videoController.initialize();
-    videoController.setVolume(0);
-    // cashedVideos.addEntries({videoUrl: videoController}.entries);
     cashedVideos.addIf(true, videoUrl, videoController);
-    videoController.play();
 
     /// video is silent by default
+    videoController
+      ..setVolume(0)
+      ..play();
 
     return videoController;
   }
 
   onVideoTapped(VideoPlayerController videoPlayerController, Post post, int videoIndex) {
     videoPlayerController.setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
+
     update(['${post.id} $videoIndex']);
   }
 

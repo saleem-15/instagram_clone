@@ -17,7 +17,7 @@ class FollowerTileView extends GetView {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const UserAvatar(),
+      leading:  UserAvatar(user: follower),
       title: const Text('userName'),
       subtitle: const Text('name'),
       trailing: SizedBox(

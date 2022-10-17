@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
+import 'package:instagram_clone/main.dart';
 
 import '../controllers/comments_controller.dart';
 import 'comment_tile_view.dart';
@@ -24,7 +27,7 @@ class CommentsView extends GetView<CommentsController> {
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
-                const UserAvatar(),
+                UserAvatar(user: controller.post.user),
                 SizedBox(
                   width: 7.w,
                 ),
@@ -60,14 +63,27 @@ class CommentsView extends GetView<CommentsController> {
             height: 0,
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-              itemCount: controller.comments.length,
-              itemBuilder: (context, index) => CommentTile(
-                comment: controller.comments[index],
+            child: PagedListView<int, Comment>(
+              pagingController: controller.pagingController,
+              builderDelegate: PagedChildBuilderDelegate(
+                itemBuilder: (context, comment, index) {
+                  return CommentTile(
+                    comment: comment,
+                  ).paddingSymmetric(horizontal: horizontalPadding);
+                },
+                firstPageErrorIndicatorBuilder: (context) =>
+                    Text(controller.pagingController.error.toString()),
+                noItemsFoundIndicatorBuilder: (context) => Center(
+                  child: Text(
+                    'No Comments was Found'.tr,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                ),
+                newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),
               ),
             ),
           ),
+
           SizedBox(
             width: MediaQuery.of(context).size.width,
             child: const Divider(
@@ -87,7 +103,9 @@ class CommentsView extends GetView<CommentsController> {
                   ),
 
                   ///My Profile picture
-                  const UserAvatar(),
+                  UserAvatar(
+                    user: myUser,
+                  ),
                   SizedBox(
                     width: 10.w,
                   ),

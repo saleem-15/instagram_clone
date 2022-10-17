@@ -9,9 +9,10 @@ import 'package:instagram_clone/utils/helpers.dart';
 Future<bool> addCommentService(String comment, String postId) async {
   try {
     final response = await dio.post(
-      POST_URL,
+      COMMNETS_URL,
       queryParameters: {
         'comment': comment,
+        'post_id':postId,
       },
     );
     //
@@ -23,7 +24,6 @@ Future<bool> addCommentService(String comment, String postId) async {
     log(e.response!.data.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(
-      title: 'Failed',
       message: formatErrorMsg(e.response!.data),
     );
   }

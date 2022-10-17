@@ -1,5 +1,10 @@
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/follows/bindings/followers_binding.dart';
+import 'package:instagram_clone/app/modules/follows/bindings/followings_binding.dart';
+import 'package:instagram_clone/app/modules/follows/screens/follows_screen.dart';
+import 'package:instagram_clone/app/modules/posts/controllers/add_post_controller.dart';
+import 'package:instagram_clone/app/modules/posts/views/choose_media_view.dart';
 
 import '../modules/auth/screens/signin_screen.dart';
 import '../modules/auth/screens/signup_screen.dart';
@@ -8,15 +13,13 @@ import '../modules/comments/views/comments_view.dart';
 import '../modules/explorer/bindings/explorer_binding.dart';
 import '../modules/explorer/views/explorer_view.dart';
 import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
+import '../modules/home/views/home_screen.dart';
 import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/controllers/followers_tab_controller.dart';
-import '../modules/profile/screens/follows_screen.dart';
 import '../modules/profile/screens/profile_screen.dart';
 import '../modules/reels/bindings/reels_binding.dart';
 import '../modules/reels/views/reels_view.dart';
 import '../modules/story/bindings/story_binding.dart';
-import '../modules/story/views/story_view.dart';
+import '../modules/story/views/story_screen.dart';
 
 part 'app_routes.dart';
 
@@ -41,7 +44,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () => const HomeScreen(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -59,6 +62,16 @@ class AppPages {
       page: () => const ProfileScreen(),
       binding: ProfileBinding(),
     ),
+    // GetPage(
+    //   name: _Paths.FLOATING_POST_VIEW,
+    //   page: () => const FloatingPostView(),
+    //   // binding: ProfileBinding(),
+    // ),
+    GetPage(
+      name: _Paths.ADDPOSTVIEW,
+      page: () => const AddPostView(),
+      binding: BindingsBuilder.put(() => AddPostController()),
+    ),
     GetPage(
       name: _Paths.COMMENTS,
       page: () => const CommentsView(),
@@ -68,22 +81,18 @@ class AppPages {
     GetPage(
       name: _Paths.FOLLOWERS,
       page: () => const FollowsScreen(pageIndex: 0),
-      binding: BindingsBuilder(
-        () => Get.put<FollowsTabController>(FollowsTabController()),
-      ),
+      binding: FollowersBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.FOLLOWING,
       page: () => const FollowsScreen(pageIndex: 1),
-      binding: BindingsBuilder(
-        () => Get.put<FollowsTabController>(FollowsTabController()),
-      ),
+      binding: FollowingsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.STORY,
-      page: () => StoryView(user: User(id: 'id', name: 'saleem', image: '')),
+      page: () => StoryScreen(user: User(id: 'id', name: 'saleem', image: '')),
       binding: StoryBinding(),
     ),
   ];

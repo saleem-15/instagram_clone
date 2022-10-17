@@ -10,6 +10,8 @@ abstract class Routes {
   static const REELS = _Paths.REELS;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
   static const PROFILE = _Paths.PROFILE;
+  static const FLOATING_POST_VIEW = _Paths.FLOATING_POST_VIEW;
+  static const ADDPOSTVIEW = _Paths.ADDPOSTVIEW;
   static const COMMENTS = _Paths.COMMENTS;
   static const FOLLOWERS = _Paths.FOLLOWERS;
   static const FOLLOWING = _Paths.FOLLOWING;
@@ -28,6 +30,8 @@ abstract class _Paths {
   static const REELS = '/reels';
   static const NOTIFICATIONS = '/notifications';
   static const PROFILE = '/profile';
+  static const FLOATING_POST_VIEW = '/FloatingPostView';
+  static const ADDPOSTVIEW = '/Add Post View';
   static const COMMENTS = '/comments';
   static const FOLLOWERS = '/followers';
   static const FOLLOWING = '/following';

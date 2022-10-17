@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controllers/profile_controller.dart';
+import '../views/floating_post_view.dart';
+import '../views/my_posts_tab.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -12,38 +14,59 @@ class ProfileScreen extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            controller.username,
-          ),
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
-              child: ProfileHeader(controller: controller),
-            ),
-            const TabBar(
-              tabs: [
-                Tab(
-                  icon: Icon(Icons.grid_on_sharp),
+      child: Stack(
+        children: [
+          /// profile page with all of its components
+          Scaffold(
+            appBar: AppBar(
+              title: Text(
+                controller.username,
+              ),
+              actions: [
+                IconButton(
+                  onPressed: controller.showAddPostBottomSheet,
+                  icon: const Icon(Icons.add_box_outlined),
                 ),
-                Tab(
-                  icon: Icon(Icons.person),
+                IconButton(
+                  onPressed: controller.showSettingsBottomSheet,
+                  icon: const Icon(Icons.menu_rounded),
                 ),
               ],
             ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  Center(child: Text('1')),
-                  Center(child: Text('2')),
-                ],
-              ),
+            body: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
+                  child: ProfileHeader(controller: controller),
+                ),
+                const TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.grid_on_sharp),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.person),
+                    ),
+                  ],
+                ),
+                const Expanded(
+                  child: TabBarView(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 3),
+                        child: MyPostsTap(),
+                      ),
+                      Center(child: Text('2')),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+
+          /// when the user presses on a post the post appear on the top of the page
+          // if (controller.isTherePostOnTop) const FloatingPostView(),
+        ],
       ),
     );
   }

@@ -29,8 +29,8 @@ class LightThemeColors {
   static const Color unselectedIconColor = Colors.grey;
 
   //BUTTON
-  static Color buttonColor = const Color(0xffdedede);
-  static Color authButtonColor = const Color(0xff0095F6);
+  static const Color buttonColor = Color(0xffdedede);
+  static const Color authButtonColor = Color(0xff0095F6);
 
   // static Color buttonColor = const Color(0xffe7e7e7); //lighter version
 

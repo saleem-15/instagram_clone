@@ -9,8 +9,8 @@ import 'package:instagram_clone/app/shared/user_avatar.dart';
 
 import '../controllers/story_controller.dart';
 
-class StoryView extends GetView<StoryController> {
-  const StoryView({
+class StoryScreen extends GetView<StoryController> {
+  const StoryScreen({
     Key? key,
     required this.user,
   }) : super(key: key);
@@ -39,7 +39,9 @@ class StoryView extends GetView<StoryController> {
                       left: 15.w,
                       child: Row(
                         children: [
-                          const UserAvatar(),
+                          UserAvatar(
+                            user: user,
+                          ),
                           SizedBox(
                             width: 10.w,
                           ),

@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:instagram_clone/app/modules/profile/controllers/followers_tab_controller.dart';
-import 'package:instagram_clone/app/modules/profile/views/followers_view.dart';
-import 'package:instagram_clone/app/modules/profile/views/following_view.dart';
+import '../controllers/followers_tab_controller.dart';
+import '../views/followers_view.dart';
+import '../views/following_view.dart';
+
 
 class FollowsScreen extends GetView<FollowsTabController> {
   const FollowsScreen({

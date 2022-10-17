@@ -23,9 +23,11 @@ class CommentTile extends GetView<CommentsController> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 5),
-            child: UserAvatar(),
+          Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: UserAvatar(
+              user: comment.user,
+            ),
           ),
           SizedBox(
             width: 10.w,

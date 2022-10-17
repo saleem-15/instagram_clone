@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 
 import '../../app/storage/my_shared_pref.dart';
 
-const apiUrl = 'http://10.0.0.8:80/laravel9/instagram/public/api';
+const myIp = '10.0.0.1';
+
+const apiUrl = 'http://$myIp:80/laravel9/instagram/public/api';
 const apikey = 'p@ssword123';
 
 //auth
@@ -11,11 +13,10 @@ const SIGN_UP_URL = '/auth/user/register';
 const LOGOUT_URL = '/auth/user/logout';
 
 //post
-const POST_URL = '';
-// const POST_URL = '';
+const POST_URL = '/post';
 
-//
-const COMMNETS_URL = '';
+//comments
+const COMMNETS_URL = '/comment';
 
 //profile
 const USER_PATH = '';
