@@ -8,20 +8,28 @@ import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 class SearchTextField extends StatelessWidget {
   const SearchTextField({
     Key? key,
-    required this.onEditingComplete,
     required this.textController,
+    required this.onEditingComplete,
+    this.onTap,
+    this.isReadOnly = false,
+    this.focusNode,
+    this.showSearchIcon = true,
   }) : super(key: key);
 
-  final void Function() onEditingComplete;
   final TextEditingController textController;
+  final void Function() onEditingComplete;
+  final void Function()? onTap;
+  final bool isReadOnly;
+  final FocusNode? focusNode;
+  final bool showSearchIcon;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          height: 40.sp,
-          width: MediaQuery.of(context).size.width,
+          height: 37.sp,
+          // width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 15.sp, left: 10.w, right: 10.w),
           decoration: BoxDecoration(
             color: lightGrey,
@@ -32,20 +40,27 @@ class SearchTextField extends StatelessWidget {
               SizedBox(
                 width: 10.w,
               ),
-              FaIcon(
-                FontAwesomeIcons.magnifyingGlass,
-                color: Theme.of(context).disabledColor,
-                size: 15.sp,
-              ),
+              if (showSearchIcon)
+                FaIcon(
+                  FontAwesomeIcons.magnifyingGlass,
+                  color: Theme.of(context).disabledColor,
+                  size: 15.sp,
+                ),
               SizedBox(
                 width: 10.w,
               ),
               Expanded(
                 child: TextField(
+                  focusNode: focusNode,
+                  onTap: onTap,
                   controller: textController,
                   textInputAction: TextInputAction.search,
                   onEditingComplete: onEditingComplete,
-                  decoration: const InputDecoration.collapsed(hintText: 'Search'),
+                  readOnly: isReadOnly,
+                  decoration: InputDecoration.collapsed(
+                    hintText: 'Search',
+                    hintStyle: TextStyle(fontSize: 16.sp),
+                  ),
                 ),
               )
             ],

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/profile/views/floating_post_view.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/fetch_explorer_posts_service.dart';
 
 class ExplorerController extends GetxController {
-
   final TextEditingController searchTextController = TextEditingController();
 
-  
   int numOfPages = 5;
   final pagingController = PagingController<int, Post>(
     firstPageKey: 1,
@@ -18,7 +19,6 @@ class ExplorerController extends GetxController {
 
   final RxBool isPostFloating = false.obs;
   late Post floatingPost;
-
 
   @override
   void onInit() {
@@ -56,11 +56,9 @@ class ExplorerController extends GetxController {
     }
   }
 
-
   void search() {}
 
-  
-  onPostLongPressed(Post post) {
+  onPostPressed(Post post) {
     // Get.lazyPut(() => FollowsTabController(), fenix: true);
     floatingPost = post;
     isPostFloating(true);
@@ -68,7 +66,13 @@ class ExplorerController extends GetxController {
     // Get.dialog(FloatingPostView(post: post));
   }
 
-  onPostLongPressGone(Post post) {
+  onPostPressGone(Post post) {
     isPostFloating(false);
+  }
+
+  onTap(Post post) {}
+
+  void onSearchFieldPressed() {
+    Get.toNamed(Routes.SEARCH);
   }
 }

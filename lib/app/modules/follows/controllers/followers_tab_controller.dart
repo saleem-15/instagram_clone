@@ -1,7 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/user.dart';
+
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
 enum SelectedPage {
@@ -15,20 +16,23 @@ class FollowsTabController extends GetxController with GetSingleTickerProviderSt
   late SelectedPage selectedPage;
   int get selectedIndex => selectedPage.name == SelectedPage.FollowersView.name ? 0 : 1;
 
-  // FollowersTabController({this.selectedPage = SelectedPage.FollowingView});
+  late int numOfFollowers;
+  late int numOfFollowing;
+
+  late final String userName;
 
   @override
   void onInit() {
     selectedPage = SelectedPage.FollowersView;
-    log('FollowersTabController ==> on init');
+
+    numOfFollowers = int.parse(Get.parameters['numOfFollowers']!);
+    numOfFollowing = int.parse(Get.parameters['numOfFollowing']!);
+    userName = (Get.arguments as User).userName;
 
     myTabs = [
       Tab(child: Text('$numOfFollowers followers')),
       Tab(child: Text('$numOfFollowing following')),
     ];
-
-    log('selected page ${selectedPage.name}');
-    log('selected index $selectedIndex');
 
     tabController = TabController(
       vsync: this,
@@ -38,34 +42,16 @@ class FollowsTabController extends GetxController with GetSingleTickerProviderSt
     super.onInit();
   }
 
+  static void goToFollowersView() {
+    Get.toNamed(
+      Routes.FOLLOWERS,
+      parameters: {'pageIndex': '0'},
+    );
+  }
+
   @override
   void onClose() {
     tabController.dispose();
     super.onClose();
   }
-
-  final name = 'Saleem Mahdi';
-  final userName = 'saleemmahdi10';
-
-  static void goToFollowersView() {
-    // Get.put<FollowersTabController>(
-    //   FollowersTabController(selectedPage: SelectedPage.FollowersView),
-    // );
-    Get.toNamed(Routes.FOLLOWERS, parameters: {'pageIndex': '0'});
-  }
-
-  // static void goToFollowingView() {
-  //   // Get.put<FollowersTabController>(
-  //   //   FollowersTabController(selectedPage: SelectedPage.FollowingView),
-  //   // );
-  //   Get.toNamed(
-  //     Routes.FOLLOWERS,
-  //     parameters: {'pageIndex': '1'},
-  //   );
-  // }
-
-  //! temporary variables (must remove them)
-  final int numOfFollowers = 12;
-  final int numOfFollowing = 33;
-
 }

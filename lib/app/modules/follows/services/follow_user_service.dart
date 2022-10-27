@@ -1,23 +1,27 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
+import 'package:instagram_clone/utils/helpers.dart';
 
-Future<bool> setPostIsLovedService(String postId, bool isLoved) async {
+/// follow the user (become a follower to him)
+/// returnes true if the request was successfull
+Future<bool> followService(String userId) async {
+  log('user id $userId');
   try {
     final response = await dio.post(
-      '$POST_URL/$postId',
-      queryParameters: {'isLoved': isLoved},
+      Api.FOLLOWEING_PATH,
+      queryParameters: {'user_id': userId},
     );
-    final data = response.data['data'];
     log(response.data.toString());
 
     return true;
   } on DioError catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(
-      message: e.response!.data['Messages'].toString(),
+      message: formatErrorMsg(e.response!.data),
     );
     return false;
   }

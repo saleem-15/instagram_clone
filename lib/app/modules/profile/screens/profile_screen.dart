@@ -1,216 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 import '../controllers/profile_controller.dart';
-import '../views/floating_post_view.dart';
-import '../views/my_posts_tab.dart';
+import '../views/profile_header.dart';
 
-class ProfileScreen extends GetView<ProfileController> {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Stack(
-        children: [
-          /// profile page with all of its components
-          Scaffold(
-            appBar: AppBar(
-              title: Text(
-                controller.username,
-              ),
-              actions: [
-                IconButton(
-                  onPressed: controller.showAddPostBottomSheet,
-                  icon: const Icon(Icons.add_box_outlined),
-                ),
-                IconButton(
-                  onPressed: controller.showSettingsBottomSheet,
-                  icon: const Icon(Icons.menu_rounded),
-                ),
-              ],
-            ),
-            body: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
-                  child: ProfileHeader(controller: controller),
-                ),
-                const TabBar(
-                  tabs: [
-                    Tab(
-                      icon: Icon(Icons.grid_on_sharp),
-                    ),
-                    Tab(
-                      icon: Icon(Icons.person),
-                    ),
-                  ],
-                ),
-                const Expanded(
-                  child: TabBarView(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 3),
-                        child: MyPostsTap(),
-                      ),
-                      Center(child: Text('2')),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+    /// if userId = null  ==> then its my profile
+    final User user = Get.arguments ?? MySharedPref.getUserData;
+    String userId = user.id;
+    final controller = Get.find<ProfileController>(tag: userId);
+    return Stack(
+      children: [
+        /// profile page with all of its components
 
-          /// when the user presses on a post the post appear on the top of the page
-          // if (controller.isTherePostOnTop) const FloatingPostView(),
-        ],
-      ),
+        Scaffold(
+          appBar: profileAppBar(controller),
+          body: Obx(
+            () => controller.isLoading.isTrue
+                ? const Center(
+                    child: LoadingWidget(),
+                  )
+                : DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
+                          child: ProfileHeader(profileController: controller),
+                        ),
+                        // const TabBar(
+                        //   tabs: [
+                        //     Tab(
+                        //       icon: Icon(Icons.grid_on_sharp),
+                        //     ),
+                        //     Tab(
+                        //       icon: Icon(Icons.person),
+                        //     ),
+                        //   ],
+                        // ),
+                        // const Expanded(
+                        //   child: TabBarView(
+                        //     children: [
+                        //       Padding(
+                        //         padding: EdgeInsets.only(top: 3),
+                        //         child: ProfilePostsTap(),
+                        //       ),
+                        //       Center(child: Text('2')),
+                        //     ],
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+          ),
+        ),
+
+        /// when the user presses on a post the post appear on the top of the page
+        // if (controller.isTherePostOnTop) const FloatingPostView(),
+      ],
     );
   }
-}
 
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  final ProfileController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    /// vertical space between the number of (post,follower,following) and the text bellow the num
-    final verticalSpace = 5.sp;
-    final numbersTextStyle = Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 16.sp);
-    return Column(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                /// user photo and name
-                Column(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: const AssetImage('assets/images/greg.jpg'),
-                      radius: 35.r,
-                    ),
-                    SizedBox(
-                      height: verticalSpace,
-                    ),
-                    Text(
-                      controller.name,
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      /// width, height of each item of the row
-                      final size = constraints.maxWidth / 3;
-                      return Row(
-                        children: [
-                          /// post num
-                          InkWell(
-                            onTap: () {},
-                            child: SizedBox(
-                              width: size,
-                              height: size,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${controller.postNum}',
-                                    style: numbersTextStyle,
-                                  ),
-                                  SizedBox(
-                                    height: verticalSpace,
-                                  ),
-                                  const Text('Posts'),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          /// followers num
-                          InkWell(
-                            onTap: controller.goToFollowers,
-                            child: SizedBox(
-                              width: size,
-                              height: size,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${controller.followersNum}',
-                                    style: numbersTextStyle,
-                                  ),
-                                  SizedBox(
-                                    height: verticalSpace,
-                                  ),
-                                  const Text('Followers'),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          /// following num
-                          InkWell(
-                            onTap: controller.goToFollowing,
-                            child: SizedBox(
-                              width: size,
-                              height: size,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${controller.followingNum}',
-                                    style: numbersTextStyle,
-                                  ),
-                                  SizedBox(
-                                    height: verticalSpace,
-                                  ),
-                                  const Text('Following'),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-
-            /// bio
-            SizedBox(
-              height: 2.sp,
-            ),
-            const Text('I,m 21 from palestine \$\$'),
-          ],
+  AppBar profileAppBar(ProfileController controller) {
+    return AppBar(
+      title: Text(
+        controller.user.userName,
+      ),
+      actions: [
+        Obx(
+          () {
+            return controller.isLoading.value || !controller.isMyProfile
+                ? const SizedBox.shrink()
+                : Row(
+                    children: [
+                      IconButton(
+                        onPressed: controller.showAddPostBottomSheet,
+                        icon: const Icon(Icons.add_box_outlined),
+                      ),
+                      IconButton(
+                        onPressed: controller.showSettingsBottomSheet,
+                        icon: const Icon(Icons.menu_rounded),
+                      ),
+                    ],
+                  );
+          },
         ),
-        SizedBox(
-          height: 10.sp,
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text(
-              'Edit Profile',
-              style: TextStyle(color: LightThemeColors.buttonTextColor),
-            ),
-          ),
-        )
       ],
     );
   }

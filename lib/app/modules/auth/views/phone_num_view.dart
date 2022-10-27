@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
@@ -77,8 +78,9 @@ class PhoneNumView extends GetView<SignupController> {
         ),
         Obx(
           () => ElevatedButton(
-            onPressed:
-                controller.isPhoneButtonDisable.isTrue ? null : controller.onNextButtonPressedPhoneNumber,
+            onPressed: controller.isPhoneButtonDisable.isTrue
+                ? null
+                : controller.onNextButtonPressedPhoneNumber,
             style: MyStyles.getAuthButtonStyle(),
             child: const Text('Next'),
           ),

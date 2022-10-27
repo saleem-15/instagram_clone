@@ -2,29 +2,28 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/modules/profile/controllers/profile_controller.dart';
+import 'package:instagram_clone/app/modules/profile/controllers/user_posts_controller.dart';
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
-Future<List<Post>> fetchMyPostsService(int pageNum) async {
+Future<List<Post>> fetchProfilePostsService(String userId, int pageNum) async {
   try {
-    log('before request ************************');
     final response = await dio.get(
-      POST_URL,
+      '${Api.PROFILE_POSTS_URL}/$userId',
       queryParameters: {'page': pageNum},
     );
-    log('after response HI************************');
     final data = response.data['data'];
     final metaData = response.data['meta'];
 
-    Get.find<ProfileController>().numOfPages = metaData['last_page'];
-    Get.find<ProfileController>().postNum = metaData['total'];
-    log(response.data.toString());
+    // log(response.data.toString());
+    Get.find<UserPostsController>().numOfPages = metaData['last_page'];
 
     return _convertDataToPosts(data as List);
   } on DioError catch (e) {
+    log(e.error.toString());
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),

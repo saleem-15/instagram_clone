@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
@@ -79,7 +80,8 @@ class CommentsView extends GetView<CommentsController> {
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
-                newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),
+                newPageErrorIndicatorBuilder: (context) =>
+                    const Text('coludnt load'),
               ),
             ),
           ),
@@ -103,9 +105,8 @@ class CommentsView extends GetView<CommentsController> {
                   ),
 
                   ///My Profile picture
-                  UserAvatar(
-                    user: myUser,
-                  ),
+                  UserAvatar(user: myUser,showRingIfHasStory: false,),
+                 
                   SizedBox(
                     width: 10.w,
                   ),
@@ -128,7 +129,9 @@ class CommentsView extends GetView<CommentsController> {
                   Obx(
                     () => TextButton(
                       style: MyStyles.getPostCommentButtonStyle(),
-                      onPressed: controller.isPostButtonDisabled.isTrue ? null : controller.postComment,
+                      onPressed: controller.isPostButtonDisabled.isTrue
+                          ? null
+                          : controller.postComment,
                       child: const Text('Post'),
                     ),
                   )

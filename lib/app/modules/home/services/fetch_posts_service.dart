@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/home/controllers/home_controller.dart';
 import 'package:instagram_clone/utils/constants/api.dart';
@@ -9,11 +10,10 @@ import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
 Future<List<Post>> fetchPostsService(int pageNum) async {
-
   log('HI************************');
   try {
     final response = await dio.get(
-      POST_URL,
+      Api.POST_URL,
       queryParameters: {'page': pageNum},
     );
     log('HI************************');

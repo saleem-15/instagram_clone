@@ -1,11 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../../../../config/theme/my_fonts.dart';
 import '../../../models/user.dart';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class StoriesView extends StatelessWidget {
   const StoriesView({super.key});
@@ -92,7 +94,7 @@ class StoryTile extends StatelessWidget {
               height: 1,
             ),
             Text(
-              user.name,
+              user.userName,
               style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: MyFonts.bodySmallTextSize),
             ),
           ],
@@ -105,42 +107,50 @@ class StoryTile extends StatelessWidget {
 List<User> users = [
   User(
     id: '0',
-    name: 'Ahmed',
+    userName: 'Ahmed',
+    nickName: 'nick name',
     image: 'assets/images/james.jpg',
   ),
   User(
     id: '1',
-    name: 'james',
+    userName: 'james',
+    nickName: 'nick name',
     image: 'assets/images/james.jpg',
   ),
   User(
     id: '2',
-    name: 'john',
+    userName: 'john',
+    nickName: 'nick name',
     image: 'assets/images/john.jpg',
   ),
   User(
     id: '3',
-    name: 'greg',
+    userName: 'greg',
+    nickName: 'nick name',
     image: 'assets/images/greg.jpg',
   ),
   User(
     id: '4',
-    name: 'Olivia',
+    userName: 'Olivia',
+    nickName: 'nick name',
     image: 'assets/images/olivia.jpg',
   ),
   User(
     id: '5',
-    name: 'Sam',
+    userName: 'Sam',
+    nickName: 'nick name',
     image: 'assets/images/sam.jpg',
   ),
   User(
     id: '6',
-    name: 'Sophia',
+    userName: 'Sophia',
+    nickName: 'nick name',
     image: 'assets/images/sophia.jpg',
   ),
   User(
     id: '7',
-    name: 'Steven',
+    userName: 'Steven',
+    nickName: 'nick name',
     image: 'assets/images/steven.jpg',
   ),
 ];

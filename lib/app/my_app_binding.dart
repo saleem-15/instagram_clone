@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 
+import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
 import 'package:instagram_clone/app/modules/profile/bindings/profile_binding.dart';
 

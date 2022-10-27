@@ -1,20 +1,22 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/home/views/stories_view.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_view.dart';
 
 import '../controllers/home_controller.dart';
 
+// ignore_for_file: prefer_const_constructors
+
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final pagingController = controller.pagingController;
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
@@ -22,8 +24,12 @@ class HomeScreen extends GetView<HomeController> {
           width: 120.sp,
         ),
       ),
-      body: PagedListView<int, Post>(
-        pagingController: controller.pagingController,
+      body:
+          //  pagingController.itemList == null || pagingController.itemList == 0
+          //     ? StoriesView()
+          //     :
+          PagedListView<int, Post>(
+        pagingController: pagingController,
         builderDelegate: PagedChildBuilderDelegate(
           itemBuilder: (context, post, index) {
             if (index == 0) {
@@ -48,7 +54,8 @@ class HomeScreen extends GetView<HomeController> {
               ),
             );
           },
-          firstPageErrorIndicatorBuilder: (context) => Text(controller.pagingController.error.toString()),
+          firstPageErrorIndicatorBuilder: (context) =>
+              Text(controller.pagingController.error.toString()),
           noItemsFoundIndicatorBuilder: (context) => Center(
             child: Text(
               'No Posts was Found'.tr,

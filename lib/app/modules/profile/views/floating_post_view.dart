@@ -1,15 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/floating_post_controller.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
-import 'package:video_player/video_player.dart';
 
 class FloatingPostView extends GetView<FloatingPostController> {
   const FloatingPostView({
@@ -73,12 +74,12 @@ class _PostView extends GetView<PostsController> {
             children: [
               UserAvatar(
                 user: post.user,
-                isFloatingPost: true,
+                showRingIfHasStory: true,
               ),
               const SizedBox(
                 width: 10,
               ),
-              Text(post.user.name),
+              Text(post.user.userName),
             ],
           ),
         ),

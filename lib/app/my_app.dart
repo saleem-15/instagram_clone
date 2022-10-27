@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/modules/home/views/home_screen.dart';
 import 'package:instagram_clone/app/modules/profile/screens/profile_screen.dart';
 import 'package:instagram_clone/app/modules/reels/views/reels_view.dart';
@@ -80,7 +81,8 @@ class MyApp extends StatelessWidget {
                   return const ReelsView();
 
                 default:
-                  return const ProfileScreen();
+                
+                  return  ProfileScreen();
               }
             },
           );

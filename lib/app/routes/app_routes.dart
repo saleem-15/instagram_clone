@@ -10,13 +10,15 @@ abstract class Routes {
   static const REELS = _Paths.REELS;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
   static const PROFILE = _Paths.PROFILE;
+  static const USER_POSTS = _Paths.USER_POSTS;
   static const FLOATING_POST_VIEW = _Paths.FLOATING_POST_VIEW;
-  static const ADDPOSTVIEW = _Paths.ADDPOSTVIEW;
+  static const ADD_POST_VIEW = _Paths.ADD_POST_VIEW;
   static const COMMENTS = _Paths.COMMENTS;
   static const FOLLOWERS = _Paths.FOLLOWERS;
   static const FOLLOWING = _Paths.FOLLOWING;
   static const INFO_VIEW = _Paths.INFO_VIEW;
   static const STORY = _Paths.STORY;
+  static const SEARCH = _Paths.SEARCH;
 }
 
 abstract class _Paths {
@@ -30,10 +32,12 @@ abstract class _Paths {
   static const REELS = '/reels';
   static const NOTIFICATIONS = '/notifications';
   static const PROFILE = '/profile';
+  static const USER_POSTS = '/user_posts';
   static const FLOATING_POST_VIEW = '/FloatingPostView';
-  static const ADDPOSTVIEW = '/Add Post View';
+  static const ADD_POST_VIEW = '/Add Post View';
   static const COMMENTS = '/comments';
   static const FOLLOWERS = '/followers';
   static const FOLLOWING = '/following';
   static const STORY = '/story';
+  static const SEARCH = '/search';
 }

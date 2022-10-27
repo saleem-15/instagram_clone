@@ -1,9 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../controllers/post_bottom_sheet_controller.dart';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
   const AddPostBottomSheet({Key? key}) : super(key: key);
@@ -29,7 +31,10 @@ class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
           ),
           Text(
             'Create',
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 18.sp),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontSize: 18.sp),
           ),
           SizedBox(
             height: 8.sp,
@@ -41,7 +46,7 @@ class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
               color: Colors.black,
             ),
             title: const Text('Post'),
-            onTap: controller.goToaddPostView,
+            onTap: controller.addPost,
             endsWithDivider: true,
           ),
           MyListTile(

@@ -123,6 +123,13 @@ class MyStyles {
         ),
       );
 
+  static TextButtonThemeData getTextButtonTheme() => TextButtonThemeData(
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+        ),
+      );
+
+// static
   static getRadioButtonTheme() => RadioThemeData(
         fillColor: MaterialStateProperty.all<Color>(LightThemeColors.radioColor),
       );
@@ -145,7 +152,6 @@ class MyStyles {
   static getCardTheme() => const CardTheme(
         margin: EdgeInsets.zero,
       );
-
 
   // bottom sheet theme
   static BottomSheetThemeData getBottomSheetTheme() {

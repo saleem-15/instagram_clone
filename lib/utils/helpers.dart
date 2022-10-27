@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-
 String formatErrorMsg(dynamic data) {
   if (data is int) {
     return data.toString();
@@ -11,6 +10,10 @@ String formatErrorMsg(dynamic data) {
   }
 
   final errorsMap = data['Messages'];
+
+  if (errorsMap == null) {
+    return data.toString();
+  }
 
   if (errorsMap is String) {
     return errorsMap;
@@ -33,5 +36,3 @@ String formatErrorMsg(dynamic data) {
 
   return errorString;
 }
-
-

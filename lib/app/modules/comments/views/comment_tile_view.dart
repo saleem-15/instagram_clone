@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +38,7 @@ class CommentTile extends GetView<CommentsController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  comment.user.name,
+                  comment.user.userName,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 SizedBox(

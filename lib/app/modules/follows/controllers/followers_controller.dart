@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/get_followers_service.dart';
 
@@ -15,13 +18,12 @@ class FollowersController extends GetxController {
   );
 
   final searchTextController = TextEditingController();
-
   @override
-  void onReady() {
-    super.onReady();
+  onInit() {
     pagingController.addPageRequestListener((pageKey) async {
       fetchFollowers(pageKey);
     });
+    super.onInit();
   }
 
   Future<void> fetchFollowers(int pageKey) async {
@@ -40,6 +42,13 @@ class FollowersController extends GetxController {
       pagingController.error = error;
       rethrow;
     }
+  }
+
+    goToUserProfile(User following) {
+    Get.toNamed(
+      Routes.PROFILE,
+      arguments: following,
+    );
   }
 
   void search() {}

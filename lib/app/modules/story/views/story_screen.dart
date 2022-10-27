@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -46,10 +47,11 @@ class StoryScreen extends GetView<StoryController> {
                             width: 10.w,
                           ),
                           Text(
-                            user.name,
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                  color: Colors.white.withOpacity(.9),
-                                ),
+                            user.userName,
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      color: Colors.white.withOpacity(.9),
+                                    ),
                           ),
                           SizedBox(
                             width: 5.w,
@@ -58,9 +60,10 @@ class StoryScreen extends GetView<StoryController> {
                           /// when the story was posted
                           Text(
                             '14 h',
-                            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                  color: Colors.white38,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      color: Colors.white38,
+                                    ),
                           ),
                         ],
                       ),
@@ -74,22 +77,29 @@ class StoryScreen extends GetView<StoryController> {
                         margin: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.sp),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.w, vertical: 5.sp),
                         child: TextField(
-                          style: TextStyle(color: Colors.white.withOpacity(.85)),
+                          style:
+                              TextStyle(color: Colors.white.withOpacity(.85)),
                           cursorColor: Colors.greenAccent,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 15.sp),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 15.sp),
                             filled: false,
                             hintText: 'Send message',
                             hintStyle: const TextStyle(color: Colors.white),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white30),
-                              borderRadius: BorderRadius.all(Radius.circular(25.r)),
+                              borderSide:
+                                  const BorderSide(color: Colors.white30),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.r)),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white30),
-                              borderRadius: BorderRadius.all(Radius.circular(25.r)),
+                              borderSide:
+                                  const BorderSide(color: Colors.white30),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.r)),
                             ),
                           ),
                         ),

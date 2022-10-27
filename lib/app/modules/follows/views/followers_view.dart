@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
 
@@ -29,11 +30,11 @@ class FollowersView extends GetView<FollowersController> {
               firstPageErrorIndicatorBuilder: (context) => Text(pagingController.error.toString()),
               noItemsFoundIndicatorBuilder: (context) => Center(
                 child: Text(
-                  'you dont have any followers',
+                  'There isn\'t any followers',
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
-              newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),
+              newPageErrorIndicatorBuilder: (context) => const Center(child: Text('coludnt load')),
             ),
           ),
         ),

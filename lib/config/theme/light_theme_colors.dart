@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //CUSTOM COLORS
 const Color myBlack = Color(0xFF32323D);
 const Color lightRed = Color(0xFFf75555);
+const Color lighBlue = Color(0xff0095F6);
 
 const Color lightGrey = Color.fromARGB(255, 230, 227, 227);
 
@@ -30,7 +31,7 @@ class LightThemeColors {
 
   //BUTTON
   static const Color buttonColor = Color(0xffdedede);
-  static const Color authButtonColor = Color(0xff0095F6);
+  static const Color authButtonColor = lighBlue;
 
   // static Color buttonColor = const Color(0xffe7e7e7); //lighter version
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/sign_in_service.dart';
@@ -59,14 +60,16 @@ class SigninController extends GetxController {
 
   void autoDisableLoginButton() {
     firstFieledController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty ||
+          passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }
       isButtonDisable(false);
     });
     passwordController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty ||
+          passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }

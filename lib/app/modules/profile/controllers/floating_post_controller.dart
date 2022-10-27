@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
 
-class FloatingPostController extends GetxController with GetSingleTickerProviderStateMixin {
+class FloatingPostController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   late final Post post;
 
   late AnimationController _animationController;

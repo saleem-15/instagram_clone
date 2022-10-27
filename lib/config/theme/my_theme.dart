@@ -16,7 +16,6 @@ class MyTheme {
         primary: LightThemeColors.primaryColor,
       ),
 
-
       scrollbarTheme: const ScrollbarThemeData(),
 
       primaryColor: LightThemeColors.primaryColor, // secondary color (for checkbox,float button, radio..etc)
@@ -42,6 +41,9 @@ class MyTheme {
       // elevated button theme
       elevatedButtonTheme: MyStyles.getElevatedButtonTheme(),
 
+      //text button theme
+      textButtonTheme: MyStyles.getTextButtonTheme(),
+
       bottomNavigationBarTheme: MyStyles.getBottomNavigationBarTheme(),
 
       // text theme
@@ -60,8 +62,7 @@ class MyTheme {
 
       cardTheme: MyStyles.getCardTheme(),
 
-            bottomSheetTheme:MyStyles.getBottomSheetTheme() ,
-
+      bottomSheetTheme: MyStyles.getBottomSheetTheme(),
 
       // textField theme
       inputDecorationTheme: MyStyles.getInputDecorationTheme(),

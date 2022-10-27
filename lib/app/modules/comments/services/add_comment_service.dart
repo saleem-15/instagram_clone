@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
@@ -9,10 +10,10 @@ import 'package:instagram_clone/utils/helpers.dart';
 Future<bool> addCommentService(String comment, String postId) async {
   try {
     final response = await dio.post(
-      COMMNETS_URL,
+   Api.   COMMNETS_URL,
       queryParameters: {
         'comment': comment,
-        'post_id':postId,
+        'post_id': postId,
       },
     );
     //

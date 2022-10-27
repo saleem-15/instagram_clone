@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
@@ -18,7 +20,7 @@ class CommentsController extends GetxController {
 
   late final Post post;
   String get postText => post.caption;
-  String get accountName => post.user.name;
+  String get accountName => post.user.userName;
 
   final addCommentTextController = TextEditingController();
   String get commentText => addCommentTextController.text.trim();
@@ -72,7 +74,8 @@ class CommentsController extends GetxController {
     if (isSuccess) {
       CustomSnackBar.showCustomSnackBar(message: 'comment was posted');
     } else {
-      CustomSnackBar.showCustomErrorSnackBar(message: 'comment was not posted!');
+      CustomSnackBar.showCustomErrorSnackBar(
+          message: 'comment was not posted!');
     }
   }
 

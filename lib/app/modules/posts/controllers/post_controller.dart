@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/routes/app_pages.dart';
 import 'package:video_player/video_player.dart';
+
+import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/app/modules/posts/services/set_post_is_loved_service.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
 class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};
@@ -23,20 +25,14 @@ class PostsController extends GetxController {
       parameters: {'isTextFieldFocused': 'true'},
       arguments: post,
     );
-
   }
 
-  void onHeartPressed(Post post) {
-    ///******* Future code  ***********/
-    // final isSuccess = await setPostIsLovedService(post.id, !post.isFavorite);
-    // if (isSuccess) {
-    //   post.isFavorite = !post.isFavorite;
-    // update(['${post.id} love button']);
-    // }
-    ///******* Future code  ***********/
-
-    post.isFavorite = !post.isFavorite;
-    update(['${post.id} love button']);
+  Future<void> onHeartPressed(Post post) async {
+    final isSuccess = await setPostIsLovedService(post.id, !post.isFavorite);
+    if (isSuccess) {
+      post.isFavorite = !post.isFavorite;
+      update(['${post.id} love button']);
+    }
   }
 
   Future<void> onSaveButtonPressed(Post post) async {
@@ -57,7 +53,8 @@ class PostsController extends GetxController {
     update(['selected content index']);
   }
 
-  Future<VideoPlayerController> initilizeVideoController(String videoUrl) async {
+  Future<VideoPlayerController> initilizeVideoController(
+      String videoUrl) async {
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
@@ -73,8 +70,10 @@ class PostsController extends GetxController {
     return videoController;
   }
 
-  onVideoTapped(VideoPlayerController videoPlayerController, Post post, int videoIndex) {
-    videoPlayerController.setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
+  onVideoTapped(
+      VideoPlayerController videoPlayerController, Post post, int videoIndex) {
+    videoPlayerController
+        .setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
 
     update(['${post.id} $videoIndex']);
   }

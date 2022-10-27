@@ -1,27 +1,33 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+
+import 'package:instagram_clone/utils/constants/api.dart';
+import 'package:instagram_clone/utils/custom_snackbar.dart';
+import 'package:instagram_clone/utils/helpers.dart';
+
 import '../../../models/user.dart';
+import '../controllers/followers_controller.dart';
 
 Future<List<User>> fetchFollowersService(int pageNum) async {
-  return [
-    User(id: '1', name: 'sal', image: ''),
-    User(id: '2', name: 'moh', image: ''),
-    User(id: '3', name: 'ali', image: ''),
-  ];
-  // try {
-  //   final response = await dio.get(
-  //     FOLLOWERS_PATH,
-  //     queryParameters: {'page': pageNum},
-  //   );
-  //   final data = response.data['data'];
-  //   log(response.data.toString());
+  try {
+    final response = await dio.get(
+     Api. FOLLOWERS_PATH,
+      queryParameters: {'page': pageNum},
+    );
+    log(response.data.toString());
 
-  //   return _convertDataToFollowers(data as List);
-  // } on DioError catch (e) {
-  //   log(e.response!.data.toString());
-  //   CustomSnackBar.showCustomErrorSnackBar(
-  //     message: e.response!.data['Messages'].toString(),
-  //   );
-  //   return [];
-  // }
+    Get.find<FollowersController>().numOfPages = response.data['last_page'];
+
+    return _convertDataToFollowers(response.data['data'] as List);
+  } on DioError catch (e) {
+    log(e.response!.data.toString());
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.response!.data),
+    );
+    return [];
+  }
 }
 
 List<User> _convertDataToFollowers(List data) {

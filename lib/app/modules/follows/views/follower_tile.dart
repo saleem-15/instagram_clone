@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -16,17 +17,23 @@ class FollowerTileView extends GetView {
   final User follower;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading:  UserAvatar(user: follower),
-      title: const Text('userName'),
-      subtitle: const Text('name'),
-      trailing: SizedBox(
-        height: 30.sp,
-        child: ElevatedButton(
-          onPressed: () {},
-          child: const Text(
-            'Remove',
-            style: TextStyle(color: LightThemeColors.buttonTextColor),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent,
+      ),
+      child: ListTile(
+        onTap: () => controller.goToUserProfile(follower),
+        leading: UserAvatar(user: follower),
+        title: const Text('userName'),
+        subtitle: const Text('name'),
+        trailing: SizedBox(
+          height: 30.sp,
+          child: ElevatedButton(
+            onPressed: () {},
+            child: const Text(
+              'Remove',
+              style: TextStyle(color: LightThemeColors.buttonTextColor),
+            ),
           ),
         ),
       ),

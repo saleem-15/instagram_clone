@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
@@ -27,7 +28,9 @@ class EmailAddressView extends GetView<SignupController> {
         ),
         Obx(
           () => ElevatedButton(
-            onPressed: controller.isEmailButtonDisable.isTrue ? null : controller.onNextButtonPressedEmail,
+            onPressed: controller.isEmailButtonDisable.isTrue
+                ? null
+                : controller.onNextButtonPressedEmail,
             style: MyStyles.getAuthButtonStyle(),
             child: const Text('Next'),
           ),

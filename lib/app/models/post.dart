@@ -1,8 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'package:instagram_clone/utils/constants/api.dart';
-
 import 'user.dart';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class Post {
   String id;
@@ -31,16 +29,16 @@ class Post {
     return Post(
       id: map['post_id'].toString(),
       user: User.fromMap(map['user']),
-      isFavorite:true,
-      //  map['isFavorite'],
+      isFavorite: map['is_favorite'],
+      //
       isSaved: false,
-      // map['isSaved'],
-      numOfLikes: 5,
-      //  map['numOfLikes'],
-      numOfComments: 10,
-      //  map['numOfComments'],
-      postContents: List<String>.from(map['post_media']).map((e) => 'http://$myIp:80/${e.substring(9)}').toList(),
-      caption:  map['caption'],
+      //
+      numOfLikes: map['likes_num'],
+      numOfComments: map['num_of_comments'],
+      postContents: List<String>.from(map['post_media'])
+          // .map((e) => 'http://$baseUrl/${e.substring(17)}')
+          .toList(),
+      caption: map['caption'],
     );
   }
 }

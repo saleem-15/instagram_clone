@@ -1,73 +1,64 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/app/models/profile.dart';
+import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/follows/services/follow_user_service.dart';
+import 'package:instagram_clone/app/modules/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/app/modules/profile/views/add_post_bottom_sheet.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
-import '../services/fetch_my_posts_service.dart';
-import '../views/floating_post_view.dart';
+import '../services/get_profile_info_service.dart';
 
 class ProfileController extends GetxController {
-  final name = 'Saleem Mahdi';
-  final username = 'saleemmahdi10';
+  /// by default its my profile (not other people profiles)
 
-  int numOfPages = 5;
-  final pagingController = PagingController<int, Post>(
-    firstPageKey: 1,
-  );
-  int postNum = 0;
-  int followersNum = 12;
-  int followingNum = 33;
+  late final Profile profile;
+  late final bool isMyProfile;
+  late final User user;
+
+  final RxBool isLoading = true.obs;
 
   final RxBool isPostFloating = false.obs;
   late Post floatingPost;
 
-
   @override
   void onInit() {
-    pagingController.addPageRequestListener((pageKey) async {
-      fetchPosts(pageKey);
-    });
-
-    isPostFloating.listen((isPostFloating) {
-      if (isPostFloating) {
-        Get.dialog(
-          FloatingPostView(post: floatingPost),
-        );
-      } else {
-        Get.back();
-      }
-    });
+    user = Get.arguments ?? MySharedPref.getUserData;
+    user.printInfo();
+    isMyProfile = user.id == MySharedPref.getUserId;
     super.onInit();
   }
 
-  Future<void> fetchPosts(int pageKey) async {
-    try {
-      log('fetch posts');
-      final followersNewPage = await fetchMyPostsService(pageKey);
+  @override
+  Future<void> onReady() async {
+    profile = await fetchProfileInfoService(user.id);
+    isLoading(false);
 
-      final isLastPage = numOfPages == pageKey;
-
-      if (isLastPage) {
-        pagingController.appendLastPage(followersNewPage);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(followersNewPage, nextPageKey);
-      }
-    } catch (error) {
-      pagingController.error = error;
-      rethrow;
-    }
+    super.onReady();
   }
 
   void goToFollowers() {
-    Get.toNamed(Routes.FOLLOWERS);
+    Get.toNamed(
+      Routes.FOLLOWERS,
+      arguments: user,
+      parameters: {
+        'numOfFollowing': profile.numOfFollowings.toString(),
+        'numOfFollowers': profile.numOfFollowers.toString(),
+      },
+    );
   }
 
   void goToFollowing() {
-    Get.toNamed(Routes.FOLLOWING);
+    Get.toNamed(
+      Routes.FOLLOWING,
+      arguments: user,
+      parameters: {
+        'numOfFollowing': profile.numOfFollowings.toString(),
+        'numOfFollowers': profile.numOfFollowers.toString(),
+      },
+    );
   }
 
   void showAddPostBottomSheet() {
@@ -76,15 +67,21 @@ class ProfileController extends GetxController {
 
   void showSettingsBottomSheet() {}
 
-  onPostLongPressed(Post post) {
-    // Get.lazyPut(() => FollowsTabController(), fenix: true);
-    floatingPost = post;
-    isPostFloating(true);
-
-    // Get.dialog(FloatingPostView(post: post));
+  Future<void> followUser() async {
+    final isSuccessfull = await followService(user.id);
+    if (isSuccessfull) {
+      profile.doIFollowHim = true;
+      update(['do I follow him']);
+    }
   }
 
-  onPostLongPressGone(Post post) {
-    isPostFloating(false);
+  Future<void> unFollowUser() async {
+    final isSuccessfull = await unFollowService(user.id);
+    if (isSuccessfull) {
+      profile.doIFollowHim = false;
+      update(['do I follow him']);
+    }
   }
+
+  // Get.parameters['userId'] = null;
 }

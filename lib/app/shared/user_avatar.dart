@@ -1,24 +1,34 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+
+import 'package:get/get_utils/src/extensions/widget_extensions.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
     Key? key,
     required this.user,
-    this.isFloatingPost = false,
+    this.userAvatarSize = 25,
+    this.showRingIfHasStory = true,
   }) : super(key: key);
 
-  static double userAvatarSize = 12.sp;
+  /// avatar size is with (sp)
+  final double userAvatarSize;
   final User user;
-  final bool isFloatingPost;
+  final bool showRingIfHasStory;
   @override
   Widget build(BuildContext context) {
-    return user.isHasNewStory && !isFloatingPost
+    // log('user avatar ${user.image}');
+
+    final ImageProvider backgroundImage = (user.image == null
+        ? const AssetImage('assets/images/default_user_image.png')
+        : NetworkImage(user.image!)) as ImageProvider;
+
+    return user.isHasNewStory && !showRingIfHasStory
         ?
+
         /// with gradient ring
         Container(
             padding: const EdgeInsets.all(2.5),
@@ -42,9 +52,7 @@ class UserAvatar extends StatelessWidget {
               ),
               child: CircleAvatar(
                 radius: userAvatarSize,
-                backgroundImage: (user.image == null
-                    ? const AssetImage('assets/images/default_user_image.png')
-                    : NetworkImage(user.image!)) as ImageProvider,
+                backgroundImage: backgroundImage,
               ).marginAll(3),
             ),
           )
@@ -53,9 +61,7 @@ class UserAvatar extends StatelessWidget {
         /// without gradient ring
         CircleAvatar(
             radius: userAvatarSize,
-            backgroundImage: (user.image == null
-                ? const AssetImage('assets/images/default_user_image.png')
-                : NetworkImage(user.image!)) as ImageProvider,
+            backgroundImage: backgroundImage,
           );
   }
 }

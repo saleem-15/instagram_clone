@@ -2,17 +2,18 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/models/comment.dart';
 
 import '../../../../utils/constants/api.dart';
+import '../../../../utils/helpers.dart';
 import '../controllers/comments_controller.dart';
 import '/utils/custom_snackbar.dart';
-import '../../../../utils/helpers.dart';
 
 Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async {
   try {
     final response = await dio.get(
-      COMMNETS_URL,
+      Api.COMMNETS_URL,
       queryParameters: {
         'post_id': postId,
         'page': pageKey,

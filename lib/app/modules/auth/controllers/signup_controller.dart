@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
 import 'package:instagram_clone/app/modules/auth/views/info_view.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
@@ -19,7 +20,6 @@ class SignupController extends GetxController {
 
   /// in the info screen (name,password,birthday form)
   RxBool isContinueButtonDisable = true.obs;
-
   String get email => emailController.text.trim();
   String get password => passwordController.text.trim();
   String get phoneNumber => phoneNumberController.text.trim();
@@ -61,10 +61,18 @@ class SignupController extends GetxController {
   }
 
   Future<void> signup() async {
-    final results = await signupService(email, password, fullName, userName, dateOfBirth, phoneNumber);
+    final isSuccessfull = await signupService(
+      email: email,
+      password: password,
+      name: fullName,
+      nickName: userName,
+      dateOfBirth: dateOfBirth,
+      phoneNumber: phoneNumber,
+    );
 
-    /// is sign up process is done correctly
-    final isSuccessfull = results[1];
+    if (isSuccessfull) {
+      update(['auth_listener']);
+    }
 
     // if (isSuccessfull) {
     //   Get.off(() => const Main());
@@ -92,9 +100,9 @@ class SignupController extends GetxController {
       return 'required';
     }
 
-    if (!GetUtils.isUsername(fullName)) {
-      return 'not a valid name';
-    }
+    // if (!GetUtils.isUsername(fullName)) {
+    //   return 'not a valid name';
+    // }
     return null;
   }
 

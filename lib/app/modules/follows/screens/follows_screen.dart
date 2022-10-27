@@ -1,6 +1,5 @@
-// ignore_for_file: camel_case_types
-
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 import '../controllers/followers_tab_controller.dart';
@@ -17,7 +16,7 @@ class FollowsScreen extends GetView<FollowsTabController> {
   final int pageIndex;
   @override
   Widget build(BuildContext context) {
-    controller.tabController.index = pageIndex;
+    // controller.tabController.index = pageIndex;
     return Scaffold(
       appBar: AppBar(
         title: Text(

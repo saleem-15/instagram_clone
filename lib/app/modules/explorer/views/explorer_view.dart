@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/profile/views/my_post_grid_tile_view.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
@@ -18,6 +19,8 @@ class ExplorerView extends GetView<ExplorerController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SearchTextField(
+              onTap: controller.onSearchFieldPressed,
+              isReadOnly: true,
               textController: controller.searchTextController,
               onEditingComplete: controller.search,
             ),
@@ -33,8 +36,8 @@ class ExplorerView extends GetView<ExplorerController> {
                 builderDelegate: PagedChildBuilderDelegate(
                   itemBuilder: (context, post, index) => MyPostGridTileView(
                     post: post,
-                    onPostLongPressed: controller.onPostLongPressed,
-                    onPressedGone: controller.onPostLongPressGone,
+                    onPostPressed: controller.onPostPressed,
+                    onPressedGone: controller.onPostPressGone,
                   ),
                   firstPageErrorIndicatorBuilder: (context) =>
                       Text(controller.pagingController.error.toString()),
@@ -44,7 +47,8 @@ class ExplorerView extends GetView<ExplorerController> {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
-                  newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),
+                  newPageErrorIndicatorBuilder: (context) =>
+                      const Text('coludnt load'),
                 ),
               ),
             ),
