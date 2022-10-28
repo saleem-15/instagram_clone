@@ -4,21 +4,48 @@ import 'package:dio/dio.dart';
 
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
+import 'package:instagram_clone/utils/helpers.dart';
 
-Future<bool> setPostIsSavedService(String postId, bool isSaved) async {
+
+/// returnes true if request successed
+Future<bool> setPostIsSavedService(String postId, bool isSave) async {
+  if (isSave) {
+    return await _savePostService(postId);
+  } else {
+    return await _unsavePostService(postId);
+  }
+}
+
+Future<bool> _savePostService(String postId) async {
   try {
     final response = await dio.post(
-      '${Api.POST_URL}/$postId',
-      queryParameters: {'isSaved': isSaved},
+      Api.SAVE_POST_URL,
+      queryParameters: {'post_id': postId},
     );
-    final data = response.data['data'];
     log(response.data.toString());
 
     return true;
   } on DioError catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(
-      message: e.response!.data['Messages'].toString(),
+      message: formatErrorMsg(e.response!.data),
+    );
+    return false;
+  }
+}
+
+Future<bool> _unsavePostService(String postId) async {
+  try {
+    final response = await dio.delete(
+      '${Api.SAVE_POST_URL}/$postId',
+    );
+    log(response.data.toString());
+
+    return true;
+  } on DioError catch (e) {
+    log(e.response!.data.toString());
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.response!.data),
     );
     return false;
   }

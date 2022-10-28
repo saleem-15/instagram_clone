@@ -10,10 +10,10 @@ import '../../../../utils/constants/api.dart';
 import '../../../models/user.dart';
 import '/utils/custom_snackbar.dart';
 
-Future<List<User>> fetchFollowingsService(int pageNum) async {
+Future<List<User>> fetchFollowingsService(String userId, int pageNum) async {
   try {
     final response = await dio.get(
-     Api. FOLLOWEING_PATH,
+      '${Api.FOLLOWEING_PATH}/$userId',
       queryParameters: {'page': pageNum},
     );
 
@@ -23,7 +23,11 @@ Future<List<User>> fetchFollowingsService(int pageNum) async {
 
     return _convertDataToFollowing(response.data['data'] as List);
   } on DioError catch (e) {
-    log(e.response!.data.toString());
+    if (e.response == null) {
+      log(e.error.toString());
+    } else {
+      log(e.response!.data.toString());
+    }
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

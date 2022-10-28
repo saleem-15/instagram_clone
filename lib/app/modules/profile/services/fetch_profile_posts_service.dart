@@ -19,7 +19,7 @@ Future<List<Post>> fetchProfilePostsService(String userId, int pageNum) async {
     final metaData = response.data['meta'];
 
     // log(response.data.toString());
-    Get.find<UserPostsController>().numOfPages = metaData['last_page'];
+    Get.find<UserPostsController>(tag: userId).numOfPages = metaData['last_page'];
 
     return _convertDataToPosts(data as List);
   } on DioError catch (e) {

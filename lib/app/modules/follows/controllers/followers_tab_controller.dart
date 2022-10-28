@@ -1,33 +1,45 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/profile.dart';
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/follows/controllers/followers_controller.dart';
+import 'package:instagram_clone/app/modules/follows/controllers/following_controller.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
-
-enum SelectedPage {
-  FollowersView,
-  FollowingView,
-}
 
 class FollowsTabController extends GetxController with GetSingleTickerProviderStateMixin {
   late final List<Tab> myTabs;
   late TabController tabController;
-  late SelectedPage selectedPage;
-  int get selectedIndex => selectedPage.name == SelectedPage.FollowersView.name ? 0 : 1;
+  late int selectedIndex;
 
   late int numOfFollowers;
   late int numOfFollowing;
 
-  late final String userName;
+  Profile get profile => Get.arguments;
+  User get user => profile.user;
+  String get userName => user.userName;
+
+  /// this method must be called before followers/following screen is opened
+  void updateProfile(Profile profile) {
+    numOfFollowers = profile.numOfFollowers;
+    numOfFollowing = profile.numOfFollowings;
+
+    if (Get.isRegistered<FollowersController>()) {
+      Get.find<FollowersController>().pagingController.refresh();
+    }
+    if (Get.isRegistered<FollowingController>()) {
+      Get.find<FollowingController>().pagingController.refresh();
+    }
+  }
 
   @override
   void onInit() {
-    selectedPage = SelectedPage.FollowersView;
+    final Profile profile = Get.arguments;
+    selectedIndex = int.parse(Get.parameters['page_index']!);
 
-    numOfFollowers = int.parse(Get.parameters['numOfFollowers']!);
-    numOfFollowing = int.parse(Get.parameters['numOfFollowing']!);
-    userName = (Get.arguments as User).userName;
+    numOfFollowers = profile.numOfFollowers;
+    numOfFollowing = profile.numOfFollowings;
 
     myTabs = [
       Tab(child: Text('$numOfFollowers followers')),

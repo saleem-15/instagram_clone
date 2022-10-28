@@ -21,7 +21,7 @@ Future<void> addPostService(List<File> media) async {
   try {
     final response = await dio.post(Api.POST_URL, data: formData);
     final data = response.data['Data'];
-    log(response.data.toString());
+    log(data.toString());
   } on DioError catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(

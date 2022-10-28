@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/modules/root/bindings/my_app_binding.dart';
+import 'package:instagram_clone/app/modules/root/my_app.dart';
 import 'package:instagram_clone/app/modules/search/search_screen.dart';
 
 import '../models/user.dart';
@@ -31,11 +33,11 @@ class AppPages {
   static const INITIAL = Routes.HOME;
 
   static final routes = [
-    // GetPage(
-    //   name: _Paths.INFO_VIEW,
-    //   page: () => const InfoView(),
-    //   binding: HomeBinding(),
-    // ),
+    GetPage(
+      name: _Paths.MY_APP,
+      page: () => const MyApp(),
+      binding: MyAppBinding(),
+    ),
     GetPage(
       name: _Paths.SIGN_IN,
       page: () => const SigninScreen(),
@@ -67,13 +69,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FOLLOWERS,
-      page: () => const FollowsScreen(pageIndex: 0),
+      page: () => const FollowsScreen(),
       binding: FollowsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.FOLLOWING,
-      page: () => const FollowsScreen(pageIndex: 1),
+      page: () => const FollowsScreen(),
       binding: FollowsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
@@ -99,7 +101,6 @@ class AppPages {
       binding: CommentsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
-
     GetPage(
       name: _Paths.STORY,
       page: () => StoryScreen(user: User(id: 'id', nickName: 'nick name', userName: 'saleem', image: '')),

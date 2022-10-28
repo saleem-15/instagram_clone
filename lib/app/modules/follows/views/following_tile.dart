@@ -28,14 +28,14 @@ class FollowingTile extends GetView<FollowingController> {
           user: following,
         ),
         title: Text(following.userName),
-        subtitle: const Text('name'),
+        subtitle: Text(following.nickName),
         trailing: SizedBox(
           height: 30.sp,
           width: 100.sp,
           child: Obx(
             () => ElevatedButton(
               style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                    backgroundColor: MaterialStateProperty.all(isFollowing.isTrue ? null : lighBlue),
+                    backgroundColor: MaterialStateProperty.all(isFollowing.isTrue ? null : LightThemeColors.lighBlue),
                   ),
               onPressed: () async {
                 final isSuccess = await controller.unFollow(following.id);

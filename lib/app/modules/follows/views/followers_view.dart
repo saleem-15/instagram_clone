@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
 
 import '../controllers/followers_controller.dart';
@@ -26,19 +27,41 @@ class FollowersView extends GetView<FollowersController> {
           child: PagedListView(
             pagingController: pagingController,
             builderDelegate: PagedChildBuilderDelegate<User>(
-              itemBuilder: (context, follower, index) => FollowerTileView(follower: follower),
-              firstPageErrorIndicatorBuilder: (context) => Text(pagingController.error.toString()),
-              noItemsFoundIndicatorBuilder: (context) => Center(
-                child: Text(
-                  'There isn\'t any followers',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              newPageErrorIndicatorBuilder: (context) => const Center(child: Text('coludnt load')),
+              //
+              itemBuilder: (_, follower, __) => FollowerTileView(follower: follower),
+              //
+              firstPageErrorIndicatorBuilder: (_) => errorWidget(),
+              //
+              noItemsFoundIndicatorBuilder: (context) => noFollowersFoundWidget(context),
+              //
+              firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+              //
+              newPageProgressIndicatorBuilder: (_) => loadingWidget(),
+              //
+              newPageErrorIndicatorBuilder: (_) => errorWidget(),
             ),
           ),
         ),
       ],
     );
   }
+
+  Center noFollowersFoundWidget(BuildContext context) {
+    return Center(
+      child: Text(
+        'There isn\'t any followers',
+        style: Theme.of(context).textTheme.headline6,
+      ),
+    );
+  }
+
+  Widget loadingWidget() => const Center(
+        child: LoadingWidget(),
+      );
+
+  Widget errorWidget() => Center(
+        child: Text(
+          controller.pagingController.error.toString(),
+        ),
+      );
 }

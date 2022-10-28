@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/modules/home/views/stories_view.dart';
+import 'package:instagram_clone/app/modules/story/views/stories_view.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_view.dart';
+import 'package:instagram_clone/app/shared/loading_widget.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -24,47 +25,54 @@ class HomeScreen extends GetView<HomeController> {
           width: 120.sp,
         ),
       ),
-      body:
-          //  pagingController.itemList == null || pagingController.itemList == 0
-          //     ? StoriesView()
-          //     :
-          PagedListView<int, Post>(
-        pagingController: pagingController,
-        builderDelegate: PagedChildBuilderDelegate(
-          itemBuilder: (context, post, index) {
-            if (index == 0) {
-              return Column(
-                children: [
-                  StoriesView(),
-                  Divider(),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 3.sp),
-                    child: PostView(
-                      post: post,
-                    ),
-                  ),
-                ],
-              );
-            }
-
-            return Padding(
-              padding: EdgeInsets.only(bottom: 3.sp),
-              child: PostView(
+      body: CustomScrollView(
+        slivers: [
+          /// stories List
+          SliverToBoxAdapter(
+            child: StoriesView(),
+          ),
+          /// posts List
+          PagedSliverList<int, Post>(
+            pagingController: pagingController,
+            builderDelegate: PagedChildBuilderDelegate(
+              //
+              itemBuilder: (_, post, __) => PostView(
                 post: post,
-              ),
-            );
-          },
-          firstPageErrorIndicatorBuilder: (context) =>
-              Text(controller.pagingController.error.toString()),
-          noItemsFoundIndicatorBuilder: (context) => Center(
-            child: Text(
-              'No Posts was Found'.tr,
-              style: Theme.of(context).textTheme.headline6,
+              ).paddingOnly(bottom: 3.sp),
+              //
+              firstPageErrorIndicatorBuilder: (_) => errorWidget(),
+              //
+
+              noItemsFoundIndicatorBuilder: (context) => noPostsFoundWidget(context),
+              //
+              firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+              //
+              newPageProgressIndicatorBuilder: (_) => loadingWidget(),
+              //
+              newPageErrorIndicatorBuilder: (_) => errorWidget(),
             ),
           ),
-          newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),
-        ),
+        ],
       ),
     );
   }
+
+  Widget noPostsFoundWidget(BuildContext context) {
+    return Center(
+      child: Text(
+        'No Posts was Found'.tr,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+    );
+  }
+
+  Widget loadingWidget() => const Center(
+        child: LoadingWidget(),
+      );
+
+  Widget errorWidget() => Center(
+        child: Text(
+          controller.pagingController.error.toString(),
+        ),
+      );
 }

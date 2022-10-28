@@ -32,7 +32,7 @@ class SearchTextField extends StatelessWidget {
           // width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 15.sp, left: 10.w, right: 10.w),
           decoration: BoxDecoration(
-            color: lightGrey,
+            color:LightThemeColors. lightGrey,
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Row(

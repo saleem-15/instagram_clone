@@ -73,6 +73,7 @@ class InfoView extends GetView<SignupController> {
                   validator: controller.dateOfBirthFieldValidator,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.datetime,
+                  inputFormatters: [controller.dateOfBirthFormatter],
                   decoration: const InputDecoration(
                     hintText: 'Date of birth',
                   ),
@@ -82,9 +83,8 @@ class InfoView extends GetView<SignupController> {
                 ),
                 Obx(
                   () => ElevatedButton(
-                    onPressed: controller.isContinueButtonDisable.isTrue
-                        ? null
-                        : controller.onSignupButtonPressed,
+                    onPressed:
+                        controller.isContinueButtonDisable.isTrue ? null : controller.onSignupButtonPressed,
                     style: MyStyles.getAuthButtonStyle(),
                     child: const Text('Continue'),
                   ),

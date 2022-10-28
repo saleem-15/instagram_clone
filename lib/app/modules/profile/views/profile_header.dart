@@ -33,7 +33,7 @@ class ProfileHeader extends StatelessWidget {
                 Column(
                   children: [
                     UserAvatar(
-                      userAvatarSize: 35,
+                      size: 35,
                       user: profileController.user,
                       showRingIfHasStory: true,
                     ),

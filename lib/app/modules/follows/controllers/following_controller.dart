@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/follows/controllers/followers_tab_controller.dart';
 import 'package:instagram_clone/app/modules/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
@@ -11,6 +12,9 @@ import '../services/get_following_service.dart';
 
 class FollowingController extends GetxController {
   final searchTextController = TextEditingController();
+
+  User get user => Get.find<FollowsTabController>().user;
+  String get userId =>user.id;
 
   int numOfPages = 2;
 
@@ -28,7 +32,7 @@ class FollowingController extends GetxController {
 
   Future<void> fetchFollowings(int pageKey) async {
     try {
-      final followersNewPage = await fetchFollowingsService(pageKey);
+      final followersNewPage = await fetchFollowingsService(userId, pageKey);
 
       final isLastPage = numOfPages == pageKey;
 

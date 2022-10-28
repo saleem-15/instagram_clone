@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/modules/auth/views/info_view.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/utils/constants/api.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../services/sign_up_service.dart';
 
@@ -13,7 +15,12 @@ class SignupController extends GetxController {
   final phoneNumberController = TextEditingController();
   final fullNameController = TextEditingController();
   final userNameController = TextEditingController();
+
   final dateOfBirthController = TextEditingController();
+  final dateOfBirthFormatter = MaskTextInputFormatter(
+    mask: '##/##/####',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
 
   RxBool isPhoneButtonDisable = true.obs;
   RxBool isEmailButtonDisable = true.obs;
@@ -71,12 +78,9 @@ class SignupController extends GetxController {
     );
 
     if (isSuccessfull) {
-      update(['auth_listener']);
+      Api.authChanged();
+      Get.offAllNamed(Routes.MY_APP);
     }
-
-    // if (isSuccessfull) {
-    //   Get.off(() => const Main());
-    // }
   }
 
   String? phoneNumberValidator(String? value) {
@@ -100,9 +104,13 @@ class SignupController extends GetxController {
       return 'required';
     }
 
-    // if (!GetUtils.isUsername(fullName)) {
-    //   return 'not a valid name';
-    // }
+    if (value!.length.isLowerThan(8)) {
+      return 'Name  must be at least eight letters and at most 30 letters';
+    }
+    if (value.length.isGreaterThan(30)) {
+      return 'Name  must be at most 30 letters';
+    }
+
     return null;
   }
 
@@ -120,7 +128,7 @@ class SignupController extends GetxController {
     }
 
     if (password.length.isLowerThan(6)) {
-      return 'min password lenght is 6 characters';
+      return 'Min password lenght is 6 characters';
     }
     return null;
   }

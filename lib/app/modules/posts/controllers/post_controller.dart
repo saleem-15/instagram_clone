@@ -6,6 +6,8 @@ import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_loved_service.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
+import '../services/set_post_is_saved_service.dart';
+
 class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};
   final Map<String, VideoPlayerController> cashedVideos = {};
@@ -37,15 +39,16 @@ class PostsController extends GetxController {
 
   Future<void> onSaveButtonPressed(Post post) async {
     ///******* Future code  ***********/
-    // final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
-    // if (isSuccess) {
-    //   post.isSaved = !post.isSaved;
-    //   update(['${post.id} save button']);
-    // }
+    final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
+    if (isSuccess) {
+      post.isSaved = !post.isSaved;
+      update(['${post.id} save button']);
+    }
+
     ///******* Future code  ***********/
 
-    post.isSaved = !post.isSaved;
-    update(['${post.id} save button']);
+    // post.isSaved = !post.isSaved;
+    // update(['${post.id} save button']);
   }
 
   void onImageSlided(Post post, int index, CarouselPageChangedReason reason) {
@@ -53,8 +56,7 @@ class PostsController extends GetxController {
     update(['selected content index']);
   }
 
-  Future<VideoPlayerController> initilizeVideoController(
-      String videoUrl) async {
+  Future<VideoPlayerController> initilizeVideoController(String videoUrl) async {
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
@@ -70,10 +72,8 @@ class PostsController extends GetxController {
     return videoController;
   }
 
-  onVideoTapped(
-      VideoPlayerController videoPlayerController, Post post, int videoIndex) {
-    videoPlayerController
-        .setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
+  onVideoTapped(VideoPlayerController videoPlayerController, Post post, int videoIndex) {
+    videoPlayerController.setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
 
     update(['${post.id} $videoIndex']);
   }

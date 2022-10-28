@@ -172,48 +172,48 @@ class MyStyles {
         contentPadding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 0.sp),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1),
         ),
       );
   static InputDecoration getInputDecoration() => InputDecoration(
         filled: true,
-        fillColor: lightGrey,
+        fillColor:LightThemeColors. lightGrey,
         // contentPadding: EdgeInsets.only(left: 15.sp, right: 10.sp),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1.5),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1.5),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1.5),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1.5),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1.5),
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(13.r),
-          borderSide: const BorderSide(color: lightGrey, width: 1.5),
+          borderSide: const BorderSide(color:LightThemeColors. lightGrey, width: 1.5),
         ),
       );
 
@@ -223,7 +223,7 @@ class MyStyles {
       elevation: 0,
       backgroundColor: Colors.transparent,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: myBlack,
+      selectedItemColor:LightThemeColors. myBlack,
       unselectedItemColor: Colors.grey[400],
       showSelectedLabels: false,
       showUnselectedLabels: false,

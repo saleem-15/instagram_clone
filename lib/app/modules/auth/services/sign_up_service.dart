@@ -17,8 +17,9 @@ Future<bool> signupService({
   required String phoneNumber,
 }) async {
   log('sign up service ********');
-  log('email: $email********');
-  log('phone: $phoneNumber********');
+  log('name: $name');
+  log('email: $email');
+  log('phone: $phoneNumber');
 
   try {
     final response = await dio.post(
@@ -59,6 +60,7 @@ Future<bool> signupService({
     log(e.error.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(
+      duration: const Duration(seconds: 10),
       message: formatErrorMsg(e.response!.data),
     );
   }

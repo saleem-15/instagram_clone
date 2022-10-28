@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-//CUSTOM COLORS
-const Color myBlack = Color(0xFF32323D);
-const Color lightRed = Color(0xFFf75555);
-const Color lighBlue = Color(0xff0095F6);
-
-const Color lightGrey = Color.fromARGB(255, 230, 227, 227);
-
 class LightThemeColors {
+//CUSTOM COLORS
+  static const Color myBlack = Color(0xFF32323D);
+  static const Color lightRed = Color(0xFFf75555);
+  static const Color lighBlue = Color(0xff0095F6);
+
+  static const Color lightGrey = Color.fromARGB(255, 230, 227, 227);
   //light swatch
   static const Color primaryColor = Color(0xFF101010);
   static const Color secondaryColor = myBlack;

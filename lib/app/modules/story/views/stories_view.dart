@@ -1,31 +1,99 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../../../../config/theme/my_fonts.dart';
 import '../../../models/user.dart';
+import '../controllers/story_controller.dart';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-class StoriesView extends StatelessWidget {
+class StoriesView extends GetView<StoriesController> {
   const StoriesView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final storyAvatarSize = 25.sp;
+
     return Column(
       children: [
         SizedBox(
           height: 100,
           child: ListView.builder(
+            padding: EdgeInsets.only(left: 10.w),
             scrollDirection: Axis.horizontal,
-            itemCount: users.length,
+            itemCount: controller.numOfStories + 1,
             itemBuilder: (context, index) {
-              return StoryTile(user: users[index]);
+              if (index == 0) {
+                return YourStoryAvatar(
+                  storyAvatarSize: storyAvatarSize,
+                  onTap: controller.onMyStoryAvatarPressed,
+                );
+              }
+              return StoryTile(user: controller.stories[index]);
             },
           ),
         )
+      ],
+    );
+  }
+}
+
+class YourStoryAvatar extends StatelessWidget {
+  const YourStoryAvatar({
+    Key? key,
+    required this.storyAvatarSize,
+    this.onTap,
+  }) : super(key: key);
+
+  final double storyAvatarSize;
+  final void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Stack(
+            children: [
+              CircleAvatar(
+                radius: storyAvatarSize,
+                child: Image.asset('assets/images/default_user_image.png'),
+              ),
+              Positioned(
+                bottom: -2,
+                right: 0,
+                child: Container(
+                  // margin: const EdgeInsets.all(5.sp),
+                  width: 18.sp,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      width: 2.sp,
+                    ),
+                    color: LightThemeColors.lighBlue,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    size: 13.sp,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 1,
+        ),
+        Text(
+          'Your story',
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: MyFonts.bodySmallTextSize),
+        ),
       ],
     );
   }
@@ -103,54 +171,3 @@ class StoryTile extends StatelessWidget {
     );
   }
 }
-
-List<User> users = [
-  User(
-    id: '0',
-    userName: 'Ahmed',
-    nickName: 'nick name',
-    image: 'assets/images/james.jpg',
-  ),
-  User(
-    id: '1',
-    userName: 'james',
-    nickName: 'nick name',
-    image: 'assets/images/james.jpg',
-  ),
-  User(
-    id: '2',
-    userName: 'john',
-    nickName: 'nick name',
-    image: 'assets/images/john.jpg',
-  ),
-  User(
-    id: '3',
-    userName: 'greg',
-    nickName: 'nick name',
-    image: 'assets/images/greg.jpg',
-  ),
-  User(
-    id: '4',
-    userName: 'Olivia',
-    nickName: 'nick name',
-    image: 'assets/images/olivia.jpg',
-  ),
-  User(
-    id: '5',
-    userName: 'Sam',
-    nickName: 'nick name',
-    image: 'assets/images/sam.jpg',
-  ),
-  User(
-    id: '6',
-    userName: 'Sophia',
-    nickName: 'nick name',
-    image: 'assets/images/sophia.jpg',
-  ),
-  User(
-    id: '7',
-    userName: 'Steven',
-    nickName: 'nick name',
-    image: 'assets/images/steven.jpg',
-  ),
-];

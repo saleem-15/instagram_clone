@@ -18,16 +18,17 @@ class CommentTile extends GetView<CommentsController> {
   @override
   Widget build(BuildContext context) {
     /// vertical space between account name and comment text
-    final verticalSpace = 3.sp;
+    final verticalSpace = 5.sp;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 5),
             child: UserAvatar(
               user: comment.user,
+              size: 18,
             ),
           ),
           SizedBox(
@@ -37,9 +38,12 @@ class CommentTile extends GetView<CommentsController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  comment.user.userName,
-                  style: Theme.of(context).textTheme.bodyText1,
+                GestureDetector(
+                  onTap: () => controller.onUserNamePressd(comment.user),
+                  child: Text(
+                    comment.user.userName,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ),
                 SizedBox(
                   height: verticalSpace,

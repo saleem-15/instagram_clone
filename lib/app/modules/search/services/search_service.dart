@@ -29,7 +29,11 @@ Future<List<User>> searchService(String keyword, int pageKey) async {
 
     return convertDataToUserList(data as List);
   } on DioError catch (e) {
-    log(e.response!.toString());
+    if (e.response == null) {
+      log(e.error.toString());
+    } else {
+      log(e.response!.data.toString());
+    }
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.message),

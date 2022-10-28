@@ -40,9 +40,7 @@ class PostMedia extends GetView<PostsController> {
                   ? GestureDetector(
                       onDoubleTap: () {},
                       child: Image.network(
-                        // post.postContents[index],
-
-                        'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
+                        post.postContents[index],
                         headers: Api.headers,
                         fit: BoxFit.cover,
                       ),

@@ -3,12 +3,14 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
+  static const String MY_APP = _Paths.MY_APP;
   static const String SIGN_IN = _Paths.SIGN_IN;
   static const String SIGNUP = _Paths.SIGNUP;
   static const HOME = _Paths.HOME;
   static const EXPLORER = _Paths.EXPLORER;
   static const REELS = _Paths.REELS;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  /// pass the user that you want to display its profile as arguments (Get.arguments)
   static const PROFILE = _Paths.PROFILE;
   static const USER_POSTS = _Paths.USER_POSTS;
   static const FLOATING_POST_VIEW = _Paths.FLOATING_POST_VIEW;
@@ -24,6 +26,7 @@ abstract class Routes {
 abstract class _Paths {
   _Paths._();
 
+  static const MY_APP = '/MY_APP';
   static const SIGN_IN = '/sign_in';
   static const SIGNUP = '/signup';
   static const INFO_VIEW = '/info_view';

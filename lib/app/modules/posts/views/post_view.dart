@@ -44,6 +44,7 @@ class PostView extends GetView<PostsController> {
           child: Row(
             children: [
               UserAvatar(
+                size: 15,
                 user: post.user,
               ),
               const SizedBox(

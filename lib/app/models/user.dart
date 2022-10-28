@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/story.dart';
 
 class User {
   String id;
@@ -7,11 +8,13 @@ class User {
   String nickName;
   String? image;
   bool isHasNewStory;
+  List<Story> userStories ;
   User({
     required this.id,
     required this.userName,
     required this.nickName,
     required this.image,
+    this.userStories = const [],
     this.isHasNewStory = true,
   });
 
@@ -21,6 +24,7 @@ class User {
       userName: map['name'],
       nickName: map['nick_name'],
       image: _getImage(map['image_url']),
+      userStories:map['stories'] ?? [],
     );
   }
 

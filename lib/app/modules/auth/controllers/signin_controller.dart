@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/utils/constants/api.dart';
 
 import '../services/sign_in_service.dart';
 
@@ -26,9 +27,10 @@ class SigninController extends GetxController {
 
     final isSuccessfull = await signInService(firstFieled, password);
 
-    // if (isSuccessfull) {
-    //   Get.off(() => const Main());
-    // }
+    if (isSuccessfull) {
+      Api.authChanged();
+      Get.offAllNamed(Routes.MY_APP);
+    }
   }
 
   @override
@@ -60,16 +62,14 @@ class SigninController extends GetxController {
 
   void autoDisableLoginButton() {
     firstFieledController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty ||
-          passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }
       isButtonDisable(false);
     });
     passwordController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty ||
-          passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }

@@ -7,6 +7,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 
 import '../services/add_comment_service.dart';
@@ -74,14 +76,20 @@ class CommentsController extends GetxController {
     if (isSuccess) {
       CustomSnackBar.showCustomSnackBar(message: 'comment was posted');
     } else {
-      CustomSnackBar.showCustomErrorSnackBar(
-          message: 'comment was not posted!');
+      CustomSnackBar.showCustomErrorSnackBar(message: 'comment was not posted!');
     }
   }
 
   void autoDisableButton() {
     addCommentTextController.addListener(
       () => isPostButtonDisabled(commentText.isBlank! ? true : false),
+    );
+  }
+
+  void onUserNamePressd(User user) {
+    Get.toNamed(
+      Routes.PROFILE,
+      arguments: user,
     );
   }
 }

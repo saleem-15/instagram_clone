@@ -6,17 +6,11 @@ import '../controllers/followers_tab_controller.dart';
 import '../views/followers_view.dart';
 import '../views/following_view.dart';
 
-
 class FollowsScreen extends GetView<FollowsTabController> {
-  const FollowsScreen({
-    Key? key,
-    required this.pageIndex,
-  }) : super(key: key);
+  const FollowsScreen({Key? key}) : super(key: key);
 
-  final int pageIndex;
   @override
   Widget build(BuildContext context) {
-    // controller.tabController.index = pageIndex;
     return Scaffold(
       appBar: AppBar(
         title: Text(

@@ -7,11 +7,15 @@ import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/get_followers_service.dart';
+import 'followers_tab_controller.dart';
 
 class FollowersController extends GetxController {
   int numOfPages = 1;
   int setNumOfPages = 1;
   int totalNumOfProducts = 1;
+
+  User get user => Get.find<FollowsTabController>().user;
+  String get userId => user.id;
 
   final pagingController = PagingController<int, User>(
     firstPageKey: 1,
@@ -28,7 +32,7 @@ class FollowersController extends GetxController {
 
   Future<void> fetchFollowers(int pageKey) async {
     try {
-      final followersNewPage = await fetchFollowersService(pageKey);
+      final followersNewPage = await fetchFollowersService(userId, pageKey);
 
       final isLastPage = numOfPages == pageKey;
 
@@ -44,9 +48,10 @@ class FollowersController extends GetxController {
     }
   }
 
-    goToUserProfile(User following) {
+  goToUserProfile(User following) {
     Get.toNamed(
       Routes.PROFILE,
+      
       arguments: following,
     );
   }

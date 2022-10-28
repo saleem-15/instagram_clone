@@ -17,13 +17,16 @@ Future<Profile> fetchProfileInfoService(String userId) async {
 
     return Profile.fromMap(data);
   } on DioError catch (e) {
+    String? errorMsg;
     if (e.response == null) {
-      log(e.error.toString());
+      errorMsg = e.error.toString();
+      log(errorMsg);
     } else {
       log(e.response!.data.toString());
     }
+
     CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
+      message: formatErrorMsg(errorMsg ?? e.response!.data),
     );
     throw 'some error happend';
   }

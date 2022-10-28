@@ -4,25 +4,34 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 
 import 'package:instagram_clone/app/modules/auth/controllers/auth_conroller.dart';
-import 'package:instagram_clone/app/modules/profile/controllers/post_bottom_sheet_controller.dart';
+import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
+import 'package:instagram_clone/app/modules/root/bindings/my_app_binding.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 import 'app/modules/auth/screens/signin_screen.dart';
-import 'app/my_app.dart';
-import 'app/my_app_binding.dart';
+import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
 import 'config/theme/my_theme.dart';
-
-final myUser = MySharedPref.getUserData;
 
 Future<void> main() async {
   await MySharedPref.init();
 
   // MySharedPref.setUserToken(null);
-  Get.lazyPut(() => AddPostBottomSheetController(), fenix: true);
+
+  appDependencies();
   runApp(const Main());
+}
+
+void appDependencies() {
+  Get.put(PostsController(), permanent: true);
+  AuthBinding().dependencies();
+  if (Get.find<AuthController>().isAuthorized) {
+    log('is authorized');
+    MyAppBinding().dependencies();
+  }
 }
 
 class Main extends StatelessWidget {
@@ -30,10 +39,9 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // log('my tohen ${MySharedPref.getToken}');
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
-        initialBinding: MyAppBinding(),
+        // initialBinding: AuthBinding(),
         debugShowCheckedModeBanner: false,
         title: "Instagram clone",
         getPages: AppPages.routes,
@@ -47,17 +55,7 @@ class Main extends StatelessWidget {
             ),
           );
         },
-        home: Container(
-          color: Colors.blue,
-          child: GetBuilder<AuthController>(
-            assignId: true,
-            id: 'auth_listener',
-            builder: (controller) {
-              log('********* auth_listener is build *********');
-              return controller.isAuthorized ? const MyApp() : const SigninScreen();
-            },
-          ),
-        ),
+        home: Get.find<AuthController>().isAuthorized ? const MyApp() : const SigninScreen(),
       ),
     );
   }

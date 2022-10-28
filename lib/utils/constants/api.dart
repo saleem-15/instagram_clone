@@ -24,11 +24,18 @@ class Api {
   static const POST_URL = '/post';
   static const MARK_POST_AS_FAVORITE_URL = '/post/like';
 
+//SAVE POST
+  static const SAVE_POST_URL = '/post/save';
+  
 //comments
   static const COMMNETS_URL = '/comment';
 
 //search
   static const SEARCH_URL = '/user/search';
+  
+
+//story
+  static const STORY_URL = '/story';
 
 //profile
   static const PROFILE_PATH = '/profile';
@@ -36,17 +43,26 @@ class Api {
 
 //follow
   static const FOLLOWERS_PATH = '/followers';
-  static const FOLLOWEING_PATH = '/follow';
+  static const FOLLOWEING_PATH = '/following';
+  static const FOLLOW_USER_PATH = '/follow';
 
 //search
   static const SEARCH_PATH = '/user/search';
 
-  static final Map<String, String> headers = {
+  static Map<String, String> headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'apiKey': Api.apikey,
     'Authorization': 'Bearer ${MySharedPref.getToken}',
   };
+
+  /// this method is must called when the (Token) is changed
+  ///
+  /// OR YOU WILL HAVE AUTHORIZATION ISSUES WITH THE API
+  static void authChanged() {
+    headers['Authorization'] = 'Bearer ${MySharedPref.getToken}';
+    dio.options.headers = Api.headers;
+  }
 }
 
 final dio = Dio(

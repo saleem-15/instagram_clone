@@ -24,7 +24,7 @@ class SearchResultTile extends GetView<SearchController> {
         onTap: () => controller.onSearchResultPressed(user),
         leading: UserAvatar(
           user: user,
-          userAvatarSize: 20,
+          size: 20,
         ),
         title: Text(user.userName),
         subtitle: Text(user.nickName),

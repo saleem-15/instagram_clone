@@ -27,10 +27,15 @@ Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async
 
     return _convertDataToCommentsList(commentsData as List);
   } on DioError catch (e) {
-    log(e.response!.data.toString());
-    CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
-    );
+    if (e.response == null) {
+      log(e.error.toString());
+    } else {
+      log(e.response!.data.toString());
+      CustomSnackBar.showCustomErrorSnackBar(
+        message: formatErrorMsg(e.response!.data),
+      );
+    }
+    rethrow;
     return [];
   }
 }

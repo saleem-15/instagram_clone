@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 import '../services/fetch_profile_posts_service.dart';
@@ -12,7 +13,7 @@ import '../views/floating_post_view.dart';
 
 class UserPostsController extends GetxController {
   // by default its my profile
-  String userId = MySharedPref.getUserId;
+  late final User user;
 
   int numOfPages = 5;
   final pagingController = PagingController<int, Post>(
@@ -28,8 +29,10 @@ class UserPostsController extends GetxController {
 
   @override
   void onInit() {
+    user = Get.arguments ?? MySharedPref.getUserData;
+
     pagingController.addPageRequestListener((pageKey) async {
-      fetchProfilePosts(userId, pageKey);
+      fetchProfilePosts(user.id, pageKey);
     });
 
     makePostFloatingWhenHoldingPressAutomatically();

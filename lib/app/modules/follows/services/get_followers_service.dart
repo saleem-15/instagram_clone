@@ -10,10 +10,10 @@ import 'package:instagram_clone/utils/helpers.dart';
 import '../../../models/user.dart';
 import '../controllers/followers_controller.dart';
 
-Future<List<User>> fetchFollowersService(int pageNum) async {
+Future<List<User>> fetchFollowersService(String userId, int pageNum) async {
   try {
     final response = await dio.get(
-     Api. FOLLOWERS_PATH,
+      '${Api.FOLLOWERS_PATH}/$userId',
       queryParameters: {'page': pageNum},
     );
     log(response.data.toString());
@@ -22,7 +22,11 @@ Future<List<User>> fetchFollowersService(int pageNum) async {
 
     return _convertDataToFollowers(response.data['data'] as List);
   } on DioError catch (e) {
-    log(e.response!.data.toString());
+    if (e.response == null) {
+      log(e.error.toString());
+    } else {
+      log(e.response!.data.toString());
+    }
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

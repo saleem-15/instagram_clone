@@ -12,7 +12,7 @@ Future<bool> followService(String userId) async {
   log('user id $userId');
   try {
     final response = await dio.post(
-      Api.FOLLOWEING_PATH,
+      Api.FOLLOW_USER_PATH,
       queryParameters: {'user_id': userId},
     );
     log(response.data.toString());

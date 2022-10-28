@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
-import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
+import 'package:instagram_clone/app/modules/home/bindings/home_binding.dart';
 import 'package:instagram_clone/app/modules/profile/bindings/profile_binding.dart';
+import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
 
-import 'modules/explorer/controllers/explorer_controller.dart';
-import 'modules/home/controllers/home_controller.dart';
+import '../../explorer/controllers/explorer_controller.dart';
 
 class MyAppBinding extends Bindings {
   @override
@@ -13,9 +13,10 @@ class MyAppBinding extends Bindings {
     /// Auth dependencies
     AuthBinding().dependencies();
 
-    /// home dependencies
-    Get.put(HomeController(), permanent: true);
-    Get.put(PostsController(), permanent: true);
+    Get.lazyPut(() => AppController(), fenix: true);
+
+    /// home dependencies\
+    HomeBinding().dependencies();
 
     /// explorer dependencies
     Get.lazyPut(() => ExplorerController(), fenix: true);

@@ -20,6 +20,9 @@ dependencies:
   better_player: ^0.0.83
   video_player: ^2.4.7
   image_picker: ^0.8.6
+  flutter_bounce: ^1.1.0
+  flutter_launcher_icons: ^0.10.0
+  mask_text_input_formatter: ^2.4.0
 
 dev_dependencies: 
   flutter_lints: 2.0.1
@@ -32,4 +35,10 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+
+
+flutter_icons:
+  android: true
+  # background_color: "#ffffff"
+  image_path_android: assets/icons/instagram_app_icon.png
 
