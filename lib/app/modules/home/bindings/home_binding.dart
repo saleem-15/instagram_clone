@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
-import 'package:instagram_clone/app/modules/story/controllers/story_controller.dart';
+import 'package:instagram_clone/app/modules/story/controllers/stories_controller.dart';
 
 import '../controllers/home_controller.dart';
 

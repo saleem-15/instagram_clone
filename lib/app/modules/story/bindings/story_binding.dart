@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/story_controller.dart';
+import '../controllers/stories_controller.dart';
 
 class StoryBinding extends Bindings {
   @override

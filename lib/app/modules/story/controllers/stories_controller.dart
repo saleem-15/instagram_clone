@@ -1,13 +1,51 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/add_story_service.dart';
+import '../services/fetch_stories_service.dart';
+
 
 class StoriesController extends GetxController {
-  int numOfStories = 5;
+  final RxBool isLoading = true.obs;
+  late List<User> stories;
+  int get numOfStories => stories.length;
 
-  List<User> stories = [
+  @override
+  Future<void> onReady() async {
+    stories = await fetchStoriesService();
+    isLoading(false);
+    super.onReady();
+  }
+
+  void onMyStoryAvatarPressed() async {
+    addNewStory();
+  }
+
+  Future<void> addNewStory() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image == null) {
+      return;
+    }
+
+    addStoryService(image.path);
+  }
+
+  void onStoryTilePressed(User user) {
+    user.printInfo();
+    Get.toNamed(
+      Routes.STORY,
+      arguments: user,
+    );
+  }
+}
+
+
+
+/*
+[
     User(
       id: '0',
       userName: 'Ahmed',
@@ -58,18 +96,4 @@ class StoriesController extends GetxController {
     ),
   ];
 
-  void onMyStoryAvatarPressed() async {
-    addNewStory();
-    
-  }
-
-  Future<void> addNewStory() async {
-    final picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image == null) {
-      return;
-    }
-
-    addStoryService(image.path);
-  }
-}
+*/

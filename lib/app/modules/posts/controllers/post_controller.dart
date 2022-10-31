@@ -38,17 +38,11 @@ class PostsController extends GetxController {
   }
 
   Future<void> onSaveButtonPressed(Post post) async {
-    ///******* Future code  ***********/
     final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
     if (isSuccess) {
       post.isSaved = !post.isSaved;
       update(['${post.id} save button']);
     }
-
-    ///******* Future code  ***********/
-
-    // post.isSaved = !post.isSaved;
-    // update(['${post.id} save button']);
   }
 
   void onImageSlided(Post post, int index, CarouselPageChangedReason reason) {
@@ -62,6 +56,7 @@ class PostsController extends GetxController {
     }
     final videoController = VideoPlayerController.network(videoUrl);
     await videoController.initialize();
+
     cashedVideos.addIf(true, videoUrl, videoController);
 
     /// video is silent by default

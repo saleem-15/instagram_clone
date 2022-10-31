@@ -9,6 +9,7 @@ class User {
   String? image;
   bool isHasNewStory;
   List<Story> userStories ;
+  
   User({
     required this.id,
     required this.userName,

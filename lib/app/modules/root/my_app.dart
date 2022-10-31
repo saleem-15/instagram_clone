@@ -1,16 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
+import 'package:instagram_clone/utils/count_down.dart';
 
-/// this is parent of the all app (Except all auth related screens) 
+/// this is parent of the all app (Except all auth related screens)
 class MyApp extends GetView<AppController> {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final counter = CountDown(
+    countDownTime: const Duration(seconds: 5),
+    periodTimeCallBack: const Duration(seconds: 1),
+    onPeriod: () => log('onPeriod called '),
+    onFinish: () => log('onFinish called'),
+  );
 
   @override
   Widget build(BuildContext context) {
+
     // final appController = Get.find<AppController>();
     return Scaffold(
       bottomNavigationBar: Theme(
@@ -58,3 +69,36 @@ class MyApp extends GetView<AppController> {
     );
   }
 }
+
+
+/// count down UI tester
+/*
+Scaffold(
+        appBar: AppBar(
+          title: const Text('timer'),
+        ),
+        body: Column(
+          children: [
+            const Text(''),
+            ElevatedButton(
+              onPressed: () {
+                counter.startTimer();
+              },
+              child: const Text('start timer'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                counter.pauseCountDown();
+              },
+              child: const Text('pause'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                counter.resumeCountDown();
+              },
+              child: const Text('Resume'),
+            ),
+          ],
+        ),
+      ),
+*/

@@ -9,6 +9,7 @@ class UserAvatar extends StatelessWidget {
   const UserAvatar({
     Key? key,
     this.size = 25,
+    this.backGroundColor,
     required this.user,
     this.showRingIfHasStory = true,
     this.onTap,
@@ -18,6 +19,10 @@ class UserAvatar extends StatelessWidget {
   ///
   /// if you want the user avatar in a comment section  then choose (size 18)
   final double size;
+
+  /// used between the (gradient story ring) and the image of the user,
+  /// typically the color of the scaffold
+  final Color? backGroundColor;
   final User user;
   final bool showRingIfHasStory;
   final void Function()? onTap;
@@ -52,7 +57,7 @@ class UserAvatar extends StatelessWidget {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
+                  color: backGroundColor ?? Theme.of(context).scaffoldBackgroundColor,
                   shape: BoxShape.circle,
                 ),
                 child: CircleAvatar(

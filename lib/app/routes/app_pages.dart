@@ -23,7 +23,7 @@ import '../modules/reels/bindings/reels_binding.dart';
 import '../modules/reels/views/reels_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/story/bindings/story_binding.dart';
-import '../modules/story/views/story_screen.dart';
+import '../modules/story/screens/story_screen.dart';
 
 part 'app_routes.dart';
 
@@ -35,7 +35,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.MY_APP,
-      page: () => const MyApp(),
+      page: () =>  MyApp(),
       binding: MyAppBinding(),
     ),
     GetPage(
@@ -103,7 +103,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.STORY,
-      page: () => StoryScreen(user: User(id: 'id', nickName: 'nick name', userName: 'saleem', image: '')),
+      page: () => StoryScreen(),
       binding: StoryBinding(),
     ),
     GetPage(

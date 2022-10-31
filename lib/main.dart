@@ -55,7 +55,7 @@ class Main extends StatelessWidget {
             ),
           );
         },
-        home: Get.find<AuthController>().isAuthorized ? const MyApp() : const SigninScreen(),
+        home: Get.find<AuthController>().isAuthorized ? MyApp() : const SigninScreen(),
       ),
     );
   }

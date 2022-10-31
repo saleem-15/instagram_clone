@@ -37,7 +37,10 @@ class PostMedia extends GetView<PostsController> {
             return SizedBox(
               width: 360.w,
               child: post.postContents[index].isImageFileName
-                  ? GestureDetector(
+                  ?
+
+                  /// image
+                  GestureDetector(
                       onDoubleTap: () {},
                       child: Image.network(
                         post.postContents[index],
@@ -45,7 +48,10 @@ class PostMedia extends GetView<PostsController> {
                         fit: BoxFit.cover,
                       ),
                     )
-                  : FutureBuilder(
+                  :
+
+                  /// video
+                  FutureBuilder(
                       future: controller.initilizeVideoController(post.postContents[index]),
                       builder: (context, AsyncSnapshot<VideoPlayerController> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
@@ -95,6 +101,7 @@ class PostMedia extends GetView<PostsController> {
                         }
                       },
                     ),
+         
             );
           },
         ),
