@@ -6,10 +6,13 @@ import 'package:instagram_clone/app/routes/app_pages.dart';
 import '../services/add_story_service.dart';
 import '../services/fetch_stories_service.dart';
 
-
 class StoriesController extends GetxController {
   final RxBool isLoading = true.obs;
+
+  /// its the  users that have stories in the last 24 hours
   late List<User> stories;
+
+  /// its the number of users that have stories in the last 24 hours
   int get numOfStories => stories.length;
 
   @override

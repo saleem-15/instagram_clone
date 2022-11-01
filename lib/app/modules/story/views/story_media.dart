@@ -66,7 +66,7 @@ class StoryMedia extends StatelessWidget {
                       final videoController = snapshot.data!;
 
                       return AspectRatio(
-                        aspectRatio: videoController.value.size.width / videoController.value.size.height,
+                        aspectRatio: videoController.value.aspectRatio,
                         child: VideoPlayer(videoController),
                       );
                     },

@@ -1,28 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
-import 'package:instagram_clone/utils/count_down.dart';
 
 /// this is parent of the all app (Except all auth related screens)
 class MyApp extends GetView<AppController> {
-  MyApp({Key? key}) : super(key: key);
-
-  final counter = CountDown(
-    countDownTime: const Duration(seconds: 5),
-    periodTimeCallBack: const Duration(seconds: 1),
-    onPeriod: () => log('onPeriod called '),
-    onFinish: () => log('onFinish called'),
-  );
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    // final appController = Get.find<AppController>();
     return Scaffold(
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
@@ -101,4 +89,45 @@ Scaffold(
           ],
         ),
       ),
+*/
+
+/// video player
+/*
+// final appController = Get.find<AppController>();
+    VideoPlayerController video = VideoPlayerController.network(
+        'https://jsoncompare.org/LearningContainer/SampleFiles/Video/MP4/sample-mp4-file.mp4');
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('timer'),
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            width: 400,
+            height: 300,
+            child: VideoPlayer(video),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await video.initialize();
+              video.play();
+            },
+            child: const Text('start'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              video.pause();
+            },
+            child: const Text('pause'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              video.play();
+            },
+            child: const Text('Resume'),
+          ),
+        ],
+      ),
+    );
 */

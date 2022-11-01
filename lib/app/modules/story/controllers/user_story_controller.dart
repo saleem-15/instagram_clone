@@ -1,37 +1,39 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/story.dart';
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
-import 'package:instagram_clone/utils/count_down.dart';
+import 'package:pausable_timer/pausable_timer.dart';
 import 'package:video_player/video_player.dart';
 
 import '../views/story_indicator.dart';
 import 'sotry_indicator_controller.dart';
 
-const STORY_DURATION = Duration(seconds: 10);
+const IMAGE_STORY_DURATION = Duration(seconds: 10);
 
 /// for every user there is a [UserStoryController] controller
 class UserStoryController extends GetxController {
   UserStoryController(User usr) : user = usr;
 
   /// how much time the story has (before moving  to the next story)
-  late final CountDown timeCounter = CountDown(
-    countDownTime: Duration(seconds: STORY_DURATION.inSeconds * storiesNum),
-    periodTimeCallBack: STORY_DURATION,
-    onPeriod: goToNextStory,
-    onFinish: () {},
-  );
+  // late final CountDown timeCounter;
+  PausableTimer? _timer;
 
   /// the keys are the urls of the videos
-  static final Map<String, VideoPlayerController> cashedVideos = {};
+  /// {
+  /// 'video_url': {
+  ///           'video': VideoPlayerController,
+  ///           'isPaused':bool,
+  ///            }
+  /// }
+  static final Map<String, dynamic> cashedVideos = {};
 
   User user;
   List<Story> get storiesList => user.userStories;
   int get storiesNum => storiesList.length;
   late int currentStoryIndex;
+
   Story get currentStory {
     final story = storiesList[currentStoryIndex];
     story.isWathced = true;
@@ -45,10 +47,6 @@ class UserStoryController extends GetxController {
 
   @override
   void onInit() {
-    /// by default the first unwatched story is displayed
-    /// if all stories are wathced then the first story is shown
-    currentStoryIndex = _getFirstUnwatchedStory ?? 0;
-
     final double singleStoryIndicatorWidth =
         ((screenWidth - STORY_INDICATOR_HORIZONTAL_MARGIN * 2) / storiesNum) -
             (horizontalMarginBetweenStroyIndicator * 2);
@@ -58,13 +56,17 @@ class UserStoryController extends GetxController {
       tag: user.id,
     );
 
-    timeCounter.startTimer();
+    /// by default the first unwatched story is displayed
+    /// if all stories are wathced then the first story is shown
+    currentStoryIndex = _getFirstUnwatchedStory ?? 0;
+
+    isLoading.listen(loadingListener);
     super.onInit();
   }
 
   @override
-  Future<void> onReady() async {
-    isLoading(false);
+  void onReady() async {
+    startStory();
     super.onReady();
   }
 
@@ -72,10 +74,18 @@ class UserStoryController extends GetxController {
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
+    isLoading(true);
     final videoController = VideoPlayerController.network(videoUrl);
+    cashedVideos.addAll({videoUrl: videoController});
+    
+    // videoController.addListener(() {
+    //   videoController.
+    // });
     await videoController.initialize();
 
-    cashedVideos.addAll({videoUrl: videoController});
+    
+
+    isLoading(false);
 
     return videoController;
   }
@@ -92,18 +102,16 @@ class UserStoryController extends GetxController {
   }
 
   void goToNextStory() {
-    log('goTo Next Story');
-
     /// if all stories of this user has finished
     if (storiesNum - 1 == currentStoryIndex) {
       //
       return;
     }
-    log('current index: $currentStoryIndex');
 
     currentStoryIndex += 1;
     update(['story media']);
-    storyIndicatorController.startAnimation();
+    if (isLoading.isTrue) {}
+    startStory();
   }
 
   void goToPreviousStory() {
@@ -111,30 +119,48 @@ class UserStoryController extends GetxController {
       final VideoPlayerController video = cashedVideos[currentStory.media]!;
       video.pause();
     }
-    log('goTo Previous Story');
 
     /// if this is the first story for
     if (currentStoryIndex == 0) {
       //
       return;
     }
-    log('current index: $currentStoryIndex');
 
     currentStoryIndex -= 1;
     update(['story media']);
-    storyIndicatorController.startAnimation();
+    startStory();
+  }
+
+  /// it starts the story and syncs the story progress indicator animation
+  /// with the story itself
+  ///
+  /// YOU MUST make sure that [currentStoryIndex] has the value of the story that you want to start
+  void startStory() {
+    final storyDuration = currentStory.media.isImageFileName
+        ? IMAGE_STORY_DURATION
+        : cashedVideos[currentStory.media]!.value.duration;
+
+    createTimer(storyDuration);
+    _timer!.start();
+    storyIndicatorController.startAnimation(storyDuration);
   }
 
   void pauseStory() {
-    timeCounter.pause();
+    _timer!.pause();
     storyIndicatorController.pauseAnimation();
+
+    /// pause the video (if it was a video)
     if (currentStory.media.isVideoFileName) {
-      cashedVideos[currentStory.media]?.pause();
+      _pauseVideo();
     }
   }
 
+  void _pauseVideo() {
+    cashedVideos[currentStory.media]['isPaused']?.pause;
+  }
+
   void resumeStory() {
-    timeCounter.resume();
+    _timer!.start();
     storyIndicatorController.resumeAnimation();
   }
 
@@ -145,11 +171,13 @@ class UserStoryController extends GetxController {
     );
   }
 
-  void onTapDown() {
-    pauseStory();
-  }
+  void onHold() => pauseStory();
+  void onHoldEnds() => resumeStory();
 
-  void onHoldEnds() {
-    resumeStory();
+  void loadingListener(bool isLoading) {}
+
+  void createTimer(Duration duration) {
+    _timer?.cancel();
+    _timer = PausableTimer(duration, goToNextStory);
   }
 }

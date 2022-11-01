@@ -13,7 +13,7 @@ class StoryIndicatorController extends GetxController with GetSingleTickerProvid
   @override
   void onInit() {
     animationController = AnimationController(
-      duration: STORY_DURATION,
+      duration: IMAGE_STORY_DURATION,
       upperBound: maxSingleIndicatorWidth,
       vsync: this,
     );
@@ -22,22 +22,19 @@ class StoryIndicatorController extends GetxController with GetSingleTickerProvid
   }
 
   @override
-  void onReady() {
-    startAnimation();
-    animationController.addListener(() {
-      // log('animation ${animationController.value}');
-    });
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     animationController.dispose();
     super.onClose();
   }
 
-  void startAnimation() {
+  /// starts a new animation even if there a paused animation
+  /// to resume animation use
+  /// ```dart
+  ///  resumeAnimation()
+  /// ```
+  void startAnimation(Duration animationDuration) {
     animationController.reset();
+    animationController.duration = animationDuration;
     animationController.forward();
   }
 
@@ -45,7 +42,12 @@ class StoryIndicatorController extends GetxController with GetSingleTickerProvid
     animationController.stop(canceled: false);
   }
 
+  /// resumes an existing  animation
   void resumeAnimation() {
+    assert(!animationController.isAnimating, 'The animation is not Active!');
+    // if (!animationController.isAnimating) {
+    //   animationController.forward();
+    // }
     animationController.forward();
   }
 }
