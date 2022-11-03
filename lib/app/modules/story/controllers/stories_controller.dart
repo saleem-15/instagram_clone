@@ -1,3 +1,4 @@
+import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/app/models/user.dart';
@@ -6,11 +7,14 @@ import 'package:instagram_clone/app/routes/app_pages.dart';
 import '../services/add_story_service.dart';
 import '../services/fetch_stories_service.dart';
 
+/// this is the controller of the stories list that appears in the home page
 class StoriesController extends GetxController {
   final RxBool isLoading = true.obs;
 
   /// its the  users that have stories in the last 24 hours
   late List<User> stories;
+
+  final carouselSliderController = CarouselSliderController();
 
   /// its the number of users that have stories in the last 24 hours
   int get numOfStories => stories.length;
@@ -36,67 +40,20 @@ class StoriesController extends GetxController {
     addStoryService(image.path);
   }
 
-  void onStoryTilePressed(User user) {
-    user.printInfo();
+  void onStoryTilePressed(int userIndex) {
     Get.toNamed(
       Routes.STORY,
-      arguments: user,
+      parameters: {
+        'pressed_user_index': '$userIndex',
+      },
     );
   }
+
+  void goToNextUserStories() {
+    carouselSliderController.nextPage();
+  }
+
+  void goToPreviuosUserStories() {
+    carouselSliderController.previousPage();
+  }
 }
-
-
-
-/*
-[
-    User(
-      id: '0',
-      userName: 'Ahmed',
-      nickName: 'nick name',
-      image: 'assets/images/james.jpg',
-    ),
-    User(
-      id: '1',
-      userName: 'james',
-      nickName: 'nick name',
-      image: 'assets/images/james.jpg',
-    ),
-    User(
-      id: '2',
-      userName: 'john',
-      nickName: 'nick name',
-      image: 'assets/images/john.jpg',
-    ),
-    User(
-      id: '3',
-      userName: 'greg',
-      nickName: 'nick name',
-      image: 'assets/images/greg.jpg',
-    ),
-    User(
-      id: '4',
-      userName: 'Olivia',
-      nickName: 'nick name',
-      image: 'assets/images/olivia.jpg',
-    ),
-    User(
-      id: '5',
-      userName: 'Sam',
-      nickName: 'nick name',
-      image: 'assets/images/sam.jpg',
-    ),
-    User(
-      id: '6',
-      userName: 'Sophia',
-      nickName: 'nick name',
-      image: 'assets/images/sophia.jpg',
-    ),
-    User(
-      id: '7',
-      userName: 'Steven',
-      nickName: 'nick name',
-      image: 'assets/images/steven.jpg',
-    ),
-  ];
-
-*/

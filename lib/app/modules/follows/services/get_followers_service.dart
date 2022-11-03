@@ -10,7 +10,7 @@ import 'package:instagram_clone/utils/helpers.dart';
 import '../../../models/user.dart';
 import '../controllers/followers_controller.dart';
 
-Future<List<User>> fetchFollowersService(String userId, int pageNum) async {
+Future<List<User>> fetchFollowersService(String userId, int pageNum,{required FollowersController followersController}) async {
   try {
     final response = await dio.get(
       '${Api.FOLLOWERS_PATH}/$userId',
@@ -18,7 +18,7 @@ Future<List<User>> fetchFollowersService(String userId, int pageNum) async {
     );
     log(response.data.toString());
 
-    Get.find<FollowersController>().numOfPages = response.data['last_page'];
+    followersController.numOfPages = response.data['last_page'];
 
     return _convertDataToFollowers(response.data['data'] as List);
   } on DioError catch (e) {

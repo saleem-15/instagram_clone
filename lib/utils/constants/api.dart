@@ -26,16 +26,16 @@ class Api {
 
 //SAVE POST
   static const SAVE_POST_URL = '/post/save';
-  
+
 //comments
   static const COMMNETS_URL = '/comment';
 
 //search
   static const SEARCH_URL = '/user/search';
-  
 
 //story
   static const STORY_URL = '/story';
+  static const SET_STORY_AS_WATHCED_URL = '/story/view';
 
 //profile
   static const PROFILE_PATH = '/profile';

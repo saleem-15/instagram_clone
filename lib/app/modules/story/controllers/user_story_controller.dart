@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/story.dart';
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/story/services/set_story_as_watched_service.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/utils/my_video_controller.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 import 'package:video_player/video_player.dart';
 
 import '../views/story_indicator.dart';
 import 'sotry_indicator_controller.dart';
+import 'stories_controller.dart';
 
 const IMAGE_STORY_DURATION = Duration(seconds: 10);
 
@@ -20,14 +23,7 @@ class UserStoryController extends GetxController {
   // late final CountDown timeCounter;
   PausableTimer? _timer;
 
-  /// the keys are the urls of the videos
-  /// {
-  /// 'video_url': {
-  ///           'video': VideoPlayerController,
-  ///           'isPaused':bool,
-  ///            }
-  /// }
-  static final Map<String, dynamic> cashedVideos = {};
+  static final Map<String, MyVideoController> cashedVideos = {};
 
   User user;
   List<Story> get storiesList => user.userStories;
@@ -41,6 +37,7 @@ class UserStoryController extends GetxController {
   }
 
   late StoryIndicatorController storyIndicatorController;
+  final storiesController = Get.find<StoriesController>();
 
   final RxBool isLoading = true.obs;
   late VideoPlayerController videoController;
@@ -72,22 +69,17 @@ class UserStoryController extends GetxController {
 
   Future<VideoPlayerController> initilizeVideoController(String videoUrl) async {
     if (cashedVideos.containsKey(videoUrl)) {
-      return cashedVideos[videoUrl]!..play();
+      return cashedVideos[videoUrl]!.videoPlayerController..play();
     }
-    isLoading(true);
-    final videoController = VideoPlayerController.network(videoUrl);
-    cashedVideos.addAll({videoUrl: videoController});
-    
-    // videoController.addListener(() {
-    //   videoController.
-    // });
-    await videoController.initialize();
 
-    
+    isLoading(true);
+    final videoController = MyVideoController.network(videoPath: videoUrl);
+    cashedVideos.addAll({videoUrl: videoController});
+    await videoController.initialize();
 
     isLoading(false);
 
-    return videoController;
+    return videoController.videoPlayerController;
   }
 
   /// returnes the index of the first unwathced story
@@ -102,9 +94,18 @@ class UserStoryController extends GetxController {
   }
 
   void goToNextStory() {
+    currentStory.isWathced = true;
+
+    /// pause the video (if the story was a video)
+    if (currentStory.media.isVideoFileName) {
+      cashedVideos[currentStory.media]!.pause();
+    }
+
     /// if all stories of this user has finished
     if (storiesNum - 1 == currentStoryIndex) {
-      //
+      /// all the stories of this user has been watched
+      user.isHasNewStory = false;
+      storiesController.goToNextUserStories();
       return;
     }
 
@@ -115,14 +116,14 @@ class UserStoryController extends GetxController {
   }
 
   void goToPreviousStory() {
+    /// pause the video (if the story was a video)
     if (currentStory.media.isVideoFileName) {
-      final VideoPlayerController video = cashedVideos[currentStory.media]!;
-      video.pause();
+      cashedVideos[currentStory.media]!.pause();
     }
 
     /// if this is the first story for
     if (currentStoryIndex == 0) {
-      //
+      storiesController.goToPreviuosUserStories();
       return;
     }
 
@@ -136,9 +137,12 @@ class UserStoryController extends GetxController {
   ///
   /// YOU MUST make sure that [currentStoryIndex] has the value of the story that you want to start
   void startStory() {
+    /// tell the backend that this story is wathed
+    setStoryAsWathcedService(currentStory.id);
+
     final storyDuration = currentStory.media.isImageFileName
         ? IMAGE_STORY_DURATION
-        : cashedVideos[currentStory.media]!.value.duration;
+        : cashedVideos[currentStory.media]!.videoPlayerController.value.duration;
 
     createTimer(storyDuration);
     _timer!.start();
@@ -149,19 +153,20 @@ class UserStoryController extends GetxController {
     _timer!.pause();
     storyIndicatorController.pauseAnimation();
 
-    /// pause the video (if it was a video)
+    /// pause the video (if the story was a video)
     if (currentStory.media.isVideoFileName) {
-      _pauseVideo();
+      cashedVideos[currentStory.media]!.pause();
     }
-  }
-
-  void _pauseVideo() {
-    cashedVideos[currentStory.media]['isPaused']?.pause;
   }
 
   void resumeStory() {
     _timer!.start();
     storyIndicatorController.resumeAnimation();
+
+    /// resume the video (if the story was a video)
+    if (currentStory.media.isVideoFileName) {
+      cashedVideos[currentStory.media]!.resume();
+    }
   }
 
   void onUserNamePressed() {
@@ -179,5 +184,15 @@ class UserStoryController extends GetxController {
   void createTimer(Duration duration) {
     _timer?.cancel();
     _timer = PausableTimer(duration, goToNextStory);
+  }
+
+  @override
+  void onClose() {
+    /// pause the video (if the story was video)
+    if (currentStory.media.isVideoFileName) {
+      cashedVideos[currentStory.media]!.pause();
+    }
+    _timer?.cancel();
+    super.onClose();
   }
 }

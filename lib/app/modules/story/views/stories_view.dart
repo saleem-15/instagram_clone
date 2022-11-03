@@ -34,7 +34,10 @@ class StoriesView extends GetView<StoriesController> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: controller.stories.length,
-                      (_, index) => StoryTile(user: controller.stories[index]),
+                      (_, index) => StoryTile(
+                        user: controller.stories[index],
+                        userIndex: index,
+                      ),
                     ),
                   ),
               ],

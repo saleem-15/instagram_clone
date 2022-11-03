@@ -65,9 +65,12 @@ class StoryMedia extends StatelessWidget {
                       }
                       final videoController = snapshot.data!;
 
-                      return AspectRatio(
-                        aspectRatio: videoController.value.aspectRatio,
-                        child: VideoPlayer(videoController),
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: AspectRatio(
+                          aspectRatio: videoController.value.aspectRatio,
+                          child: VideoPlayer(videoController),
+                        ),
                       );
                     },
                   ),

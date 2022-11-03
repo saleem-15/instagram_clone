@@ -13,13 +13,17 @@ import '../views/user_story_view.dart';
 const STORY_SCAFFOLD_COLOR = Colors.black;
 
 class StoryScreen extends StatelessWidget {
-  const StoryScreen({Key? key}) : super(key: key);
+  StoryScreen({Key? key}) : super(key: key);
+
+  /// the person that the user has pressed its story tile
+  final int pressedUserIndex = int.parse(Get.parameters['pressed_user_index']!);
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
-    final stories = Get.find<StoriesController>().stories;
+    final usersStoriesController = Get.find<StoriesController>();
+    final stories = usersStoriesController.stories;
 
     return Scaffold(
       /// dont change scaffold size when the keyboard opens
@@ -27,6 +31,11 @@ class StoryScreen extends StatelessWidget {
       backgroundColor: STORY_SCAFFOLD_COLOR,
       body: SafeArea(
         child: CarouselSlider.builder(
+          initialPage: pressedUserIndex,
+
+          /// transition animation duration
+          autoSliderTransitionTime: const Duration(milliseconds: 700),
+          controller: usersStoriesController.carouselSliderController,
           itemCount: stories.length,
           slideTransform: const CubeTransform(),
           slideBuilder: (index) => UserStoriesView(

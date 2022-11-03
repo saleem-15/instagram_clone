@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/profile.dart';
 
-import '../controllers/followers_tab_controller.dart';
-import '../views/followers_view.dart';
-import '../views/following_view.dart';
+import '../controllers/follows_tab_controller.dart';
+import '../views/followers_tab.dart';
+import '../views/following_tab.dart';
 
-class FollowsScreen extends GetView<FollowsTabController> {
-  const FollowsScreen({Key? key}) : super(key: key);
+class FollowsScreen extends StatelessWidget {
+  FollowsScreen({Key? key, required String tab}) : super(key: key) {
+    final Profile profile = Get.arguments;
+    controller = Get.put(
+      FollowsTabController(
+        profile: profile,
+        tab: tab,
+      ),
+      tag: profile.userId,
+    );
+  }
 
+  late final FollowsTabController controller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,9 +42,9 @@ class FollowsScreen extends GetView<FollowsTabController> {
       ),
       body: TabBarView(
         controller: controller.tabController,
-        children: const [
-          FollowersView(),
-          FollowingView(),
+        children: [
+          FollowersView(profile: controller.profile),
+          FollowingView(profile: controller.profile),
         ],
       ),
     );

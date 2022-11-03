@@ -3,14 +3,12 @@ import 'package:instagram_clone/app/modules/root/bindings/my_app_binding.dart';
 import 'package:instagram_clone/app/modules/root/my_app.dart';
 import 'package:instagram_clone/app/modules/search/search_screen.dart';
 
-import '../models/user.dart';
 import '../modules/auth/screens/signin_screen.dart';
 import '../modules/auth/screens/signup_screen.dart';
 import '../modules/comments/bindings/comments_binding.dart';
 import '../modules/comments/views/comments_view.dart';
 import '../modules/explorer/bindings/explorer_binding.dart';
 import '../modules/explorer/views/explorer_view.dart';
-import '../modules/follows/bindings/follows_binding.dart';
 import '../modules/follows/screens/follows_screen.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_screen.dart';
@@ -35,7 +33,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.MY_APP,
-      page: () =>  MyApp(),
+      page: () => const MyApp(),
       binding: MyAppBinding(),
     ),
     GetPage(
@@ -69,14 +67,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FOLLOWERS,
-      page: () => const FollowsScreen(),
-      binding: FollowsBinding(),
+      page: () => FollowsScreen(tab: Routes.FOLLOWERS),
       transition: Transition.rightToLeftWithFade,
+
     ),
     GetPage(
       name: _Paths.FOLLOWING,
-      page: () => const FollowsScreen(),
-      binding: FollowsBinding(),
+      page: () => FollowsScreen(tab: Routes.FOLLOWING),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(

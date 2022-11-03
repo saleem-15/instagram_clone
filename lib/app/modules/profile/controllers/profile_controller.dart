@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/models/profile.dart';
 import 'package:instagram_clone/app/models/user.dart';
-import 'package:instagram_clone/app/modules/follows/controllers/followers_tab_controller.dart';
+import 'package:instagram_clone/app/modules/follows/controllers/follows_tab_controller.dart';
 import 'package:instagram_clone/app/modules/follows/services/follow_user_service.dart';
 import 'package:instagram_clone/app/modules/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/app/modules/profile/views/add_post_bottom_sheet.dart';
@@ -42,26 +42,15 @@ class ProfileController extends GetxController {
     Get.toNamed(
       Routes.FOLLOWERS,
       arguments: profile,
-      parameters: {
-        'numOfFollowing': profile.numOfFollowings.toString(),
-        'numOfFollowers': profile.numOfFollowers.toString(),
-        'page_index': '0',
-      },
     );
-    Get.find<FollowsTabController>().updateProfile(profile);
   }
 
   void goToFollowing() {
     Get.toNamed(
       Routes.FOLLOWING,
       arguments: profile,
-      parameters: {
-        'numOfFollowing': profile.numOfFollowings.toString(),
-        'numOfFollowers': profile.numOfFollowers.toString(),
-        'page_index': '1',
-      },
     );
-    Get.find<FollowsTabController>().updateProfile(profile);
+    // Get.find<FollowsTabController>().updateProfile(profile);
   }
 
   void showAddPostBottomSheet() {

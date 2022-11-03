@@ -8,6 +8,8 @@ class StoryIndicatorController extends GetxController with GetSingleTickerProvid
   StoryIndicatorController({required this.maxSingleIndicatorWidth});
 
   late AnimationController animationController;
+
+  /// used to determine the [upperBound] of the [animationController]
   late final double maxSingleIndicatorWidth;
 
   @override
@@ -19,12 +21,6 @@ class StoryIndicatorController extends GetxController with GetSingleTickerProvid
     );
 
     super.onInit();
-  }
-
-  @override
-  void onClose() {
-    animationController.dispose();
-    super.onClose();
   }
 
   /// starts a new animation even if there a paused animation
@@ -44,10 +40,14 @@ class StoryIndicatorController extends GetxController with GetSingleTickerProvid
 
   /// resumes an existing  animation
   void resumeAnimation() {
-    assert(!animationController.isAnimating, 'The animation is not Active!');
-    // if (!animationController.isAnimating) {
-    //   animationController.forward();
-    // }
-    animationController.forward();
+    if (!animationController.isAnimating) {
+      animationController.forward();
+    }
+  }
+
+  @override
+  void onClose() {
+    animationController.dispose();
+    super.onClose();
   }
 }

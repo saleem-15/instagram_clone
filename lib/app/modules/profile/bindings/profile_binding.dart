@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
-import 'package:instagram_clone/app/modules/follows/bindings/follows_binding.dart';
 
 import 'package:instagram_clone/app/modules/profile/controllers/floating_post_controller.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/post_bottom_sheet_controller.dart';
@@ -24,7 +23,6 @@ class ProfileBinding extends Bindings {
     Get.lazyPut(() => UserPostsController(), tag: userId, fenix: true);
     Get.lazyPut(() => ProfileController(), tag: userId, fenix: true);
 
-    FollowsBinding().dependencies();
     //------------------------------------------------------------------
     Get.lazyPut(() => AddPostBottomSheetController(),fenix: true);
     Get.lazyPut(() => SettingsBottomSheetController(),fenix: true);

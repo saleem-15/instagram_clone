@@ -1,34 +1,34 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/app/modules/story/controllers/stories_controller.dart';
 
-import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/app/modules/story/controllers/stories_controller.dart';
 
 import '../../../../config/theme/my_fonts.dart';
 import '../../../models/user.dart';
 
 class StoryTile extends GetView<StoriesController> {
-  StoryTile({
+  const StoryTile({
     Key? key,
     required this.user,
+    required this.userIndex,
   }) : super(key: key);
 
   final User user;
-
-  bool isWatched = false;
+  final int userIndex;
 
   @override
   Widget build(BuildContext context) {
-    final ImageProvider backgroundImage = (user.image == null
+    final ImageProvider userImage = (user.image == null
         ? const AssetImage('assets/images/default_user_image.png')
         : NetworkImage(user.image!)) as ImageProvider;
 
     return GestureDetector(
-      onTap:() =>  controller.onStoryTilePressed(user),
+      onTap: () => controller.onStoryTilePressed(userIndex),
       child: Padding(
         padding: const EdgeInsets.only(
-          right: 10,
-          left: 10,
+          right: 5,
+          left: 5,
           top: 10,
         ),
         child: Column(
@@ -36,7 +36,7 @@ class StoryTile extends GetView<StoriesController> {
             Container(
               padding: const EdgeInsets.all(2.5),
               decoration: BoxDecoration(
-                gradient: isWatched
+                gradient: !user.isHasNewStory
                     ? null
                     : const LinearGradient(
                         begin: Alignment.topCenter,
@@ -49,7 +49,7 @@ class StoryTile extends GetView<StoriesController> {
                         ],
                       ),
                 shape: BoxShape.circle,
-                border: isWatched
+                border: !user.isHasNewStory
                     ? Border.all(
                         color: Colors.grey.shade300,
                         width: 2,
@@ -64,7 +64,7 @@ class StoryTile extends GetView<StoriesController> {
                 ),
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundImage: backgroundImage,
+                  backgroundImage: userImage,
                 ).marginAll(3),
               ),
             ),
@@ -73,7 +73,9 @@ class StoryTile extends GetView<StoriesController> {
             ),
             Text(
               user.userName,
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: MyFonts.bodySmallTextSize),
+              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    fontSize: MyFonts.bodySmallTextSize,
+                  ),
             ),
           ],
         ),

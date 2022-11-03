@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instagram_clone/app/models/profile.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
@@ -10,8 +11,16 @@ import 'package:instagram_clone/app/shared/search_field.dart';
 import '../controllers/following_controller.dart';
 import 'following_tile.dart';
 
-class FollowingView extends GetView<FollowingController> {
-  const FollowingView({Key? key}) : super(key: key);
+class FollowingView extends StatelessWidget {
+  FollowingView({Key? key, required Profile profile}) : super(key: key) {
+    controller = Get.put(
+      FollowingController(profile: profile),
+      tag: profile.userId,
+    );
+  }
+
+  late final FollowingController controller;
+
   @override
   Widget build(BuildContext context) {
     final pagingController = controller.pagingController;
@@ -27,7 +36,10 @@ class FollowingView extends GetView<FollowingController> {
             pagingController: pagingController,
             builderDelegate: PagedChildBuilderDelegate<User>(
               //
-              itemBuilder: (context, following, index) => FollowingTile(following: following),
+              itemBuilder: (context, following, index) => FollowingTile(
+                following: following,
+                controller: controller,
+              ),
               //
               firstPageErrorIndicatorBuilder: (_) => errorWidget(),
               //

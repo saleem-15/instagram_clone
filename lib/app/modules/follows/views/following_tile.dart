@@ -1,5 +1,5 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -8,13 +8,15 @@ import 'package:instagram_clone/app/modules/follows/controllers/following_contro
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
-class FollowingTile extends GetView<FollowingController> {
+class FollowingTile extends StatelessWidget {
   FollowingTile({
     Key? key,
     required this.following,
+    required this.controller,
   }) : super(key: key);
+  
   final User following;
-
+  final FollowingController controller;
   final RxBool isFollowing = true.obs;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,8 @@ class FollowingTile extends GetView<FollowingController> {
           child: Obx(
             () => ElevatedButton(
               style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                    backgroundColor: MaterialStateProperty.all(isFollowing.isTrue ? null : LightThemeColors.lighBlue),
+                    backgroundColor:
+                        MaterialStateProperty.all(isFollowing.isTrue ? null : LightThemeColors.lighBlue),
                   ),
               onPressed: () async {
                 final isSuccess = await controller.unFollow(following.id);
