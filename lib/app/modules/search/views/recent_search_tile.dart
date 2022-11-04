@@ -20,7 +20,7 @@ class RecentSearchTile extends GetView<SearchController> {
   Widget build(BuildContext context) {
     return ListTile(
       // onTap: () => controller.onRecentSearchTilePressed(controller.recentSearches[index]),
-      leading: UserAvatar(user: user),
+      leading: UserAvatar.follower(user: user),
       title: const Text('userName'),
       subtitle: const Text('name'),
       trailing: SizedBox(

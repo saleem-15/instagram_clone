@@ -11,17 +11,21 @@ class SearchTextField extends StatelessWidget {
     required this.textController,
     required this.onEditingComplete,
     this.onTap,
+    this.onCancelButtonPressed,
     this.isReadOnly = false,
     this.focusNode,
     this.showSearchIcon = true,
+    this.showCancelButton = false,
   }) : super(key: key);
 
   final TextEditingController textController;
   final void Function() onEditingComplete;
   final void Function()? onTap;
+  final void Function()? onCancelButtonPressed;
   final bool isReadOnly;
   final FocusNode? focusNode;
   final bool showSearchIcon;
+  final bool showCancelButton;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class SearchTextField extends StatelessWidget {
           // width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 15.sp, left: 10.w, right: 10.w),
           decoration: BoxDecoration(
-            color:LightThemeColors. lightGrey,
+            color: LightThemeColors.lightGrey,
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Row(
@@ -62,7 +66,16 @@ class SearchTextField extends StatelessWidget {
                     hintStyle: TextStyle(fontSize: 16.sp),
                   ),
                 ),
-              )
+              ),
+              if (showCancelButton)
+                IconButton(
+                  onPressed: onCancelButtonPressed,
+                  splashColor: Colors.transparent,
+                  icon: Icon(
+                    Icons.close,
+                    size: 18.sp,
+                  ),
+                ),
             ],
           ),
         ),

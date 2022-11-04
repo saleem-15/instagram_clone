@@ -43,7 +43,9 @@ class Api {
 
 //follow
   static const FOLLOWERS_PATH = '/followers';
+  static const SEARCH_FOLLOWERS_PATH = '/followers/search';
   static const FOLLOWEING_PATH = '/following';
+  static const SEARCH_FOLLOWEING_PATH = '/following/search';
   static const FOLLOW_USER_PATH = '/follow';
 
 //search

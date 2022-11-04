@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class MyPostGridTileView extends StatelessWidget {
   const MyPostGridTileView({

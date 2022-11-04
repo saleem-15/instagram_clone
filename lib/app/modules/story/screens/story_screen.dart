@@ -6,6 +6,7 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/user.dart';
 
 import '../controllers/stories_controller.dart';
 import '../views/user_story_view.dart';
@@ -13,10 +14,22 @@ import '../views/user_story_view.dart';
 const STORY_SCAFFOLD_COLOR = Colors.black;
 
 class StoryScreen extends StatelessWidget {
-  StoryScreen({Key? key}) : super(key: key);
+  StoryScreen({Key? key}) : super(key: key) {
+    if (Get.parameters['pressed_user_index'] != null) {
+      pressedUserIndex = int.parse(Get.parameters['pressed_user_index']!);
+    } else {
+      pressedUserIndex = null;
+    }
+
+    user = Get.arguments;
+  }
 
   /// the person that the user has pressed its story tile
-  final int pressedUserIndex = int.parse(Get.parameters['pressed_user_index']!);
+  /// if its null then this story screen is not opened from
+  /// the (story view)  (in the home screen)
+  /// which means this story is probably for a user that you dont follow
+  late final int? pressedUserIndex;
+  late final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +44,16 @@ class StoryScreen extends StatelessWidget {
       backgroundColor: STORY_SCAFFOLD_COLOR,
       body: SafeArea(
         child: CarouselSlider.builder(
-          initialPage: pressedUserIndex,
+          initialPage: pressedUserIndex ?? 0,
 
           /// transition animation duration
           autoSliderTransitionTime: const Duration(milliseconds: 700),
           controller: usersStoriesController.carouselSliderController,
-          itemCount: stories.length,
+          itemCount: pressedUserIndex == null ? 1 : stories.length,
           slideTransform: const CubeTransform(),
           slideBuilder: (index) => UserStoriesView(
-            user: stories[index],
+            user: pressedUserIndex == null ? user : stories[index],
+            userIndex: index,
           ),
         ).marginOnly(top: 5.sp),
       ),

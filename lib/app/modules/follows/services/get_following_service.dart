@@ -10,7 +10,8 @@ import '../../../../utils/constants/api.dart';
 import '../../../models/user.dart';
 import '/utils/custom_snackbar.dart';
 
-Future<List<User>> fetchFollowingsService(String userId, int pageNum,{required FollowingController followingController}) async {
+Future<List<User>> fetchFollowingsService(String userId, int pageNum,
+    {required FollowingController followingController}) async {
   try {
     final response = await dio.get(
       '${Api.FOLLOWEING_PATH}/$userId',
@@ -19,7 +20,7 @@ Future<List<User>> fetchFollowingsService(String userId, int pageNum,{required F
 
     log(response.data.toString());
 
-    followingController.numOfPages = response.data['last_page'];
+    followingController.numOfPages = response.data['meta']['last_page'];
 
     return _convertDataToFollowing(response.data['data'] as List);
   } on DioError catch (e) {

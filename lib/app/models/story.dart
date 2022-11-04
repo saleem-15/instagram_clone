@@ -20,7 +20,15 @@ class Story {
     return Story(
       id: map['story_id'].toString(),
       media: map['media'],
-      isWathced: false,
+      isWathced: map['is_watched'],
     );
+  }
+  static List<Story> storiesListFromMap(List data) {
+    List<Story> stories = [];
+    for (var story in data) {
+      stories.add(Story.fromMap(story));
+    }
+
+    return stories;
   }
 }

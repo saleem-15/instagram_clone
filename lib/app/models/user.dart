@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/story.dart';
 
@@ -7,16 +6,17 @@ class User {
   String userName;
   String nickName;
   String? image;
-  bool isHasNewStory;
+  bool doIFollowHim;
   List<Story> userStories;
+  bool get isHasNewStory => userStories.any((story) => !story.isWathced);
 
   User({
     required this.id,
     required this.userName,
     required this.nickName,
     required this.image,
+    required this.doIFollowHim,
     this.userStories = const [],
-    this.isHasNewStory = true,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
@@ -25,8 +25,20 @@ class User {
       userName: map['name'],
       nickName: map['nick_name'],
       image: _getImage(map['image_url']),
-      userStories: map['stories'] ?? [],
+      userStories: Story.storiesListFromMap(map['user_stories'] ?? []),
+
+      /// map['youFollowHim'] is null when its your profile/user info
+      doIFollowHim: map['youFollowHim'] ?? false,
     );
+  }
+
+  static List<User> usersListFromJson(List data) {
+    List<User> users = [];
+    for (final userData in data) {
+      users.add(User.fromMap(userData));
+    }
+
+    return users;
   }
 
   static String? _getImage(String? image) {

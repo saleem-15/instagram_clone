@@ -49,7 +49,7 @@ class SearchController extends GetxController {
   void onRecentSearchTilePressed(String userId) {
     Get.toNamed(
       Routes.PROFILE,
-      parameters: {'userId': userId},
+      parameters: {'user_id': userId},
     );
   }
 
@@ -117,7 +117,7 @@ class SearchController extends GetxController {
 
     Get.toNamed(
       Routes.PROFILE,
-      // parameters: {'userId': user.id},
+      parameters: {'user_id': user.id},
       arguments: user,
     );
   }

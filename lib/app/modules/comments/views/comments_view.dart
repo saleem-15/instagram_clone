@@ -31,9 +31,8 @@ class CommentsView extends GetView<CommentsController> {
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
-                UserAvatar(
+                UserAvatar.comment(
                   user: postPublisher,
-                  size: 18,
                 ),
                 SizedBox(
                   width: 7.w,
@@ -66,7 +65,7 @@ class CommentsView extends GetView<CommentsController> {
             ),
           ),
           SizedBox(
-            height: 3.sp,
+            height: 5.sp,
           ),
           const Divider(
             thickness: .3,
@@ -113,10 +112,8 @@ class CommentsView extends GetView<CommentsController> {
                   ),
 
                   ///My Profile picture
-                  UserAvatar(
+                  UserAvatar.comment(
                     user: Get.find<AppController>().myUser,
-                    showRingIfHasStory: false,
-                    size: 18,
                   ),
 
                   SizedBox(

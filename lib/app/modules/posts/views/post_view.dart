@@ -43,8 +43,7 @@ class PostView extends GetView<PostsController> {
           padding: postPadding,
           child: Row(
             children: [
-              UserAvatar(
-                size: 15,
+              UserAvatar.comment(
                 user: post.user,
               ),
               const SizedBox(

@@ -90,6 +90,7 @@ class CommentsController extends GetxController {
     Get.toNamed(
       Routes.PROFILE,
       arguments: user,
+      parameters: {'user_id': user.id},
     );
   }
 }

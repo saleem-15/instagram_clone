@@ -16,17 +16,18 @@ dependencies:
   font_awesome_flutter: ^10.2.1     
   infinite_scroll_pagination: ^3.2.0  #used EVERY WHERE
   
-  carousel_slider: ^4.1.1          #used in post
-  smooth_page_indicator: ^1.0.0+2  #used in post
-  video_player: ^2.4.7             #used in post/story
-  image_picker: ^0.8.6             #used in add post/story
+  carousel_slider: ^4.1.1            #used in post
+  smooth_page_indicator: ^1.0.0+2    #used in post
+  video_player: ^2.4.7               #used in post/story
+  image_picker: ^0.8.6               #used in add post/story
   flutter_bounce: ^1.1.0
   flutter_launcher_icons: ^0.10.0
-  mask_text_input_formatter: ^2.4.0 #used in signup
+  mask_text_input_formatter: ^2.4.0  #used in signup
   holding_gesture: ^1.1.0           
-  pausable_timer: ^1.0.0+6          #used in story
-  cube_transition: ^1.0.2
-  flutter_carousel_slider: ^1.0.9   #used in story
+  pausable_timer: ^1.0.0+6           #used in story
+  flutter_carousel_slider: ^1.0.9    #used in story
+  logger: ^1.1.0
+  logger_flutter: ^0.0.1
 
 dev_dependencies: 
   flutter_lints: 2.0.1

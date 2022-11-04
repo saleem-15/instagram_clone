@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -10,7 +10,6 @@ import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/story/controllers/user_story_controller.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 
-import '../screens/story_screen.dart';
 import '../views/story_indicator.dart';
 import '../views/story_media.dart';
 
@@ -18,9 +17,10 @@ class UserStoriesView extends StatelessWidget {
   UserStoriesView({
     Key? key,
     required this.user,
+    required int userIndex,
     // required this.controller,
   }) : super(key: key) {
-    controller = Get.put(UserStoryController(user), tag: user.id);
+    controller = Get.put(UserStoryController(user, userIndex), tag: user.id);
   }
 
   final User user;
@@ -92,11 +92,8 @@ class UserStoriesView extends StatelessWidget {
                 left: 15.w,
                 child: Row(
                   children: [
-                    UserAvatar(
+                    UserAvatar.story(
                       user: controller.user,
-                      showRingIfHasStory: false,
-                      size: 20,
-                      backGroundColor: STORY_SCAFFOLD_COLOR,
                     ),
                     SizedBox(
                       width: 10.w,

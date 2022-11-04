@@ -25,35 +25,71 @@ class FollowingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final pagingController = controller.pagingController;
 
-    return Column(
-      children: [
-        SearchTextField(
-          textController: controller.searchTextController,
-          onEditingComplete: controller.search,
-        ),
-        Expanded(
-          child: PagedListView(
-            pagingController: pagingController,
-            builderDelegate: PagedChildBuilderDelegate<User>(
-              //
-              itemBuilder: (context, following, index) => FollowingTile(
-                following: following,
-                controller: controller,
-              ),
-              //
-              firstPageErrorIndicatorBuilder: (_) => errorWidget(),
-              //
-              noItemsFoundIndicatorBuilder: (context) => noFollowingsFoundWidget(context),
-              //
-              firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
-              //
-              newPageProgressIndicatorBuilder: (context) => loadingWidget(),
-              //
-              newPageErrorIndicatorBuilder: (_) => errorWidget(),
-            ),
+    return Obx(
+      () => Column(
+        children: [
+          SearchTextField(
+            textController: controller.searchTextController,
+            onEditingComplete: controller.search,
+            showCancelButton: controller.showCancelButtonForSearchField.value,
+            onCancelButtonPressed: controller.onSearchFieldCancelButtonPressed,
           ),
-        ),
-      ],
+          if (controller.isSearchMode.value)
+            Expanded(
+              child: controller.isLoadingResults.isTrue
+                  ?
+
+                  /// loading search results
+                  const Center(
+                      child: LoadingWidget(),
+                    )
+                  :
+                  /// there is no results
+                   controller.searchResults.isEmpty
+                      ? Center(
+                          child: Text(
+                            'There is no results',
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        )
+                      :
+
+                      /// search results
+                      ListView.builder(
+                          itemCount: controller.searchResults.length,
+                          itemBuilder: (_, index) => FollowingTile(
+                            following: controller.searchResults[index],
+                            controller: controller,
+                          ),
+                        ),
+            ),
+
+          /// followings list (normal mode)
+          if (!controller.isSearchMode.value)
+            Expanded(
+              child: PagedListView(
+                pagingController: pagingController,
+                builderDelegate: PagedChildBuilderDelegate<User>(
+                  //
+                  itemBuilder: (context, following, index) => FollowingTile(
+                    following: following,
+                    controller: controller,
+                  ),
+                  //
+                  firstPageErrorIndicatorBuilder: (_) => errorWidget(),
+                  //
+                  noItemsFoundIndicatorBuilder: (context) => noFollowingsFoundWidget(context),
+                  //
+                  firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                  //
+                  newPageProgressIndicatorBuilder: (context) => loadingWidget(),
+                  //
+                  newPageErrorIndicatorBuilder: (_) => errorWidget(),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 

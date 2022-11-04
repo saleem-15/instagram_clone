@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
@@ -10,7 +9,8 @@ import 'package:instagram_clone/utils/helpers.dart';
 import '../../../models/user.dart';
 import '../controllers/followers_controller.dart';
 
-Future<List<User>> fetchFollowersService(String userId, int pageNum,{required FollowersController followersController}) async {
+Future<List<User>> fetchFollowersService(String userId, int pageNum,
+    {required FollowersController followersController}) async {
   try {
     final response = await dio.get(
       '${Api.FOLLOWERS_PATH}/$userId',
@@ -18,7 +18,7 @@ Future<List<User>> fetchFollowersService(String userId, int pageNum,{required Fo
     );
     log(response.data.toString());
 
-    followersController.numOfPages = response.data['last_page'];
+    followersController.numOfPages = response.data['meta']['last_page'];
 
     return _convertDataToFollowers(response.data['data'] as List);
   } on DioError catch (e) {

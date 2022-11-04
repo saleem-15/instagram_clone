@@ -9,6 +9,8 @@ import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
+import '../../../../main.dart';
+
 Future<List<Post>> fetchProfilePostsService(String userId, int pageNum) async {
   try {
     final response = await dio.get(
@@ -18,7 +20,11 @@ Future<List<Post>> fetchProfilePostsService(String userId, int pageNum) async {
     final data = response.data['data'];
     final metaData = response.data['meta'];
 
-    // log(response.data.toString());
+    log('fetch Profile Posts Service');
+    // (response.data as Map<String, dynamic>).printMap(ignoreValues: ['links','meta']);
+
+    logger.i(response.data);
+    // log((response.data as Map<String, dynamic>).printInfo().toString());
     Get.find<UserPostsController>(tag: userId).numOfPages = metaData['last_page'];
 
     return _convertDataToPosts(data as List);

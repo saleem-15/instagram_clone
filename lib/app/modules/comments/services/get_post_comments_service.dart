@@ -36,7 +36,6 @@ Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async
       );
     }
     rethrow;
-    return [];
   }
 }
 

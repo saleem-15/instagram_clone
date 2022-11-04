@@ -29,7 +29,7 @@ class RecentSearches extends GetView<SearchController> {
                 onPressed: () {},
                 child: Text(
                   'See All'.tr,
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color:LightThemeColors. lighBlue),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: LightThemeColors.lighBlue),
                 ),
               ),
             ],
@@ -42,7 +42,13 @@ class RecentSearches extends GetView<SearchController> {
                 itemCount: controller.recentSearches.length,
                 itemBuilder: (_, index) => RecentSearchTile(
                   index: index,
-                  user: User(id: '$index', userName: 'userName', nickName: 'nick name', image: 'image'),
+                  user: User(
+                    id: '$index',
+                    userName: 'userName',
+                    nickName: 'nick name',
+                    image: 'image',
+                    doIFollowHim: false,
+                  ),
                 ),
               ),
             ),

@@ -72,9 +72,8 @@ class _PostView extends GetView<PostsController> {
           padding: EdgeInsets.symmetric(vertical: 6.sp, horizontal: 10.w),
           child: Row(
             children: [
-              UserAvatar(
+              UserAvatar.comment(
                 user: post.user,
-                showRingIfHasStory: true,
               ),
               const SizedBox(
                 width: 10,

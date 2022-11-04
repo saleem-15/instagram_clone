@@ -12,23 +12,29 @@ import '../views/my_posts_tab.dart';
 import '../views/profile_header.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({
+    Key? key,
+  }) : super(key: key) {
+    /// if userId = null  ==> then its my profile
+    user = Get.arguments ?? MySharedPref.getUserData;
+    profileController = Get.put(ProfileController(), tag: user.id);
+    userPostsController = Get.put(UserPostsController(), tag: user.id);
+  }
+
+  late final User user;
+  late final ProfileController profileController;
+  late final UserPostsController userPostsController;
 
   @override
   Widget build(BuildContext context) {
-    /// if userId = null  ==> then its my profile
-    final User user = Get.arguments ?? MySharedPref.getUserData;
-    String userId = user.id;
-    final controller = Get.find<ProfileController>(tag: userId);
-    final userPostsController = Get.find<UserPostsController>(tag: userId);
     return Stack(
       children: [
         /// profile page with all of its components
 
         Scaffold(
-          appBar: profileAppBar(controller),
+          appBar: profileAppBar(profileController),
           body: Obx(
-            () => controller.isLoading.isTrue
+            () => profileController.isLoading.isTrue
                 ? const Center(
                     child: LoadingWidget(),
                   )
@@ -38,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
-                          child: ProfileHeader(profileController: controller),
+                          child: ProfileHeader(profileController: profileController),
                         ),
                         const TabBar(
                           tabs: [

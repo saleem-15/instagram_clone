@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 
 import 'package:instagram_clone/app/modules/auth/controllers/auth_conroller.dart';
-import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
-import 'package:instagram_clone/app/modules/root/bindings/my_app_binding.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
+import 'package:logger/logger.dart';
 
 import 'app/modules/auth/screens/signin_screen.dart';
+import 'app/modules/root/controllers/app_controller.dart';
 import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
 import 'config/theme/my_theme.dart';
@@ -23,25 +21,32 @@ Future<void> main() async {
   await MySharedPref.init();
 
   // MySharedPref.setUserToken(null);
+  AuthBinding().dependencies();
+  Get.lazyPut(() => AppController(), fenix: true);
 
-  appDependencies();
+  // appDependencies();
   runApp(const Main());
 }
 
-void appDependencies() {
-  Get.put(PostsController(), permanent: true);
-  AuthBinding().dependencies();
-  if (Get.find<AuthController>().isAuthorized) {
-    log('is authorized');
-    MyAppBinding().dependencies();
-  }
-}
+// void appDependencies() {
+//   AuthBinding().dependencies();
+//   if (Get.find<AuthController>().isAuthorized) {
+//     log('is authorized');
+//     MyAppBinding().dependencies();
+//   }
+// }
+
+late Logger logger;
 
 class Main extends StatelessWidget {
   const Main({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // log(MySharedPref.getToken!);
+    // Logger.level = Level.warning;
+    logger = Logger();
+
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
         // initialBinding: AuthBinding(),

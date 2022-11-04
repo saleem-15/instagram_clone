@@ -6,6 +6,8 @@ import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/add_story_service.dart';
 import '../services/fetch_stories_service.dart';
+import '../views/stories_view.dart';
+import '../views/story_tile.dart';
 
 /// this is the controller of the stories list that appears in the home page
 class StoriesController extends GetxController {
@@ -41,19 +43,35 @@ class StoriesController extends GetxController {
   }
 
   void onStoryTilePressed(int userIndex) {
+    goToUserStories(stories[userIndex], userIndex: userIndex);
+  }
+
+  /// userIndex must be provided ((only if)) the story was from clicking
+  /// the [StoryTile] from the [StoriesView]
+  void goToUserStories(User user, {int? userIndex}) {
     Get.toNamed(
       Routes.STORY,
+      arguments: user,
       parameters: {
-        'pressed_user_index': '$userIndex',
+        if (userIndex != null) 'pressed_user_index': '$userIndex',
       },
     );
   }
 
-  void goToNextUserStories() {
+  void goToNextUserStories(int currentUserIndex) {
+    /// if this user is the last user in the stories list
+    if (currentUserIndex == stories.length - 1) {
+      Get.back();
+      return;
+    }
     carouselSliderController.nextPage();
   }
 
   void goToPreviuosUserStories() {
     carouselSliderController.previousPage();
+  }
+
+  void updateStoryTile(String userId) {
+    update(['story tile $userId']);
   }
 }

@@ -61,7 +61,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const ProfileScreen(),
+      page: () => ProfileScreen(),
       binding: ProfileBinding(),
       transition: Transition.rightToLeft,
     ),
@@ -69,7 +69,6 @@ class AppPages {
       name: _Paths.FOLLOWERS,
       page: () => FollowsScreen(tab: Routes.FOLLOWERS),
       transition: Transition.rightToLeftWithFade,
-
     ),
     GetPage(
       name: _Paths.FOLLOWING,

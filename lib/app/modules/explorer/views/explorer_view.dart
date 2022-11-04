@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/modules/profile/views/my_post_grid_tile_view.dart';
+import 'package:instagram_clone/app/shared/my_post_grid_tile_view.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
 

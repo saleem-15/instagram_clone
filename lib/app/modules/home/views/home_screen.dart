@@ -29,8 +29,11 @@ class HomeScreen extends GetView<HomeController> {
         slivers: [
           /// stories List
           SliverToBoxAdapter(
-            child: StoriesView(),
+            child: StoriesView().paddingOnly(
+              bottom: 8.sp,
+            ),
           ),
+
           /// posts List
           PagedSliverList<int, Post>(
             pagingController: pagingController,

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/models/profile.dart';
 import 'package:instagram_clone/app/models/user.dart';
-import 'package:instagram_clone/app/modules/follows/controllers/follows_tab_controller.dart';
 import 'package:instagram_clone/app/modules/follows/services/follow_user_service.dart';
 import 'package:instagram_clone/app/modules/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/app/modules/profile/views/add_post_bottom_sheet.dart';
@@ -50,7 +49,6 @@ class ProfileController extends GetxController {
       Routes.FOLLOWING,
       arguments: profile,
     );
-    // Get.find<FollowsTabController>().updateProfile(profile);
   }
 
   void showAddPostBottomSheet() {

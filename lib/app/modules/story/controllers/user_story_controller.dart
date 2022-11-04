@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/story.dart';
@@ -17,7 +18,7 @@ const IMAGE_STORY_DURATION = Duration(seconds: 10);
 
 /// for every user there is a [UserStoryController] controller
 class UserStoryController extends GetxController {
-  UserStoryController(User usr) : user = usr;
+  UserStoryController(this.user, this.userIndex);
 
   /// how much time the story has (before moving  to the next story)
   // late final CountDown timeCounter;
@@ -26,13 +27,16 @@ class UserStoryController extends GetxController {
   static final Map<String, MyVideoController> cashedVideos = {};
 
   User user;
+
+  /// the index of the user in the list of [stories] that exist
+  /// in [StoriesController]
+  int userIndex;
   List<Story> get storiesList => user.userStories;
   int get storiesNum => storiesList.length;
   late int currentStoryIndex;
 
   Story get currentStory {
     final story = storiesList[currentStoryIndex];
-    story.isWathced = true;
     return story;
   }
 
@@ -104,8 +108,8 @@ class UserStoryController extends GetxController {
     /// if all stories of this user has finished
     if (storiesNum - 1 == currentStoryIndex) {
       /// all the stories of this user has been watched
-      user.isHasNewStory = false;
-      storiesController.goToNextUserStories();
+      Get.find<StoriesController>().updateStoryTile(user.id);
+      storiesController.goToNextUserStories(userIndex);
       return;
     }
 
@@ -137,8 +141,12 @@ class UserStoryController extends GetxController {
   ///
   /// YOU MUST make sure that [currentStoryIndex] has the value of the story that you want to start
   void startStory() {
-    /// tell the backend that this story is wathed
-    setStoryAsWathcedService(currentStory.id);
+    log('this story is watched: ${currentStory.isWathced}---------');
+    if (!currentStory.isWathced) {
+      /// tell the backend that this story is wathed
+      setStoryAsWathcedService(currentStory.id);
+      currentStory.isWathced = true;
+    }
 
     final storyDuration = currentStory.media.isImageFileName
         ? IMAGE_STORY_DURATION
@@ -173,6 +181,7 @@ class UserStoryController extends GetxController {
     Get.toNamed(
       Routes.PROFILE,
       arguments: user,
+      parameters: {'user_id': user.id},
     );
   }
 
