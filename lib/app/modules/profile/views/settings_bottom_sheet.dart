@@ -26,11 +26,11 @@ class SettingsBottomSheet extends GetView<SettingsBottomSheetController> {
             ),
           ),
           ListTile(
-            onTap:controller.logout ,
+            onTap: controller.logout,
             title: Text(
               'Logout',
               style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    color: LightThemeColors.lighBlue,
+                    color: LightThemeColors.lightBlue,
                   ),
             ),
           )

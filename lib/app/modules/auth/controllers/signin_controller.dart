@@ -17,6 +17,7 @@ class SigninController extends GetxController {
   String get password => passwordController.text.trim();
 
   RxBool isButtonDisable = true.obs;
+  RxBool isWaitingResponse = false.obs;
 
   Future<void> logIn() async {
     final isValid = formKey.currentState!.validate();
@@ -24,8 +25,9 @@ class SigninController extends GetxController {
     if (!isValid) {
       return;
     }
-
+    isWaitingResponse(true);
     final isSuccessfull = await signInService(firstFieled, password);
+    isWaitingResponse(false);
 
     if (isSuccessfull) {
       Api.authChanged();
@@ -58,7 +60,6 @@ class SigninController extends GetxController {
     Get.offNamed(Routes.SIGNUP);
   }
 
-  void forgetPassword() {}
 
   void autoDisableLoginButton() {
     firstFieledController.addListener(() {
@@ -75,5 +76,9 @@ class SigninController extends GetxController {
       }
       isButtonDisable(false);
     });
+  }
+
+  void forgotPassword() {
+    Get.toNamed(Routes.FORGOT_PASSWORD);
   }
 }

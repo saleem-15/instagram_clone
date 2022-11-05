@@ -24,14 +24,12 @@ class CommentTile extends GetView<CommentsController> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          /// user avatar
           SizedBox(
             width: 40.sp,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: UserAvatar.comment(
-                user: comment.user,
-              ),
-            ),
+            child: UserAvatar.comment(
+              user: comment.user,
+            ).paddingOnly(top: 5),
           ),
           SizedBox(
             width: 10.w,
@@ -40,16 +38,34 @@ class CommentTile extends GetView<CommentsController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () => controller.onUserNamePressd(comment.user),
-                  child: Text(
-                    comment.user.userName,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
+                ///username
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => controller.onUserNamePressd(comment.user),
+                      child: Text(
+                        comment.user.userName,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+
+                    /// created at
+                    Text(
+                      comment.createdAt,
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            color: Theme.of(context).disabledColor,
+                          ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: verticalSpace,
                 ),
+
+                ///comments
                 Text(
                   comment.text,
                   style: Theme.of(context).textTheme.bodyText2,

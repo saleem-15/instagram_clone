@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/story.dart';
+import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 class User {
   String id;
@@ -9,14 +10,15 @@ class User {
   bool doIFollowHim;
   List<Story> userStories;
   bool get isHasNewStory => userStories.any((story) => !story.isWathced);
-
+  bool get isMe => MySharedPref.getUserId == id;
+  
   User({
     required this.id,
     required this.userName,
     required this.nickName,
     required this.image,
     required this.doIFollowHim,
-    this.userStories = const [],
+    required this.userStories,
   });
 
   factory User.fromMap(Map<String, dynamic> map) {

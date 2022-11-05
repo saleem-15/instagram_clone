@@ -11,7 +11,6 @@ class StoriesView extends GetView<StoriesController> {
 
   @override
   Widget build(BuildContext context) {
-    final storyAvatarSize = 25.sp;
 
     return SizedBox(
       height: 80.sp,

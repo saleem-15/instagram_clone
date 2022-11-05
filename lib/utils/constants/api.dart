@@ -16,6 +16,9 @@ class Api {
   static const SIGN_UP_URL = '/auth/user/register';
   static const MY_INFO = '/auth/user/info';
   static const LOGOUT_URL = '/auth/user/logout';
+  static const FORGET_PASSWORD_URL = '/auth/user/password/code/send';
+  static const CHECK_EMAIL_CODE_URL = '/auth/user/password/code/check';
+  static const RESET_PASSWORD_URL = '/auth/user/password/reset';
 
 //user
   static const USER_URL = '/user';

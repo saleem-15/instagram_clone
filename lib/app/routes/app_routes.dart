@@ -5,7 +5,10 @@ abstract class Routes {
   Routes._();
   static const String MY_APP = _Paths.MY_APP;
   static const String SIGN_IN = _Paths.SIGN_IN;
+  static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
+  static const OTP_FORM = _Paths.OTP_FORM;
   static const String SIGNUP = _Paths.SIGNUP;
+  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const HOME = _Paths.HOME;
   static const EXPLORER = _Paths.EXPLORER;
   static const REELS = _Paths.REELS;
@@ -29,6 +32,9 @@ abstract class _Paths {
   static const MY_APP = '/MY_APP';
   static const SIGN_IN = '/sign_in';
   static const SIGNUP = '/signup';
+  static const FORGOT_PASSWORD = '/forgot_password';
+  static const OTP_FORM = '/otp_form';
+  static const RESET_PASSWORD = '/reset_password';
   static const INFO_VIEW = '/info_view';
   static const HOME = '/home';
   static const EXPLORER = '/explorer';

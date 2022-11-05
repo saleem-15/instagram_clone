@@ -116,6 +116,7 @@ class MySharedPref {
       nickName: nickName!,
       image: image,
       doIFollowHim: false,
+      userStories: [],
     );
   }
 

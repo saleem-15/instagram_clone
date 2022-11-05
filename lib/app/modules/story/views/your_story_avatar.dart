@@ -44,7 +44,7 @@ class YourStoryAvatar extends StatelessWidget {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       width: 2.sp,
                     ),
-                    color: LightThemeColors.lighBlue,
+                    color: LightThemeColors.lightBlue,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(

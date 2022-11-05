@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/modules/auth/screens/forgot_password_screen.dart';
+import 'package:instagram_clone/app/modules/auth/screens/reset_password_screen.dart';
 import 'package:instagram_clone/app/modules/root/bindings/my_app_binding.dart';
 import 'package:instagram_clone/app/modules/root/my_app.dart';
 import 'package:instagram_clone/app/modules/search/search_screen.dart';
 
+import '../modules/auth/screens/otp_screen.dart';
 import '../modules/auth/screens/signin_screen.dart';
 import '../modules/auth/screens/signup_screen.dart';
 import '../modules/comments/bindings/comments_binding.dart';
@@ -43,6 +46,18 @@ class AppPages {
     GetPage(
       name: _Paths.SIGNUP,
       page: () => const SignupScreen(),
+    ),
+    GetPage(
+      name: _Paths.FORGOT_PASSWORD,
+      page: () => const ForgotPasswordScreen(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => const ResetPasswordScreen(),
+    ),
+    GetPage(
+      name: _Paths.OTP_FORM,
+      page: () => const OtpForm(),
     ),
     GetPage(
       name: _Paths.HOME,

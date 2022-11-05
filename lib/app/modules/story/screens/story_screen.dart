@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
 
@@ -37,26 +36,25 @@ class StoryScreen extends StatelessWidget {
 
     final usersStoriesController = Get.find<StoriesController>();
     final stories = usersStoriesController.stories;
-
+    final double topViewPadding = MediaQuery.of(context).viewPadding.top;
+    final double topMargin = topViewPadding > 40 ? 40 : topViewPadding;
     return Scaffold(
       /// dont change scaffold size when the keyboard opens
       resizeToAvoidBottomInset: false,
       backgroundColor: STORY_SCAFFOLD_COLOR,
-      body: SafeArea(
-        child: CarouselSlider.builder(
-          initialPage: pressedUserIndex ?? 0,
+      body: CarouselSlider.builder(
+        initialPage: pressedUserIndex ?? 0,
 
-          /// transition animation duration
-          autoSliderTransitionTime: const Duration(milliseconds: 700),
-          controller: usersStoriesController.carouselSliderController,
-          itemCount: pressedUserIndex == null ? 1 : stories.length,
-          slideTransform: const CubeTransform(),
-          slideBuilder: (index) => UserStoriesView(
-            user: pressedUserIndex == null ? user : stories[index],
-            userIndex: index,
-          ),
-        ).marginOnly(top: 5.sp),
-      ),
+        /// transition animation duration
+        autoSliderTransitionTime: const Duration(milliseconds: 700),
+        controller: usersStoriesController.carouselSliderController,
+        itemCount: pressedUserIndex == null ? 1 : stories.length,
+        slideTransform: const CubeTransform(),
+        slideBuilder: (index) => UserStoriesView(
+          user: pressedUserIndex == null ? user : stories[index],
+          userIndex: index,
+        ),
+      ).marginOnly(top: topMargin),
     );
   }
 }

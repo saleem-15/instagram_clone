@@ -47,7 +47,7 @@ class FollowButton extends StatelessWidget {
               )
             : ElevatedButton(
                 style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                      backgroundColor: MaterialStateProperty.all(LightThemeColors.lighBlue),
+                      backgroundColor: MaterialStateProperty.all(LightThemeColors.lightBlue),
                     ),
                 onPressed: () async {
                   final isSuccess = await follow(user.id);

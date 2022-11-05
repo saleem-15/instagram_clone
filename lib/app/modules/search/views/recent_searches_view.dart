@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/app/models/user.dart';
-import 'package:instagram_clone/app/modules/search/views/recent_search_tile.dart';
 
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
@@ -29,30 +27,30 @@ class RecentSearches extends GetView<SearchController> {
                 onPressed: () {},
                 child: Text(
                   'See All'.tr,
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: LightThemeColors.lighBlue),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: LightThemeColors.lightBlue),
                 ),
               ),
             ],
           ).paddingSymmetric(
             horizontal: 15.w,
           ),
-          Expanded(
-            child: Obx(
-              () => ListView.builder(
-                itemCount: controller.recentSearches.length,
-                itemBuilder: (_, index) => RecentSearchTile(
-                  index: index,
-                  user: User(
-                    id: '$index',
-                    userName: 'userName',
-                    nickName: 'nick name',
-                    image: 'image',
-                    doIFollowHim: false,
-                  ),
-                ),
-              ),
-            ),
-          )
+          // Expanded(
+          //   child: Obx(
+          //     () => ListView.builder(
+          //       itemCount: controller.recentSearches.length,
+          //       itemBuilder: (_, index) => RecentSearchTile(
+          //         index: index,
+          //         user: User(
+          //           id: '$index',
+          //           userName: 'userName',
+          //           nickName: 'nick name',
+          //           image: 'image',
+          //           doIFollowHim: false,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

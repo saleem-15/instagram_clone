@@ -6,9 +6,20 @@ class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
     Key? key,
     this.size = 35,
+    this.strokeWidth = 2,
+  }) :color = const Color(0xFFBDBDBD), super(key: key);
+  /// Colors.grey.shade400 ==  Color(0xFFBDBDBD)
+
+  const LoadingWidget.button({
+    Key? key,
+    this.size = 25,
+    this.strokeWidth = 3,
+    this.color = Colors.white,
   }) : super(key: key);
 
-  final int size;
+  final double size;
+  final double strokeWidth;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +27,8 @@ class LoadingWidget extends StatelessWidget {
       width: size.sp,
       height: size.sp,
       child: CircularProgressIndicator(
-        color: Colors.grey.shade400,
-        strokeWidth: 2,
+        color: color,
+        strokeWidth: strokeWidth,
       ),
     );
   }

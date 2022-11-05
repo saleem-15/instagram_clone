@@ -41,6 +41,9 @@ class MyTheme {
       // elevated button theme
       elevatedButtonTheme: MyStyles.getElevatedButtonTheme(),
 
+      // Outlined button theme
+      outlinedButtonTheme: MyStyles.getOutlinedButtonTheme(),
+
       //text button theme
       textButtonTheme: MyStyles.getTextButtonTheme(),
 

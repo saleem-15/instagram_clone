@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/story/controllers/stories_controller.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 
 enum AvatarMode {
   Comment,
@@ -13,7 +14,6 @@ enum AvatarMode {
 }
 
 class UserAvatar extends StatelessWidget {
-
   const UserAvatar.story({
     Key? key,
     required this.user,
@@ -60,7 +60,7 @@ class UserAvatar extends StatelessWidget {
         : NetworkImage(user.image!)) as ImageProvider;
 
     return GestureDetector(
-      onTap: () => Get.find<StoriesController>().goToUserStories(user),
+      onTap: onUserAvatarTapped,
       child: user.isHasNewStory && showRingIfHasStory
           ?
 
@@ -77,6 +77,9 @@ class UserAvatar extends StatelessWidget {
               ),
               child: CircleAvatar(
                 radius: size,
+
+                /// before the actual photo of the user loads, put this photo
+                backgroundImage: const AssetImage('assets/images/default_user_image.png'),
                 child: Image(image: backgroundImage),
               ),
             )
@@ -85,9 +88,33 @@ class UserAvatar extends StatelessWidget {
           /// without gradient ring
           CircleAvatar(
               radius: size,
-              backgroundImage: backgroundImage,
+
+              /// before the actual photo of the user loads, put this photo
+              backgroundImage: const AssetImage('assets/images/default_user_image.png'),
+
+              child: Image(
+                image: ((user.image == null
+                    ? const AssetImage('assets/images/default_user_image.png')
+                    : NetworkImage(user.image!)) as ImageProvider),
+                // fit: BoxFit.fill,
+                // isAntiAlias: true,
+              ),
             ),
     );
+  }
+
+  /// 1- if the user has unWatched stories then it goes to his stories
+  /// Or it will go his profile
+  void onUserAvatarTapped() {
+    if (user.isHasNewStory) {
+      Get.find<StoriesController>().goToUserStories(user);
+    } else {
+      Get.toNamed(
+        Routes.PROFILE,
+        arguments: user,
+        parameters: {'user_id': user.id},
+      );
+    }
   }
 }
 

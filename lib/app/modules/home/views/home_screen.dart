@@ -11,8 +11,6 @@ import 'package:instagram_clone/app/shared/loading_widget.dart';
 
 import '../controllers/home_controller.dart';
 
-// ignore_for_file: prefer_const_constructors
-
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
   @override
@@ -20,6 +18,8 @@ class HomeScreen extends GetView<HomeController> {
     final pagingController = controller.pagingController;
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: Colors.red,
+        // toolbarHeight: 50,
         title: Image.asset(
           'assets/icons/instagram-word-logo-removebg.png',
           width: 120.sp,
@@ -29,7 +29,7 @@ class HomeScreen extends GetView<HomeController> {
         slivers: [
           /// stories List
           SliverToBoxAdapter(
-            child: StoriesView().paddingOnly(
+            child: const StoriesView().paddingOnly(
               bottom: 8.sp,
             ),
           ),

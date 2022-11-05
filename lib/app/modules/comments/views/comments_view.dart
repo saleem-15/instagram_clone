@@ -31,8 +31,11 @@ class CommentsView extends GetView<CommentsController> {
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
-                UserAvatar.comment(
-                  user: postPublisher,
+                SizedBox(
+                  width: 40.sp,
+                  child: UserAvatar.comment(
+                    user: postPublisher,
+                  ),
                 ),
                 SizedBox(
                   width: 7.w,

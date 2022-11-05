@@ -28,7 +28,8 @@ class FollowerTileView extends StatelessWidget {
         leading: UserAvatar.follower(user: follower),
         title: Text(follower.userName),
         subtitle: Text(follower.nickName),
-        trailing: FollowButton(
+
+        trailing: follower.isMe ? null: FollowButton(
           user: follower,
           unFollow: controller.unFollow,
           follow: controller.follow,

@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/comment.dart';
+import 'package:instagram_clone/main.dart';
 
 import '../../../../utils/constants/api.dart';
 import '../../../../utils/helpers.dart';
@@ -23,14 +22,14 @@ Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async
     final commentsData = response.data['data'];
 
     Get.find<CommentsController>().numOfPages = response.data['meta']['last_page'];
-    log(response.toString());
+    logger.i(response.data);
 
     return _convertDataToCommentsList(commentsData as List);
   } on DioError catch (e) {
     if (e.response == null) {
-      log(e.error.toString());
+      logger.e(e.error);
     } else {
-      log(e.response!.data.toString());
+      logger.e(e.response!.data);
       CustomSnackBar.showCustomErrorSnackBar(
         message: formatErrorMsg(e.response!.data),
       );

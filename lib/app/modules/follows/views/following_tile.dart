@@ -30,11 +30,13 @@ class FollowingTile extends StatelessWidget {
         ),
         title: Text(following.userName),
         subtitle: Text(following.nickName),
-        trailing: FollowButton(
-          user: following,
-          unFollow: controller.unFollow,
-          follow: controller.follow,
-        ),
+        trailing: following.isMe
+            ? null
+            : FollowButton(
+                user: following,
+                unFollow: controller.unFollow,
+                follow: controller.follow,
+              ),
       ),
     );
   }
