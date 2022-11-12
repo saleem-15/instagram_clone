@@ -13,11 +13,14 @@ import 'app/modules/auth/screens/signin_screen.dart';
 import 'app/modules/root/controllers/app_controller.dart';
 import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
+import 'app/shared/error_widget.dart';
 import 'config/theme/my_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
   await MySharedPref.init();
 
   // MySharedPref.setUserToken(null);

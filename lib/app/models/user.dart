@@ -11,7 +11,7 @@ class User {
   List<Story> userStories;
   bool get isHasNewStory => userStories.any((story) => !story.isWathced);
   bool get isMe => MySharedPref.getUserId == id;
-  
+
   User({
     required this.id,
     required this.userName,
@@ -22,6 +22,10 @@ class User {
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
+    // //if it was me
+    // if (map['name'] == null) {
+    //   return MySharedPref.getUserData!;
+    // }
     return User(
       id: (map['user_id'] ?? map['id']).toString(),
       userName: map['name'],
