@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:instagram_clone/app/modules/follows/controllers/followers_controller.dart';
 import 'package:instagram_clone/app/modules/follows/views/follow_followin_button.dart';
@@ -25,15 +26,19 @@ class FollowerTileView extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () => controller.goToUserProfile(follower),
-        leading: UserAvatar.follower(user: follower),
+        leading: SizedBox(
+          width: 50.sp,
+          child: UserAvatar.follower(user: follower),
+        ),
         title: Text(follower.userName),
         subtitle: Text(follower.nickName),
-
-        trailing: follower.isMe ? null: FollowButton(
-          user: follower,
-          unFollow: controller.unFollow,
-          follow: controller.follow,
-        ),
+        trailing: follower.isMe
+            ? null
+            : FollowButton(
+                user: follower,
+                unFollow: controller.unFollow,
+                follow: controller.follow,
+              ),
       ),
     );
   }

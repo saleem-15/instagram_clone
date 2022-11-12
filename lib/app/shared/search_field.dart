@@ -9,7 +9,7 @@ class SearchTextField extends StatelessWidget {
   const SearchTextField({
     Key? key,
     required this.textController,
-    required this.onEditingComplete,
+    this.onEditingComplete,
     this.onTap,
     this.onCancelButtonPressed,
     this.isReadOnly = false,
@@ -19,7 +19,7 @@ class SearchTextField extends StatelessWidget {
   }) : super(key: key);
 
   final TextEditingController textController;
-  final void Function() onEditingComplete;
+  final void Function()? onEditingComplete;
   final void Function()? onTap;
   final void Function()? onCancelButtonPressed;
   final bool isReadOnly;

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../controllers/post_bottom_sheet_controller.dart';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
   const AddPostBottomSheet({Key? key}) : super(key: key);

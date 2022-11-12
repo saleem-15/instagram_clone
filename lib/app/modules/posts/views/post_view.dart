@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,8 +64,15 @@ class PostView extends GetView<PostsController> {
         const Divider(),
 
         /// Post photos & videos
-        PostMedia(
-          post: post,
+        Stack(
+          children: [
+            InteractiveViewer(
+              clipBehavior: Clip.none,
+              child: PostMedia(
+                post: post,
+              ),
+            ),
+          ],
         ),
 
         /// row of buttons (love ,comment share,save)
@@ -76,19 +86,25 @@ class PostView extends GetView<PostsController> {
                     assignId: true,
                     id: '${post.id} love button',
                     builder: (controller) {
+                      log('love button of post ${post.id} is built');
                       return IconButton(
+                        key: const ValueKey('Love Button'),
                         onPressed: () => controller.onHeartPressed(post),
-                        // Icons.favorite => if favorite
-                        icon: post.isFavorite
-                            ? const FaIcon(
-                                FontAwesomeIcons.solidHeart,
-                                color: Colors.red,
-                                size: 20,
-                              )
-                            : const FaIcon(
-                                FontAwesomeIcons.heart,
-                                size: 20,
-                              ),
+                        icon: ElasticIn(
+                          controller: (animationController) {
+                            PostsController.heartAnimationControllers.addAll({post.id: animationController});
+                          },
+                          child: post.isFavorite
+                              ? FaIcon(
+                                  FontAwesomeIcons.solidHeart,
+                                  color: Colors.red,
+                                  size: 20.sp,
+                                )
+                              : FaIcon(
+                                  FontAwesomeIcons.heart,
+                                  size: 20.sp,
+                                ),
+                        ),
                       );
                     },
                   ),

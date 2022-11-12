@@ -20,7 +20,7 @@ Future<List<User>> fetchFollowingsService(String userId, int pageNum,
 
     log(response.data.toString());
 
-    followingController.numOfPages = response.data['meta']['last_page'];
+    followingController.numOfPages = response.data['last_page'];
 
     return _convertDataToFollowing(response.data['data'] as List);
   } on DioError catch (e) {

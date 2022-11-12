@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:instagram_clone/main.dart';
 
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
@@ -22,14 +23,11 @@ Future<bool> _markPostAsLovedService(String postId) async {
       queryParameters: {'post_id': postId},
       data: {'post_id': postId},
     );
-    log(response.data.toString());
+    logger.i(response.data);
 
     return true;
   } on DioError catch (e) {
-    log(e.response!.data.toString());
-    CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
-    );
+    logger.e(e.response!.data);
     return false;
   }
 }

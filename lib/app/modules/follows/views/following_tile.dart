@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/follows/controllers/following_controller.dart';
@@ -25,8 +26,11 @@ class FollowingTile extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () => controller.goToUserProfile(following),
-        leading: UserAvatar.follower(
-          user: following,
+        leading: SizedBox(
+          width: 50.sp,
+          child: UserAvatar.follower(
+            user: following,
+          ),
         ),
         title: Text(following.userName),
         subtitle: Text(following.nickName),

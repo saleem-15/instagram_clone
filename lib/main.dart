@@ -8,8 +8,10 @@ import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 import 'package:logger/logger.dart';
 
+import 'app/modules/auth/controllers/auth_conroller.dart';
 import 'app/modules/auth/screens/signin_screen.dart';
 import 'app/modules/root/controllers/app_controller.dart';
+import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
 import 'config/theme/my_theme.dart';
 
@@ -22,17 +24,8 @@ Future<void> main() async {
   AuthBinding().dependencies();
   Get.lazyPut(() => AppController(), fenix: true);
 
-  // appDependencies();
   runApp(const Main());
 }
-
-// void appDependencies() {
-//   AuthBinding().dependencies();
-//   if (Get.find<AuthController>().isAuthorized) {
-//     log('is authorized');
-//     MyAppBinding().dependencies();
-//   }
-// }
 
 late Logger logger;
 
@@ -42,28 +35,26 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // log(MySharedPref.getToken!);
-    // Logger.level = Level.warning;
     logger = Logger();
 
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
-          // initialBinding: AuthBinding(),
-          debugShowCheckedModeBanner: false,
-          title: "Instagram clone",
-          getPages: AppPages.routes,
-          builder: (context, widget) {
-            return Theme(
-              data: MyTheme.getThemeData(),
-              child: MediaQuery(
-                // but we want our app font to still the same and dont get affected
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: widget!,
-              ),
-            );
-          },
-          home: const SigninScreen()
-          // Get.find<AuthController>().isAuthorized ? const MyApp() : const SigninScreen(),
-          ),
+        debugShowCheckedModeBanner: false,
+        title: "Instagram clone",
+        getPages: AppPages.routes,
+        builder: (context, widget) {
+          return Theme(
+            data: MyTheme.getThemeData(),
+            child: MediaQuery(
+              // but we want our app font to still the same and dont get affected
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: widget!,
+            ),
+          );
+        },
+        home: Get.find<AuthController>().isAuthorized ? const MyApp() : const SigninScreen(),
+        // const SigninScreen()
+      ),
     );
   }
 }

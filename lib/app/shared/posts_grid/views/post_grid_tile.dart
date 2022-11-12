@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
 
-
-class MyPostGridTileView extends StatelessWidget {
-  const MyPostGridTileView({
+class PostGridTile extends StatelessWidget {
+  const PostGridTile({
     Key? key,
     required this.post,
     required this.onPostPressed,
     required this.onPressedGone,
   }) : super(key: key);
+
   final Post post;
   final Function(Post post) onPostPressed;
   final Function(Post post) onPressedGone;
@@ -53,8 +53,7 @@ class MyPostGridTileView extends StatelessWidget {
               size: 20,
             ),
           ),
-        if (post.postContents.length.isEqual(1) &&
-            post.postContents.first.isVideoFileName)
+        if (post.postContents.length.isEqual(1) && post.postContents.first.isVideoFileName)
           const Positioned(
             top: 5,
             right: 5,

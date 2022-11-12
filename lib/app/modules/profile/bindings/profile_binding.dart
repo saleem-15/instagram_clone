@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 
-import 'package:instagram_clone/app/modules/profile/controllers/floating_post_controller.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/post_bottom_sheet_controller.dart';
 
 import '../controllers/settings_bottom_sheet_controller.dart';
@@ -19,6 +18,6 @@ class ProfileBinding extends Bindings {
     //------------------------------------------------------------------
     Get.lazyPut(() => AddPostBottomSheetController(), fenix: true);
     Get.lazyPut(() => SettingsBottomSheetController(), fenix: true);
-    Get.lazyPut(() => FloatingPostController(), fenix: true);
+    // Get.lazyPut(() => FloatingPostController(), fenix: true);
   }
 }

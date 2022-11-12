@@ -11,7 +11,7 @@ import '../modules/auth/screens/signup_screen.dart';
 import '../modules/comments/bindings/comments_binding.dart';
 import '../modules/comments/views/comments_view.dart';
 import '../modules/explorer/bindings/explorer_binding.dart';
-import '../modules/explorer/views/explorer_view.dart';
+import '../modules/explorer/views/explorer_screen.dart';
 import '../modules/follows/screens/follows_screen.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_screen.dart';
@@ -19,7 +19,6 @@ import '../modules/posts/controllers/add_post_controller.dart';
 import '../modules/posts/views/choose_media_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/screens/profile_screen.dart';
-import '../modules/profile/screens/user_posts_screen.dart';
 import '../modules/reels/bindings/reels_binding.dart';
 import '../modules/reels/views/reels_view.dart';
 import '../modules/search/bindings/search_binding.dart';
@@ -90,12 +89,12 @@ class AppPages {
       page: () => FollowsScreen(tab: Routes.FOLLOWING),
       transition: Transition.rightToLeftWithFade,
     ),
-    GetPage(
-      name: _Paths.USER_POSTS,
-      page: () => const UserPostsScreen(),
+    // GetPage(
+    //   name: _Paths.USER_POSTS,
+    //   page: () => const UserPostsScreen(),
 
-      ///   the controller of the [UserPostsScreen] is already initilized by the profile screen
-    ),
+    //   ///   the controller of the [UserPostsScreen] is already initilized by the profile screen
+    // ),
     // GetPage(
     //   name: _Paths.FLOATING_POST_VIEW,
     //   page: () => const FloatingPostView(),

@@ -22,8 +22,11 @@ class SearchResultTile extends GetView<SearchController> {
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
         onTap: () => controller.onSearchResultPressed(user),
-        leading: UserAvatar.follower(
-          user: user,
+        leading: SizedBox(
+          width: 50.sp,
+          child: UserAvatar.follower(
+            user: user,
+          ),
         ),
         title: Text(user.userName),
         subtitle: Text(user.nickName),

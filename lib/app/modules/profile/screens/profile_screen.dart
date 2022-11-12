@@ -59,10 +59,7 @@ class ProfileScreen extends StatelessWidget {
                         Expanded(
                           child: TabBarView(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 3),
-                                child: ProfilePostsTap(controller: userPostsController),
-                              ),
+                              ProfilePostsTap(controller: userPostsController),
                               const Center(child: Text('2')),
                             ],
                           ),

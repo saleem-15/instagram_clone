@@ -83,7 +83,7 @@ Future<List<User>> fetchStoriesService() async {
     final response = await dio.get(Api.STORY_URL);
     // log('fethced stories:  ${response.data.toString()}');
     logger.i(response.data);
-    final data = response.data['data'];
+    final data = response.data['Data'];
 
     return _convertDataToUsers(data);
   } on DioError catch (e) {

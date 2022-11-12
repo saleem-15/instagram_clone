@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
-Future<List<Post>> fetchExplorerPostsService(int pageNum) async {
+Future<List<Post>> fetchExplorerPostsService(int pageNum,RxInt numOfPages) async {
   try {
     log('before request ************************');
     final response = await dio.get(
@@ -16,9 +17,9 @@ Future<List<Post>> fetchExplorerPostsService(int pageNum) async {
     );
     log('after response HI************************');
     final data = response.data['data'];
-    // final metaData = response.data['meta'];
+    final metaData = response.data['meta'];
 
-    // Get.find<ProfileController>().numOfPages = metaData['last_page'];
+    numOfPages.value = metaData['last_page'];
     log(response.data.toString());
 
     return _convertDataToPosts(data as List);

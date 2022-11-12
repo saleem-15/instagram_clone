@@ -8,6 +8,7 @@ import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/app/models/post.dart';
 
 import '../controllers/post_controller.dart';
+import 'animated_heart.dart';
 
 class PostMedia extends GetView<PostsController> {
   PostMedia({
@@ -18,6 +19,7 @@ class PostMedia extends GetView<PostsController> {
   final Post post;
   final RxBool isCounterVisible = true.obs;
   final RxBool isAudioIconVisible = false.obs;
+  final RxBool isHeartVisible = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +38,12 @@ class PostMedia extends GetView<PostsController> {
           itemBuilder: (context, index, realIndex) {
             return SizedBox(
               width: 360.w,
-              child: post.postContents[index].isImageFileName
+              child: post.postContents[index].isImageFileName || post.postContents.first.endsWith('.webp')
                   ?
 
                   /// image
                   GestureDetector(
-                      onDoubleTap: () {},
+                      onDoubleTap: () => controller.onPostDoubleTap(post, isHeartVisible),
                       child: Image.network(
                         post.postContents[index],
                         headers: Api.headers,
@@ -61,6 +63,7 @@ class PostMedia extends GetView<PostsController> {
                               controller.onVideoTapped(snapshot.data!, post, index);
                               showVideoAudioIconTemporary();
                             },
+                            onDoubleTap: () => controller.onPostDoubleTap(post, isHeartVisible),
                             child: Stack(children: [
                               VideoPlayer(videoController),
                               Obx(
@@ -101,7 +104,6 @@ class PostMedia extends GetView<PostsController> {
                         }
                       },
                     ),
-         
             );
           },
         ),
@@ -137,6 +139,26 @@ class PostMedia extends GetView<PostsController> {
             ),
           ),
         ),
+
+        Positioned.fill(
+          child: Obx(() {
+            if (isHeartVisible.isTrue) {
+              return const AnimatedHeart();
+            }
+
+            return const SizedBox.shrink();
+          }),
+        ),
+        // Positioned.fill(
+        //   child: GetBuilder<PostsController>(
+        //     assignId: true,
+        //     builder: (_) {
+        //       return const Center(
+        //         child: AnimatedHeart(),
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }

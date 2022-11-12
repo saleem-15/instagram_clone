@@ -27,7 +27,7 @@ dependencies:
   pausable_timer: ^1.0.0+6           #used in story
   flutter_carousel_slider: ^1.0.9    #used in story
   logger: ^1.1.0
-  logger_flutter: ^0.0.1
+  animate_do: ^2.1.0                
 
 dev_dependencies: 
   flutter_lints: 2.0.1

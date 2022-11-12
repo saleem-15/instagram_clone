@@ -7,8 +7,8 @@ class Api {
 // const baseUrl = '10.0.0.9:80';
 // const baseUrl = 'fe80::fe6a:4e4a:2b4b:e006%9';
 
-// static const apiUrl = 'https://10.0.96.53/laravel9/instagram/public/api';
-  static const apiUrl = 'https://instagram-clone.devyzer.com/api';
+  static const apiUrl = 'http://10.0.0.7/laravel9/instagram/public/api';
+  // static const apiUrl = 'https://instagram-clone.devyzer.com/api';
   static const apikey = 'p@ssword123';
 
 //auth
@@ -35,6 +35,7 @@ class Api {
 
 //search
   static const SEARCH_URL = '/user/search';
+  static const SEARCH_HISTORY_URL = '/search/history/';
 
 //story
   static const STORY_URL = '/story';

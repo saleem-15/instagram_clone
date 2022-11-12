@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
 import '../services/forget_password_service.dart';
-import '../services/verify_code_service copy.dart';
+import '../services/verify_code_service.dart';
 
 class OtpFormController extends GetxController {
   // final firstOtpFieldController = TextEditingController();

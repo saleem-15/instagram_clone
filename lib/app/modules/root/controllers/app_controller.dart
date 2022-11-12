@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/explorer/bindings/explorer_binding.dart';
-import 'package:instagram_clone/app/modules/explorer/views/explorer_view.dart';
+import 'package:instagram_clone/app/modules/explorer/views/explorer_screen.dart';
 import 'package:instagram_clone/app/modules/home/bindings/home_binding.dart';
 import 'package:instagram_clone/app/modules/home/views/home_screen.dart';
 import 'package:instagram_clone/app/modules/profile/bindings/profile_binding.dart';

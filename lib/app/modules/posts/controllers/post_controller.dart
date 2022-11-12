@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -11,6 +12,7 @@ import '../services/set_post_is_saved_service.dart';
 class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};
   final Map<String, VideoPlayerController> cashedVideos = {};
+  static final Map<String, AnimationController> heartAnimationControllers = {};
 
   final carouselController = CarouselController();
 
@@ -30,8 +32,16 @@ class PostsController extends GetxController {
   }
 
   Future<void> onHeartPressed(Post post) async {
-    final isSuccess = await setPostIsLovedService(post.id, !post.isFavorite);
-    if (isSuccess) {
+    /// change the value to the opposite
+    post.isFavorite = !post.isFavorite;
+    heartAnimationControllers[post.id]!.reset();
+    heartAnimationControllers[post.id]!.forward();
+    update(['${post.id} love button']);
+
+    final isSuccess = await setPostIsLovedService(post.id, post.isFavorite);
+
+    /// if the request failed return to the original value
+    if (!isSuccess) {
       post.isFavorite = !post.isFavorite;
       update(['${post.id} love button']);
     }
@@ -75,5 +85,14 @@ class PostsController extends GetxController {
 
   void registerPost(Post post) {
     postsIndex.addIf(!postsIndex.containsKey(post.id), post.id, 0);
+  }
+
+  Future<void> onPostDoubleTap(Post post, RxBool isHeartVisible) async {
+    onHeartPressed(post);
+    isHeartVisible(true);
+    await Future.delayed(const Duration(milliseconds: 1500));
+    isHeartVisible(false);
+
+    // update(['bouncing_heart_in_centre']);
   }
 }

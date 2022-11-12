@@ -55,9 +55,10 @@ class UserAvatar extends StatelessWidget {
   final bool showRingIfHasStory;
   @override
   Widget build(BuildContext context) {
-    final ImageProvider backgroundImage = (user.image == null
-        ? const AssetImage('assets/images/default_user_image.png')
-        : NetworkImage(user.image!)) as ImageProvider;
+    const ImageProvider backgroundImage = AssetImage('assets/images/default_user_image.png');
+    // final ImageProvider backgroundImage = (user.image == null
+    //     ? const AssetImage('assets/images/default_user_image.png')
+    //     : NetworkImage(user.image!)) as ImageProvider;
 
     return GestureDetector(
       onTap: onUserAvatarTapped,
@@ -80,7 +81,7 @@ class UserAvatar extends StatelessWidget {
 
                 /// before the actual photo of the user loads, put this photo
                 backgroundImage: const AssetImage('assets/images/default_user_image.png'),
-                child: Image(image: backgroundImage),
+                child: const Image(image: backgroundImage),
               ),
             )
           :
@@ -92,10 +93,8 @@ class UserAvatar extends StatelessWidget {
               /// before the actual photo of the user loads, put this photo
               backgroundImage: const AssetImage('assets/images/default_user_image.png'),
 
-              child: Image(
-                image: ((user.image == null
-                    ? const AssetImage('assets/images/default_user_image.png')
-                    : NetworkImage(user.image!)) as ImageProvider),
+              child: const Image(
+                image: backgroundImage,
                 // fit: BoxFit.fill,
                 // isAntiAlias: true,
               ),
@@ -108,7 +107,13 @@ class UserAvatar extends StatelessWidget {
   void onUserAvatarTapped() {
     if (user.isHasNewStory) {
       Get.find<StoriesController>().goToUserStories(user);
-    } else {
+    }
+
+    if (_avatarMode == AvatarMode.Profile) {
+      return;
+    }
+
+    if (!user.isHasNewStory) {
       Get.toNamed(
         Routes.PROFILE,
         arguments: user,
