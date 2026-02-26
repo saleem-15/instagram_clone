@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+import '/utils/custom_snackbar.dart';
 import '../../../../utils/constants/api.dart';
 import '../../../../utils/helpers.dart';
 import '../../../storage/my_shared_pref.dart';
-import '/utils/custom_snackbar.dart';
 
 /// it returnes if signup process is successful
 Future<bool> signupService({
@@ -63,6 +63,8 @@ Future<bool> signupService({
       duration: const Duration(seconds: 10),
       message: formatErrorMsg(e.response!.data),
     );
+  } catch (e) {
+    log(e.toString());
   }
 
   return false;

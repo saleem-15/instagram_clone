@@ -1,14 +1,11 @@
 import 'package:dio/dio.dart';
-
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 class Api {
-// const baseUrl = '10.0.0.200';
-// const baseUrl = '10.0.0.9:80';
-// const baseUrl = 'fe80::fe6a:4e4a:2b4b:e006%9';
 
-  static const apiUrl = 'http://10.0.0.7/laravel9/instagram/public/api';
-  // static const apiUrl = 'https://instagram-clone.devyzer.com/api';
+
+  static const apiUrl =
+      'https://harper-plinthlike-crissy.ngrok-free.dev/api/';
   static const apikey = 'p@ssword123';
 
 //auth
@@ -17,7 +14,8 @@ class Api {
   static const MY_INFO = '/auth/user/info';
   static const LOGOUT_URL = '/auth/user/logout';
   static const FORGET_PASSWORD_URL = '/auth/user/password/code/send';
-  static const CHECK_EMAIL_CODE_URL = '/auth/user/password/code/check';
+  static const CHECK_EMAIL_CODE_URL =
+      '/auth/user/password/code/check';
   static const RESET_PASSWORD_URL = '/auth/user/password/reset';
 
 //user
