@@ -34,7 +34,8 @@ class StoriesController extends GetxController {
 
   Future<void> addNewStory() async {
     final picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image =
+        await picker.pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
     }
