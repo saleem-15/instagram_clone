@@ -87,7 +87,7 @@ Future<List<User>> fetchStoriesService() async {
 
     return _convertDataToUsers(data);
   } on DioError catch (e) {
-    log(e.response!.toString());
+    log(e.response.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.message),
