@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/shared/posts_grid/views/posts_grid_view.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
 
@@ -70,7 +68,7 @@ class ExplorerView extends GetView<ExplorerController> {
   //   return Center(
   //     child: Text(
   //       'No Posts was Found'.tr,
-  //       style: Theme.of(context).textTheme.headline6,
+  //       style: Theme.of(context).textTheme.titleLarge,
   //     ),
   //   );
   // }

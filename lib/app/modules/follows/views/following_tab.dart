@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/app/models/profile.dart';
-
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
@@ -49,7 +47,7 @@ class FollowingView extends StatelessWidget {
                       ? Center(
                           child: Text(
                             'There is no results',
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         )
                       :
@@ -97,7 +95,7 @@ class FollowingView extends StatelessWidget {
     return Center(
       child: Text(
         'There isn\'t any followings',
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

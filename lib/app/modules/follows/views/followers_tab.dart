@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/app/models/profile.dart';
-
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/search_field.dart';
@@ -12,7 +10,8 @@ import '../controllers/followers_controller.dart';
 import 'follower_tile.dart';
 
 class FollowersView extends StatelessWidget {
-  FollowersView({Key? key, required Profile profile}) : super(key: key) {
+  FollowersView({Key? key, required Profile profile})
+      : super(key: key) {
     controller = Get.put(
       FollowersController(profile: profile),
       tag: profile.userId,
@@ -31,8 +30,10 @@ class FollowersView extends StatelessWidget {
           SearchTextField(
             textController: controller.searchTextController,
             onEditingComplete: controller.search,
-            showCancelButton: controller.showCancelButtonForSearchField.value,
-            onCancelButtonPressed: controller.onSearchFieldCancelButtonPressed,
+            showCancelButton:
+                controller.showCancelButtonForSearchField.value,
+            onCancelButtonPressed:
+                controller.onSearchFieldCancelButtonPressed,
           ),
 
           // /// loading search results
@@ -58,7 +59,9 @@ class FollowersView extends StatelessWidget {
                       ? Center(
                           child: Text(
                             'There is no results',
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge,
                           ),
                         )
                       :
@@ -85,13 +88,17 @@ class FollowersView extends StatelessWidget {
                     controller: controller,
                   ),
                   //
-                  firstPageErrorIndicatorBuilder: (_) => errorWidget(),
+                  firstPageErrorIndicatorBuilder: (_) =>
+                      errorWidget(),
                   //
-                  noItemsFoundIndicatorBuilder: (context) => noFollowersFoundWidget(context),
+                  noItemsFoundIndicatorBuilder: (context) =>
+                      noFollowersFoundWidget(context),
                   //
-                  firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                  firstPageProgressIndicatorBuilder: (_) =>
+                      loadingWidget(),
                   //
-                  newPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                  newPageProgressIndicatorBuilder: (_) =>
+                      loadingWidget(),
                   //
                   newPageErrorIndicatorBuilder: (_) => errorWidget(),
                 ),
@@ -106,7 +113,7 @@ class FollowersView extends StatelessWidget {
     return Center(
       child: Text(
         'There isn\'t any followers',
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/modules/story/controllers/stories_controller.dart';
 
 import '../../../../config/theme/my_fonts.dart';
@@ -35,13 +34,15 @@ class StoryTile extends GetView<StoriesController> {
             assignId: true,
             id: 'story tile ${user.id}',
             builder: (_) => Container(
-              padding: EdgeInsets.all(user.isHasNewStory ? 6.sp : 4.sp),
+              padding:
+                  EdgeInsets.all(user.isHasNewStory ? 6.sp : 4.sp),
 
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: user.isHasNewStory
                     ? const DecorationImage(
-                        image: AssetImage('assets/icons/story_ring.png'),
+                        image:
+                            AssetImage('assets/icons/story_ring.png'),
                       )
                     : null,
                 border: !user.isHasNewStory
@@ -63,7 +64,7 @@ class StoryTile extends GetView<StoriesController> {
           /// username
           Text(
             user.userName,
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: MyFonts.bodySmallTextSize,
                 ),
           ),

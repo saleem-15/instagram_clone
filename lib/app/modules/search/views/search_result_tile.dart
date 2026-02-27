@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/search/controller/search_controller.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
-
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class SearchResultTile extends GetView<SearchController> {
   const SearchResultTile({
@@ -18,7 +15,8 @@ class SearchResultTile extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(splashColor: Colors.transparent),
+      data:
+          Theme.of(context).copyWith(splashColor: Colors.transparent),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
         onTap: () => controller.onSearchResultPressed(user),

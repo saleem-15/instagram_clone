@@ -21,7 +21,10 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     /// vertical space between the number of (post,follower,following) and the text bellow the num
     final verticalSpace = 5.sp;
-    final numbersTextStyle = Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 16.sp);
+    final numbersTextStyle = Theme.of(context)
+        .textTheme
+        .bodyLarge!
+        .copyWith(fontSize: 16.sp);
     return Column(
       children: [
         Column(
@@ -40,7 +43,7 @@ class ProfileHeader extends StatelessWidget {
                     ),
                     Text(
                       profileController.profile.nickName,
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ],
                 ),
@@ -61,7 +64,8 @@ class ProfileHeader extends StatelessWidget {
                               width: size,
                               height: size,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${profileController.profile.numOfPost}',
@@ -83,7 +87,8 @@ class ProfileHeader extends StatelessWidget {
                               width: size,
                               height: size,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${profileController.profile.numOfFollowers}',
@@ -105,7 +110,8 @@ class ProfileHeader extends StatelessWidget {
                               width: size,
                               height: size,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${profileController.profile.numOfFollowings}',
@@ -131,7 +137,8 @@ class ProfileHeader extends StatelessWidget {
             SizedBox(
               height: 2.sp,
             ),
-            if (profileController.profile.bio != null) Text(profileController.profile.bio!),
+            if (profileController.profile.bio != null)
+              Text(profileController.profile.bio!),
           ],
         ),
         SizedBox(
@@ -147,7 +154,8 @@ class ProfileHeader extends StatelessWidget {
                   onPressed: () {},
                   child: const Text(
                     'Edit Profile',
-                    style: TextStyle(color: LightThemeColors.buttonTextColor),
+                    style: TextStyle(
+                        color: LightThemeColors.buttonTextColor),
                   ),
                 )
 
@@ -165,7 +173,9 @@ class ProfileHeader extends StatelessWidget {
                             onPressed: profileController.unFollowUser,
                             child: Text(
                               'Following',
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge,
                             ),
                           )
                         : ElevatedButton(

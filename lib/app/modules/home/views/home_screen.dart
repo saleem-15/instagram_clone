@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/app/modules/story/views/stories_view.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_view.dart';
+import 'package:instagram_clone/app/modules/story/views/stories_view.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 
 import '../controllers/home_controller.dart';
@@ -64,7 +62,7 @@ class HomeScreen extends GetView<HomeController> {
     return Center(
       child: Text(
         'No Posts was Found'.tr,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

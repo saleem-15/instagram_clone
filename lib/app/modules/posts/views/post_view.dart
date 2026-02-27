@@ -2,16 +2,14 @@ import 'dart:developer';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/app/modules/posts/views/post_media.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/app/modules/posts/views/post_media.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../controllers/post_controller.dart';
 
@@ -89,10 +87,13 @@ class PostView extends GetView<PostsController> {
                       log('love button of post ${post.id} is built');
                       return IconButton(
                         key: const ValueKey('Love Button'),
-                        onPressed: () => controller.onHeartPressed(post),
+                        onPressed: () =>
+                            controller.onHeartPressed(post),
                         icon: ElasticIn(
                           controller: (animationController) {
-                            PostsController.heartAnimationControllers.addAll({post.id: animationController});
+                            PostsController.heartAnimationControllers
+                                .addAll(
+                                    {post.id: animationController});
                           },
                           child: post.isFavorite
                               ? FaIcon(
@@ -134,10 +135,12 @@ class PostView extends GetView<PostsController> {
                       id: 'selected content index',
                       builder: (controller) {
                         return AnimatedSmoothIndicator(
-                          activeIndex: controller.postsIndex[post.id]!,
+                          activeIndex:
+                              controller.postsIndex[post.id]!,
                           count: post.postContents.length,
                           effect: const ScrollingDotsEffect(
-                            activeDotColor: LightThemeColors.authButtonColor,
+                            activeDotColor:
+                                LightThemeColors.authButtonColor,
                             dotWidth: 5,
                             dotHeight: 5,
                             maxVisibleDots: 7,
@@ -154,9 +157,12 @@ class PostView extends GetView<PostsController> {
                   id: '${post.id} save button',
                   builder: (controller) {
                     return IconButton(
-                      onPressed: () => controller.onSaveButtonPressed(post),
+                      onPressed: () =>
+                          controller.onSaveButtonPressed(post),
                       icon: Icon(
-                        post.isSaved ? Icons.bookmark_sharp : Icons.bookmark_outline_sharp,
+                        post.isSaved
+                            ? Icons.bookmark_sharp
+                            : Icons.bookmark_outline_sharp,
                       ),
                     );
                   },
@@ -174,7 +180,7 @@ class PostView extends GetView<PostsController> {
             children: [
               Text(
                 '${post.numOfLikes} likes',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               SizedBox(
                 height: 4.sp,
@@ -185,7 +191,10 @@ class PostView extends GetView<PostsController> {
                   onTap: () => controller.viewPostComments(post),
                   child: Text(
                     'View all ${post.numOfComments} comments',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 13.sp),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(fontSize: 13.sp),
                   ),
                 ),
             ],

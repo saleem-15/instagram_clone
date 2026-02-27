@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/modules/comments/controllers/comments_controller.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
@@ -42,10 +40,11 @@ class CommentTile extends GetView<CommentsController> {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: () => controller.onUserNamePressd(comment.user),
+                      onTap: () =>
+                          controller.onUserNamePressd(comment.user),
                       child: Text(
                         comment.user.userName,
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                     SizedBox(
@@ -55,7 +54,10 @@ class CommentTile extends GetView<CommentsController> {
                     /// created at
                     Text(
                       comment.createdAt,
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(
                             color: Theme.of(context).disabledColor,
                           ),
                     ),
@@ -68,7 +70,7 @@ class CommentTile extends GetView<CommentsController> {
                 ///comments
                 Text(
                   comment.text,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),

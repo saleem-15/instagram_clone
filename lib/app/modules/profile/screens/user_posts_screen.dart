@@ -33,7 +33,7 @@
 //           noItemsFoundIndicatorBuilder: (context) => Center(
 //             child: Text(
 //               'No Posts was Found'.tr,
-//               style: Theme.of(context).textTheme.headline6,
+//               style: Theme.of(context).textTheme.titleLarge,
 //             ),
 //           ),
 //           newPageErrorIndicatorBuilder: (context) => const Text('coludnt load'),

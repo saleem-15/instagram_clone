@@ -23,14 +23,14 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
           ),
           Text(
             'Find your account',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           SizedBox(
             height: 10.sp,
           ),
           Text(
             'Enter the email linked to your account',
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
           ),
@@ -51,9 +51,13 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
           ),
           Obx(
             () => ElevatedButton(
-              onPressed: controller.isEmailButtonDisable.isTrue ? null : controller.onNextButtonPressedEmail,
+              onPressed: controller.isEmailButtonDisable.isTrue
+                  ? null
+                  : controller.onNextButtonPressedEmail,
               style: MyStyles.getAuthButtonStyle(),
-              child: controller.isWaitingResponse.isTrue ? const LoadingWidget.button() : const Text('Next'),
+              child: controller.isWaitingResponse.isTrue
+                  ? const LoadingWidget.button()
+                  : const Text('Next'),
             ),
           ),
         ],

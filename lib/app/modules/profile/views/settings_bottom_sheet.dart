@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controllers/settings_bottom_sheet_controller.dart';
 
-class SettingsBottomSheet extends GetView<SettingsBottomSheetController> {
+class SettingsBottomSheet
+    extends GetView<SettingsBottomSheetController> {
   const SettingsBottomSheet({Key? key}) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class SettingsBottomSheet extends GetView<SettingsBottomSheetController> {
             onTap: controller.logout,
             title: Text(
               'Logout',
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: LightThemeColors.lightBlue,
                   ),
             ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
@@ -18,7 +16,8 @@ class InfoView extends GetView<SignupController> {
         key: controller.formKey,
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            padding:
+                EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Column(
               children: [
                 SizedBox(
@@ -26,7 +25,7 @@ class InfoView extends GetView<SignupController> {
                 ),
                 Text(
                   'NAME AND PASSWORD',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 SizedBox(
                   height: verticalSpace,
@@ -84,7 +83,9 @@ class InfoView extends GetView<SignupController> {
                 Obx(
                   () => ElevatedButton(
                     onPressed:
-                        controller.isContinueButtonDisable.isTrue ? null : controller.onSignupButtonPressed,
+                        controller.isContinueButtonDisable.isTrue
+                            ? null
+                            : controller.onSignupButtonPressed,
                     style: MyStyles.getAuthButtonStyle(),
                     child: const Text('Continue'),
                   ),

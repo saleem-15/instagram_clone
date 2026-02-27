@@ -11,15 +11,14 @@ class MyTheme {
       // main color (app bar,tabs..etc)
       colorScheme: const ColorScheme.light().copyWith(
         /// this color affects the (over scroll Glowing color)
-        secondary: Colors.grey[300],
-
+        secondary: LightThemeColors.accentColor,
         primary: LightThemeColors.primaryColor,
+        background: LightThemeColors.backgroundColor,
       ),
 
       scrollbarTheme: const ScrollbarThemeData(),
 
       primaryColor: LightThemeColors.primaryColor, // secondary color (for checkbox,float button, radio..etc)
-      accentColor: LightThemeColors.accentColor,
       // color contrast (if the theme is dark text should be white for example)
       brightness: Brightness.light,
       // card widget background color
@@ -29,7 +28,6 @@ class MyTheme {
       // divider color
       dividerColor: LightThemeColors.dividerColor,
       // app background color
-      backgroundColor: LightThemeColors.backgroundColor,
       scaffoldBackgroundColor: LightThemeColors.scaffoldBackgroundColor,
 
       // progress bar theme

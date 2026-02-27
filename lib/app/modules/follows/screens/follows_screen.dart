@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/profile.dart';
 
@@ -29,7 +28,7 @@ class FollowsScreen extends StatelessWidget {
         ),
         bottom: TabBar(
           controller: controller.tabController,
-          labelStyle: Theme.of(context).textTheme.bodyText1,
+          labelStyle: Theme.of(context).textTheme.bodyLarge,
           tabs: [
             Tab(
               child: Text('${controller.numOfFollowers} followers'),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
-
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/reset_password_controller.dart';
@@ -24,7 +22,7 @@ class ResetPasswordScreen extends GetView<ResetPasswordController> {
             ),
             Text(
               'Reset Password',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(
               height: 15.sp,
@@ -46,7 +44,9 @@ class ResetPasswordScreen extends GetView<ResetPasswordController> {
             ),
             Obx(
               () => ElevatedButton(
-                onPressed: controller.isButtonDisable.isTrue ? null : controller.onResetPasswordButtonPressed,
+                onPressed: controller.isButtonDisable.isTrue
+                    ? null
+                    : controller.onResetPasswordButtonPressed,
                 style: MyStyles.getAuthButtonStyle(),
                 child: Obx(
                   () => controller.isWaitingForRequest.isTrue

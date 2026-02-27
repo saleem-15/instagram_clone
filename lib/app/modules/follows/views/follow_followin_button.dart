@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
@@ -29,8 +28,11 @@ class FollowButton extends StatelessWidget {
       child: Obx(
         () => doIFollowHim.isTrue
             ? ElevatedButton(
-                style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                      backgroundColor: MaterialStateProperty.all(null),
+                style: Theme.of(context)
+                    .elevatedButtonTheme
+                    .style!
+                    .copyWith(
+                      backgroundColor: WidgetStateProperty.all(null),
                     ),
                 onPressed: () async {
                   final isSuccess = await unFollow(user.id);
@@ -46,8 +48,12 @@ class FollowButton extends StatelessWidget {
                 ),
               )
             : ElevatedButton(
-                style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-                      backgroundColor: MaterialStateProperty.all(LightThemeColors.lightBlue),
+                style: Theme.of(context)
+                    .elevatedButtonTheme
+                    .style!
+                    .copyWith(
+                      backgroundColor: WidgetStateProperty.all(
+                          LightThemeColors.lightBlue),
                     ),
                 onPressed: () async {
                   final isSuccess = await follow(user.id);

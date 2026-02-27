@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
-
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
@@ -38,8 +36,10 @@ class SigninScreen extends GetView<SigninController> {
                 children: [
                   Text(
                     'Don\'t have an account?  ',
-                    style:
-                        Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).hintColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Theme.of(context).hintColor),
                   ),
                   GestureDetector(
                     onTap: controller.goToSignup,
@@ -47,8 +47,10 @@ class SigninScreen extends GetView<SigninController> {
                       'Sign up',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1!
-                          .copyWith(color: LightThemeColors.authButtonColor.withOpacity(.6)),
+                          .bodyLarge!
+                          .copyWith(
+                              color: LightThemeColors.authButtonColor
+                                  .withValues(alpha: .6)),
                     ),
                   )
                 ],
@@ -60,7 +62,8 @@ class SigninScreen extends GetView<SigninController> {
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            padding:
+                EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Column(
               children: [
                 Image.asset(
@@ -79,9 +82,11 @@ class SigninScreen extends GetView<SigninController> {
                       TextFormField(
                         controller: controller.firstFieledController,
                         validator: controller.emailFieldValidator,
-                        textInputAction: TextInputAction.next, // Moves focus to next field
+                        textInputAction: TextInputAction
+                            .next, // Moves focus to next field
                         decoration: const InputDecoration(
-                          hintText: 'Phone number, email address or username',
+                          hintText:
+                              'Phone number, email address or username',
                         ),
                       ),
                       SizedBox(
@@ -90,22 +95,26 @@ class SigninScreen extends GetView<SigninController> {
                       Obx(
                         () => TextFormField(
                           controller: controller.passwordController,
-                          validator: controller.passwordFieldValidator,
+                          validator:
+                              controller.passwordFieldValidator,
                           obscureText: isShowPassword.isTrue,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             suffixIcon: IconButton(
                               splashRadius: 5,
-                              onPressed: () => isShowPassword.toggle(),
+                              onPressed: () =>
+                                  isShowPassword.toggle(),
                               icon: isShowPassword.isTrue
                                   ? FaIcon(
                                       FontAwesomeIcons.eye,
-                                      color: LightThemeColors.authButtonColor,
+                                      color: LightThemeColors
+                                          .authButtonColor,
                                       size: 15.sp,
                                     )
                                   : FaIcon(
                                       FontAwesomeIcons.eyeSlash,
-                                      color: Theme.of(context).disabledColor,
+                                      color: Theme.of(context)
+                                          .disabledColor,
                                       size: 15.sp,
                                     ),
                             ),
@@ -120,7 +129,9 @@ class SigninScreen extends GetView<SigninController> {
                 ),
                 Obx(
                   () => ElevatedButton(
-                    onPressed: controller.isButtonDisable.isTrue ? null : controller.logIn,
+                    onPressed: controller.isButtonDisable.isTrue
+                        ? null
+                        : controller.logIn,
                     style: MyStyles.getAuthButtonStyle(),
                     child: controller.isWaitingResponse.isTrue
                         ? const LoadingWidget.button()
@@ -137,11 +148,17 @@ class SigninScreen extends GetView<SigninController> {
                       children: [
                         TextSpan(
                           text: 'Forgotten your login details? ',
-                          style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 13.sp),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontSize: 13.sp),
                         ),
                         TextSpan(
                           text: 'Get help with logging in.',
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
                                 fontSize: 13.sp,
                                 color: Colors.indigo.shade800,
                               ),

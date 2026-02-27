@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyFonts {
@@ -34,8 +33,8 @@ class MyFonts {
   static double get headline2TextSize => 40.sp;
   static double get headline3TextSize => 30.sp;
   static double get headline4TextSize => 26.sp;
-  static double get headline5TextSize => 22.sp;
-  static double get headline6TextSize => 18.sp;
+  static double get headlineSmallTextSize => 22.sp;
+  static double get titleLargeTextSize => 18.sp;
 
   //button font size
   static double get buttonTextSize => 14.sp;

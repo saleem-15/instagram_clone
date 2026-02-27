@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
@@ -28,7 +26,8 @@ class CommentsView extends GetView<CommentsController> {
         children: [
           /// post author && post text
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+            padding:
+                EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
                 SizedBox(
@@ -46,10 +45,12 @@ class CommentsView extends GetView<CommentsController> {
                     children: [
                       /// Account Name (username)
                       GestureDetector(
-                        onTap: () => controller.onUserNamePressd(postPublisher),
+                        onTap: () => controller
+                            .onUserNamePressd(postPublisher),
                         child: Text(
                           controller.accountName,
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                       SizedBox(
@@ -59,7 +60,7 @@ class CommentsView extends GetView<CommentsController> {
                       /// post
                       Text(
                         controller.postText,
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -83,11 +84,14 @@ class CommentsView extends GetView<CommentsController> {
                   comment: comment,
                 ).paddingSymmetric(horizontal: horizontalPadding),
                 //
-                newPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                newPageProgressIndicatorBuilder: (_) =>
+                    loadingWidget(),
                 //
-                firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                firstPageProgressIndicatorBuilder: (_) =>
+                    loadingWidget(),
                 //
-                noItemsFoundIndicatorBuilder: (context) => noCommentsFoundWidget(context),
+                noItemsFoundIndicatorBuilder: (context) =>
+                    noCommentsFoundWidget(context),
                 //
                 firstPageErrorIndicatorBuilder: (_) => errorWidget(),
                 //
@@ -141,7 +145,10 @@ class CommentsView extends GetView<CommentsController> {
                   Obx(
                     () => TextButton(
                       style: MyStyles.getPostCommentButtonStyle(),
-                      onPressed: controller.isPostButtonDisabled.isTrue ? null : controller.postComment,
+                      onPressed:
+                          controller.isPostButtonDisabled.isTrue
+                              ? null
+                              : controller.postComment,
                       child: const Text('Post'),
                     ),
                   )
@@ -158,7 +165,7 @@ class CommentsView extends GetView<CommentsController> {
     return Center(
       child: Text(
         'No Comments was Found'.tr,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

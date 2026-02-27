@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controllers/signup_controller.dart';
@@ -35,16 +33,21 @@ class SignupScreen extends GetView<SignupController> {
                       'Already have an account?  ',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
-                          .copyWith(color: Theme.of(context).hintColor),
+                          .bodyMedium!
+                          .copyWith(
+                              color: Theme.of(context).hintColor),
                     ),
                     GestureDetector(
                       onTap: controller.goToLogIn,
                       child: Text(
                         'Log in',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: LightThemeColors.authButtonColor
-                                .withOpacity(.6)),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(
+                                color: LightThemeColors
+                                    .authButtonColor
+                                    .withValues(alpha: .6)),
                       ),
                     )
                   ],
@@ -71,7 +74,7 @@ class SignupScreen extends GetView<SignupController> {
                   height: 40.sp,
                 ),
                 TabBar(
-                  labelStyle: Theme.of(context).textTheme.bodyText2,
+                  labelStyle: Theme.of(context).textTheme.bodyMedium,
                   tabs: const [
                     Tab(
                       child: Text('PHONE NUMBER'),

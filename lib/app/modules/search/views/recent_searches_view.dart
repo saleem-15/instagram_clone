@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controller/search_controller.dart';
@@ -21,13 +19,16 @@ class RecentSearches extends GetView<SearchController> {
             children: [
               Text(
                 'Recent'.tr,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               TextButton(
                 onPressed: () {},
                 child: Text(
                   'See All'.tr,
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: LightThemeColors.lightBlue),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: LightThemeColors.lightBlue),
                 ),
               ),
             ],

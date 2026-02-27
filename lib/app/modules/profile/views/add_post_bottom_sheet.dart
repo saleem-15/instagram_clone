@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../controllers/post_bottom_sheet_controller.dart';
 
-
-class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
+class AddPostBottomSheet
+    extends GetView<AddPostBottomSheetController> {
   const AddPostBottomSheet({Key? key}) : super(key: key);
 
   @override
@@ -32,7 +31,7 @@ class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
             'Create',
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(fontSize: 18.sp),
           ),
           SizedBox(

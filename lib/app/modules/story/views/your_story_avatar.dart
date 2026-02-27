@@ -41,7 +41,8 @@ class YourStoryAvatar extends StatelessWidget {
                   width: 18.sp,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color:
+                          Theme.of(context).scaffoldBackgroundColor,
                       width: 2.sp,
                     ),
                     color: LightThemeColors.lightBlue,
@@ -59,7 +60,10 @@ class YourStoryAvatar extends StatelessWidget {
         ).marginOnly(top: 4.sp),
         Text(
           'Your story',
-          style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: MyFonts.bodySmallTextSize),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontSize: MyFonts.bodySmallTextSize),
         ),
       ],
     );

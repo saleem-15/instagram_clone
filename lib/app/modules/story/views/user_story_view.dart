@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:holding_gesture/holding_gesture.dart';
-
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/story/controllers/user_story_controller.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
@@ -20,7 +19,8 @@ class UserStoriesView extends StatelessWidget {
     required int userIndex,
     // required this.controller,
   }) : super(key: key) {
-    controller = Get.put(UserStoryController(user, userIndex), tag: user.id);
+    controller =
+        Get.put(UserStoryController(user, userIndex), tag: user.id);
   }
 
   final User user;
@@ -31,7 +31,8 @@ class UserStoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
+    final isKeyboardVisible =
+        MediaQuery.of(context).viewInsets.bottom != 0;
 
     if (isKeyboardVisible) {
       controller.pauseStory();
@@ -105,8 +106,11 @@ class UserStoriesView extends StatelessWidget {
                       },
                       child: Text(
                         controller.user.userName,
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: Colors.white.withOpacity(.9),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(
+                              color: Colors.white.withValues(alpha:.9),
                             ),
                       ).paddingSymmetric(vertical: 5.sp),
                     ),
@@ -117,7 +121,10 @@ class UserStoriesView extends StatelessWidget {
                     /// when the story was posted
                     Text(
                       '14 h',
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(
                             color: Colors.white38,
                           ),
                     ),
@@ -155,22 +162,26 @@ class UserStoriesView extends StatelessWidget {
             margin: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 20.sp),
+            padding: EdgeInsets.symmetric(
+                horizontal: 5.w, vertical: 20.sp),
             child: TextField(
-              style: TextStyle(color: Colors.white.withOpacity(.85)),
+              style: TextStyle(color: Colors.white.withValues(alpha:.85)),
               cursorColor: Colors.greenAccent,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 15.sp),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 15.sp),
                 filled: false,
                 hintText: 'Send message',
                 hintStyle: const TextStyle(color: Colors.white),
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.white30),
-                  borderRadius: BorderRadius.all(Radius.circular(25.r)),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(25.r)),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.white30),
-                  borderRadius: BorderRadius.all(Radius.circular(25.r)),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(25.r)),
                 ),
               ),
             ),

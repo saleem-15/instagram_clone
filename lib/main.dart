@@ -50,7 +50,7 @@ class Main extends StatelessWidget {
             child: MediaQuery(
               // but we want our app font to still the same and dont get affected
               data: MediaQuery.of(context)
-                  .copyWith(textScaleFactor: 1.0),
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
               child: widget!,
             ),
           );

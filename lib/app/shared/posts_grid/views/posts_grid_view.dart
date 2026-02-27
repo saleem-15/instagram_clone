@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/posts_grid/views/post_grid_tile.dart';
@@ -13,7 +12,8 @@ class PostsGridView extends StatelessWidget {
   const PostsGridView({
     Key? key,
     required this.controller,
-    this.sliverGridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
+    this.sliverGridDelegate =
+        const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 3,
       crossAxisSpacing: 3,
       mainAxisSpacing: 3,
@@ -48,7 +48,8 @@ class PostsGridView extends StatelessWidget {
             //
             newPageProgressIndicatorBuilder: (_) => loadingWidget(),
             //
-            noItemsFoundIndicatorBuilder: (context) => noPostsFoundWdget(context),
+            noItemsFoundIndicatorBuilder: (context) =>
+                noPostsFoundWdget(context),
             //
             firstPageErrorIndicatorBuilder: (_) => errorWidget(),
             //
@@ -71,7 +72,7 @@ class PostsGridView extends StatelessWidget {
     return Center(
       child: Text(
         'No Posts was Found'.tr,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

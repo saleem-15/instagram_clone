@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/modules/auth/controllers/otp_form_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
@@ -23,7 +22,7 @@ class OtpForm extends GetView<OtpFormController> {
           children: [
             Text(
               'We have sent a verification code to',
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).disabledColor,
                   ),
             ),
@@ -32,7 +31,7 @@ class OtpForm extends GetView<OtpFormController> {
             ),
             Text(
               controller.email,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: 16.sp,
                   ),
             ),
@@ -73,10 +72,13 @@ class OtpForm extends GetView<OtpFormController> {
                 Expanded(
                   child: Obx(
                     () => ElevatedButton(
-                      onPressed: controller.isConfirmButtonDisable.isTrue ? null : controller.confirmCode,
+                      onPressed:
+                          controller.isConfirmButtonDisable.isTrue
+                              ? null
+                              : controller.confirmCode,
                       style: MyStyles.getAuthButtonStyle(),
                       child: controller.isWaitingResponse.isTrue
-                          ?const LoadingWidget.button()
+                          ? const LoadingWidget.button()
                           : const Text('Confirm'),
                     ),
                   ),
@@ -113,8 +115,9 @@ class OtpField extends GetView<OtpFormController> {
         controller: controller.otpFieldstextControllers[index],
         focusNode: controller.otpFocusNodes[index],
         onTap: controller.onOtpFieldTapped,
-        onChanged: (value) => controller.onOtpFieldChange(index, value, context),
-        style: Theme.of(context).textTheme.headline6,
+        onChanged: (value) =>
+            controller.onOtpFieldChange(index, value, context),
+        style: Theme.of(context).textTheme.titleLarge,
         decoration: const InputDecoration(
           filled: false,
           border: UnderlineInputBorder(),
@@ -122,7 +125,8 @@ class OtpField extends GetView<OtpFormController> {
           focusedBorder: UnderlineInputBorder(),
         ),
         keyboardType: TextInputType.number,
-        textInputAction: isLastField ? TextInputAction.done : TextInputAction.none,
+        textInputAction:
+            isLastField ? TextInputAction.done : TextInputAction.none,
         textAlign: TextAlign.center,
         inputFormatters: [
           LengthLimitingTextInputFormatter(1),

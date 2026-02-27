@@ -1,9 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
-
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:video_player/video_player.dart';
 
 class PostController extends GetxController {
   // final Post post;
@@ -46,7 +45,8 @@ class PostController extends GetxController {
     update(['${post.id} save button']);
   }
 
-  void onImageSlided(Post post, int index, CarouselPageChangedReason reason) {
+  void onImageSlided(
+      Post post, int index, CarouselPageChangedReason reason) {
     postsIndex[post.id] = index;
     update(['selected content index']);
   }
@@ -56,7 +56,8 @@ class PostController extends GetxController {
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
-    final videoController = VideoPlayerController.network(videoUrl);
+    final videoController =
+        VideoPlayerController.networkUrl(Uri.parse(videoUrl));
     await videoController.initialize();
     cashedVideos.addIf(true, videoUrl, videoController);
 
@@ -68,8 +69,8 @@ class PostController extends GetxController {
     return videoController;
   }
 
-  onVideoTapped(
-      VideoPlayerController videoPlayerController, Post post, int videoIndex) {
+  onVideoTapped(VideoPlayerController videoPlayerController,
+      Post post, int videoIndex) {
     videoPlayerController
         .setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
 

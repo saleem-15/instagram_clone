@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
@@ -39,14 +37,17 @@ class PhoneNumView extends GetView<SignupController> {
                     height: 30,
                     padding: EdgeInsets.only(left: 5.sp),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceAround,
                       children: [
                         Text(
                           'IL +972 ',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
-                              .copyWith(color: Theme.of(context).disabledColor),
+                              .bodyLarge!
+                              .copyWith(
+                                  color: Theme.of(context)
+                                      .disabledColor),
                         ),
                         const SizedBox(
                           height: 40,
@@ -65,10 +66,11 @@ class PhoneNumView extends GetView<SignupController> {
               Text(
                 'You may recieve SMS notifications from us for security and login purposes',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      fontSize: 12.sp,
-                      color: Theme.of(context).disabledColor,
-                    ),
+                style:
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 12.sp,
+                          color: Theme.of(context).disabledColor,
+                        ),
               ),
             ],
           ),
