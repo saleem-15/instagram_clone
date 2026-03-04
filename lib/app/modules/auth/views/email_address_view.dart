@@ -7,7 +7,7 @@ import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.d
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class EmailAddressView extends GetView<SignupController> {
-  const EmailAddressView({Key? key}) : super(key: key);
+  const EmailAddressView({super.key});
   @override
   Widget build(BuildContext context) {
     final verticalSpace = 15.h;
@@ -19,7 +19,8 @@ class EmailAddressView extends GetView<SignupController> {
           validator: controller.emailFieldValidator,
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
+          style: Theme.of(context).inputDecorationTheme.labelStyle,
+          decoration: InputDecoration(
             hintText: 'Email Address',
           ),
         ),

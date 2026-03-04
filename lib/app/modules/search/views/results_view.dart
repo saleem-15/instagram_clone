@@ -1,39 +1,43 @@
-import 'package:flutter/material.dart';
-
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:instagram_clone/app/models/user.dart';
 
 import '../controller/search_controller.dart';
 import '../views/search_result_tile.dart';
 
 class Results extends GetView<SearchController> {
-  const Results({Key? key}) : super(key: key);
+  const Results({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final pagingController = controller.pagingController;
     return Column(
       children: [
         Expanded(
-          child: PagedListView(
-            pagingController: pagingController,
-            builderDelegate: PagedChildBuilderDelegate<User>(
-              itemBuilder: (_, user, __) => SearchResultTile(user: user),
+          child: PagingListener<int, User>(
+            controller: controller.pagingController,
+            builder: (context, state, fetchNextPage) => PagedListView(
+              state: state,
+              fetchNextPage: fetchNextPage,
+              builderDelegate: PagedChildBuilderDelegate<User>(
+                itemBuilder: (_, user, __) => SearchResultTile(user: user),
 
-              /// No result state
-              noItemsFoundIndicatorBuilder: (_) => noResultsWidget(context),
+                /// No result state
+                noItemsFoundIndicatorBuilder: (_) => noResultsWidget(context),
 
-              /// Searching state
-              firstPageProgressIndicatorBuilder: (context) => searchingWidget(context, controller),
+                /// Searching state
+                firstPageProgressIndicatorBuilder: (context) =>
+                    searchingWidget(context, controller),
 
-              /// first page Error state
-              firstPageErrorIndicatorBuilder: (_) => Text(pagingController.error.toString()),
+                /// first page Error state
+                firstPageErrorIndicatorBuilder: (_) =>
+                    Text(state.error?.toString() ?? 'Error loading results'),
 
-              /// Error state
-              newPageErrorIndicatorBuilder: (_) => const Text('Error, coludnt load'),
+                /// Error state
+                newPageErrorIndicatorBuilder: (_) =>
+                    const Text('Error, couldnt load'),
+              ),
             ),
           ),
         ),
@@ -45,7 +49,7 @@ class Results extends GetView<SearchController> {
     return Center(
       child: Text(
         'No result were found'.tr,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }
@@ -67,7 +71,7 @@ Widget searchingWidget(BuildContext context, SearchController controller) {
         ),
         Text(
           'Searching for "${controller.searchedKeyWord}"...',
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: Theme.of(context).disabledColor,
               ),
         ),

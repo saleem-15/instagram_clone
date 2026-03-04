@@ -1,64 +1,83 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import 'package:instagram_clone/app/modules/auth/controllers/auth_conroller.dart';
-import 'package:instagram_clone/app/modules/profile/controllers/post_bottom_sheet_controller.dart';
+import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
+import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:logger/logger.dart';
 
+import 'app/modules/auth/controllers/auth_conroller.dart';
 import 'app/modules/auth/screens/signin_screen.dart';
-import 'app/my_app.dart';
-import 'app/my_app_binding.dart';
+import 'app/modules/root/controllers/app_controller.dart';
+import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
+import 'app/shared/error_widget.dart';
 import 'config/theme/my_theme.dart';
 
-final myUser = MySharedPref.getUserData;
-
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
   await MySharedPref.init();
 
   // MySharedPref.setUserToken(null);
-  Get.lazyPut(() => AddPostBottomSheetController(), fenix: true);
-  runApp(const Main());
+  AuthBinding().dependencies();
+  Get.lazyPut(() => AppController(), fenix: true);
+
+  runApp(Main());
 }
 
+late Logger logger;
+
 class Main extends StatelessWidget {
-  const Main({Key? key}) : super(key: key);
+  const Main({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // log('my tohen ${MySharedPref.getToken}');
+    // log(MySharedPref.getToken!);
+    logger = Logger();
+
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
-        initialBinding: MyAppBinding(),
-        debugShowCheckedModeBanner: false,
-        title: "Instagram clone",
-        getPages: AppPages.routes,
-        builder: (context, widget) {
-          return Theme(
-            data: MyTheme.getThemeData(),
-            child: MediaQuery(
-              // but we want our app font to still the same and dont get affected
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-              child: widget!,
-            ),
-          );
-        },
-        home: Container(
-          color: Colors.blue,
-          child: GetBuilder<AuthController>(
-            assignId: true,
-            id: 'auth_listener',
-            builder: (controller) {
-              log('********* auth_listener is build *********');
-              return controller.isAuthorized ? const MyApp() : const SigninScreen();
+          debugShowCheckedModeBanner: false,
+          title: "Instagram clone",
+          getPages: AppPages.routes,
+          builder: (context, widget) {
+            return Theme(
+              data: MyTheme.getThemeData(),
+              child: MediaQuery(
+                // but we want our app font to still the same and dont get affected
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: const TextScaler.linear(1.0)),
+                child: widget!,
+              ),
+            );
+          },
+          home: Builder(
+            builder: (context) {
+              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                // Match your app background
+                systemNavigationBarColor:
+                    LightThemeColors.scaffoldBackgroundColor,
+                // For white icons
+                systemNavigationBarIconBrightness: Brightness.light,
+              ));
+
+              final EdgeInsets systemPadding = MediaQuery.of(context).padding;
+              return Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                padding: EdgeInsets.only(
+                  top: systemPadding.top,
+                  bottom: systemPadding.bottom,
+                ),
+                child: Get.find<AuthController>().isAuthorized
+                    ? MyApp()
+                    : SigninScreen(),
+              );
             },
-          ),
-        ),
-      ),
+          )),
     );
   }
 }

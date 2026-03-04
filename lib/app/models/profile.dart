@@ -17,6 +17,7 @@ class Profile {
   String get userId => user.id;
   bool get isHasNewStory => user.isHasNewStory;
   String? get image => user.image;
+  bool get isMyProfile => MySharedPref.getUserId == userId;
 
   Profile({
     required this.nickName,

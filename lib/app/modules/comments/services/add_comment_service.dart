@@ -21,7 +21,7 @@ Future<bool> addCommentService(String comment, String postId) async {
     log(data.toString());
 
     return true;
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     log(e.response!.data.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(

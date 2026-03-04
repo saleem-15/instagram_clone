@@ -1,14 +1,17 @@
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/modules/auth/screens/forgot_password_screen.dart';
+import 'package:instagram_clone/app/modules/auth/screens/reset_password_screen.dart';
+import 'package:instagram_clone/app/modules/root/bindings/my_app_binding.dart';
+import 'package:instagram_clone/app/modules/root/my_app.dart';
 import 'package:instagram_clone/app/modules/search/search_screen.dart';
 
-import '../models/user.dart';
+import '../modules/auth/screens/otp_screen.dart';
 import '../modules/auth/screens/signin_screen.dart';
 import '../modules/auth/screens/signup_screen.dart';
 import '../modules/comments/bindings/comments_binding.dart';
 import '../modules/comments/views/comments_view.dart';
 import '../modules/explorer/bindings/explorer_binding.dart';
-import '../modules/explorer/views/explorer_view.dart';
-import '../modules/follows/bindings/follows_binding.dart';
+import '../modules/explorer/views/explorer_screen.dart';
 import '../modules/follows/screens/follows_screen.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_screen.dart';
@@ -16,12 +19,11 @@ import '../modules/posts/controllers/add_post_controller.dart';
 import '../modules/posts/views/choose_media_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/screens/profile_screen.dart';
-import '../modules/profile/screens/user_posts_screen.dart';
 import '../modules/reels/bindings/reels_binding.dart';
 import '../modules/reels/views/reels_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/story/bindings/story_binding.dart';
-import '../modules/story/views/story_screen.dart';
+import '../modules/story/screens/story_screen.dart';
 
 part 'app_routes.dart';
 
@@ -31,11 +33,11 @@ class AppPages {
   static const INITIAL = Routes.HOME;
 
   static final routes = [
-    // GetPage(
-    //   name: _Paths.INFO_VIEW,
-    //   page: () => const InfoView(),
-    //   binding: HomeBinding(),
-    // ),
+    GetPage(
+      name: _Paths.MY_APP,
+      page: () => const MyApp(),
+      binding: MyAppBinding(),
+    ),
     GetPage(
       name: _Paths.SIGN_IN,
       page: () => const SigninScreen(),
@@ -43,6 +45,18 @@ class AppPages {
     GetPage(
       name: _Paths.SIGNUP,
       page: () => const SignupScreen(),
+    ),
+    GetPage(
+      name: _Paths.FORGOT_PASSWORD,
+      page: () => const ForgotPasswordScreen(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => const ResetPasswordScreen(),
+    ),
+    GetPage(
+      name: _Paths.OTP_FORM,
+      page: () => const OtpForm(),
     ),
     GetPage(
       name: _Paths.HOME,
@@ -61,28 +75,26 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => const ProfileScreen(),
+      page: () => ProfileScreen(),
       binding: ProfileBinding(),
       transition: Transition.rightToLeft,
     ),
     GetPage(
       name: _Paths.FOLLOWERS,
-      page: () => const FollowsScreen(pageIndex: 0),
-      binding: FollowsBinding(),
+      page: () => FollowsScreen(tab: Routes.FOLLOWERS),
       transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.FOLLOWING,
-      page: () => const FollowsScreen(pageIndex: 1),
-      binding: FollowsBinding(),
+      page: () => FollowsScreen(tab: Routes.FOLLOWING),
       transition: Transition.rightToLeftWithFade,
     ),
-    GetPage(
-      name: _Paths.USER_POSTS,
-      page: () => const UserPostsScreen(),
+    // GetPage(
+    //   name: _Paths.USER_POSTS,
+    //   page: () => const UserPostsScreen(),
 
-      ///   the controller of the [UserPostsScreen] is already initilized by the profile screen
-    ),
+    //   ///   the controller of the [UserPostsScreen] is already initilized by the profile screen
+    // ),
     // GetPage(
     //   name: _Paths.FLOATING_POST_VIEW,
     //   page: () => const FloatingPostView(),
@@ -99,10 +111,9 @@ class AppPages {
       binding: CommentsBinding(),
       transition: Transition.rightToLeftWithFade,
     ),
-
     GetPage(
       name: _Paths.STORY,
-      page: () => StoryScreen(user: User(id: 'id', nickName: 'nick name', userName: 'saleem', image: '')),
+      page: () => StoryScreen(),
       binding: StoryBinding(),
     ),
     GetPage(

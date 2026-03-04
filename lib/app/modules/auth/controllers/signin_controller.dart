@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/utils/constants/api.dart';
 
 import '../services/sign_in_service.dart';
 
@@ -16,6 +17,7 @@ class SigninController extends GetxController {
   String get password => passwordController.text.trim();
 
   RxBool isButtonDisable = true.obs;
+  RxBool isWaitingResponse = false.obs;
 
   Future<void> logIn() async {
     final isValid = formKey.currentState!.validate();
@@ -23,12 +25,14 @@ class SigninController extends GetxController {
     if (!isValid) {
       return;
     }
-
+    isWaitingResponse(true);
     final isSuccessfull = await signInService(firstFieled, password);
+    isWaitingResponse(false);
 
-    // if (isSuccessfull) {
-    //   Get.off(() => const Main());
-    // }
+    if (isSuccessfull) {
+      Api.authChanged();
+      Get.offAllNamed(Routes.MY_APP);
+    }
   }
 
   @override
@@ -56,24 +60,25 @@ class SigninController extends GetxController {
     Get.offNamed(Routes.SIGNUP);
   }
 
-  void forgetPassword() {}
 
   void autoDisableLoginButton() {
     firstFieledController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty ||
-          passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }
       isButtonDisable(false);
     });
     passwordController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty ||
-          passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }
       isButtonDisable(false);
     });
+  }
+
+  void forgotPassword() {
+    Get.toNamed(Routes.FORGOT_PASSWORD);
   }
 }

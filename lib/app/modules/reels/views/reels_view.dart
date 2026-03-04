@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/reels_controller.dart';
 
 class ReelsView extends GetView<ReelsController> {
-  const ReelsView({Key? key}) : super(key: key);
+  const ReelsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

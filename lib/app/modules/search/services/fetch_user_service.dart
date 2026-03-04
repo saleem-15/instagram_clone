@@ -16,7 +16,7 @@ Future<User> fetchUserService(String userId) async {
 
   return  User.fromMap(data);
 
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     log(e.response!.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(

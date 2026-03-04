@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -6,11 +7,20 @@ import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_loved_service.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
+import '../services/set_post_is_saved_service.dart';
+
 class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};
   final Map<String, VideoPlayerController> cashedVideos = {};
+  static final Map<String, AnimationController> heartAnimationControllers = {};
 
-  final carouselController = CarouselController();
+  late final CarouselSliderController carouselController;
+
+  @override
+  void onInit() {
+    carouselController = CarouselSliderController();
+    super.onInit();
+  }
 
   void viewPostComments(Post post) {
     Get.toNamed(
@@ -28,24 +38,27 @@ class PostsController extends GetxController {
   }
 
   Future<void> onHeartPressed(Post post) async {
-    final isSuccess = await setPostIsLovedService(post.id, !post.isFavorite);
-    if (isSuccess) {
+    /// change the value to the opposite
+    post.isFavorite = !post.isFavorite;
+    heartAnimationControllers[post.id]!.reset();
+    heartAnimationControllers[post.id]!.forward();
+    update(['${post.id} love button']);
+
+    final isSuccess = await setPostIsLovedService(post.id, post.isFavorite);
+
+    /// if the request failed return to the original value
+    if (!isSuccess) {
       post.isFavorite = !post.isFavorite;
       update(['${post.id} love button']);
     }
   }
 
   Future<void> onSaveButtonPressed(Post post) async {
-    ///******* Future code  ***********/
-    // final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
-    // if (isSuccess) {
-    //   post.isSaved = !post.isSaved;
-    //   update(['${post.id} save button']);
-    // }
-    ///******* Future code  ***********/
-
-    post.isSaved = !post.isSaved;
-    update(['${post.id} save button']);
+    final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
+    if (isSuccess) {
+      post.isSaved = !post.isSaved;
+      update(['${post.id} save button']);
+    }
   }
 
   void onImageSlided(Post post, int index, CarouselPageChangedReason reason) {
@@ -58,8 +71,10 @@ class PostsController extends GetxController {
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
-    final videoController = VideoPlayerController.network(videoUrl);
+    final videoController =
+        VideoPlayerController.networkUrl(Uri.parse(videoUrl));
     await videoController.initialize();
+
     cashedVideos.addIf(true, videoUrl, videoController);
 
     /// video is silent by default
@@ -70,7 +85,7 @@ class PostsController extends GetxController {
     return videoController;
   }
 
-  onVideoTapped(
+  void onVideoTapped(
       VideoPlayerController videoPlayerController, Post post, int videoIndex) {
     videoPlayerController
         .setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
@@ -80,5 +95,14 @@ class PostsController extends GetxController {
 
   void registerPost(Post post) {
     postsIndex.addIf(!postsIndex.containsKey(post.id), post.id, 0);
+  }
+
+  Future<void> onPostDoubleTap(Post post, RxBool isHeartVisible) async {
+    onHeartPressed(post);
+    isHeartVisible(true);
+    await Future.delayed(const Duration(milliseconds: 1500));
+    isHeartVisible(false);
+
+    // update(['bouncing_heart_in_centre']);
   }
 }

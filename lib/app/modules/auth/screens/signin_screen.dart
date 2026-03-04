@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-
+import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/signin_controller.dart';
 
-// ignore_for_file: prefer_const_constructors
-
 class SigninScreen extends GetView<SigninController> {
-  const SigninScreen({Key? key}) : super(key: key);
+  const SigninScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +28,26 @@ class SigninScreen extends GetView<SigninController> {
         width: MediaQuery.of(context).size.width,
         height: 50.sp,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Divider(),
+            const Divider(),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Don\'t have an account?  ',
-                    style:
-                        Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).hintColor),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: Theme.of(context).hintColor),
                   ),
                   GestureDetector(
                     onTap: controller.goToSignup,
                     child: Text(
                       'Sign up',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(color: LightThemeColors.authButtonColor.withOpacity(.6)),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: LightThemeColors.authButtonColor
+                              .withValues(alpha: .6)),
                     ),
                   )
                 ],
@@ -81,8 +78,11 @@ class SigninScreen extends GetView<SigninController> {
                       TextFormField(
                         controller: controller.firstFieledController,
                         validator: controller.emailFieldValidator,
-                        textInputAction: TextInputAction.next, // Moves focus to next field
-                        decoration: InputDecoration(
+                        textInputAction:
+                            TextInputAction.next, // Moves focus to next field
+                        style:
+                            Theme.of(context).inputDecorationTheme.labelStyle,
+                        decoration: const InputDecoration(
                           hintText: 'Phone number, email address or username',
                         ),
                       ),
@@ -94,6 +94,8 @@ class SigninScreen extends GetView<SigninController> {
                           controller: controller.passwordController,
                           validator: controller.passwordFieldValidator,
                           obscureText: isShowPassword.isTrue,
+                          style:
+                              Theme.of(context).inputDecorationTheme.labelStyle,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             suffixIcon: IconButton(
@@ -122,9 +124,40 @@ class SigninScreen extends GetView<SigninController> {
                 ),
                 Obx(
                   () => ElevatedButton(
-                    onPressed: controller.isButtonDisable.isTrue ? null : controller.logIn,
+                    onPressed: controller.isButtonDisable.isTrue
+                        ? null
+                        : controller.logIn,
                     style: MyStyles.getAuthButtonStyle(),
-                    child: const Text('Log in'),
+                    child: controller.isWaitingResponse.isTrue
+                        ? const LoadingWidget.button()
+                        : const Text('Log in'),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.sp,
+                ),
+                GestureDetector(
+                  onTap: controller.forgotPassword,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Forgotten your login details? ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontSize: 13.sp),
+                        ),
+                        TextSpan(
+                          text: 'Get help with logging in.',
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 13.sp,
+                                    color: Colors.indigo.shade800,
+                                  ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(

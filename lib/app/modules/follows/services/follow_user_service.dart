@@ -12,13 +12,13 @@ Future<bool> followService(String userId) async {
   log('user id $userId');
   try {
     final response = await dio.post(
-      Api.FOLLOWEING_PATH,
+      Api.FOLLOW_USER_PATH,
       queryParameters: {'user_id': userId},
     );
     log(response.data.toString());
 
     return true;
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),

@@ -2,22 +2,23 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:video_player/video_player.dart';
 
-import 'package:instagram_clone/app/models/post.dart';
-
 import '../controllers/post_controller.dart';
+import 'animated_heart.dart';
 
 class PostMedia extends GetView<PostsController> {
   PostMedia({
-    Key? key,
+    super.key,
     required this.post,
-  }) : super(key: key);
+  });
 
   final Post post;
   final RxBool isCounterVisible = true.obs;
   final RxBool isAudioIconVisible = false.obs;
+  final RxBool isHeartVisible = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -30,33 +31,48 @@ class PostMedia extends GetView<PostsController> {
             enableInfiniteScroll: false,
             height: 500,
             onScrolled: (_) => showContentCounterTemporary(),
-            onPageChanged: (index, reason) => controller.onImageSlided(post, index, reason),
+            onPageChanged: (index, reason) =>
+                controller.onImageSlided(post, index, reason),
             viewportFraction: 1,
           ),
           itemBuilder: (context, index, realIndex) {
             return SizedBox(
               width: 360.w,
-              child: post.postContents[index].isImageFileName
-                  ? GestureDetector(
-                      onDoubleTap: () {},
-                      child: Image.network(
-                        // post.postContents[index],
+              child: post.postContents[index].isImageFileName ||
+                      post.postContents.first.endsWith('.webp')
+                  ?
 
-                        'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
+                  /// image
+                  GestureDetector(
+                      onDoubleTap: () => controller.onPostDoubleTap(
+                          post, isHeartVisible),
+                      child: Image.network(
+                        post.postContents[index],
                         headers: Api.headers,
                         fit: BoxFit.cover,
                       ),
                     )
-                  : FutureBuilder(
-                      future: controller.initilizeVideoController(post.postContents[index]),
-                      builder: (context, AsyncSnapshot<VideoPlayerController> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
+                  :
+
+                  /// video
+                  FutureBuilder(
+                      future: controller.initilizeVideoController(
+                          post.postContents[index]),
+                      builder: (context,
+                          AsyncSnapshot<VideoPlayerController>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.done) {
                           final videoController = snapshot.data!;
                           return GestureDetector(
                             onTap: () {
-                              controller.onVideoTapped(snapshot.data!, post, index);
+                              controller.onVideoTapped(
+                                  snapshot.data!, post, index);
                               showVideoAudioIconTemporary();
                             },
+                            onDoubleTap: () =>
+                                controller.onPostDoubleTap(
+                                    post, isHeartVisible),
                             child: Stack(children: [
                               VideoPlayer(videoController),
                               Obx(
@@ -67,20 +83,33 @@ class PostMedia extends GetView<PostsController> {
                                         id: '${post.id} $index',
                                         builder: (_) {
                                           return AnimatedScale(
-                                            duration: const Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                                milliseconds: 300),
                                             scale: 1.2,
                                             child: Center(
                                               child: Container(
-                                                padding: const EdgeInsets.all(8),
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xff2d2d37),
-                                                  shape: BoxShape.circle,
+                                                padding:
+                                                    const EdgeInsets
+                                                        .all(8),
+                                                decoration:
+                                                    const BoxDecoration(
+                                                  color: Color(
+                                                      0xff2d2d37),
+                                                  shape:
+                                                      BoxShape.circle,
                                                 ),
                                                 child: Icon(
-                                                  videoController.value.volume == 1
-                                                      ? Icons.volume_up_outlined
-                                                      : Icons.volume_off_rounded,
-                                                  color: Colors.white.withOpacity(.8),
+                                                  videoController
+                                                              .value
+                                                              .volume ==
+                                                          1
+                                                      ? Icons
+                                                          .volume_up_outlined
+                                                      : Icons
+                                                          .volume_off_rounded,
+                                                  color: Colors.white
+                                                      .withValues(
+                                                          alpha: .8),
                                                 ),
                                               ),
                                             ),
@@ -124,7 +153,8 @@ class PostMedia extends GetView<PostsController> {
                   builder: (_) {
                     return Text(
                       '${controller.postsIndex[post.id]! + 1}/${post.postContents.length}',
-                      style: TextStyle(color: Colors.white.withOpacity(.9)),
+                      style: TextStyle(
+                          color: Colors.white.withValues(alpha: .9)),
                     );
                   },
                 ),
@@ -132,6 +162,26 @@ class PostMedia extends GetView<PostsController> {
             ),
           ),
         ),
+
+        Positioned.fill(
+          child: Obx(() {
+            if (isHeartVisible.isTrue) {
+              return const AnimatedHeart();
+            }
+
+            return const SizedBox.shrink();
+          }),
+        ),
+        // Positioned.fill(
+        //   child: GetBuilder<PostsController>(
+        //     assignId: true,
+        //     builder: (_) {
+        //       return const Center(
+        //         child: AnimatedHeart(),
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }

@@ -13,9 +13,7 @@ import '../services/search_service.dart';
 
 class SearchController extends GetxController {
   int numOfPages = 1;
-  final pagingController = PagingController<int, User>(
-    firstPageKey: 1,
-  );
+  late final PagingController<int, User> pagingController;
 
   //
   RxList<User> recentSearches = <User>[].obs;
@@ -31,9 +29,11 @@ class SearchController extends GetxController {
   @override
   void onInit() {
     searchFoucus.requestFocus();
-    pagingController.addPageRequestListener((pageKey) async {
-      fetchResults(pageKey);
-    });
+
+    pagingController = PagingController<int, User>(
+      getNextPageKey: getNextPageKey,
+      fetchPage: fetchResults,
+    );
 
     super.onInit();
   }
@@ -49,7 +49,7 @@ class SearchController extends GetxController {
   void onRecentSearchTilePressed(String userId) {
     Get.toNamed(
       Routes.PROFILE,
-      parameters: {'userId': userId},
+      parameters: {'user_id': userId},
     );
   }
 
@@ -58,22 +58,27 @@ class SearchController extends GetxController {
     recentSearches.removeAt(index);
   }
 
-  /// makes an api request and puts the products to the itemsList
-  Future<void> fetchResults(int pageKey) async {
-    log('fetch results is called');
-    try {
-      final newProducts = await searchService(searchedKeyWord, pageKey);
-      final isLastPage = numOfPages == pageKey;
-      isLoadingForFirstPage(false);
+  int? getNextPageKey(PagingState<int, User> state) {
+    // In v5, pages are stored as List<List<T>>, and keys are stored separately
+    // We can use the keys field to determine the next page
+    final fetchedPages = state.keys?.length ?? 0;
 
-      if (isLastPage) {
-        pagingController.appendLastPage(newProducts);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(newProducts, nextPageKey);
-      }
+    if (fetchedPages >= numOfPages) {
+      return null; // No more pages
+    }
+
+    // Next page key is the number of fetched pages + 1
+    return fetchedPages + 1;
+  }
+
+  /// makes an api request and returns the list of users
+  Future<List<User>> fetchResults(int pageKey) async {
+    log('fetch results is called for page: $pageKey');
+    try {
+      final newUsers = await searchService(searchedKeyWord, pageKey);
+      return newUsers;
     } catch (error) {
-      pagingController.error = error;
+      log("error fetching results: $error");
       rethrow;
     }
   }
@@ -95,10 +100,8 @@ class SearchController extends GetxController {
     /// dismiss the keyboard
     searchFoucus.unfocus();
 
-    /// resets the pagination controller  (deletes old results) (so it paginates for the new search keyword)
+    /// resets the pagination controller (deletes old results) (so it paginates for the new search keyword)
     pagingController.refresh();
-
-    isLoadingForFirstPage(true);
   }
 
   @override
@@ -117,7 +120,7 @@ class SearchController extends GetxController {
 
     Get.toNamed(
       Routes.PROFILE,
-      // parameters: {'userId': user.id},
+      parameters: {'user_id': user.id},
       arguments: user,
     );
   }

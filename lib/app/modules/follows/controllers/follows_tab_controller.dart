@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/models/profile.dart';
 import 'package:instagram_clone/app/models/user.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
-enum SelectedPage {
-  FollowersView,
-  FollowingView,
-}
-
 class FollowsTabController extends GetxController with GetSingleTickerProviderStateMixin {
+  FollowsTabController({required this.profile, required this.tab});
+
   late final List<Tab> myTabs;
   late TabController tabController;
-  late SelectedPage selectedPage;
-  int get selectedIndex => selectedPage.name == SelectedPage.FollowersView.name ? 0 : 1;
+  String tab;
+  late int selectedIndex;
 
-  late int numOfFollowers;
-  late int numOfFollowing;
-
-  late final String userName;
+  Profile profile;
+  int get numOfFollowers => profile.numOfFollowers;
+  int get numOfFollowing => profile.numOfFollowings;
+  User get user => profile.user;
+  String get userName => user.userName;
 
   @override
   void onInit() {
-    selectedPage = SelectedPage.FollowersView;
-
-    numOfFollowers = int.parse(Get.parameters['numOfFollowers']!);
-    numOfFollowing = int.parse(Get.parameters['numOfFollowing']!);
-    userName = (Get.arguments as User).userName;
+    selectedIndex = tab == Routes.FOLLOWERS ? 0 : 1;
 
     myTabs = [
       Tab(child: Text('$numOfFollowers followers')),
@@ -40,13 +35,6 @@ class FollowsTabController extends GetxController with GetSingleTickerProviderSt
       initialIndex: selectedIndex,
     );
     super.onInit();
-  }
-
-  static void goToFollowersView() {
-    Get.toNamed(
-      Routes.FOLLOWERS,
-      parameters: {'pageIndex': '0'},
-    );
   }
 
   @override

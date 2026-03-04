@@ -1,16 +1,23 @@
-buildscript {
-    ext.kotlin_version = '1.6.10'
-    repositories {
-        google()
-        mavenCentral()
-    }
+// allprojects {
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
+// }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
+// rootProject.layout.buildDirectory.value(rootProject.projectDir.parentFile.toPath().resolve("build").toFile())
 
+// subprojects {
+//     project.layout.buildDirectory.value(rootProject.layout.buildDirectory.get().asFile.toPath().resolve(project.name).toFile())
+// }
+
+// subprojects {
+//     project.evaluationDependsOn(':app')
+// }
+
+// tasks.register("clean", Delete) {
+//     delete rootProject.layout.buildDirectory
+// }
 allprojects {
     repositories {
         google()
@@ -18,14 +25,18 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
+// Modern Gradle 8.x way to set the build directory
+rootProject.layout.buildDirectory.set(rootProject.projectDir.parentFile.toPath().resolve("build").toFile())
+
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    // Set subproject build directories inside the root build folder
+    project.layout.buildDirectory.set(rootProject.layout.buildDirectory.get().asFile.toPath().resolve(project.name).toFile())
 }
+
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete) {
+    delete rootProject.layout.buildDirectory
 }

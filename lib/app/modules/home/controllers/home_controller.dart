@@ -10,36 +10,39 @@ import 'package:instagram_clone/app/modules/home/services/fetch_posts_service.da
 
 class HomeController extends GetxController {
   int numOfPages = 5;
-  final pagingController = PagingController<int, Post>(
-    firstPageKey: 1,
-  );
+  late final PagingController<int, Post> pagingController;
 
   final searchTextController = TextEditingController();
 
   @override
   void onInit() {
-    pagingController.addPageRequestListener((pageKey) async {
-      fetchPosts(pageKey);
-    });
+    pagingController = PagingController<int, Post>(
+      getNextPageKey: getNextPageKey,
+      fetchPage: fetchPosts,
+    );
+
     super.onInit();
   }
 
-  Future<void> fetchPosts(int pageKey) async {
+  int? getNextPageKey(PagingState<int, Post> state) {
+    int currentPage = state.nextIntPageKey - 1;
+    if (currentPage >= numOfPages) {
+      return null;
+    }
+
+    return state.nextIntPageKey;
+  }
+
+  Future<List<Post>> fetchPosts(int pageKey) async {
     try {
       log('fetch posts');
       final followersNewPage = await fetchPostsService(pageKey);
 
-      final isLastPage = numOfPages == pageKey;
-
-      if (isLastPage) {
-        pagingController.appendLastPage(followersNewPage);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(followersNewPage, nextPageKey);
-      }
+      return followersNewPage;
     } catch (error) {
-      pagingController.error = error;
-      rethrow;
+      log("error fetching posts: $error");
+
+      return [];
     }
   }
 }

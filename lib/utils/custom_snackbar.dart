@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomSnackBar {
-  static showCustomSnackBar({
+  static void showCustomSnackBar({
     String title = 'Done successfully!',
     required String message,
     Color color = Colors.green,
@@ -24,7 +24,7 @@ class CustomSnackBar {
     );
   }
 
-  static showCustomErrorSnackBar({
+  static void showCustomErrorSnackBar({
     String title = 'Error',
     required String message,
     Color color = Colors.redAccent,
@@ -47,7 +47,7 @@ class CustomSnackBar {
     );
   }
 
-  static showCustomToast({
+  static void showCustomToast({
     String? title,
     required String message,
     Color color = Colors.green,
@@ -66,7 +66,7 @@ class CustomSnackBar {
     );
   }
 
-  static showCustomErrorToast({
+  static void showCustomErrorToast({
     String? title,
     required String message,
     Color color = Colors.redAccent,

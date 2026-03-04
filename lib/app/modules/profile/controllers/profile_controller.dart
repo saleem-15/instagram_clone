@@ -6,14 +6,13 @@ import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/follows/services/follow_user_service.dart';
 import 'package:instagram_clone/app/modules/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/app/modules/profile/views/add_post_bottom_sheet.dart';
+import 'package:instagram_clone/app/modules/profile/views/settings_bottom_sheet.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 import '../services/get_profile_info_service.dart';
 
 class ProfileController extends GetxController {
-  /// by default its my profile (not other people profiles)
-
   late final Profile profile;
   late final bool isMyProfile;
   late final User user;
@@ -26,7 +25,6 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     user = Get.arguments ?? MySharedPref.getUserData;
-    user.printInfo();
     isMyProfile = user.id == MySharedPref.getUserId;
     super.onInit();
   }
@@ -42,22 +40,14 @@ class ProfileController extends GetxController {
   void goToFollowers() {
     Get.toNamed(
       Routes.FOLLOWERS,
-      arguments: user,
-      parameters: {
-        'numOfFollowing': profile.numOfFollowings.toString(),
-        'numOfFollowers': profile.numOfFollowers.toString(),
-      },
+      arguments: profile,
     );
   }
 
   void goToFollowing() {
     Get.toNamed(
       Routes.FOLLOWING,
-      arguments: user,
-      parameters: {
-        'numOfFollowing': profile.numOfFollowings.toString(),
-        'numOfFollowers': profile.numOfFollowers.toString(),
-      },
+      arguments: profile,
     );
   }
 
@@ -65,7 +55,9 @@ class ProfileController extends GetxController {
     Get.bottomSheet(const AddPostBottomSheet());
   }
 
-  void showSettingsBottomSheet() {}
+  void showSettingsBottomSheet() {
+    Get.bottomSheet(const SettingsBottomSheet());
+  }
 
   Future<void> followUser() async {
     final isSuccessfull = await followService(user.id);
@@ -82,6 +74,4 @@ class ProfileController extends GetxController {
       update(['do I follow him']);
     }
   }
-
-  // Get.parameters['userId'] = null;
 }

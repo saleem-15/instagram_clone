@@ -3,29 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/profile/controllers/user_posts_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 import '../controllers/profile_controller.dart';
+import '../views/my_posts_tab.dart';
 import '../views/profile_header.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({
+    super.key,
+  }) {
+    /// if userId = null  ==> then its my profile
+    user = Get.arguments ?? MySharedPref.getUserData;
+    profileController = Get.put(ProfileController(), tag: user.id);
+    userPostsController = Get.put(UserPostsController(), tag: user.id);
+  }
+
+  late final User user;
+  late final ProfileController profileController;
+  late final UserPostsController userPostsController;
 
   @override
   Widget build(BuildContext context) {
-    /// if userId = null  ==> then its my profile
-    final User user = Get.arguments ?? MySharedPref.getUserData;
-    String userId = user.id;
-    final controller = Get.find<ProfileController>(tag: userId);
     return Stack(
       children: [
         /// profile page with all of its components
 
         Scaffold(
-          appBar: profileAppBar(controller),
+          appBar: profileAppBar(profileController),
           body: Obx(
-            () => controller.isLoading.isTrue
+            () => profileController.isLoading.isTrue
                 ? const Center(
                     child: LoadingWidget(),
                   )
@@ -35,29 +44,26 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
-                          child: ProfileHeader(profileController: controller),
+                          child: ProfileHeader(profileController: profileController),
                         ),
-                        // const TabBar(
-                        //   tabs: [
-                        //     Tab(
-                        //       icon: Icon(Icons.grid_on_sharp),
-                        //     ),
-                        //     Tab(
-                        //       icon: Icon(Icons.person),
-                        //     ),
-                        //   ],
-                        // ),
-                        // const Expanded(
-                        //   child: TabBarView(
-                        //     children: [
-                        //       Padding(
-                        //         padding: EdgeInsets.only(top: 3),
-                        //         child: ProfilePostsTap(),
-                        //       ),
-                        //       Center(child: Text('2')),
-                        //     ],
-                        //   ),
-                        // ),
+                        const TabBar(
+                          tabs: [
+                            Tab(
+                              icon: Icon(Icons.grid_on_sharp),
+                            ),
+                            Tab(
+                              icon: Icon(Icons.person),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              ProfilePostsTap(controller: userPostsController),
+                              const Center(child: Text('2')),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

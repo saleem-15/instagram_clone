@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+import '/utils/custom_snackbar.dart';
 import '../../../../utils/constants/api.dart';
 import '../../../../utils/helpers.dart';
 import '../../../storage/my_shared_pref.dart';
-import '/utils/custom_snackbar.dart';
 
 /// it returnes if signup process is successful
 Future<bool> signupService({
@@ -17,8 +17,9 @@ Future<bool> signupService({
   required String phoneNumber,
 }) async {
   log('sign up service ********');
-  log('email: $email********');
-  log('phone: $phoneNumber********');
+  log('name: $name');
+  log('email: $email');
+  log('phone: $phoneNumber');
 
   try {
     final response = await dio.post(
@@ -55,12 +56,15 @@ Future<bool> signupService({
     );
 
     return true;
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     log(e.error.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(
+      duration: const Duration(seconds: 10),
       message: formatErrorMsg(e.response!.data),
     );
+  } catch (e) {
+    log(e.toString());
   }
 
   return false;

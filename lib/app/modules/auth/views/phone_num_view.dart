@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class PhoneNumView extends GetView<SignupController> {
-  const PhoneNumView({Key? key}) : super(key: key);
+  const PhoneNumView({super.key});
   @override
   Widget build(BuildContext context) {
     final verticalSpace = 15.h;
@@ -28,6 +26,7 @@ class PhoneNumView extends GetView<SignupController> {
                 validator: controller.phoneNumberValidator,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
+                style: Theme.of(context).inputDecorationTheme.labelStyle,
                 decoration: InputDecoration(
                   hintText: 'Phone number',
                   prefixIconConstraints: const BoxConstraints(
@@ -45,7 +44,7 @@ class PhoneNumView extends GetView<SignupController> {
                           'IL +972 ',
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .copyWith(color: Theme.of(context).disabledColor),
                         ),
                         const SizedBox(
@@ -65,7 +64,7 @@ class PhoneNumView extends GetView<SignupController> {
               Text(
                 'You may recieve SMS notifications from us for security and login purposes',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: 12.sp,
                       color: Theme.of(context).disabledColor,
                     ),

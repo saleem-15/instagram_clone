@@ -10,11 +10,11 @@ import 'package:instagram_clone/utils/helpers.dart';
 Future<bool> unFollowService(String followingId) async {
   log('user id $followingId');
   try {
-    final response = await dio.delete('${Api.FOLLOWEING_PATH}/$followingId');
+    final response = await dio.delete('${Api.FOLLOW_USER_PATH}/$followingId');
     log(response.data.toString());
 
     return true;
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),

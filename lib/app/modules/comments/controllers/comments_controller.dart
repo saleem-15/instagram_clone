@@ -7,6 +7,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/routes/app_pages.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 
 import '../services/add_comment_service.dart';
@@ -14,9 +16,7 @@ import '../services/get_post_comments_service.dart';
 
 class CommentsController extends GetxController {
   int numOfPages = 1;
-  final pagingController = PagingController<int, Comment>(
-    firstPageKey: 1,
-  );
+  late final PagingController<int, Comment> pagingController;
 
   late final Post post;
   String get postText => post.caption;
@@ -31,10 +31,12 @@ class CommentsController extends GetxController {
   @override
   void onInit() {
     post = Get.arguments as Post;
+    pagingController = PagingController<int, Comment>(
+    
+      getNextPageKey: getNextPageKey,
+      fetchPage: fetchComments,
+    );
 
-    pagingController.addPageRequestListener((pageKey) async {
-      fetchComments(pageKey);
-    });
     autoDisableButton();
 
     if (Get.parameters['isTextFieldFocused'] == 'true') {
@@ -43,22 +45,14 @@ class CommentsController extends GetxController {
     super.onInit();
   }
 
-  Future<void> fetchComments(int pageKey) async {
+  Future<List<Comment>> fetchComments(int pageKey) async {
     try {
       log('fetch comments');
-      final followersNewPage = await fetchPostCommentsService(post.id, pageKey);
-
-      final isLastPage = numOfPages == pageKey;
-
-      if (isLastPage) {
-        pagingController.appendLastPage(followersNewPage);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(followersNewPage, nextPageKey);
-      }
+      final commentsNewPage = await fetchPostCommentsService(post.id, pageKey);
+      return commentsNewPage;
     } catch (error) {
-      pagingController.error = error;
-      rethrow;
+      log("error fetching comments: $error");
+      return [];
     }
   }
 
@@ -83,5 +77,22 @@ class CommentsController extends GetxController {
     addCommentTextController.addListener(
       () => isPostButtonDisabled(commentText.isBlank! ? true : false),
     );
+  }
+
+  void onUserNamePressd(User user) {
+    Get.toNamed(
+      Routes.PROFILE,
+      arguments: user,
+      parameters: {'user_id': user.id},
+    );
+  }
+
+  int? getNextPageKey(PagingState<int, Comment> state) {
+    int currentPage = state.nextIntPageKey - 1;
+    if (currentPage >= numOfPages) {
+      return null;
+    }
+
+    return state.nextIntPageKey;
   }
 }

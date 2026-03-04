@@ -22,14 +22,17 @@ Future<List<User>> searchService(String keyword, int pageKey) async {
     final data = response.data['data'];
 
     final numOfPages = response.data['meta']['last_page'] as int;
-
     Get.find<SearchController>().numOfPages = numOfPages;
 
     log(data.toString());
 
     return convertDataToUserList(data as List);
-  } on DioError catch (e) {
-    log(e.response!.toString());
+  } on DioException catch (e) {
+    if (e.response == null) {
+      log(e.error.toString());
+    } else {
+      log(e.response!.data.toString());
+    }
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.message),

@@ -12,18 +12,13 @@ class AuthController extends GetxController {
     log('token changed');
     if (token == null) {
       isAuthorized = false;
-      update(['auth_listener']);
     } else {
       isAuthorized = true;
-      update(['auth_listener']);
     }
   }
 
   @override
   void onInit() {
-    // log('------------Auth controller is initilized-------------');
-    // log('My token:${MySharedPref.getToken}');
-
     MySharedPref.userTokenListener(tokenListener);
     super.onInit();
   }
@@ -33,6 +28,5 @@ class AuthController extends GetxController {
     MySharedPref.setUserToken(null);
     isAuthorized = false;
     logoutService();
-    update(['auth_listener']);
   }
 }

@@ -45,7 +45,7 @@ Future<bool> signInService(String firstField, String password) async {
     );
 
     return true;
-  } on DioError catch (e) {
+  } on DioException catch (e) {
     log(e.error.toString());
     log(e.response!.data.toString());
 

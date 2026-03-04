@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
 import 'package:instagram_clone/app/models/comment.dart';
+import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
+import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
-import 'package:instagram_clone/main.dart';
 
 import '../controllers/comments_controller.dart';
 import 'comment_tile_view.dart';
 
 class CommentsView extends GetView<CommentsController> {
-  const CommentsView({Key? key}) : super(key: key);
+  const CommentsView({super.key});
   @override
   Widget build(BuildContext context) {
+    /// the user that posted the post
+    final postPublisher = controller.post.user;
     final horizontalPadding = 10.w;
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +29,12 @@ class CommentsView extends GetView<CommentsController> {
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Row(
               children: [
-                UserAvatar(user: controller.post.user),
+                SizedBox(
+                  width: 40.sp,
+                  child: UserAvatar.comment(
+                    user: postPublisher,
+                  ),
+                ),
                 SizedBox(
                   width: 7.w,
                 ),
@@ -36,10 +42,13 @@ class CommentsView extends GetView<CommentsController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// Account Name
-                      Text(
-                        controller.accountName,
-                        style: Theme.of(context).textTheme.bodyText1,
+                      /// Account Name (username)
+                      GestureDetector(
+                        onTap: () => controller.onUserNamePressd(postPublisher),
+                        child: Text(
+                          controller.accountName,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                       ),
                       SizedBox(
                         height: 3.sp,
@@ -48,7 +57,7 @@ class CommentsView extends GetView<CommentsController> {
                       /// post
                       Text(
                         controller.postText,
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
@@ -57,31 +66,36 @@ class CommentsView extends GetView<CommentsController> {
             ),
           ),
           SizedBox(
-            height: 3.sp,
+            height: 5.sp,
           ),
           const Divider(
             thickness: .3,
             height: 0,
           ),
           Expanded(
-            child: PagedListView<int, Comment>(
-              pagingController: controller.pagingController,
-              builderDelegate: PagedChildBuilderDelegate(
-                itemBuilder: (context, comment, index) {
-                  return CommentTile(
+            child: PagingListener<int, Comment>(
+              controller: controller.pagingController,
+              builder: (context, state, fetchNextPage) =>
+                  PagedListView<int, Comment>(
+                state: state,
+                fetchNextPage: fetchNextPage,
+                //
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (_, comment, __) => CommentTile(
                     comment: comment,
-                  ).paddingSymmetric(horizontal: horizontalPadding);
-                },
-                firstPageErrorIndicatorBuilder: (context) =>
-                    Text(controller.pagingController.error.toString()),
-                noItemsFoundIndicatorBuilder: (context) => Center(
-                  child: Text(
-                    'No Comments was Found'.tr,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
+                  ).paddingSymmetric(horizontal: horizontalPadding),
+                  //
+                  newPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                  //
+                  firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+                  //
+                  noItemsFoundIndicatorBuilder: (context) =>
+                      noCommentsFoundWidget(context),
+                  //
+                  firstPageErrorIndicatorBuilder: (_) => errorWidget(state),
+                  //
+                  newPageErrorIndicatorBuilder: (_) => errorWidget(state),
                 ),
-                newPageErrorIndicatorBuilder: (context) =>
-                    const Text('coludnt load'),
               ),
             ),
           ),
@@ -97,7 +111,7 @@ class CommentsView extends GetView<CommentsController> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 10.h, top: 5.h),
+              padding: EdgeInsets.symmetric(vertical: 3.sp),
               child: Row(
                 children: [
                   SizedBox(
@@ -105,8 +119,10 @@ class CommentsView extends GetView<CommentsController> {
                   ),
 
                   ///My Profile picture
-                  UserAvatar(user: myUser,showRingIfHasStory: false,),
-                 
+                  UserAvatar.comment(
+                    user: Get.find<AppController>().myUser,
+                  ),
+
                   SizedBox(
                     width: 10.w,
                   ),
@@ -143,4 +159,23 @@ class CommentsView extends GetView<CommentsController> {
       ),
     );
   }
+
+  Widget noCommentsFoundWidget(BuildContext context) {
+    return Center(
+      child: Text(
+        'No Comments was Found'.tr,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    );
+  }
+
+  Widget loadingWidget() => const Center(
+        child: LoadingWidget(),
+      );
+
+  Widget errorWidget(PagingState state) => Center(
+        child: Text(
+          state.error?.toString() ?? 'Error loading comments',
+        ),
+      );
 }
