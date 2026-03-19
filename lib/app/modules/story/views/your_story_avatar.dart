@@ -5,6 +5,8 @@ import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
 
+import 'package:instagram_clone/app/shared/user_avatar.dart';
+
 import 'story_tile.dart';
 
 class YourStoryAvatar extends StatelessWidget {
@@ -18,34 +20,24 @@ class YourStoryAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final me = Get.find<AppController>().myUser;
 
-    final ImageProvider userImage = (me.image == null
-        ? const AssetImage('assets/images/default_user_image.png')
-        : NetworkImage(me.image!)) as ImageProvider;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        GestureDetector(
-          onTap: onTap,
-          child: Stack(
-            children: [
-              CircleAvatar(
-                radius: STORY_TILE_SIZE,
-                child: Image(
-                  image: userImage,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint(
-                        'Your Story Avatar error: ${me.image} \n $error');
-                    return const Icon(Icons.broken_image, color: Colors.grey);
-                  },
-                ),
-              ),
-              Positioned(
-                bottom: -2,
-                right: 0,
+        Stack(
+          children: [
+            UserAvatar.story(
+              user: me,
+              size: STORY_TILE_SIZE,
+              showRingIfHasStory: false,
+            ),
+            Positioned(
+              bottom: 2,
+              right: 2,
+              child: GestureDetector(
+                onTap: onTap,
                 child: Container(
-                  // margin: const EdgeInsets.all(5.sp),
                   width: 18.sp,
+                  height: 18.sp,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Theme.of(context).scaffoldBackgroundColor,
@@ -60,10 +52,10 @@ class YourStoryAvatar extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-              )
-            ],
-          ),
-        ).marginOnly(top: 4.sp),
+              ),
+            )
+          ],
+        ),
         Text(
           'Your story',
           style: Theme.of(context)

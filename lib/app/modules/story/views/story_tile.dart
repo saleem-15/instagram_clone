@@ -7,7 +7,7 @@ import 'package:instagram_clone/app/modules/story/controllers/stories_controller
 import '../../../../config/theme/my_fonts.dart';
 import '../../../models/user.dart';
 
-final STORY_TILE_SIZE = 25.sp;
+final STORY_TILE_SIZE = 38.sp;
 
 class StoryTile extends GetView<StoriesController> {
   const StoryTile({
