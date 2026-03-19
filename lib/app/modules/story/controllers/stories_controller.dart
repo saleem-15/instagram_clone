@@ -24,8 +24,20 @@ class StoriesController extends GetxController {
   @override
   Future<void> onReady() async {
     stories = await fetchStoriesService();
+
+    sortStoriedBasedOnWatchedStatus();
+
     isLoading(false);
     super.onReady();
+  }
+
+  void sortStoriedBasedOnWatchedStatus() {
+    // Sort stories so unwatched stories appear first
+    stories.sort((a, b) {
+      if (a.isHasNewStory && !b.isHasNewStory) return -1;
+      if (!a.isHasNewStory && b.isHasNewStory) return 1;
+      return 0; // Maintain original order for users in the same group
+    });
   }
 
   void onMyStoryAvatarPressed() async {
@@ -34,8 +46,7 @@ class StoriesController extends GetxController {
 
   Future<void> addNewStory() async {
     final picker = ImagePicker();
-    final XFile? image =
-        await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
     }
