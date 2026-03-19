@@ -32,6 +32,8 @@ class SearchScreen extends GetView<SearchController> {
                     textController: controller.searchTextController,
                     focusNode: controller.searchFoucus,
                     showSearchIcon: false,
+                    
+                    
                   ),
                 ),
               ],

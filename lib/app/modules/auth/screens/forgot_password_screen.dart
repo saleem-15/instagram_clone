@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/forgot_password_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
@@ -42,7 +43,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
             validator: controller.emailFieldValidator,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.emailAddress,
-            style: Theme.of(context).inputDecorationTheme.labelStyle,
+            style: MyFonts.inputTextStyle,
             decoration: const InputDecoration(
               hintText: 'Email Address',
             ),

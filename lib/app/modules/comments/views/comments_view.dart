@@ -6,6 +6,7 @@ import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/comments_controller.dart';
@@ -130,6 +131,7 @@ class CommentsView extends GetView<CommentsController> {
                     child: TextField(
                       focusNode: controller.textFieldFocusNode,
                       controller: controller.addCommentTextController,
+                      style: MyFonts.inputTextStyle,
                       cursorHeight: 25,
                       decoration: const InputDecoration(
                         hintText: 'Add a comment...',

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 
 class SearchTextField extends StatelessWidget {
   const SearchTextField({
@@ -61,9 +62,15 @@ class SearchTextField extends StatelessWidget {
                   textInputAction: TextInputAction.search,
                   onEditingComplete: onEditingComplete,
                   readOnly: isReadOnly,
+                  style: MyFonts.inputTextStyle,
                   decoration: InputDecoration.collapsed(
                     hintText: 'Search',
-                    hintStyle: TextStyle(fontSize: 16.sp),
+                    hintStyle: Theme.of(context)
+                        .inputDecorationTheme
+                        .hintStyle!
+                        .copyWith(
+                          fontWeight: MyFonts.buttonTextFontWeight,
+                        ),
                   ),
                 ),
               ),

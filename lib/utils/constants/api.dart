@@ -2,10 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 class Api {
-  static const apiUrl = 'https://harper-plinthlike-crissy.ngrok-free.dev/api/';
+  // static const apiUrl = 'http://127.0.0.1:8000/api';
+  static const apiUrl = "http://10.15.4.41:8000/api";
+  // static const apiUrl = "https://8407-213-6-138-53.ngrok-free.app/api";
+
   static const apikey = 'p@ssword123';
 
-//auth
   static const SIGN_IN_URL = '/auth/user/login';
   static const SIGN_UP_URL = '/auth/user/register';
   static const MY_INFO = '/auth/user/info';
@@ -16,7 +18,7 @@ class Api {
 
 //user
   static const USER_URL = '/user';
-
+  
 //post
   static const POST_URL = '/post';
   static const MARK_POST_AS_FAVORITE_URL = '/post/like';
@@ -54,6 +56,7 @@ class Api {
     'Content-Type': 'application/json',
     'apiKey': Api.apikey,
     'Authorization': 'Bearer ${MySharedPref.getToken}',
+    "ngrok-skip-browser-warning": "any-value",
   };
 
   /// this method is must called when the (Token) is changed
@@ -68,9 +71,9 @@ class Api {
 final dio = Dio(
   BaseOptions(
     baseUrl: Api.apiUrl,
-    receiveTimeout: const Duration(milliseconds: 20000),
-    connectTimeout: const Duration(milliseconds: 20000),
-    sendTimeout: const Duration(milliseconds: 10000),
+    receiveTimeout: const Duration(seconds: 30),
+    connectTimeout: const Duration(seconds: 30),
+    sendTimeout: const Duration(seconds: 30),
     headers: Api.headers,
   ),
 );

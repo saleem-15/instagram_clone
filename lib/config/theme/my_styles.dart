@@ -34,6 +34,7 @@ class MyStyles {
           statusBarColor: Colors.transparent,
         ),
         elevation: 0,
+        scrolledUnderElevation: 0,
         titleTextStyle: getTextTheme().bodyLarge!.copyWith(
               fontSize: MyFonts.appBarTittleSize,
             ),
@@ -176,13 +177,6 @@ class MyStyles {
         contentPadding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 0.sp),
         hintStyle: TextStyle(
           color: LightThemeColors.hintTextColor,
-          fontSize: MyFonts.body2TextSize,
-          fontWeight: MyFonts.buttonTextFontWeight,
-        ),
-        labelStyle: 
-        
-        TextStyle(
-          color: LightThemeColors.bodyTextColor,
           fontSize: MyFonts.body2TextSize,
           fontWeight: MyFonts.buttonTextFontWeight,
         ),

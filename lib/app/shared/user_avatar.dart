@@ -19,27 +19,28 @@ class UserAvatar extends StatelessWidget {
     required this.user,
     this.size = 20,
     this.showRingIfHasStory = false,
-  })  : _avatarMode = AvatarMode.Follower;
+  }) : _avatarMode = AvatarMode.Follower;
+
   const UserAvatar.follower({
     super.key,
     required this.user,
     this.size = 25,
     this.showRingIfHasStory = true,
-  })  : _avatarMode = AvatarMode.Follower;
+  }) : _avatarMode = AvatarMode.Follower;
 
   const UserAvatar.comment({
     super.key,
     required this.user,
     this.size = 18,
     this.showRingIfHasStory = true,
-  })  : _avatarMode = AvatarMode.Comment;
+  }) : _avatarMode = AvatarMode.Comment;
 
   const UserAvatar.userProfile({
     super.key,
     required this.user,
     this.size = 38,
     this.showRingIfHasStory = true,
-  })  : _avatarMode = AvatarMode.Profile;
+  }) : _avatarMode = AvatarMode.Profile;
 
   /// avatar size is in (sp)
   final double size;
@@ -51,10 +52,10 @@ class UserAvatar extends StatelessWidget {
   final bool showRingIfHasStory;
   @override
   Widget build(BuildContext context) {
-    const ImageProvider backgroundImage = AssetImage('assets/images/default_user_image.png');
-    // final ImageProvider backgroundImage = (user.image == null
-    //     ? const AssetImage('assets/images/default_user_image.png')
-    //     : NetworkImage(user.image!)) as ImageProvider;
+    // const ImageProvider backgroundImage = AssetImage('assets/images/default_user_image.png');
+    final ImageProvider backgroundImage = (user.image == null
+        ? const AssetImage('assets/images/default_user_image.png')
+        : NetworkImage(user.image!)) as ImageProvider;
 
     return GestureDetector(
       onTap: onUserAvatarTapped,
@@ -63,7 +64,8 @@ class UserAvatar extends StatelessWidget {
 
           /// with gradient ring
           Container(
-              padding: EdgeInsets.all(_avatarMode == AvatarMode.Comment ? 4.sp : 6.sp),
+              padding: EdgeInsets.all(
+                  _avatarMode == AvatarMode.Comment ? 4.sp : 6.sp),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: user.isHasNewStory
@@ -76,8 +78,9 @@ class UserAvatar extends StatelessWidget {
                 radius: size,
 
                 /// before the actual photo of the user loads, put this photo
-                backgroundImage: const AssetImage('assets/images/default_user_image.png'),
-                child: const Image(image: backgroundImage),
+                backgroundImage:
+                    const AssetImage('assets/images/default_user_image.png'),
+                foregroundImage: backgroundImage,
               ),
             )
           :
@@ -87,13 +90,9 @@ class UserAvatar extends StatelessWidget {
               radius: size,
 
               /// before the actual photo of the user loads, put this photo
-              backgroundImage: const AssetImage('assets/images/default_user_image.png'),
-
-              child: const Image(
-                image: backgroundImage,
-                // fit: BoxFit.fill,
-                // isAntiAlias: true,
-              ),
+              backgroundImage:
+                  const AssetImage('assets/images/default_user_image.png'),
+              foregroundImage: backgroundImage,
             ),
     );
   }

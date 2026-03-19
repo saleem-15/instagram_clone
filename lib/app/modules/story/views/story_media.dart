@@ -34,6 +34,7 @@ class StoryMedia extends StatelessWidget {
               /// image
               Builder(
                   builder: (_) {
+                    log('story iamge url: $storyUrl');
                     final image = NetworkImage(storyUrl);
                     return Container(
                       clipBehavior: Clip.antiAlias,
@@ -59,7 +60,8 @@ class StoryMedia extends StatelessWidget {
               Center(
                   child: FutureBuilder(
                     future: storyController.initilizeVideoController(storyUrl),
-                    builder: (_, AsyncSnapshot<VideoPlayerController> snapshot) {
+                    builder:
+                        (_, AsyncSnapshot<VideoPlayerController> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const LoadingWidget();
                       }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/otp_form_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class OtpForm extends GetView<OtpFormController> {
@@ -72,10 +73,9 @@ class OtpForm extends GetView<OtpFormController> {
                 Expanded(
                   child: Obx(
                     () => ElevatedButton(
-                      onPressed:
-                          controller.isConfirmButtonDisable.isTrue
-                              ? null
-                              : controller.confirmCode,
+                      onPressed: controller.isConfirmButtonDisable.isTrue
+                          ? null
+                          : controller.confirmCode,
                       style: MyStyles.getAuthButtonStyle(),
                       child: controller.isWaitingResponse.isTrue
                           ? const LoadingWidget.button()
@@ -117,7 +117,7 @@ class OtpField extends GetView<OtpFormController> {
         onTap: controller.onOtpFieldTapped,
         onChanged: (value) =>
             controller.onOtpFieldChange(index, value, context),
-        style: Theme.of(context).textTheme.titleLarge,
+        style: MyFonts.inputTextStyle,
         decoration: const InputDecoration(
           filled: false,
           border: UnderlineInputBorder(),

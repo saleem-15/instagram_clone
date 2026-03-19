@@ -66,6 +66,8 @@ class Main extends StatelessWidget {
               ));
 
               final EdgeInsets systemPadding = MediaQuery.of(context).padding;
+              // final EdgeInsets systemPadding = const EdgeInsets.all(24);
+
               return Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 padding: EdgeInsets.only(

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class EmailAddressView extends GetView<SignupController> {
@@ -19,7 +20,7 @@ class EmailAddressView extends GetView<SignupController> {
           validator: controller.emailFieldValidator,
           textInputAction: TextInputAction.next,
           keyboardType: TextInputType.emailAddress,
-          style: Theme.of(context).inputDecorationTheme.labelStyle,
+          style: MyFonts.inputTextStyle,
           decoration: InputDecoration(
             hintText: 'Email Address',
           ),

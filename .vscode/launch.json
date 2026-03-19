@@ -1,0 +1,19 @@
+{
+    "dart.flutterLogFilter": [
+        "I/MediaCodec",
+        "I/gralloc4",
+        "I/MediaCodec",
+        "D/MediaCodec",
+        "D/CCodecConfig",
+        "D/Codec2Client",
+        "D/CCodec",
+        "I/MediaCodec",
+        "D/ReflectedParamUpdater",
+        "I/CCodecBufferChannel",
+        "W/Codec2Client",
+        "E/FlutterImageDecoderImplDefault",
+        "V/VRI[MainActivity]",
+        "I/MIUIInput",
+        "V/VRI"
+    ]
+}

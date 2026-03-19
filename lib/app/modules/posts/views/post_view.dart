@@ -27,6 +27,8 @@ class PostView extends GetView<PostsController> {
 
   @override
   Widget build(BuildContext context) {
+    log('post view is built for post ${post.id}');
+    log('post is ${post.postContents.toString()}');
     // final contr = Get.find<PostsController>(tag: post.id);
     final postPadding = EdgeInsets.only(
       left: 10.w,
@@ -87,13 +89,11 @@ class PostView extends GetView<PostsController> {
                       log('love button of post ${post.id} is built');
                       return IconButton(
                         key: const ValueKey('Love Button'),
-                        onPressed: () =>
-                            controller.onHeartPressed(post),
+                        onPressed: () => controller.onHeartPressed(post),
                         icon: ElasticIn(
                           controller: (animationController) {
                             PostsController.heartAnimationControllers
-                                .addAll(
-                                    {post.id: animationController});
+                                .addAll({post.id: animationController});
                           },
                           child: post.isFavorite
                               ? FaIcon(
@@ -135,12 +135,10 @@ class PostView extends GetView<PostsController> {
                       id: 'selected content index',
                       builder: (controller) {
                         return AnimatedSmoothIndicator(
-                          activeIndex:
-                              controller.postsIndex[post.id]!,
+                          activeIndex: controller.postsIndex[post.id]!,
                           count: post.postContents.length,
                           effect: const ScrollingDotsEffect(
-                            activeDotColor:
-                                LightThemeColors.authButtonColor,
+                            activeDotColor: LightThemeColors.authButtonColor,
                             dotWidth: 5,
                             dotHeight: 5,
                             maxVisibleDots: 7,
@@ -157,8 +155,7 @@ class PostView extends GetView<PostsController> {
                   id: '${post.id} save button',
                   builder: (controller) {
                     return IconButton(
-                      onPressed: () =>
-                          controller.onSaveButtonPressed(post),
+                      onPressed: () => controller.onSaveButtonPressed(post),
                       icon: Icon(
                         post.isSaved
                             ? Icons.bookmark_sharp

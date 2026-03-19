@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class InfoView extends GetView<SignupController> {
@@ -34,7 +35,7 @@ class InfoView extends GetView<SignupController> {
                   validator: controller.fullNameFieldValidator,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.name,
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  style: MyFonts.inputTextStyle,
                   decoration: const InputDecoration(
                     hintText: 'Full name',
                   ),
@@ -47,7 +48,7 @@ class InfoView extends GetView<SignupController> {
                   validator: controller.userNameFieldValidator,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.name,
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  style: MyFonts.inputTextStyle,
                   decoration: const InputDecoration(
                     hintText: 'Username',
                   ),
@@ -61,7 +62,7 @@ class InfoView extends GetView<SignupController> {
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  style: MyFonts.inputTextStyle,
                   decoration: const InputDecoration(
                     hintText: 'Password',
                   ),
@@ -75,7 +76,7 @@ class InfoView extends GetView<SignupController> {
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.datetime,
                   inputFormatters: [controller.dateOfBirthFormatter],
-                  style: Theme.of(context).inputDecorationTheme.labelStyle,
+                  style: MyFonts.inputTextStyle,
                   decoration: const InputDecoration(
                     hintText: 'Date of birth',
                   ),

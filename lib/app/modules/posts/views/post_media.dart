@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,8 +46,8 @@ class PostMedia extends GetView<PostsController> {
 
                   /// image
                   GestureDetector(
-                      onDoubleTap: () => controller.onPostDoubleTap(
-                          post, isHeartVisible),
+                      onDoubleTap: () =>
+                          controller.onPostDoubleTap(post, isHeartVisible),
                       child: Image.network(
                         post.postContents[index],
                         headers: Api.headers,
@@ -56,13 +58,28 @@ class PostMedia extends GetView<PostsController> {
 
                   /// video
                   FutureBuilder(
-                      future: controller.initilizeVideoController(
-                          post.postContents[index]),
+                      future: controller
+                          .initilizeVideoController(post.postContents[index]),
                       builder: (context,
-                          AsyncSnapshot<VideoPlayerController>
-                              snapshot) {
+                          AsyncSnapshot<VideoPlayerController> snapshot) {
+                        // Loading State
                         if (snapshot.connectionState ==
-                            ConnectionState.done) {
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        // Error State
+                        if (snapshot.hasError) {
+                          // Handle the error state (e.g., show a play error icon)
+                          log('Error loading video: ${snapshot.error}');
+                          return const Center(
+                            child: Icon(Icons.error, color: Colors.white),
+                          );
+                        }
+
+                        if (snapshot.hasData) {
                           final videoController = snapshot.data!;
                           return GestureDetector(
                             onTap: () {
@@ -70,9 +87,8 @@ class PostMedia extends GetView<PostsController> {
                                   snapshot.data!, post, index);
                               showVideoAudioIconTemporary();
                             },
-                            onDoubleTap: () =>
-                                controller.onPostDoubleTap(
-                                    post, isHeartVisible),
+                            onDoubleTap: () => controller.onPostDoubleTap(
+                                post, isHeartVisible),
                             child: Stack(children: [
                               VideoPlayer(videoController),
                               Obx(
@@ -89,27 +105,20 @@ class PostMedia extends GetView<PostsController> {
                                             child: Center(
                                               child: Container(
                                                 padding:
-                                                    const EdgeInsets
-                                                        .all(8),
-                                                decoration:
-                                                    const BoxDecoration(
-                                                  color: Color(
-                                                      0xff2d2d37),
-                                                  shape:
-                                                      BoxShape.circle,
+                                                    const EdgeInsets.all(8),
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xff2d2d37),
+                                                  shape: BoxShape.circle,
                                                 ),
                                                 child: Icon(
                                                   videoController
-                                                              .value
-                                                              .volume ==
+                                                              .value.volume ==
                                                           1
-                                                      ? Icons
-                                                          .volume_up_outlined
+                                                      ? Icons.volume_up_outlined
                                                       : Icons
                                                           .volume_off_rounded,
                                                   color: Colors.white
-                                                      .withValues(
-                                                          alpha: .8),
+                                                      .withValues(alpha: .8),
                                                 ),
                                               ),
                                             ),
@@ -119,11 +128,8 @@ class PostMedia extends GetView<PostsController> {
                               )
                             ]),
                           );
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
                         }
+                        return const SizedBox.shrink();
                       },
                     ),
             );
@@ -153,8 +159,8 @@ class PostMedia extends GetView<PostsController> {
                   builder: (_) {
                     return Text(
                       '${controller.postsIndex[post.id]! + 1}/${post.postContents.length}',
-                      style: TextStyle(
-                          color: Colors.white.withValues(alpha: .9)),
+                      style:
+                          TextStyle(color: Colors.white.withValues(alpha: .9)),
                     );
                   },
                 ),

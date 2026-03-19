@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_loved_service.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
+import 'package:instagram_clone/utils/constants/api.dart';
 
 import '../services/set_post_is_saved_service.dart';
 
@@ -68,11 +71,14 @@ class PostsController extends GetxController {
 
   Future<VideoPlayerController> initilizeVideoController(
       String videoUrl) async {
+    log('video url is $videoUrl');
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
-    final videoController =
-        VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+    final videoController = VideoPlayerController.networkUrl(
+      Uri.parse(videoUrl),
+      httpHeaders: Api.headers,
+    );
     await videoController.initialize();
 
     cashedVideos.addIf(true, videoUrl, videoController);

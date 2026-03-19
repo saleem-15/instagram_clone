@@ -11,7 +11,7 @@ String formatErrorMsg(dynamic data) {
     return data;
   }
 
-  final errorsMap = data['Messages'];
+  final errorsMap = data?['Messages'];
 
   if (errorsMap == null) {
     return data.toString();

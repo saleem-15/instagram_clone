@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/signin_controller.dart';
@@ -80,8 +81,7 @@ class SigninScreen extends GetView<SigninController> {
                         validator: controller.emailFieldValidator,
                         textInputAction:
                             TextInputAction.next, // Moves focus to next field
-                        style:
-                            Theme.of(context).inputDecorationTheme.labelStyle,
+                        style: MyFonts.inputTextStyle,
                         decoration: const InputDecoration(
                           hintText: 'Phone number, email address or username',
                         ),
@@ -94,8 +94,7 @@ class SigninScreen extends GetView<SigninController> {
                           controller: controller.passwordController,
                           validator: controller.passwordFieldValidator,
                           obscureText: isShowPassword.isTrue,
-                          style:
-                              Theme.of(context).inputDecorationTheme.labelStyle,
+                          style: MyFonts.inputTextStyle,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             suffixIcon: IconButton(

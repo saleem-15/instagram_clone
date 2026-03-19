@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/reset_password_controller.dart';
@@ -34,7 +35,7 @@ class ResetPasswordScreen extends GetView<ResetPasswordController> {
               child: TextFormField(
                 controller: controller.passwordController,
                 validator: controller.passwordFieldValidator,
-                style: Theme.of(context).inputDecorationTheme.labelStyle,
+                style: MyFonts.inputTextStyle,
                 decoration: const InputDecoration(
                   hintText: 'New Password',
                 ),

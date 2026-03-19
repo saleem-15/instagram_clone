@@ -61,7 +61,7 @@ Future<bool> signupService({
 
     CustomSnackBar.showCustomErrorSnackBar(
       duration: const Duration(seconds: 10),
-      message: formatErrorMsg(e.response!.data),
+      message: formatErrorMsg(e.response?.data),
     );
   } catch (e) {
     log(e.toString());
