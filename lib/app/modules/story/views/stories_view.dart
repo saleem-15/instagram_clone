@@ -11,9 +11,8 @@ class StoriesView extends GetView<StoriesController> {
 
   @override
   Widget build(BuildContext context) {
-
     return SizedBox(
-      height: 80.sp,
+      height: 120.sp,
       child: Obx(
         () => CustomScrollView(
           scrollDirection: Axis.horizontal,
