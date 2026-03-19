@@ -61,8 +61,15 @@ class PostsController extends GetxController {
 
   Future<void> onSaveButtonPressed(Post post) async {
     HapticFeedback.selectionClick();
-    final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
-    if (isSuccess) {
+
+    /// Optimistic UI: change the value immediately
+    post.isSaved = !post.isSaved;
+    update(['${post.id} save button']);
+
+    final isSuccess = await setPostIsSavedService(post.id, post.isSaved);
+
+    /// If the request failed, revert to the original value
+    if (!isSuccess) {
       post.isSaved = !post.isSaved;
       update(['${post.id} save button']);
     }

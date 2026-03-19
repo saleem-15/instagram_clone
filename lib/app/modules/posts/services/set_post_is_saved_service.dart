@@ -36,8 +36,7 @@ Future<bool> _savePostService(String postId) async {
 Future<bool> _unsavePostService(String postId) async {
   try {
     final response = await dio.delete(
-      Api.SAVE_POST_URL,
-      queryParameters: {'post_id': postId},
+      '${Api.SAVE_POST_URL}/$postId',
     );
     log(response.data.toString());
 

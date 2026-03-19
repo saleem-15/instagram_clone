@@ -5,8 +5,7 @@ import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controllers/settings_bottom_sheet_controller.dart';
 
-class SettingsBottomSheet
-    extends GetView<SettingsBottomSheetController> {
+class SettingsBottomSheet extends GetView<SettingsBottomSheetController> {
   const SettingsBottomSheet({super.key});
 
   @override
@@ -23,6 +22,18 @@ class SettingsBottomSheet
             decoration: BoxDecoration(
               color: Colors.grey.shade600,
               borderRadius: BorderRadius.circular(10.r),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Get.back(); // Close bottom sheet
+              Get.toNamed(
+                  '/saved_posts'); // We can use the hardcoded route or import Routes.SAVED_POSTS
+            },
+            leading: const Icon(Icons.bookmark_border),
+            title: Text(
+              'Saved',
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           ListTile(

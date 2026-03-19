@@ -13,6 +13,7 @@ abstract class Routes {
   static const EXPLORER = _Paths.EXPLORER;
   static const REELS = _Paths.REELS;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+
   /// pass the user that you want to display its profile as arguments (Get.arguments)
   static const PROFILE = _Paths.PROFILE;
   static const USER_POSTS = _Paths.USER_POSTS;
@@ -24,6 +25,7 @@ abstract class Routes {
   static const INFO_VIEW = _Paths.INFO_VIEW;
   static const STORY = _Paths.STORY;
   static const SEARCH = _Paths.SEARCH;
+  static const SAVED_POSTS = _Paths.SAVED_POSTS;
 }
 
 abstract class _Paths {
@@ -49,4 +51,5 @@ abstract class _Paths {
   static const FOLLOWING = '/following';
   static const STORY = '/story';
   static const SEARCH = '/search';
+  static const SAVED_POSTS = '/saved_posts';
 }
