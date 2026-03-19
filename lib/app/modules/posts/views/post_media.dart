@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:video_player/video_player.dart';
+import 'package:instagram_clone/app/shared/loading_widget.dart';
 
 import '../controllers/post_controller.dart';
 import 'animated_heart.dart';
@@ -58,6 +59,12 @@ class PostMedia extends GetView<PostsController> {
                             child: Icon(Icons.broken_image, color: Colors.grey),
                           );
                         },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                            child: LoadingWidget(size: 60, strokeWidth: 1.0),
+                          );
+                        },
                       ),
                     )
                   :
@@ -72,7 +79,7 @@ class PostMedia extends GetView<PostsController> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: LoadingWidget(size: 60, strokeWidth: 1.0),
                           );
                         }
 

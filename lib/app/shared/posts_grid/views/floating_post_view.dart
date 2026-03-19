@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
 import 'package:instagram_clone/app/shared/posts_grid/controllers/floating_post_controller.dart';
 import 'package:video_player/video_player.dart';
+import 'package:instagram_clone/app/shared/loading_widget.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
@@ -127,7 +128,7 @@ class _PostView extends GetView<PostsController> {
                       );
                     } else {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: LoadingWidget(size: 60, strokeWidth: 1.0),
                       );
                     }
                   });
