@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
@@ -41,6 +42,8 @@ class PostsController extends GetxController {
   }
 
   Future<void> onHeartPressed(Post post) async {
+    HapticFeedback.lightImpact();
+
     /// change the value to the opposite
     post.isFavorite = !post.isFavorite;
     heartAnimationControllers[post.id]!.reset();
@@ -57,6 +60,7 @@ class PostsController extends GetxController {
   }
 
   Future<void> onSaveButtonPressed(Post post) async {
+    HapticFeedback.selectionClick();
     final isSuccess = await setPostIsSavedService(post.id, !post.isSaved);
     if (isSuccess) {
       post.isSaved = !post.isSaved;
