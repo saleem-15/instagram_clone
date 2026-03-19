@@ -21,7 +21,7 @@ class YourStoryAvatar extends StatelessWidget {
     final me = Get.find<AppController>().myUser;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(
           children: [
@@ -53,9 +53,10 @@ class YourStoryAvatar extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
-        ),
+        ).marginOnly(top: 4.sp),
+        SizedBox(height: 4.sp),
         Text(
           'Your story',
           style: Theme.of(context)

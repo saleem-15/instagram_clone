@@ -28,7 +28,7 @@ class StoryTile extends GetView<StoriesController> {
     return GestureDetector(
       onTap: () => controller.onStoryTilePressed(userIndex),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GetBuilder<StoriesController>(
             assignId: true,
@@ -62,6 +62,7 @@ class StoryTile extends GetView<StoriesController> {
               // .marginAll(5.sp),
             ),
           ),
+          SizedBox(height: 2.sp),
 
           /// username
           Text(
