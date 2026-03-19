@@ -38,7 +38,8 @@ class FloatingPostView extends StatelessWidget {
         child: ScaleTransition(
           scale: controller.animation,
           child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r)),
             margin: EdgeInsets.symmetric(horizontal: 10.w),
             child: _PostView(post: post),
           ),
@@ -90,7 +91,8 @@ class _PostView extends GetView<PostsController> {
           constraints: BoxConstraints(maxHeight: 530.h, maxWidth: 340.w),
           child: Builder(
             builder: (context) {
-              if (post.postContents.first.isImageFileName || post.postContents.first.endsWith('.webp')) {
+              if (post.postContents.first.isImageFileName ||
+                  post.postContents.first.endsWith('.webp')) {
                 log('${post.postContents.first} is image');
                 return Image.network(
                   post.postContents.first,
@@ -101,11 +103,22 @@ class _PostView extends GetView<PostsController> {
               }
               log('${post.postContents.first} is video');
               return FutureBuilder(
-                  future: controller.initilizeVideoController(post.postContents.first),
-                  builder: (context, AsyncSnapshot<VideoPlayerController> snapshot) {
+                  future: controller
+                      .initilizeVideoController(post.postContents.first),
+                  builder:
+                      (context, AsyncSnapshot<VideoPlayerController> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       final videoController = snapshot.data!;
-                      return VideoPlayer(videoController);
+                      return ClipRect(
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: videoController.value.size.width,
+                            height: videoController.value.size.height,
+                            child: VideoPlayer(videoController),
+                          ),
+                        ),
+                      );
                     } else {
                       return const Center(
                         child: CircularProgressIndicator(),

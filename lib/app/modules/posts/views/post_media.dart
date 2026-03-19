@@ -90,7 +90,18 @@ class PostMedia extends GetView<PostsController> {
                             onDoubleTap: () => controller.onPostDoubleTap(
                                 post, isHeartVisible),
                             child: Stack(children: [
-                              VideoPlayer(videoController),
+                              Positioned.fill(
+                                child: ClipRect(
+                                  child: FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: SizedBox(
+                                      width: videoController.value.size.width,
+                                      height: videoController.value.size.height,
+                                      child: VideoPlayer(videoController),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Obx(
                                 () => isAudioIconVisible.isFalse
                                     ? const SizedBox.shrink()
