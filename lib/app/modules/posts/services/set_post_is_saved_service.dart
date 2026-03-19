@@ -6,7 +6,6 @@ import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
-
 /// returnes true if request successed
 Future<bool> setPostIsSavedService(String postId, bool isSave) async {
   if (isSave) {
@@ -37,7 +36,8 @@ Future<bool> _savePostService(String postId) async {
 Future<bool> _unsavePostService(String postId) async {
   try {
     final response = await dio.delete(
-      '${Api.SAVE_POST_URL}/$postId',
+      Api.SAVE_POST_URL,
+      queryParameters: {'post_id': postId},
     );
     log(response.data.toString());
 
