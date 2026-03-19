@@ -73,9 +73,19 @@ class PostsGridView extends StatelessWidget {
 
   Widget noPostsFoundWdget(BuildContext context) {
     return Center(
-      child: Text(
-        'No Posts was Found'.tr,
-        style: Theme.of(context).textTheme.titleLarge,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/camera_inside_circle.png',
+            width: 120,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No Posts Yet'.tr,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ],
       ),
     );
   }
