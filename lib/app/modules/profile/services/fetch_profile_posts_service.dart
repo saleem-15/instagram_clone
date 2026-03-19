@@ -10,11 +10,12 @@ import 'package:instagram_clone/utils/helpers.dart';
 
 import '../../../../main.dart';
 
-Future<List<Post>> fetchProfilePostsService(String userId, RxInt numOfPages) async {
+Future<List<Post>> fetchProfilePostsService(
+    String userId, int pageKey, RxInt numOfPages) async {
   try {
     final response = await dio.get(
       '${Api.PROFILE_POSTS_URL}/$userId',
-      queryParameters: {'page': numOfPages.value},
+      queryParameters: {'page': pageKey},
     );
     final data = response.data['data'];
     final metaData = response.data['meta'];

@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
+import 'package:instagram_clone/utils/constants/api.dart';
+import 'package:video_player/video_player.dart';
 
 class PostGridTile extends StatelessWidget {
   const PostGridTile({
@@ -18,28 +22,33 @@ class PostGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(post.postContents[0]);
     return Stack(
       children: [
         Positioned.fill(
           child: Listener(
             onPointerDown: (event) => onPostPressed(post),
             onPointerUp: (event) => onPressedGone(post),
-            child: Ink.image(
-              image: NetworkImage(post.postContents[0]),
-              fit: BoxFit.cover,
-              child: InkWell(
-                highlightColor: Colors.black45,
-                splashColor: Colors.transparent,
-                onTap: () {},
-                // onTapDown: (details) {
-                //   onPostPressed(post);
-                //   log('press started');
-                // },
-                // onTapUp: (details) {
-                //   onPressedGone(post);
-                //   log('press ended');
-                // },
-              ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (post.postContents[0].isImageFileName ||
+                    post.postContents[0].endsWith('.webp'))
+                  Image.network(
+                    post.postContents[0],
+                    fit: BoxFit.cover,
+                  )
+                else
+                  VideoThumbnail(videoUrl: post.postContents[0]),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    highlightColor: Colors.black45,
+                    splashColor: Colors.transparent,
+                    onTap: () {},
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -53,7 +62,8 @@ class PostGridTile extends StatelessWidget {
               size: 20,
             ),
           ),
-        if (post.postContents.length.isEqual(1) && post.postContents.first.isVideoFileName)
+        if (post.postContents.length.isEqual(1) &&
+            post.postContents.first.isVideoFileName)
           const Positioned(
             top: 5,
             right: 5,
@@ -65,5 +75,57 @@ class PostGridTile extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+class VideoThumbnail extends StatefulWidget {
+  final String videoUrl;
+  const VideoThumbnail({super.key, required this.videoUrl});
+
+  @override
+  State<VideoThumbnail> createState() => _VideoThumbnailState();
+}
+
+class _VideoThumbnailState extends State<VideoThumbnail> {
+  late VideoPlayerController _controller;
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.networkUrl(
+      Uri.parse(widget.videoUrl),
+      httpHeaders: Api.headers,
+    )..initialize().then((_) {
+        if (mounted) {
+          setState(() {
+            _initialized = true;
+            // Optionally seek to 1 second to avoid black frames on some videos
+            _controller.seekTo(const Duration(milliseconds: 100));
+          });
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _initialized
+        ? ClipRect(
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: _controller.value.size.width,
+                height: _controller.value.size.height,
+                child: VideoPlayer(_controller),
+              ),
+            ),
+          )
+        : Container(color: Colors.black12);
   }
 }

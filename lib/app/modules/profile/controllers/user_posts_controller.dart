@@ -20,8 +20,10 @@ class UserPostsController extends GetxController {
 
     postsGridController = Get.put(
       PostsGridController(
-        fetchItemsService: (pageKey, numOfPages) => fetchProfilePostsService(user.id, numOfPages),
+        fetchItemsService: (pageKey, numOfPages) =>
+            fetchProfilePostsService(user.id, pageKey, numOfPages),
       ),
+      tag: user.id,
     );
 
     super.onInit();

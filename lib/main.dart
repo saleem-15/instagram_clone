@@ -65,15 +65,8 @@ class Main extends StatelessWidget {
                 systemNavigationBarIconBrightness: Brightness.light,
               ));
 
-              final EdgeInsets systemPadding = MediaQuery.of(context).padding;
-              // final EdgeInsets systemPadding = const EdgeInsets.all(24);
-
               return Container(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                padding: EdgeInsets.only(
-                  top: systemPadding.top,
-                  bottom: systemPadding.bottom,
-                ),
                 child: Get.find<AuthController>().isAuthorized
                     ? MyApp()
                     : SigninScreen(),
