@@ -90,7 +90,10 @@ class PostView extends GetView<PostsController> {
                       return IconButton(
                         key: const ValueKey('Love Button'),
                         onPressed: () => controller.onHeartPressed(post),
-                        icon: ElasticIn(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        icon: Pulse(
+                          duration: const Duration(milliseconds: 300),
                           controller: (animationController) {
                             PostsController.heartAnimationControllers
                                 .addAll({post.id: animationController});

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -155,17 +156,27 @@ class _PostView extends GetView<PostsController> {
                     },
                     child: IconButton(
                       onPressed: () => controller.onHeartPressed(post),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       // Icons.favorite => if favorite
-                      icon: post.isFavorite
-                          ? const FaIcon(
-                              FontAwesomeIcons.solidHeart,
-                              color: Colors.red,
-                              size: 20,
-                            )
-                          : const FaIcon(
-                              FontAwesomeIcons.heart,
-                              size: 20,
-                            ),
+                      icon: Pulse(
+                        duration: const Duration(milliseconds: 300),
+                        controller: (animationController) {
+                          // Allow the floating view to also grab an animation controller link
+                          PostsController.heartAnimationControllers
+                              .addAll({post.id: animationController});
+                        },
+                        child: post.isFavorite
+                            ? const FaIcon(
+                                FontAwesomeIcons.solidHeart,
+                                color: Colors.red,
+                                size: 20,
+                              )
+                            : const FaIcon(
+                                FontAwesomeIcons.heart,
+                                size: 20,
+                              ),
+                      ),
                     ),
                   );
                 },
