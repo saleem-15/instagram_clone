@@ -52,6 +52,12 @@ class PostMedia extends GetView<PostsController> {
                         post.postContents[index],
                         headers: Api.headers,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          log('Image error: ${post.postContents[index]} \n $error');
+                          return const Center(
+                            child: Icon(Icons.broken_image, color: Colors.grey),
+                          );
+                        },
                       ),
                     )
                   :

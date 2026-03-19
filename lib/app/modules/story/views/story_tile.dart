@@ -34,15 +34,13 @@ class StoryTile extends GetView<StoriesController> {
             assignId: true,
             id: 'story tile ${user.id}',
             builder: (_) => Container(
-              padding:
-                  EdgeInsets.all(user.isHasNewStory ? 6.sp : 4.sp),
+              padding: EdgeInsets.all(user.isHasNewStory ? 6.sp : 4.sp),
 
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: user.isHasNewStory
                     ? const DecorationImage(
-                        image:
-                            AssetImage('assets/icons/story_ring.png'),
+                        image: AssetImage('assets/icons/story_ring.png'),
                       )
                     : null,
                 border: !user.isHasNewStory
@@ -56,6 +54,10 @@ class StoryTile extends GetView<StoriesController> {
               child: CircleAvatar(
                 radius: STORY_TILE_SIZE,
                 backgroundImage: userImage,
+                onBackgroundImageError: (exception, stackTrace) {
+                  debugPrint(
+                      'Story Tile Image error: ${user.image} \n $exception');
+                },
               ),
               // .marginAll(5.sp),
             ),

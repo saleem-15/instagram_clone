@@ -48,7 +48,17 @@ class StoryMedia extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 200.0, sigmaY: 200.0),
                         child: Align(
                           alignment: Alignment.center,
-                          child: Image(image: image),
+                          child: Image(
+                            image: image,
+                            errorBuilder: (context, error, stackTrace) {
+                              debugPrint(
+                                  'Story Media Image error: $storyUrl \n $error');
+                              return const Center(
+                                child: Icon(Icons.broken_image,
+                                    color: Colors.grey),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     );

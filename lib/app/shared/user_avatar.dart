@@ -81,6 +81,10 @@ class UserAvatar extends StatelessWidget {
                 backgroundImage:
                     const AssetImage('assets/images/default_user_image.png'),
                 foregroundImage: backgroundImage,
+                onForegroundImageError: (exception, stackTrace) {
+                  debugPrint(
+                      'User Avatar Image error: ${user.image} \n $exception');
+                },
               ),
             )
           :
@@ -93,6 +97,10 @@ class UserAvatar extends StatelessWidget {
               backgroundImage:
                   const AssetImage('assets/images/default_user_image.png'),
               foregroundImage: backgroundImage,
+              onForegroundImageError: (exception, stackTrace) {
+                debugPrint(
+                    'User Avatar Image error: ${user.image} \n $exception');
+              },
             ),
     );
   }

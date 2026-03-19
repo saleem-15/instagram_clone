@@ -37,6 +37,13 @@ class PostGridTile extends StatelessWidget {
                   Image.network(
                     post.postContents[0],
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      debugPrint(
+                          'Image error: ${post.postContents[0]} \n $error');
+                      return const Center(
+                        child: Icon(Icons.broken_image, color: Colors.grey),
+                      );
+                    },
                   )
                 else
                   VideoThumbnail(videoUrl: post.postContents[0]),

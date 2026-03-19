@@ -31,7 +31,14 @@ class YourStoryAvatar extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: STORY_TILE_SIZE,
-                child: Image(image: userImage),
+                child: Image(
+                  image: userImage,
+                  errorBuilder: (context, error, stackTrace) {
+                    debugPrint(
+                        'Your Story Avatar error: ${me.image} \n $error');
+                    return const Icon(Icons.broken_image, color: Colors.grey);
+                  },
+                ),
               ),
               Positioned(
                 bottom: -2,
@@ -41,8 +48,7 @@ class YourStoryAvatar extends StatelessWidget {
                   width: 18.sp,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color:
-                          Theme.of(context).scaffoldBackgroundColor,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       width: 2.sp,
                     ),
                     color: LightThemeColors.lightBlue,

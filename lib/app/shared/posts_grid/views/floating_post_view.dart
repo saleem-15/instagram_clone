@@ -99,6 +99,12 @@ class _PostView extends GetView<PostsController> {
                   alignment: Alignment.center,
                   width: 340.w,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    log('Image error: ${post.postContents.first} \n $error');
+                    return const Center(
+                      child: Icon(Icons.broken_image, color: Colors.grey),
+                    );
+                  },
                 );
               }
               log('${post.postContents.first} is video');
