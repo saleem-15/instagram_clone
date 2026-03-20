@@ -37,6 +37,32 @@ class EditProfileScreen extends GetView<EditProfileController> {
         padding: EdgeInsets.all(16.sp),
         child: Column(
           children: [
+            GestureDetector(
+              onTap: controller.pickImage,
+              child: Obx(() => CircleAvatar(
+                    radius: 50.sp,
+                    backgroundColor: Colors.grey.shade200,
+                    backgroundImage: controller.selectedImage.value != null
+                        ? FileImage(controller.selectedImage.value!)
+                            as ImageProvider
+                        : (controller.profile.image != null
+                            ? NetworkImage(controller.profile.image!)
+                                as ImageProvider
+                            : const AssetImage(
+                                    'assets/images/default_user_image.png')
+                                as ImageProvider),
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: CircleAvatar(
+                        radius: 16.sp,
+                        backgroundColor: LightThemeColors.lightBlue,
+                        child: Icon(Icons.camera_alt,
+                            color: Colors.white, size: 18.sp),
+                      ),
+                    ),
+                  )),
+            ),
+            SizedBox(height: 24.sp),
             _buildTextField(
               controller: controller.nickNameController,
               label: 'Name',

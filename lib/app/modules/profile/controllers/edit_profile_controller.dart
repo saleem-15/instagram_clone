@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/profile.dart';
-import 'package:instagram_clone/app/modules/profile/controllers/profile_controller.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
+import 'package:instagram_clone/app/modules/profile/controllers/profile_controller.dart';
 import '../services/edit_profile_service.dart';
 import '../services/get_profile_info_service.dart';
+import '../services/update_profile_image_service.dart';
 
 class EditProfileController extends GetxController {
   final Profile profile;
@@ -14,7 +17,17 @@ class EditProfileController extends GetxController {
   late final TextEditingController bioController;
   late final TextEditingController dobController;
 
+  final Rx<File?> selectedImage = Rx<File?>(null);
+
   final isLoading = false.obs;
+
+  Future<void> pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedImage.value = File(pickedFile.path);
+    }
+  }
 
   @override
   void onInit() {
@@ -39,6 +52,12 @@ class EditProfileController extends GetxController {
 
   Future<void> submit() async {
     isLoading.value = true;
+
+    // First update the multi-part image, if a new one was selected
+    if (selectedImage.value != null) {
+      await updateProfileImageService(selectedImage.value!);
+    }
+
     final success = await editProfileService(
       nickName: nickNameController.text.trim(),
       bio: bioController.text.trim(),
