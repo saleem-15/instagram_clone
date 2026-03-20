@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
@@ -33,8 +34,18 @@ class ProfileHeader extends StatelessWidget {
                 /// user photo and name
                 Column(
                   children: [
-                    UserAvatar.userProfile(
-                      user: profileController.user,
+                    GestureDetector(
+                      onLongPress: () {
+                        HapticFeedback.selectionClick();
+                        profileController.setAvatarFloating(true);
+                      },
+                      onLongPressEnd: (_) {
+                        HapticFeedback.lightImpact();
+                        profileController.setAvatarFloating(false);
+                      },
+                      child: UserAvatar.userProfile(
+                        user: profileController.user,
+                      ),
                     ),
                     SizedBox(
                       height: verticalSpace,

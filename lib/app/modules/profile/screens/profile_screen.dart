@@ -10,6 +10,7 @@ import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 import '../controllers/profile_controller.dart';
 import '../views/my_posts_tab.dart';
 import '../views/profile_header.dart';
+import '../views/floating_avatar_view.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({
@@ -75,6 +76,21 @@ class ProfileScreen extends StatelessWidget {
 
         /// when the user presses on a post the post appear on the top of the page
         // if (controller.isTherePostOnTop) const FloatingPostView(),
+
+        Obx(() {
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            transitionBuilder: (child, animation) {
+              return ScaleTransition(
+                scale: animation,
+                child: child,
+              );
+            },
+            child: profileController.isAvatarFloating.isTrue
+                ? FloatingAvatarView(user: profileController.user)
+                : const SizedBox.shrink(),
+          );
+        }),
       ],
     );
   }

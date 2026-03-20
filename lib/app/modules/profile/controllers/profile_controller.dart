@@ -22,6 +22,12 @@ class ProfileController extends GetxController {
   final RxBool isPostFloating = false.obs;
   late Post floatingPost;
 
+  final RxBool isAvatarFloating = false.obs;
+
+  void setAvatarFloating(bool value) {
+    isAvatarFloating.value = value;
+  }
+
   @override
   void onInit() {
     final args = Get.arguments;
