@@ -25,7 +25,7 @@ class MyApp extends GetView<AppController> {
             onTap: (index) => controller.selectedIndex(index),
             unselectedFontSize: 0, // <-- for NOT saving space for the label
             selectedFontSize: 0, // <-- for NOT saving space for the labe
-            items: const [
+            items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: '',
@@ -41,7 +41,16 @@ class MyApp extends GetView<AppController> {
                 label: '',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: Obx(() {
+                  final img = controller.userImage.value;
+                  return img.isEmpty
+                      ? const Icon(Icons.person)
+                      : CircleAvatar(
+                          radius: 13.sp,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage(img),
+                        );
+                }),
                 label: '',
               ),
             ],

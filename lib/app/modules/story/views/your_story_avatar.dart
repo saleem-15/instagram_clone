@@ -18,18 +18,22 @@ class YourStoryAvatar extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    final me = Get.find<AppController>().myUser;
+    final appController = Get.find<AppController>();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(
           children: [
-            UserAvatar.story(
-              user: me,
-              size: STORY_TILE_SIZE,
-              showRingIfHasStory: false,
-            ),
+            Obx(() {
+              // Access property to trigger reactive rebuilds securely
+              appController.userImage.value;
+              return UserAvatar.story(
+                user: appController.myUser,
+                size: STORY_TILE_SIZE,
+                showRingIfHasStory: false,
+              );
+            }),
             Positioned(
               bottom: 2,
               right: 2,

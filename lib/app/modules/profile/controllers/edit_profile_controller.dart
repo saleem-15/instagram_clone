@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/profile_controller.dart';
+import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
 import '../services/edit_profile_service.dart';
 import '../services/get_profile_info_service.dart';
 import '../services/update_profile_image_service.dart';
@@ -72,6 +73,17 @@ class EditProfileController extends GetxController {
         final pc = Get.find<ProfileController>(tag: profile.userId);
         pc.isLoading(true);
         pc.profile = await fetchProfileInfoService(profile.userId);
+
+        // Critically propagate the freshly updated photo back onto the legacy User property
+        pc.user.image = pc.profile.image;
+        if (pc.isMyProfile) {
+          MySharedPref.setUserImage(pc.profile.image);
+          if (Get.isRegistered<AppController>()) {
+            Get.find<AppController>().myUser.image = pc.profile.image;
+            Get.find<AppController>().userImage.value = pc.profile.image ?? '';
+          }
+        }
+
         pc.isLoading(false);
         pc.update(); // Force a rebuild if any GetBuilder is listening
       }

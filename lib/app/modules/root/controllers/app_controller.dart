@@ -13,11 +13,17 @@ import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
 class AppController extends GetxController {
   final User myUser = MySharedPref.getUserData!;
+  final RxString userImage = (MySharedPref.getUserImage ?? '').obs;
 
   final Rx<int> selectedIndex = 0.obs;
 
   List<bool> isBindingsInitilized = List.generate(4, (index) => false);
-  List<Bindings> bindings = [HomeBinding(), ExplorerBinding(), ReelsBinding(), ProfileBinding()];
+  List<Bindings> bindings = [
+    HomeBinding(),
+    ExplorerBinding(),
+    ReelsBinding(),
+    ProfileBinding()
+  ];
 
   Widget get selectedScreen {
     switch (selectedIndex.value) {
@@ -35,7 +41,7 @@ class AppController extends GetxController {
 
       default:
         checkBindings(3);
-        return  ProfileScreen();
+        return ProfileScreen();
     }
   }
 
