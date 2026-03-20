@@ -13,7 +13,7 @@ import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 import '../services/get_profile_info_service.dart';
 
 class ProfileController extends GetxController {
-  late final Profile profile;
+  late Profile profile;
   late final bool isMyProfile;
   late final User user;
 
@@ -24,7 +24,8 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    user = Get.arguments ?? MySharedPref.getUserData;
+    final args = Get.arguments;
+    user = (args is User) ? args : MySharedPref.getUserData!;
     isMyProfile = user.id == MySharedPref.getUserId;
     super.onInit();
   }

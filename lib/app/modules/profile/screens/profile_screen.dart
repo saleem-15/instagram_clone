@@ -16,7 +16,8 @@ class ProfileScreen extends StatelessWidget {
     super.key,
   }) {
     /// if userId = null  ==> then its my profile
-    user = Get.arguments ?? MySharedPref.getUserData;
+    final args = Get.arguments;
+    user = (args is User) ? args : MySharedPref.getUserData!;
     profileController = Get.put(ProfileController(), tag: user.id);
     userPostsController = Get.put(UserPostsController(), tag: user.id);
   }
@@ -43,8 +44,10 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 5),
-                          child: ProfileHeader(profileController: profileController),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 5),
+                          child: ProfileHeader(
+                              profileController: profileController),
                         ),
                         const TabBar(
                           tabs: [
