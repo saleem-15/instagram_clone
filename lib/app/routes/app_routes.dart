@@ -26,6 +26,7 @@ abstract class Routes {
   static const STORY = _Paths.STORY;
   static const SEARCH = _Paths.SEARCH;
   static const SAVED_POSTS = _Paths.SAVED_POSTS;
+  static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
 }
 
 abstract class _Paths {
@@ -52,4 +53,5 @@ abstract class _Paths {
   static const STORY = '/story';
   static const SEARCH = '/search';
   static const SAVED_POSTS = '/saved_posts';
+  static const EDIT_PROFILE = '/edit_profile';
 }
