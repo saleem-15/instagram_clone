@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
-import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:logger/logger.dart';
 
 import 'app/modules/auth/controllers/auth_conroller.dart';
@@ -58,11 +57,9 @@ class Main extends StatelessWidget {
           },
           home: Builder(
             builder: (context) {
-              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                // Match your app background
-                systemNavigationBarColor:
-                    LightThemeColors.scaffoldBackgroundColor,
-                // For white icons
+              SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+              SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+                systemNavigationBarColor: Colors.transparent,
                 systemNavigationBarIconBrightness: Brightness.light,
               ));
 
