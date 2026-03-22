@@ -13,8 +13,8 @@ class ReelsService {
       logger.i(response.data);
 
       List<Reel> reels = [];
-      if (response.data is List) {
-        for (var item in response.data) {
+      if (response.data["data"] is List) {
+        for (var item in response.data["data"]) {
           reels.add(Reel.fromMap(item));
         }
       }

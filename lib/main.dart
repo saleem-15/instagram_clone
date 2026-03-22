@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +23,6 @@ Future<void> main() async {
 
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
   await MySharedPref.init();
-
   // MySharedPref.setUserToken(null);
   AuthBinding().dependencies();
   Get.lazyPut(() => AppController(), fenix: true);

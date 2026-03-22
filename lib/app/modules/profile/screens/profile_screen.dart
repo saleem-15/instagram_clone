@@ -11,6 +11,8 @@ import '../controllers/profile_controller.dart';
 import '../views/my_posts_tab.dart';
 import '../views/profile_header.dart';
 import '../views/floating_avatar_view.dart';
+import '../views/profile_reels_tab.dart';
+import '../controllers/profile_reels_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({
@@ -21,11 +23,14 @@ class ProfileScreen extends StatelessWidget {
     user = (args is User) ? args : MySharedPref.getUserData!;
     profileController = Get.put(ProfileController(), tag: user.id);
     userPostsController = Get.put(UserPostsController(), tag: user.id);
+    profileReelsController =
+        Get.put(ProfileReelsController(profileUserId: user.id), tag: user.id);
   }
 
   late final User user;
   late final ProfileController profileController;
   late final UserPostsController userPostsController;
+  late final ProfileReelsController profileReelsController;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     child: LoadingWidget(),
                   )
                 : DefaultTabController(
-                    length: 2,
+                    length: 3,
                     child: Column(
                       children: [
                         Padding(
@@ -52,18 +57,17 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const TabBar(
                           tabs: [
-                            Tab(
-                              icon: Icon(Icons.grid_on_sharp),
-                            ),
-                            Tab(
-                              icon: Icon(Icons.person),
-                            ),
+                            Tab(icon: Icon(Icons.grid_on_sharp)),
+                            Tab(icon: Icon(Icons.video_library_outlined)),
+                            Tab(icon: Icon(Icons.person)),
                           ],
                         ),
                         Expanded(
                           child: TabBarView(
                             children: [
                               ProfilePostsTap(controller: userPostsController),
+                              ProfileReelsTab(
+                                  controller: profileReelsController),
                               const Center(child: Text('2')),
                             ],
                           ),
