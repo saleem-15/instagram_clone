@@ -30,9 +30,10 @@ class CommentsController extends GetxController {
 
   @override
   void onInit() {
-    post = Get.arguments as Post;
+    if (Get.arguments != null && Get.arguments is Post) {
+      post = Get.arguments as Post;
+    }
     pagingController = PagingController<int, Comment>(
-    
       getNextPageKey: getNextPageKey,
       fetchPage: fetchComments,
     );
