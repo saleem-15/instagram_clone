@@ -25,6 +25,9 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/screens/profile_screen.dart';
 import '../modules/reels/bindings/reels_binding.dart';
 import '../modules/reels/views/reels_view.dart';
+import '../modules/profile/views/single_reel_player_screen.dart';
+import '../modules/profile/controllers/single_reel_player_controller.dart';
+import 'package:instagram_clone/app/models/reel.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/story/bindings/story_binding.dart';
 import '../modules/story/screens/story_screen.dart';
@@ -76,6 +79,13 @@ class AppPages {
       name: _Paths.REELS,
       page: () => const ReelsView(),
       binding: ReelsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SINGLE_REEL,
+      page: () => const SingleReelPlayerScreen(),
+      binding: BindingsBuilder.put(
+          () => SingleReelPlayerController(reel: Get.arguments as Reel)),
+      transition: Transition.rightToLeftWithFade,
     ),
     GetPage(
       name: _Paths.PROFILE,

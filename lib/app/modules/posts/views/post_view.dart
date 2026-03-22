@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_media.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
+import 'package:instagram_clone/app/shared/animated_love_button.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -86,29 +86,13 @@ class PostView extends GetView<PostsController> {
                     assignId: true,
                     id: '${post.id} love button',
                     builder: (controller) {
-                      log('love button of post ${post.id} is built');
-                      return IconButton(
-                        key: const ValueKey('Love Button'),
-                        onPressed: () => controller.onHeartPressed(post),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        icon: Pulse(
-                          duration: const Duration(milliseconds: 300),
-                          controller: (animationController) {
-                            PostsController.heartAnimationControllers
-                                .addAll({post.id: animationController});
-                          },
-                          child: post.isFavorite
-                              ? FaIcon(
-                                  FontAwesomeIcons.solidHeart,
-                                  color: Colors.red,
-                                  size: 20.sp,
-                                )
-                              : FaIcon(
-                                  FontAwesomeIcons.heart,
-                                  size: 20.sp,
-                                ),
-                        ),
+                      return AnimatedLoveButton(
+                        isFavorite: post.isFavorite,
+                        onHeartPressed: () => controller.onHeartPressed(post),
+                        onInitAnimationController: (animationController) {
+                          PostsController.heartAnimationControllers
+                              .addAll({post.id: animationController});
+                        },
                       );
                     },
                   ),

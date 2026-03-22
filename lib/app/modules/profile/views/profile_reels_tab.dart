@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/app/shared/posts_grid/views/post_grid_tile.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/profile_reels_controller.dart';
-import 'single_reel_player_screen.dart';
 
 class ProfileReelsTab extends StatelessWidget {
   final ProfileReelsController controller;
@@ -46,17 +47,24 @@ class ProfileReelsTab extends StatelessWidget {
           final reel = controller.reels[index];
           return GestureDetector(
             onTap: () {
-              Get.to(() => SingleReelPlayerScreen(reel: reel));
+              Get.toNamed(Routes.SINGLE_REEL, arguments: reel);
             },
-            child: Container(
-              color: Colors.grey[900],
-              child: const Center(
-                child: Icon(
-                  Icons.play_arrow_rounded,
-                  color: Colors.white,
-                  size: 40,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                VideoThumbnail(
+                  videoUrl: reel.reelMediaUrl,
                 ),
-              ),
+                const Positioned(
+                  bottom: 5,
+                  left: 5,
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ],
             ),
           );
         },
