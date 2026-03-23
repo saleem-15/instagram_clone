@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/profile/controllers/user_posts_controller.dart';
@@ -55,11 +56,34 @@ class ProfileScreen extends StatelessWidget {
                           child: ProfileHeader(
                               profileController: profileController),
                         ),
-                        const TabBar(
+                        TabBar(
                           tabs: [
-                            Tab(icon: Icon(Icons.grid_on_sharp)),
-                            Tab(icon: Icon(Icons.video_library_outlined)),
-                            Tab(icon: Icon(Icons.person)),
+                            Tab(
+                              icon: Icon(
+                                Icons.grid_on_sharp,
+                                size: 22.sp,
+                              ),
+                            ),
+                            Tab(
+                              icon: SvgPicture.asset(
+                                'assets/icons/Reels.svg',
+                                colorFilter: ColorFilter.mode(
+                                  Theme.of(context).iconTheme.color!,
+                                  BlendMode.srcIn,
+                                ),
+                                width: 22.sp,
+                              ),
+                            ),
+                            Tab(
+                              icon: SvgPicture.asset(
+                                'assets/icons/instagram-tag-icon.svg',
+                                colorFilter: ColorFilter.mode(
+                                  Theme.of(context).iconTheme.color!,
+                                  BlendMode.srcIn,
+                                ),
+                                width: 22.sp,
+                              ),
+                            ),
                           ],
                         ),
                         Expanded(

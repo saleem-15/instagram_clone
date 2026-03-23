@@ -1,7 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
@@ -71,13 +72,16 @@ class PostGridTile extends StatelessWidget {
           ),
         if (post.postContents.length.isEqual(1) &&
             post.postContents.first.isVideoFileName)
-          const Positioned(
+          Positioned(
             top: 5,
             right: 5,
-            child: Icon(
-              Icons.videocam_rounded,
-              color: Colors.white,
-              size: 20,
+            child: SvgPicture.asset(
+              'assets/icons/Reels.svg',
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+              width: 18.sp,
             ),
           ),
       ],

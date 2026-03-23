@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
@@ -183,16 +184,24 @@ class _PostView extends GetView<PostsController> {
               ),
               IconButton(
                 onPressed: () => controller.comment(post),
-                icon: const FaIcon(
-                  FontAwesomeIcons.comment,
-                  size: 20,
+                icon: SvgPicture.asset(
+                  'assets/icons/comment.svg',
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).iconTheme.color!,
+                    BlendMode.srcIn,
+                  ),
+                  width: 20.sp,
                 ),
               ),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(
-                  Icons.send,
-                  size: 20,
+                icon: SvgPicture.asset(
+                  'assets/icons/send.svg',
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).iconTheme.color!,
+                    BlendMode.srcIn,
+                  ),
+                  width: 20.sp,
                 ),
               ),
             ],

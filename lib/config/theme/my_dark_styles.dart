@@ -244,7 +244,7 @@ class MyDarkStyles {
       elevation: 0,
       backgroundColor: Colors.transparent,
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: DarkThemeColors.myBlack,
+      selectedItemColor: DarkThemeColors.iconColor,
       unselectedItemColor: Colors.grey[400],
       showSelectedLabels: false,
       showUnselectedLabels: false,

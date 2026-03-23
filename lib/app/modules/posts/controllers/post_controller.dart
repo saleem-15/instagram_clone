@@ -122,4 +122,9 @@ class PostsController extends GetxController {
 
     // update(['bouncing_heart_in_centre']);
   }
+
+  void share(Post post) {
+    // TODO: implement share
+    log('Sharing post: ${post.id}');
+  }
 }

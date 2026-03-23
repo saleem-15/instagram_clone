@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/posts_grid/views/post_grid_tile.dart';
 
@@ -71,13 +73,16 @@ class ProfileReelsTab extends StatelessWidget {
                 VideoThumbnail(
                   videoUrl: reel.reelMediaUrl,
                 ),
-                const Positioned(
+                Positioned(
                   bottom: 5,
                   left: 5,
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: Colors.white,
-                    size: 20,
+                  child: SvgPicture.asset(
+                    'assets/icons/Reels.svg',
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                    width: 18.sp,
                   ),
                 ),
               ],

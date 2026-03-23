@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -229,8 +231,14 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
 
                                       // Send Button
                                       IconButton(
-                                        icon: const Icon(Icons.send,
-                                            color: Colors.white, size: 28),
+                                        icon: SvgPicture.asset(
+                                          'assets/icons/send.svg',
+                                          colorFilter: const ColorFilter.mode(
+                                            Colors.white,
+                                            BlendMode.srcIn,
+                                          ),
+                                          width: 28.sp,
+                                        ),
                                         onPressed: () {},
                                       ),
                                       const SizedBox(height: 15),

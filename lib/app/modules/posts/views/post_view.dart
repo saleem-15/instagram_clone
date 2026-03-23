@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_media.dart';
@@ -99,16 +99,24 @@ class PostView extends GetView<PostsController> {
                   ),
                   IconButton(
                     onPressed: () => controller.comment(post),
-                    icon: const FaIcon(
-                      FontAwesomeIcons.comment,
-                      size: 20,
+                    icon: SvgPicture.asset(
+                      'assets/icons/comment.svg',
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).iconTheme.color!,
+                        BlendMode.srcIn,
+                      ),
+                      width: 22.sp,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.send,
-                      size: 20,
+                    onPressed: () => controller.share(post),
+                    icon: SvgPicture.asset(
+                      'assets/icons/send.svg',
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).iconTheme.color!,
+                        BlendMode.srcIn,
+                      ),
+                      width: 22.sp,
                     ),
                   ),
                 ],
@@ -147,10 +155,15 @@ class PostView extends GetView<PostsController> {
                   builder: (controller) {
                     return IconButton(
                       onPressed: () => controller.onSaveButtonPressed(post),
-                      icon: Icon(
+                      icon: SvgPicture.asset(
                         post.isSaved
-                            ? Icons.bookmark_sharp
-                            : Icons.bookmark_outline_sharp,
+                            ? 'assets/icons/Save (Filled).svg'
+                            : 'assets/icons/Save.svg',
+                        colorFilter: ColorFilter.mode(
+                          Theme.of(context).iconTheme.color!,
+                          BlendMode.srcIn,
+                        ),
+                        width: 22.sp,
                       ),
                     );
                   },
