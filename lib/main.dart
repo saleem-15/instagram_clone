@@ -42,15 +42,15 @@ class Main extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: "Instagram clone",
           getPages: AppPages.routes,
+          theme: MyTheme.getThemeData(),
+          darkTheme: MyTheme.getDarkThemeData(),
+          themeMode: ThemeMode.system,
           builder: (context, widget) {
-            return Theme(
-              data: MyTheme.getThemeData(),
-              child: MediaQuery(
-                // but we want our app font to still the same and dont get affected
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(1.0)),
-                child: widget!,
-              ),
+            return MediaQuery(
+              // but we want our app font to still the same and dont get affected
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: widget!,
             );
           },
           home: Builder(

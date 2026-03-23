@@ -27,7 +27,7 @@ class CommentTile extends GetView<CommentsController> {
           SizedBox(
             width: 40.sp,
             child: UserAvatar.comment(
-              user: comment.user,
+              user: comment.user, 
             ).paddingOnly(top: 5),
           ),
           SizedBox(
@@ -72,7 +72,6 @@ class CommentTile extends GetView<CommentsController> {
               ],
             ),
           ),
-          // Spacer(),
           Obx(
             () => AnimatedLoveButton(
               isFavorite: comment.isCommentLiked.value,

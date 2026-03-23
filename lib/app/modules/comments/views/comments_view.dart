@@ -16,8 +16,6 @@ class CommentsView extends GetView<CommentsController> {
   const CommentsView({super.key});
   @override
   Widget build(BuildContext context) {
-    /// the user that posted the post
-    final postPublisher = controller.post.user;
     final horizontalPadding = 10.w;
     return Scaffold(
       // appBar: AppBar(
