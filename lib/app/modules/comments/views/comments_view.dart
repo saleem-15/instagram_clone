@@ -20,59 +20,61 @@ class CommentsView extends GetView<CommentsController> {
     final postPublisher = controller.post.user;
     final horizontalPadding = 10.w;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Comments'),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: const Text('Comments'),
+      // ),
       body: Column(
         children: [
           /// post author && post text
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 40.sp,
-                  child: UserAvatar.comment(
-                    user: postPublisher,
-                  ),
-                ),
-                SizedBox(
-                  width: 7.w,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// Account Name (username)
-                      GestureDetector(
-                        onTap: () => controller.onUserNamePressd(postPublisher),
-                        child: Text(
-                          controller.accountName,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 3.sp,
-                      ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+          //   child: Row(
+          //     children: [
+          //       // SizedBox(
+          //       //   width: 40.sp,
+          //       //   child: UserAvatar.comment(
+          //       //     user: postPublisher,
+          //       //   ),
+          //       // ),
+          //       // SizedBox(
+          //       //   width: 7.w,
+          //       // ),
+          //       Expanded(
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             /// Account Name (username)
+          //             GestureDetector(
+          //               onTap: () => controller.onUserNamePressd(postPublisher),
+          //               child: Text(
+          //                 controller.accountName,
+          //                 style: Theme.of(context).textTheme.bodyLarge,
+          //               ),
+          //             ),
+          //             SizedBox(
+          //               height: 3.sp,
+          //             ),
 
-                      /// post
-                      Text(
-                        controller.postText,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 5.sp,
-          ),
-          const Divider(
-            thickness: .3,
-            height: 0,
-          ),
+          //             /// post
+          //             Text(
+          //               controller.postText,
+          //               style: Theme.of(context).textTheme.bodyMedium,
+          //             ),
+          //           ],
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
+
+          // SizedBox(
+          //   height: 5.sp,
+          // ),
+          // const Divider(
+          //   thickness: .3,
+          //   height: 0,
+          // ),
           Expanded(
             child: PagingListener<int, Comment>(
               controller: controller.pagingController,
