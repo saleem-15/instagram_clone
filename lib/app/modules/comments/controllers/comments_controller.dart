@@ -96,4 +96,8 @@ class CommentsController extends GetxController {
 
     return state.nextIntPageKey;
   }
+
+  void onCommentLikePressed(Comment comment) {
+    comment.isCommentLiked.toggle();
+  }
 }
