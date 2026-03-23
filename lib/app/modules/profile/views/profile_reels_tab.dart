@@ -31,7 +31,23 @@ class ProfileReelsTab extends StatelessWidget {
         );
       }
       if (controller.reels.isEmpty) {
-        return const Center(child: Text('No reels yet'));
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/camera_inside_circle.png',
+                width: 120,
+                color: Theme.of(context).iconTheme.color,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No Reels Yet'.tr,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ],
+          ),
+        );
       }
 
       return GridView.builder(

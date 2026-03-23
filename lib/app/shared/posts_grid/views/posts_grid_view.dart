@@ -79,6 +79,7 @@ class PostsGridView extends StatelessWidget {
           Image.asset(
             'assets/images/camera_inside_circle.png',
             width: 120,
+            color: Theme.of(context).iconTheme.color,
           ),
           const SizedBox(height: 16),
           Text(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'light_theme_colors.dart';
-
 class MyFonts {
   static TextStyle get getAppFontType => const TextStyle();
 
@@ -19,7 +17,7 @@ class MyFonts {
   // input text font (for TextFormField and TextField)
   static TextStyle get inputTextStyle => getAppFontType.copyWith(
         fontWeight: FontWeight.w400,
-        color: LightThemeColors.bodyTextColor,
+        // color: LightThemeColors.bodyTextColor,
         fontSize: MyFonts.body2TextSize,
       );
 

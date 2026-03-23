@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
-import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/profile_controller.dart';
@@ -163,7 +162,6 @@ class ProfileHeader extends StatelessWidget {
                   },
                   child: const Text(
                     'Edit Profile',
-                    style: TextStyle(color: LightThemeColors.buttonTextColor),
                   ),
                 )
 

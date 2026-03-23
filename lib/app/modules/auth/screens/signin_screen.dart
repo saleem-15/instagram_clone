@@ -152,7 +152,10 @@ class SigninScreen extends GetView<SigninController> {
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     fontSize: 13.sp,
-                                    color: Colors.indigo.shade800,
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? LightThemeColors.authButtonColor
+                                        : Colors.indigo.shade800,
                                   ),
                         ),
                       ],
