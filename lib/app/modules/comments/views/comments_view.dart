@@ -18,6 +18,7 @@ class CommentsView extends GetView<CommentsController> {
   Widget build(BuildContext context) {
     final horizontalPadding = 10.w;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,
       //   title: const Text('Comments'),

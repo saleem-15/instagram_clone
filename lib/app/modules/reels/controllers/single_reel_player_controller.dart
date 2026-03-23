@@ -30,6 +30,7 @@ class SingleReelPlayerController extends GetxController {
   }
 
   void onVerticalDragUpdate(DragUpdateDetails details) {
+    
     if (details.primaryDelta != null) {
       dragOffset.value += details.primaryDelta!;
 

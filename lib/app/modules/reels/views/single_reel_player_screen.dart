@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -189,7 +191,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                       // Actions Sidebar (Bottom Right)
                       Positioned(
                         bottom: 120,
-                        right: 10,
+                        left: 10,
                         child: Obx(() => IgnorePointer(
                               ignoring: controller.isCommentsOpen.value,
                               child: AnimatedOpacity(
@@ -262,20 +264,22 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                       ),
                       // Video Progress Indicator
                       Positioned(
-                        bottom: 50,
+                        bottom: 0,
                         left: 0,
                         right: 0,
                         child: Obx(() {
                           if (controller.isInitialized.value &&
                               controller.videoController != null) {
                             return SizedBox(
-                              height: 4,
+                              height: 2.sp,
+                              width: Get.width,
                               child: VideoProgressIndicator(
                                 controller.videoController!,
                                 allowScrubbing: true,
+                                padding: EdgeInsets.zero,
                                 colors: const VideoProgressColors(
                                   playedColor: Colors.white,
-                                  bufferedColor: Colors.white30,
+                                  bufferedColor: Colors.white10,
                                   backgroundColor: Colors.white10,
                                 ),
                               ),
