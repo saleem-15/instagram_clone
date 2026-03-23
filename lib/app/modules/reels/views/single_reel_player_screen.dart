@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,11 +75,20 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                       ),
                                     ),
                                     if (!isPlaying)
-                                      const Center(
-                                        child: Icon(
-                                          Icons.play_circle_fill,
-                                          color: Colors.white60,
-                                          size: 80,
+                                      Center(
+                                        child: Container(
+                                          width: 60.sp,
+                                          height: 60.sp,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                          ),
+                                          child: Icon(
+                                            Icons.play_arrow_rounded,
+                                            color: Colors.white,
+                                            size: 40.sp,
+                                          ),
                                         ),
                                       ),
                                   ],
@@ -90,25 +97,6 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                             },
                           );
                         }),
-                      ),
-
-                      // Back Button
-                      Positioned(
-                        top: 40,
-                        left: 10,
-                        child: Obx(() => IgnorePointer(
-                              ignoring: controller.isCommentsOpen.value,
-                              child: AnimatedOpacity(
-                                duration: const Duration(milliseconds: 300),
-                                opacity:
-                                    controller.isCommentsOpen.value ? 0.0 : 1.0,
-                                child: IconButton(
-                                  icon: const Icon(Icons.arrow_back,
-                                      color: Colors.white),
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
-                              ),
-                            )),
                       ),
 
                       // User Info (Bottom Left)
@@ -190,7 +178,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
 
                       // Actions Sidebar (Bottom Right)
                       Positioned(
-                        bottom: 120,
+                        bottom: 130.h,
                         left: 10,
                         child: Obx(() => IgnorePointer(
                               ignoring: controller.isCommentsOpen.value,
@@ -271,12 +259,13 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                           if (controller.isInitialized.value &&
                               controller.videoController != null) {
                             return SizedBox(
-                              height: 2.sp,
+                              height: 12.sp,
                               width: Get.width,
                               child: VideoProgressIndicator(
                                 controller.videoController!,
                                 allowScrubbing: true,
-                                padding: EdgeInsets.zero,
+                                padding:
+                                    EdgeInsets.only(top: 5.sp, bottom: 5.sp),
                                 colors: const VideoProgressColors(
                                   playedColor: Colors.white,
                                   bufferedColor: Colors.white10,

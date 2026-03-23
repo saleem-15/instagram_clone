@@ -27,7 +27,7 @@ class CommentTile extends GetView<CommentsController> {
           SizedBox(
             width: 40.sp,
             child: UserAvatar.comment(
-              user: comment.user, 
+              user: comment.user,
             ).paddingOnly(top: 5),
           ),
           SizedBox(
@@ -74,8 +74,13 @@ class CommentTile extends GetView<CommentsController> {
           ),
           Obx(
             () => AnimatedLoveButton(
+              size: 20.sp,
               isFavorite: comment.isCommentLiked.value,
               onHeartPressed: () => controller.onCommentLikePressed(comment),
+              onInitAnimationController: (animationController) {
+                CommentsController.heartAnimationControllers
+                    .addAll({comment.id: animationController});
+              },
             ),
           ),
         ],

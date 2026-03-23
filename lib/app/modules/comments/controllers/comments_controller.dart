@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -17,6 +18,7 @@ import '../services/get_post_comments_service.dart';
 class CommentsController extends GetxController {
   int numOfPages = 1;
   late final PagingController<int, Comment> pagingController;
+  static final Map<String, AnimationController> heartAnimationControllers = {};
 
   late final Post post;
   String get postText => post.caption;
@@ -99,5 +101,7 @@ class CommentsController extends GetxController {
 
   void onCommentLikePressed(Comment comment) {
     comment.isCommentLiked.toggle();
+    heartAnimationControllers[comment.id]?.reset();
+    heartAnimationControllers[comment.id]?.forward();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/app/models/post.dart';
@@ -15,12 +16,32 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.red,
-        // toolbarHeight: 50,
-        title: Image.asset(
-          'assets/icons/instagram-word-logo-removebg.png',
-          width: 120.sp,
+        leading: SvgPicture.asset(
+          fit: BoxFit.scaleDown,
+          'assets/icons/heart.svg',
+          colorFilter: const ColorFilter.mode(
+            Colors.white,
+            BlendMode.srcIn,
+          ),
         ),
+        centerTitle: true,
+        title: SvgPicture.asset(
+          'assets/icons/instagram logo.svg',
+          colorFilter: const ColorFilter.mode(
+            Colors.white,
+            BlendMode.srcIn,
+          ),
+          width: 115.sp,
+        ),
+        actions: [
+          Icon(
+            Icons.add,
+            size: 25.sp,
+          ),
+          SizedBox(
+            width: 10.w,
+          ),
+        ],
       ),
       body: PagingListener<int, Post>(
         controller: controller.pagingController,

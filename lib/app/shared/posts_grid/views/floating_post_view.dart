@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/posts/controllers/post_controller.dart';
 import 'package:instagram_clone/app/shared/posts_grid/controllers/floating_post_controller.dart';
@@ -159,23 +158,31 @@ class _PostView extends GetView<PostsController> {
                       onPressed: () => controller.onHeartPressed(post),
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      // Icons.favorite => if favorite
                       icon: Pulse(
                         duration: const Duration(milliseconds: 300),
                         controller: (animationController) {
-                          // Allow the floating view to also grab an animation controller link
                           PostsController.heartAnimationControllers
                               .addAll({post.id: animationController});
                         },
                         child: post.isFavorite
-                            ? const FaIcon(
-                                FontAwesomeIcons.solidHeart,
-                                color: Colors.red,
-                                size: 20,
+                            ? SvgPicture.asset(
+                                'assets/icons/Heart (Filled).svg',
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.red,
+                                  BlendMode.srcIn,
+                                ),
+                                width: 20.sp,
+                                height: 20.sp,
                               )
-                            : const FaIcon(
-                                FontAwesomeIcons.heart,
-                                size: 20,
+                            : SvgPicture.asset(
+                                'assets/icons/heart.svg',
+                                colorFilter: ColorFilter.mode(
+                                  Theme.of(context).iconTheme.color ??
+                                      Colors.white,
+                                  BlendMode.srcIn,
+                                ),
+                                width: 20.sp,
+                                height: 20.sp,
                               ),
                       ),
                     ),

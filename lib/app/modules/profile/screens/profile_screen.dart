@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
         /// profile page with all of its components
 
         Scaffold(
-          appBar: profileAppBar(profileController),
+          appBar: profileAppBar(context, profileController),
           body: Obx(
             () => profileController.isLoading.isTrue
                 ? const Center(
@@ -123,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  AppBar profileAppBar(ProfileController controller) {
+  AppBar profileAppBar(BuildContext context, ProfileController controller) {
     return AppBar(
       title: Text(
         controller.user.userName,
@@ -137,7 +137,14 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: controller.showAddPostBottomSheet,
-                        icon: const Icon(Icons.add_box_outlined),
+                        icon: SvgPicture.asset(
+                          'assets/icons/Create.svg',
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).iconTheme.color!,
+                            BlendMode.srcIn,
+                          ),
+                          width: 25.sp,
+                        ),
                       ),
                       IconButton(
                         onPressed: controller.showSettingsBottomSheet,

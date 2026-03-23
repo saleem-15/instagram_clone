@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AnimatedLoveButton extends StatelessWidget {
   final bool isFavorite;
@@ -14,7 +14,7 @@ class AnimatedLoveButton extends StatelessWidget {
     required this.isFavorite,
     required this.onHeartPressed,
     this.onInitAnimationController,
-    this.size = 20,
+    this.size = 26,
   });
 
   @override
@@ -25,22 +25,31 @@ class AnimatedLoveButton extends StatelessWidget {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       icon: Pulse(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.bounceInOut,
         controller: (animationController) {
           if (onInitAnimationController != null) {
             onInitAnimationController!(animationController);
           }
         },
         child: isFavorite
-            ? FaIcon(
-                FontAwesomeIcons.solidHeart,
-                color: Colors.red,
-                size: size.sp,
+            ? SvgPicture.asset(
+                'assets/icons/Heart (Filled).svg',
+                colorFilter: const ColorFilter.mode(
+                  Colors.red,
+                  BlendMode.srcIn,
+                ),
+                width: size.sp,
+                height: size.sp,
               )
-            : FaIcon(
-                FontAwesomeIcons.heart,
-                color: Colors.white,
-                size: size.sp,
+            : SvgPicture.asset(
+                'assets/icons/heart.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).iconTheme.color ?? Colors.white,
+                  BlendMode.srcIn,
+                ),
+                width: size.sp,
+                height: size.sp,
               ),
       ),
     );
