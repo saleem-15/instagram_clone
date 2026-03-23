@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/profile_controller.dart';
@@ -177,18 +178,15 @@ class ProfileHeader extends StatelessWidget {
                     return profileController.profile.doIFollowHim
                         ? ElevatedButton(
                             onPressed: profileController.unFollowUser,
-                            child: Text(
-                              'Following',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
+                            child: const Text('Following'),
                           )
                         : ElevatedButton(
-                            style: MyStyles.getAuthButtonStyle(),
+                            style:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? MyDarkStyles.getAuthButtonStyle()
+                                    : MyStyles.getAuthButtonStyle(),
                             onPressed: profileController.followUser,
-                            child: const Text(
-                              'Follow',
-                              style: TextStyle(),
-                            ),
+                            child: const Text('Follow'),
                           );
                   },
                 ),

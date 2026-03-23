@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/config/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 
 import '../controller/search_controller.dart';
@@ -25,10 +26,10 @@ class RecentSearches extends GetView<SearchController> {
                 onPressed: () {},
                 child: Text(
                   'See All'.tr,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: LightThemeColors.lightBlue),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? DarkThemeColors.authButtonColor
+                          : LightThemeColors.lightBlue),
                 ),
               ),
             ],

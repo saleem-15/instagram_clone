@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
+import 'package:instagram_clone/config/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
 
@@ -47,7 +48,9 @@ class YourStoryAvatar extends StatelessWidget {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       width: 2.sp,
                     ),
-                    color: LightThemeColors.lightBlue,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? DarkThemeColors.authButtonColor
+                        : LightThemeColors.lightBlue,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/signin_controller.dart';
@@ -126,7 +127,9 @@ class SigninScreen extends GetView<SigninController> {
                     onPressed: controller.isButtonDisable.isTrue
                         ? null
                         : controller.logIn,
-                    style: MyStyles.getAuthButtonStyle(),
+                    style: Theme.of(context).brightness == Brightness.dark
+                        ? MyDarkStyles.getAuthButtonStyle()
+                        : MyStyles.getAuthButtonStyle(),
                     child: controller.isWaitingResponse.isTrue
                         ? const LoadingWidget.button()
                         : const Text('Log in'),

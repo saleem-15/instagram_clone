@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/reset_password_controller.dart';
@@ -49,7 +50,9 @@ class ResetPasswordScreen extends GetView<ResetPasswordController> {
                 onPressed: controller.isButtonDisable.isTrue
                     ? null
                     : controller.onResetPasswordButtonPressed,
-                style: MyStyles.getAuthButtonStyle(),
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? MyDarkStyles.getAuthButtonStyle()
+                    : MyStyles.getAuthButtonStyle(),
                 child: Obx(
                   () => controller.isWaitingForRequest.isTrue
                       ? const LoadingWidget.button()
