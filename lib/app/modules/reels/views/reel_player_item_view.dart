@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 
 import 'package:instagram_clone/app/models/reel.dart';
-import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/modules/comments/views/comments_view.dart';
-import 'package:instagram_clone/app/shared/user_avatar.dart';
-import 'package:instagram_clone/app/shared/animated_love_button.dart';
 import '../controllers/reel_player_controller.dart';
+import 'widgets/actions_side_bar_widget.dart';
+import 'widgets/reel_player_widget.dart';
+import 'widgets/reel_progress_indicator_widget.dart';
+import 'widgets/user_info_widget.dart';
 
 class ReelPlayerItemView extends StatefulWidget {
   final Reel reel;
@@ -67,12 +65,12 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
   Widget build(BuildContext context) {
     return GetBuilder<ReelPlayerController>(
       tag: tag,
-      builder: (c) {
+      builder: (controller) {
         return Column(
           children: [
             Expanded(
               child: Obx(() {
-                final isCommentsOpen = c.isCommentsOpen.value;
+                final isCommentsOpen = controller.isCommentsOpen.value;
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic,
@@ -90,240 +88,39 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                     children: [
                       // Player + Play/Pause logic
                       Positioned.fill(
-                        child: Obx(() {
-                          if (!c.isInitialized.value ||
-                              c.videoController == null) {
-                            return const Center(child: LoadingWidget());
-                          }
-                          return GetBuilder<ReelPlayerController>(
-                            tag: tag,
-                            id: 'playback',
-                            builder: (cv) {
-                              final isPlaying =
-                                  cv.videoController!.value.isPlaying;
-                              return GestureDetector(
-                                onTap: cv.togglePlay,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Center(
-                                      child: AspectRatio(
-                                        aspectRatio: cv
-                                            .videoController!.value.aspectRatio,
-                                        child: Obx(
-                                          () => ClipRRect(
-                                              borderRadius:
-                                                  BorderRadiusGeometry.circular(
-                                                      c.isCommentsOpen.value
-                                                          ? 20
-                                                          : 0),
-                                              child: VideoPlayer(
-                                                  cv.videoController!)),
-                                        ),
-                                      ),
-                                    ),
-                                    if (!isPlaying)
-                                      Center(
-                                        child: Container(
-                                          width: 60.sp,
-                                          height: 60.sp,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.black
-                                                .withValues(alpha: 0.5),
-                                          ),
-                                          child: Icon(
-                                            Icons.play_arrow_rounded,
-                                            color: Colors.white,
-                                            size: 40.sp,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        }),
+                        child: ReelPlayer(
+                          tag: tag,
+                          controller: controller,
+                        ),
                       ),
 
                       // User Info (Bottom Left)
                       Positioned(
                         bottom: 20,
                         right: 15,
-                        child: Obx(() => IgnorePointer(
-                              ignoring: c.isCommentsOpen.value,
-                              child: AnimatedOpacity(
-                                duration: const Duration(milliseconds: 300),
-                                opacity: c.isCommentsOpen.value ? 0.0 : 1.0,
-                                child: GetBuilder<ReelPlayerController>(
-                                  tag: tag,
-                                  id: 'user_info',
-                                  builder: (cv) => Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            cv.reel.user.userName,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          UserAvatar.follower(
-                                            user: cv.reel.user,
-                                            size: 20,
-                                          ),
-                                          if (!cv.reel.user.isMe &&
-                                              !cv.reel.user.doIFollowHim) ...[
-                                            const SizedBox(width: 10),
-                                            TextButton(
-                                              style: TextButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 0),
-                                                minimumSize: const Size(60, 30),
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                side: const BorderSide(
-                                                    color: Colors.white),
-                                              ),
-                                              onPressed: cv.followUser,
-                                              child: const Text('Follow',
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            ),
-                                          ]
-                                        ],
-                                      ),
-                                      if (cv.reel.caption.isNotEmpty) ...[
-                                        const SizedBox(height: 10),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.7,
-                                          child: Text(
-                                            cv.reel.caption,
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                      ]
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )),
+                        child: UserInfoWidget(
+                          tag: tag,
+                          controller: controller,
+                        ),
                       ),
 
                       // Actions Sidebar (Bottom Right)
                       Positioned(
                         bottom: 130.h,
                         left: 10,
-                        child: Obx(() => IgnorePointer(
-                              ignoring: c.isCommentsOpen.value,
-                              child: AnimatedOpacity(
-                                duration: const Duration(milliseconds: 300),
-                                opacity: c.isCommentsOpen.value ? 0.0 : 1.0,
-                                child: GetBuilder<ReelPlayerController>(
-                                  tag: tag,
-                                  id: 'actions',
-                                  builder: (cv) => Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      // Love Button
-                                      AnimatedLoveButton(
-                                        isFavorite: cv.reel.isFavorite,
-                                        size: 28,
-                                        onHeartPressed: cv.onHeartPressed,
-                                      ),
-                                      Text(
-                                        '${cv.reel.numOfLikes}',
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      const SizedBox(height: 15),
-
-                                      // Comment Button
-                                      IconButton(
-                                        icon: const FaIcon(
-                                            FontAwesomeIcons.comment,
-                                            color: Colors.white,
-                                            size: 26),
-                                        onPressed: cv.comment,
-                                      ),
-                                      Text(
-                                        '${cv.reel.numOfComments}',
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                      const SizedBox(height: 15),
-
-                                      // Send Button
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          'assets/icons/send.svg',
-                                          colorFilter: const ColorFilter.mode(
-                                            Colors.white,
-                                            BlendMode.srcIn,
-                                          ),
-                                          width: 28.sp,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                      const SizedBox(height: 15),
-
-                                      // Save Button
-                                      IconButton(
-                                        icon: Icon(
-                                          cv.reel.isSaved
-                                              ? Icons.bookmark_sharp
-                                              : Icons.bookmark_outline_sharp,
-                                          color: Colors.white,
-                                          size: 28,
-                                        ),
-                                        onPressed: cv.onSavePressed,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )),
+                        child: ActionsSideBar(
+                          tag: tag,
+                          controller: controller,
+                        ),
                       ),
                       // Video Progress Indicator
                       Positioned(
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        child: Obx(() {
-                          if (c.isInitialized.value &&
-                              c.videoController != null) {
-                            return SizedBox(
-                              height: 12.sp,
-                              width: Get.width,
-                              child: VideoProgressIndicator(
-                                c.videoController!,
-                                allowScrubbing: true,
-                                padding:
-                                    EdgeInsets.only(top: 5.sp, bottom: 5.sp),
-                                colors: const VideoProgressColors(
-                                  playedColor: Colors.white,
-                                  bufferedColor: Colors.white10,
-                                  backgroundColor: Colors.white10,
-                                ),
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        }),
+                        child: ReelProgressIndicator(
+                          controller: controller,
+                        ),
                       ),
                     ],
                   ),
@@ -333,10 +130,10 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
             // Inline Animated Comments View
             Obx(() {
               final kbHeight = MediaQuery.of(context).viewInsets.bottom;
-              final maxCommentsHeight = c.maxCommentsHeight;
+              final maxCommentsHeight = controller.maxCommentsHeight;
               final maxDragUp = (Get.height * 0.55) - maxCommentsHeight;
 
-              final dragOffset = c.dragOffset.value;
+              final dragOffset = controller.dragOffset.value;
               final isSnapping = dragOffset == 0.0 || dragOffset == maxDragUp;
 
               final targetHeight = (Get.height * 0.55 - dragOffset)
@@ -347,7 +144,7 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                     ? const Duration(milliseconds: 300)
                     : Duration.zero,
                 curve: Curves.easeOutCubic,
-                height: c.isCommentsOpen.value ? targetHeight : 0,
+                height: controller.isCommentsOpen.value ? targetHeight : 0,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: kbHeight),
                   child: ClipRRect(
@@ -358,8 +155,9 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                       child: Column(
                         children: [
                           GestureDetector(
-                            onVerticalDragUpdate: c.onVerticalDragUpdate,
-                            onVerticalDragEnd: c.onVerticalDragEnd,
+                            onVerticalDragUpdate:
+                                controller.onVerticalDragUpdate,
+                            onVerticalDragEnd: controller.onVerticalDragEnd,
                             behavior: HitTestBehavior.opaque,
                             child: Column(
                               children: [
@@ -377,9 +175,10 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                             ),
                           ),
                           Expanded(
-                              child: c.isCommentsOpen.value
-                                  ? CommentsView()
-                                  : const SizedBox.shrink()),
+                            child: controller.isCommentsOpen.value
+                                ? CommentsView()
+                                : const SizedBox.shrink(),
+                          ),
                         ],
                       ),
                     ),
@@ -390,7 +189,7 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
 
             // Comment Text Field at the bottom of the Screen
             Obx(() {
-              if (c.isCommentsOpen.value) {
+              if (controller.isCommentsOpen.value) {
                 return const SizedBox.shrink();
               }
               return Container(
@@ -399,7 +198,7 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: TextField(
                   readOnly: true,
-                  onTap: c.comment,
+                  onTap: controller.comment,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
