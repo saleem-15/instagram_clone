@@ -5,26 +5,74 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
+import 'package:instagram_clone/app/models/reel.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/app/modules/comments/views/comments_view.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/app/shared/animated_love_button.dart';
-import '../controllers/single_reel_player_controller.dart';
+import '../controllers/reel_player_controller.dart';
 
-class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
-  const SingleReelPlayerScreen({super.key});
+class ReelPlayerItemView extends StatefulWidget {
+  final Reel reel;
+  final bool isCurrentPage;
+
+  const ReelPlayerItemView({
+    super.key,
+    required this.reel,
+    required this.isCurrentPage,
+  });
+
+  @override
+  State<ReelPlayerItemView> createState() => _ReelPlayerItemViewState();
+}
+
+class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
+  late String tag;
+  late ReelPlayerController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    tag = '${widget.reel.id}_${UniqueKey().toString()}';
+    controller = Get.put(ReelPlayerController(reel: widget.reel), tag: tag);
+    if (widget.isCurrentPage) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.playVideo();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    Get.delete<ReelPlayerController>(tag: tag);
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant ReelPlayerItemView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isCurrentPage != oldWidget.isCurrentPage) {
+      if (widget.isCurrentPage) {
+        controller.playVideo();
+      } else {
+        controller.pauseVideo();
+        if (controller.isCommentsOpen.value) {
+          controller.isCommentsOpen.value = false;
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Column(
+    return GetBuilder<ReelPlayerController>(
+      tag: tag,
+      builder: (c) {
+        return Column(
           children: [
             Expanded(
               child: Obx(() {
-                final isCommentsOpen = controller.isCommentsOpen.value;
+                final isCommentsOpen = c.isCommentsOpen.value;
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic,
@@ -43,34 +91,34 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                       // Player + Play/Pause logic
                       Positioned.fill(
                         child: Obx(() {
-                          if (!controller.isInitialized.value ||
-                              controller.videoController == null) {
+                          if (!c.isInitialized.value ||
+                              c.videoController == null) {
                             return const Center(child: LoadingWidget());
                           }
-                          return GetBuilder<SingleReelPlayerController>(
+                          return GetBuilder<ReelPlayerController>(
+                            tag: tag,
                             id: 'playback',
-                            builder: (c) {
+                            builder: (cv) {
                               final isPlaying =
-                                  c.videoController!.value.isPlaying;
+                                  cv.videoController!.value.isPlaying;
                               return GestureDetector(
-                                onTap: c.togglePlay,
+                                onTap: cv.togglePlay,
                                 child: Stack(
                                   fit: StackFit.expand,
                                   children: [
                                     Center(
                                       child: AspectRatio(
-                                        aspectRatio: c
+                                        aspectRatio: cv
                                             .videoController!.value.aspectRatio,
                                         child: Obx(
                                           () => ClipRRect(
                                               borderRadius:
                                                   BorderRadiusGeometry.circular(
-                                                      controller.isCommentsOpen
-                                                              .value
+                                                      c.isCommentsOpen.value
                                                           ? 20
                                                           : 0),
                                               child: VideoPlayer(
-                                                  c.videoController!)),
+                                                  cv.videoController!)),
                                         ),
                                       ),
                                     ),
@@ -81,8 +129,8 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                           height: 60.sp,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color:
-                                                Colors.black.withOpacity(0.5),
+                                            color: Colors.black
+                                                .withValues(alpha: 0.5),
                                           ),
                                           child: Icon(
                                             Icons.play_arrow_rounded,
@@ -104,21 +152,21 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                         bottom: 20,
                         right: 15,
                         child: Obx(() => IgnorePointer(
-                              ignoring: controller.isCommentsOpen.value,
+                              ignoring: c.isCommentsOpen.value,
                               child: AnimatedOpacity(
                                 duration: const Duration(milliseconds: 300),
-                                opacity:
-                                    controller.isCommentsOpen.value ? 0.0 : 1.0,
-                                child: GetBuilder<SingleReelPlayerController>(
+                                opacity: c.isCommentsOpen.value ? 0.0 : 1.0,
+                                child: GetBuilder<ReelPlayerController>(
+                                  tag: tag,
                                   id: 'user_info',
-                                  builder: (c) => Column(
+                                  builder: (cv) => Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           Text(
-                                            c.reel.user.userName,
+                                            cv.reel.user.userName,
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -127,11 +175,11 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                           ),
                                           const SizedBox(width: 10),
                                           UserAvatar.follower(
-                                            user: c.reel.user,
+                                            user: cv.reel.user,
                                             size: 20,
                                           ),
-                                          if (!c.reel.user.isMe &&
-                                              !c.reel.user.doIFollowHim) ...[
+                                          if (!cv.reel.user.isMe &&
+                                              !cv.reel.user.doIFollowHim) ...[
                                             const SizedBox(width: 10),
                                             TextButton(
                                               style: TextButton.styleFrom(
@@ -145,7 +193,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                                 side: const BorderSide(
                                                     color: Colors.white),
                                               ),
-                                              onPressed: c.followUser,
+                                              onPressed: cv.followUser,
                                               child: const Text('Follow',
                                                   style: TextStyle(
                                                       color: Colors.white)),
@@ -153,7 +201,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                           ]
                                         ],
                                       ),
-                                      if (c.reel.caption.isNotEmpty) ...[
+                                      if (cv.reel.caption.isNotEmpty) ...[
                                         const SizedBox(height: 10),
                                         SizedBox(
                                           width: MediaQuery.of(context)
@@ -161,7 +209,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                                   .width *
                                               0.7,
                                           child: Text(
-                                            c.reel.caption,
+                                            cv.reel.caption,
                                             style: const TextStyle(
                                                 color: Colors.white),
                                             maxLines: 2,
@@ -181,24 +229,24 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                         bottom: 130.h,
                         left: 10,
                         child: Obx(() => IgnorePointer(
-                              ignoring: controller.isCommentsOpen.value,
+                              ignoring: c.isCommentsOpen.value,
                               child: AnimatedOpacity(
                                 duration: const Duration(milliseconds: 300),
-                                opacity:
-                                    controller.isCommentsOpen.value ? 0.0 : 1.0,
-                                child: GetBuilder<SingleReelPlayerController>(
+                                opacity: c.isCommentsOpen.value ? 0.0 : 1.0,
+                                child: GetBuilder<ReelPlayerController>(
+                                  tag: tag,
                                   id: 'actions',
-                                  builder: (c) => Column(
+                                  builder: (cv) => Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       // Love Button
                                       AnimatedLoveButton(
-                                        isFavorite: c.reel.isFavorite,
+                                        isFavorite: cv.reel.isFavorite,
                                         size: 28,
-                                        onHeartPressed: c.onHeartPressed,
+                                        onHeartPressed: cv.onHeartPressed,
                                       ),
                                       Text(
-                                        '${c.reel.numOfLikes}',
+                                        '${cv.reel.numOfLikes}',
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),
@@ -210,10 +258,10 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                             FontAwesomeIcons.comment,
                                             color: Colors.white,
                                             size: 26),
-                                        onPressed: c.comment,
+                                        onPressed: cv.comment,
                                       ),
                                       Text(
-                                        '${c.reel.numOfComments}',
+                                        '${cv.reel.numOfComments}',
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),
@@ -236,13 +284,13 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                                       // Save Button
                                       IconButton(
                                         icon: Icon(
-                                          c.reel.isSaved
+                                          cv.reel.isSaved
                                               ? Icons.bookmark_sharp
                                               : Icons.bookmark_outline_sharp,
                                           color: Colors.white,
                                           size: 28,
                                         ),
-                                        onPressed: c.onSavePressed,
+                                        onPressed: cv.onSavePressed,
                                       ),
                                     ],
                                   ),
@@ -256,13 +304,13 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                         left: 0,
                         right: 0,
                         child: Obx(() {
-                          if (controller.isInitialized.value &&
-                              controller.videoController != null) {
+                          if (c.isInitialized.value &&
+                              c.videoController != null) {
                             return SizedBox(
                               height: 12.sp,
                               width: Get.width,
                               child: VideoProgressIndicator(
-                                controller.videoController!,
+                                c.videoController!,
                                 allowScrubbing: true,
                                 padding:
                                     EdgeInsets.only(top: 5.sp, bottom: 5.sp),
@@ -285,10 +333,10 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
             // Inline Animated Comments View
             Obx(() {
               final kbHeight = MediaQuery.of(context).viewInsets.bottom;
-              final maxCommentsHeight = controller.maxCommentsHeight;
+              final maxCommentsHeight = c.maxCommentsHeight;
               final maxDragUp = (Get.height * 0.55) - maxCommentsHeight;
 
-              final dragOffset = controller.dragOffset.value;
+              final dragOffset = c.dragOffset.value;
               final isSnapping = dragOffset == 0.0 || dragOffset == maxDragUp;
 
               final targetHeight = (Get.height * 0.55 - dragOffset)
@@ -299,7 +347,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                     ? const Duration(milliseconds: 300)
                     : Duration.zero,
                 curve: Curves.easeOutCubic,
-                height: controller.isCommentsOpen.value ? targetHeight : 0,
+                height: c.isCommentsOpen.value ? targetHeight : 0,
                 child: Padding(
                   padding: EdgeInsets.only(bottom: kbHeight),
                   child: ClipRRect(
@@ -310,9 +358,8 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                       child: Column(
                         children: [
                           GestureDetector(
-                            onVerticalDragUpdate:
-                                controller.onVerticalDragUpdate,
-                            onVerticalDragEnd: controller.onVerticalDragEnd,
+                            onVerticalDragUpdate: c.onVerticalDragUpdate,
+                            onVerticalDragEnd: c.onVerticalDragEnd,
                             behavior: HitTestBehavior.opaque,
                             child: Column(
                               children: [
@@ -330,7 +377,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                             ),
                           ),
                           Expanded(
-                              child: controller.isCommentsOpen.value
+                              child: c.isCommentsOpen.value
                                   ? CommentsView()
                                   : const SizedBox.shrink()),
                         ],
@@ -343,7 +390,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
 
             // Comment Text Field at the bottom of the Screen
             Obx(() {
-              if (controller.isCommentsOpen.value) {
+              if (c.isCommentsOpen.value) {
                 return const SizedBox.shrink();
               }
               return Container(
@@ -352,7 +399,7 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: TextField(
                   readOnly: true,
-                  onTap: controller.comment,
+                  onTap: c.comment,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
@@ -374,8 +421,8 @@ class SingleReelPlayerScreen extends GetView<SingleReelPlayerController> {
               );
             }),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,17 +1,15 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/app/models/reel.dart';
 import 'package:instagram_clone/app/modules/reels/services/reels_service.dart';
-import 'package:instagram_clone/utils/constants/api.dart';
 
+/// Used in ReelsView for the reels page & reels profile tab
 class ReelsController extends GetxController {
+  ReelsController();
+
   var reels = <Reel>[].obs;
   var isLoading = true.obs;
-  var isError = false.obs;
-
-  final Map<String, VideoPlayerController> cashedVideos = {};
 
   @override
   void onInit() {
@@ -19,30 +17,16 @@ class ReelsController extends GetxController {
     fetchReels();
   }
 
-  @override
-  void onClose() {
-    for (var controller in cashedVideos.values) {
-      controller.dispose();
-    }
-    super.onClose();
-  }
-
   Future<void> fetchReels() async {
     isLoading(true);
-    isError(false);
-
-    final result = await ReelsService.getReels();
-    if (result != null) {
-      reels.assignAll(result);
-    } else {
-      isError(true);
-    }
+    final result = await ReelsService.getReelsFeed();
+    reels.assignAll(result);
 
     isLoading(false);
   }
 
   Future<void> uploadReel(File videoFile) async {
-    final newReel = await ReelsService.addReel(videoFile);
+    final newReel = await ReelsService.uploadReel(videoFile);
     if (newReel != null) {
       reels.insert(0, newReel);
       update(['reels_list']);
@@ -53,26 +37,7 @@ class ReelsController extends GetxController {
     final success = await ReelsService.deleteReel(id);
     if (success) {
       reels.removeWhere((reel) => reel.id == id);
-      cashedVideos.remove(id)?.dispose();
       update(['reels_list']);
     }
-  }
-
-  Future<VideoPlayerController> initilizeVideoController(
-      String videoUrl) async {
-    if (cashedVideos.containsKey(videoUrl)) {
-      return cashedVideos[videoUrl]!..play();
-    }
-    final videoController = VideoPlayerController.networkUrl(
-      Uri.parse(videoUrl),
-      httpHeaders: Api.headers,
-    );
-    await videoController.initialize();
-
-    cashedVideos[videoUrl] = videoController;
-    videoController.setLooping(true);
-    videoController.play();
-
-    return videoController;
   }
 }

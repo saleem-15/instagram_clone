@@ -1,20 +1,19 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/app/models/reel.dart';
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/utils/constants/api.dart';
+import 'package:instagram_clone/app/shared/services/video_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/app/modules/comments/controllers/comments_controller.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_loved_service.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_saved_service.dart';
 
-class SingleReelPlayerController extends GetxController {
+/// Every Reel Has Its Own Controller
+class ReelPlayerController extends GetxController {
   final Reel reel;
 
-  SingleReelPlayerController({required this.reel});
+  ReelPlayerController({required this.reel});
 
   VideoPlayerController? videoController;
   var isInitialized = false.obs;
@@ -29,8 +28,13 @@ class SingleReelPlayerController extends GetxController {
         MediaQuery.of(Get.context!).padding.bottom;
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+    _initVideo();
+  }
+
   void onVerticalDragUpdate(DragUpdateDetails details) {
-    
     if (details.primaryDelta != null) {
       dragOffset.value += details.primaryDelta!;
 
@@ -49,49 +53,45 @@ class SingleReelPlayerController extends GetxController {
       isCommentsOpen.value = false;
       dragOffset.value = 0.0;
       Get.delete<CommentsController>();
-      resumeVideo();
+      _resumeVideo();
     }
     // Swipe up to full screen
     else if (dragOffset.value < -100 || (details.primaryVelocity ?? 0) < -300) {
       dragOffset.value = maxDragUp;
-      pauseVideo();
+      _pauseVideo();
     }
     // Snap back to normal (55%)
     else {
       dragOffset.value = 0.0;
-      resumeVideo();
+      _resumeVideo();
     }
   }
 
-  void pauseVideo() {
+  void _pauseVideo() {
     if (videoController != null && videoController!.value.isPlaying) {
       videoController!.pause();
       update(['playback']);
     }
   }
 
-  void resumeVideo() {
+  void _resumeVideo() {
     if (videoController != null && !videoController!.value.isPlaying) {
       videoController!.play();
       update(['playback']);
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    _initVideo();
+  void playVideo() {
+    _resumeVideo();
+  }
+
+  void pauseVideo() {
+    _pauseVideo();
   }
 
   Future<void> _initVideo() async {
-    String formattedUrl = reel.reelMediaUrl.replaceAll('/public/', '/');
-    videoController = VideoPlayerController.networkUrl(
-      Uri.parse(formattedUrl),
-      httpHeaders: Api.headers,
-    );
-    await videoController!.initialize();
+    videoController = await VideoService.to.getController(reel.reelMediaUrl);
     videoController!.setLooping(true);
-    videoController!.play();
     videoController!.addListener(() {
       update(['playback']);
     });
@@ -133,8 +133,6 @@ class SingleReelPlayerController extends GetxController {
   }
 
   void comment() {
-    log("isCommentsOpen: ${isCommentsOpen.value}------------------------");
-
     if (!isCommentsOpen.value) {
       final post = Post(
         id: reel.id,
@@ -148,7 +146,6 @@ class SingleReelPlayerController extends GetxController {
       );
       final commentsController = Get.put(CommentsController());
       commentsController.setPost(post);
-      log("post is set---------------------------------");
     } else {
       Get.delete<CommentsController>();
     }
@@ -163,7 +160,7 @@ class SingleReelPlayerController extends GetxController {
 
   @override
   void onClose() {
-    videoController?.dispose();
+    VideoService.to.releaseController(reel.reelMediaUrl);
     super.onClose();
   }
 }

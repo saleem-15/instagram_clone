@@ -40,6 +40,7 @@ class Api {
 
 //reels
   static const REELS_URL = '/reels';
+  static const REELS_FEED_URL = '/reels/feed';
 
 //profile
   static const PROFILE_PATH = '/profile';

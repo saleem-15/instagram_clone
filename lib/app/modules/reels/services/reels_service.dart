@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/app/models/reel.dart';
 import 'package:instagram_clone/main.dart';
@@ -7,14 +9,16 @@ import 'package:instagram_clone/utils/helpers.dart';
 import 'dart:io';
 
 class ReelsService {
-  static Future<List<Reel>?> getReels() async {
+  static Future<List<Reel>> getUserReels({String? userId}) async {
+    log('user Id: $userId');
     try {
-      final response = await dio.get(Api.REELS_URL);
+      final url = userId != null ? '${Api.REELS_URL}/$userId' : Api.REELS_URL;
+      final response = await dio.get(url);
       logger.i(response.data);
 
       List<Reel> reels = [];
-      if (response.data["data"] is List) {
-        for (var item in response.data["data"]) {
+      if (response.data["Data"] is List) {
+        for (var item in response.data["Data"]) {
           reels.add(Reel.fromMap(item));
         }
       }
@@ -24,7 +28,26 @@ class ReelsService {
       CustomSnackBar.showCustomErrorSnackBar(
         message: formatErrorMsg(e.response?.data ?? 'Error fetching reels'),
       );
-      return null;
+      return [];
+    }
+  }
+
+  static Future<List<Reel>> getReelsFeed({int page = 1}) async {
+    try {
+      final response = await dio.get(
+        Api.REELS_FEED_URL,
+        queryParameters: {'page': page},
+      );
+      logger.i(response.data);
+
+      List<dynamic> data = response.data['data'] ?? [];
+      return data.map((reel) => Reel.fromMap(reel)).toList();
+    } on DioException catch (e) {
+      logger.e(e.response?.data);
+      CustomSnackBar.showCustomErrorSnackBar(
+        message: formatErrorMsg(e.response?.data ?? 'Error fetching reels'),
+      );
+      return [];
     }
   }
 
@@ -42,7 +65,7 @@ class ReelsService {
     }
   }
 
-  static Future<Reel?> addReel(File videoFile) async {
+  static Future<Reel?> uploadReel(File videoFile) async {
     try {
       String fileName = videoFile.path.split('/').last;
       FormData formData = FormData.fromMap({

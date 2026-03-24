@@ -25,7 +25,7 @@ class AddPostBottomSheetController extends GetxController {
       if (Get.isRegistered<ReelsController>()) {
         await Get.find<ReelsController>().uploadReel(file);
       } else {
-        await ReelsService.addReel(file);
+        await ReelsService.uploadReel(file);
       }
     }
   }

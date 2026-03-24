@@ -12,6 +12,7 @@ import 'app/modules/root/controllers/app_controller.dart';
 import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
 import 'app/shared/error_widget.dart';
+import 'app/shared/services/video_service.dart';
 import 'config/theme/my_theme.dart';
 
 Future<void> main() async {
@@ -22,6 +23,10 @@ Future<void> main() async {
   await MySharedPref.init();
   // MySharedPref.setUserToken(null);
   AuthBinding().dependencies();
+  
+  // Inject global services
+  Get.put(VideoService());
+  
   Get.lazyPut(() => AppController(), fenix: true);
 
   runApp(Main());

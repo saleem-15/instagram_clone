@@ -24,14 +24,15 @@ class ProfileScreen extends StatelessWidget {
     user = (args is User) ? args : MySharedPref.getUserData!;
     profileController = Get.put(ProfileController(), tag: user.id);
     userPostsController = Get.put(UserPostsController(), tag: user.id);
-    profileReelsController =
-        Get.put(ProfileReelsController(profileUserId: user.id), tag: user.id);
+    profileReelsController = Get.put(
+        ProfileReelsTabController(profileUserId: user.id),
+        tag: user.id);
   }
 
   late final User user;
   late final ProfileController profileController;
   late final UserPostsController userPostsController;
-  late final ProfileReelsController profileReelsController;
+  late final ProfileReelsTabController profileReelsController;
 
   @override
   Widget build(BuildContext context) {

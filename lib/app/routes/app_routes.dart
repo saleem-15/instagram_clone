@@ -12,7 +12,6 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const EXPLORER = _Paths.EXPLORER;
   static const REELS = _Paths.REELS;
-  static const SINGLE_REEL = _Paths.SINGLE_REEL;
   static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
 
   /// pass the user that you want to display its profile as arguments (Get.arguments)
@@ -43,7 +42,6 @@ abstract class _Paths {
   static const HOME = '/home';
   static const EXPLORER = '/explorer';
   static const REELS = '/reels';
-  static const SINGLE_REEL = '/single_reel';
   static const NOTIFICATIONS = '/notifications';
   static const PROFILE = '/profile';
   static const USER_POSTS = '/user_posts';

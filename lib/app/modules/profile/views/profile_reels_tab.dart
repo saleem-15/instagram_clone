@@ -8,7 +8,7 @@ import '../../../routes/app_pages.dart';
 import '../controllers/profile_reels_controller.dart';
 
 class ProfileReelsTab extends StatelessWidget {
-  final ProfileReelsController controller;
+  final ProfileReelsTabController controller;
 
   const ProfileReelsTab({super.key, required this.controller});
 
@@ -17,20 +17,6 @@ class ProfileReelsTab extends StatelessWidget {
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
-      }
-      if (controller.isError.value) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Error loading reels'),
-              TextButton(
-                onPressed: controller.fetchUserReels,
-                child: const Text('Retry'),
-              )
-            ],
-          ),
-        );
       }
       if (controller.reels.isEmpty) {
         return Center(
@@ -65,7 +51,10 @@ class ProfileReelsTab extends StatelessWidget {
           final reel = controller.reels[index];
           return GestureDetector(
             onTap: () {
-              Get.toNamed(Routes.SINGLE_REEL, arguments: reel);
+              Get.toNamed(Routes.REELS, arguments: {
+                'reels': controller.reels.toList(),
+                'index': index,
+              });
             },
             child: Stack(
               fit: StackFit.expand,
