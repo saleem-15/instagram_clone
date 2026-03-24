@@ -17,8 +17,22 @@ class ReelsService {
       logger.i(response.data);
 
       List<Reel> reels = [];
-      if (response.data["Data"] is List) {
-        for (var item in response.data["Data"]) {
+      dynamic rawData = response.data;
+      
+      // Handle cases where the response is a Map with 'data' or 'Data' keys,
+      // or if the response itself is a List.
+      if (rawData is Map) {
+        final nestedData = rawData['data'] ?? rawData['Data'] ?? rawData['reels'];
+        if (nestedData is List) {
+          for (var item in nestedData) {
+            reels.add(Reel.fromMap(item));
+          }
+        } else if (rawData.containsKey('id')) {
+           // Case where it returned a single reel instead of a list
+           reels.add(Reel.fromMap(rawData as Map<String, dynamic>));
+        }
+      } else if (rawData is List) {
+        for (var item in rawData) {
           reels.add(Reel.fromMap(item));
         }
       }
@@ -40,8 +54,14 @@ class ReelsService {
       );
       logger.i(response.data);
 
-      List<dynamic> data = response.data['data'] ?? [];
-      return data.map((reel) => Reel.fromMap(reel)).toList();
+      dynamic rawData = response.data;
+      List<dynamic> dataList = [];
+      if (rawData is Map) {
+         dataList = rawData['data'] ?? rawData['Data'] ?? rawData['reels'] ?? [];
+      } else if (rawData is List) {
+         dataList = rawData;
+      }
+      return dataList.map((reel) => Reel.fromMap(reel)).toList();
     } on DioException catch (e) {
       logger.e(e.response?.data);
       CustomSnackBar.showCustomErrorSnackBar(
