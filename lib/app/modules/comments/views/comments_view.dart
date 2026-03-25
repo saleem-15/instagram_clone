@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -169,9 +170,29 @@ class CommentsView extends StatelessWidget {
 
   Widget noCommentsFoundWidget(BuildContext context) {
     return Center(
-      child: Text(
-        'No Comments was Found'.tr,
-        style: Theme.of(context).textTheme.titleLarge,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            CupertinoIcons.chat_bubble_2,
+            size: 60.sp,
+            color: Colors.grey[400],
+          ),
+          SizedBox(height: 15.h),
+          Text(
+            'No comments yet'.tr,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            'Be the first to say something!'.tr,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey[600],
+                ),
+          ),
+        ],
       ),
     );
   }
