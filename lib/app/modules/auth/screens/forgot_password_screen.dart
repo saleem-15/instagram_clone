@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/forgot_password_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
@@ -56,7 +57,9 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
               onPressed: controller.isEmailButtonDisable.isTrue
                   ? null
                   : controller.onNextButtonPressedEmail,
-              style: MyStyles.getAuthButtonStyle(),
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? MyDarkStyles.getAuthButtonStyle()
+                  : MyStyles.getAuthButtonStyle(),
               child: controller.isWaitingResponse.isTrue
                   ? const LoadingWidget.button()
                   : const Text('Next'),

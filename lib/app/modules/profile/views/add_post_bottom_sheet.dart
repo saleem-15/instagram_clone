@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 
 import '../controllers/post_bottom_sheet_controller.dart';
 
-class AddPostBottomSheet
-    extends GetView<AddPostBottomSheetController> {
+class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
   const AddPostBottomSheet({super.key});
 
   @override
@@ -53,7 +52,16 @@ class AddPostBottomSheet
               color: Colors.black,
             ),
             title: const Text('Story'),
+            endsWithDivider: true,
             onTap: () {},
+          ),
+          MyListTile(
+            leading: const Icon(
+              Icons.video_library_outlined,
+              color: Colors.black,
+            ),
+            title: const Text('Reel'),
+            onTap: controller.addReel,
           ),
         ],
       ),

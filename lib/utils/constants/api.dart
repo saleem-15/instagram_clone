@@ -38,6 +38,11 @@ class Api {
   static const STORY_URL = '/story';
   static const SET_STORY_AS_WATHCED_URL = '/story/view';
 
+//reels
+  static const REELS_URL = '/reels';
+  static const REELS_USER_URL = '/reels/user';
+  static const REELS_FEED_URL = '/reels/feed';
+
 //profile
   static const PROFILE_PATH = '/profile';
   static const PROFILE_POSTS_URL = '/profile/posts';

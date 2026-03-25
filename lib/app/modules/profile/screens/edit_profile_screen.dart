@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/config/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import '../controllers/edit_profile_controller.dart';
 
@@ -26,8 +27,11 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     ),
                   )
                 : IconButton(
-                    icon: const Icon(Icons.check,
-                        color: LightThemeColors.lightBlue, size: 30),
+                    icon: Icon(Icons.check,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? DarkThemeColors.authButtonColor
+                            : LightThemeColors.lightBlue,
+                        size: 30),
                     onPressed: controller.submit,
                   ),
           )
@@ -41,7 +45,10 @@ class EditProfileScreen extends GetView<EditProfileController> {
               onTap: controller.pickImage,
               child: Obx(() => CircleAvatar(
                     radius: 50.sp,
-                    backgroundColor: Colors.grey.shade200,
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? DarkThemeColors.lightGrey
+                            : Colors.grey.shade200,
                     backgroundImage: controller.selectedImage.value != null
                         ? FileImage(controller.selectedImage.value!)
                             as ImageProvider
@@ -55,7 +62,10 @@ class EditProfileScreen extends GetView<EditProfileController> {
                       alignment: Alignment.bottomRight,
                       child: CircleAvatar(
                         radius: 16.sp,
-                        backgroundColor: LightThemeColors.lightBlue,
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? DarkThemeColors.authButtonColor
+                                : LightThemeColors.lightBlue,
                         child: Icon(Icons.camera_alt,
                             color: Colors.white, size: 18.sp),
                       ),

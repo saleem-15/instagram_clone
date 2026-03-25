@@ -119,7 +119,9 @@ class PostsController extends GetxController {
     isHeartVisible(true);
     await Future.delayed(const Duration(milliseconds: 1500));
     isHeartVisible(false);
+  }
 
-    // update(['bouncing_heart_in_centre']);
+  void share(Post post) {
+    log('Sharing post: ${post.id}');
   }
 }

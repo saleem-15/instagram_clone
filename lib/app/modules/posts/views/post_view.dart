@@ -1,13 +1,14 @@
 import 'dart:developer';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_media.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
+import 'package:instagram_clone/app/shared/animated_love_button.dart';
+import 'package:instagram_clone/config/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -86,44 +87,36 @@ class PostView extends GetView<PostsController> {
                     assignId: true,
                     id: '${post.id} love button',
                     builder: (controller) {
-                      log('love button of post ${post.id} is built');
-                      return IconButton(
-                        key: const ValueKey('Love Button'),
-                        onPressed: () => controller.onHeartPressed(post),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        icon: Pulse(
-                          duration: const Duration(milliseconds: 300),
-                          controller: (animationController) {
-                            PostsController.heartAnimationControllers
-                                .addAll({post.id: animationController});
-                          },
-                          child: post.isFavorite
-                              ? FaIcon(
-                                  FontAwesomeIcons.solidHeart,
-                                  color: Colors.red,
-                                  size: 20.sp,
-                                )
-                              : FaIcon(
-                                  FontAwesomeIcons.heart,
-                                  size: 20.sp,
-                                ),
-                        ),
+                      return AnimatedLoveButton(
+                        isFavorite: post.isFavorite,
+                        onHeartPressed: () => controller.onHeartPressed(post),
+                        onInitAnimationController: (animationController) {
+                          PostsController.heartAnimationControllers
+                              .addAll({post.id: animationController});
+                        },
                       );
                     },
                   ),
                   IconButton(
                     onPressed: () => controller.comment(post),
-                    icon: const FaIcon(
-                      FontAwesomeIcons.comment,
-                      size: 20,
+                    icon: SvgPicture.asset(
+                      'assets/icons/comment.svg',
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).iconTheme.color!,
+                        BlendMode.srcIn,
+                      ),
+                      width: 22.sp,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.send,
-                      size: 20,
+                    onPressed: () => controller.share(post),
+                    icon: SvgPicture.asset(
+                      'assets/icons/send.svg',
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).iconTheme.color!,
+                        BlendMode.srcIn,
+                      ),
+                      width: 22.sp,
                     ),
                   ),
                 ],
@@ -140,8 +133,11 @@ class PostView extends GetView<PostsController> {
                         return AnimatedSmoothIndicator(
                           activeIndex: controller.postsIndex[post.id]!,
                           count: post.postContents.length,
-                          effect: const ScrollingDotsEffect(
-                            activeDotColor: LightThemeColors.authButtonColor,
+                          effect: ScrollingDotsEffect(
+                            activeDotColor:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? DarkThemeColors.authButtonColor
+                                    : LightThemeColors.authButtonColor,
                             dotWidth: 5,
                             dotHeight: 5,
                             maxVisibleDots: 7,
@@ -159,10 +155,15 @@ class PostView extends GetView<PostsController> {
                   builder: (controller) {
                     return IconButton(
                       onPressed: () => controller.onSaveButtonPressed(post),
-                      icon: Icon(
+                      icon: SvgPicture.asset(
                         post.isSaved
-                            ? Icons.bookmark_sharp
-                            : Icons.bookmark_outline_sharp,
+                            ? 'assets/icons/Save (Filled).svg'
+                            : 'assets/icons/Save.svg',
+                        colorFilter: ColorFilter.mode(
+                          Theme.of(context).iconTheme.color!,
+                          BlendMode.srcIn,
+                        ),
+                        width: 22.sp,
                       ),
                     );
                   },
