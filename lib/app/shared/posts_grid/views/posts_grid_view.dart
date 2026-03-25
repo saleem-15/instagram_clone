@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/app/shared/no_items_found_widget.dart';
 import 'package:instagram_clone/app/shared/posts_grid/views/post_grid_tile.dart';
 
 import '../controllers/posts_grid_controller.dart';
@@ -72,22 +73,14 @@ class PostsGridView extends StatelessWidget {
   }
 
   Widget noPostsFoundWdget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/camera_inside_circle.png',
-            width: 120,
-            color: Theme.of(context).iconTheme.color,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'No Posts Yet'.tr,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ],
+    return NoItemsFoundWidget(
+      customIcon: Image.asset(
+        'assets/images/camera_inside_circle.png',
+        width: 120.sp,
+        color: Theme.of(context).iconTheme.color,
       ),
+      title: 'No Posts Yet',
+      message: 'When you share photos or videos, they\'ll appear here.',
     );
   }
 

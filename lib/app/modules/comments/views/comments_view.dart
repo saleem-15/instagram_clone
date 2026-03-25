@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/app/models/comment.dart';
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/app/shared/no_items_found_widget.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
@@ -169,31 +170,10 @@ class CommentsView extends StatelessWidget {
   }
 
   Widget noCommentsFoundWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            CupertinoIcons.chat_bubble_2,
-            size: 60.sp,
-            color: Colors.grey[400],
-          ),
-          SizedBox(height: 15.h),
-          Text(
-            'No comments yet'.tr,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Be the first to say something!'.tr,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.grey[600],
-                ),
-          ),
-        ],
-      ),
+    return NoItemsFoundWidget(
+      icon: CupertinoIcons.chat_bubble_2,
+      title: 'No comments yet',
+      message: 'Be the first to say something!',
     );
   }
 

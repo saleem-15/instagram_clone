@@ -7,6 +7,7 @@ import 'package:instagram_clone/app/models/post.dart';
 import 'package:instagram_clone/app/modules/posts/views/post_view.dart';
 import 'package:instagram_clone/app/modules/story/views/stories_view.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/app/shared/no_items_found_widget.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -84,11 +85,10 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   Widget noPostsFoundWidget(BuildContext context) {
-    return Center(
-      child: Text(
-        'No Posts was Found'.tr,
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
+    return NoItemsFoundWidget(
+      title: 'No Posts Yet',
+      message: 'Follow your friends and family to see their updates here.',
+      onActionPressed: () => controller.pagingController.refresh(),
     );
   }
 
