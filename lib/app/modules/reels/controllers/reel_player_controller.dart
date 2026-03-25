@@ -12,21 +12,19 @@ import 'package:instagram_clone/app/modules/posts/services/set_post_is_saved_ser
 /// Every Reel Has Its Own Controller
 class ReelPlayerController extends GetxController {
   final Reel reel;
+  final String tag;
 
-  ReelPlayerController({required this.reel});
+  ReelPlayerController({required this.reel, required this.tag});
 
   VideoPlayerController? videoController;
   var isInitialized = false.obs;
   var isCommentsOpen = false.obs;
 
   var dragOffset = 0.0.obs;
+  var availableHeight = 0.0.obs;
 
-  double get maxCommentsHeight {
-    if (Get.context == null) return Get.height;
-    return MediaQuery.of(Get.context!).size.height -
-        MediaQuery.of(Get.context!).padding.top -
-        MediaQuery.of(Get.context!).padding.bottom;
-  }
+  double get maxDragUp =>
+      (availableHeight.value * 0.5) - availableHeight.value;
 
   @override
   void onInit() {
@@ -38,7 +36,6 @@ class ReelPlayerController extends GetxController {
     if (details.primaryDelta != null) {
       dragOffset.value += details.primaryDelta!;
 
-      final maxDragUp = (Get.height * 0.55) - maxCommentsHeight;
       if (dragOffset.value < maxDragUp) {
         dragOffset.value = maxDragUp;
       }
@@ -46,13 +43,13 @@ class ReelPlayerController extends GetxController {
   }
 
   void onVerticalDragEnd(DragEndDetails details) {
-    final maxDragUp = (Get.height * 0.55) - maxCommentsHeight;
 
     // Swipe down to close
     if (dragOffset.value > 100 || (details.primaryVelocity ?? 0) > 300) {
       isCommentsOpen.value = false;
       dragOffset.value = 0.0;
-      Get.delete<CommentsController>();
+      isCommentsOpen.value = false;
+      Get.delete<CommentsController>(tag: tag);
       _resumeVideo();
     }
     // Swipe up to full screen
@@ -60,7 +57,7 @@ class ReelPlayerController extends GetxController {
       dragOffset.value = maxDragUp;
       _pauseVideo();
     }
-    // Snap back to normal (55%)
+    // Snap back to normal (50%)
     else {
       dragOffset.value = 0.0;
       _resumeVideo();
@@ -144,10 +141,10 @@ class ReelPlayerController extends GetxController {
         caption: reel.caption,
         postContents: [reel.reelMediaUrl],
       );
-      final commentsController = Get.put(CommentsController());
+      final commentsController = Get.put(CommentsController(), tag: tag);
       commentsController.setPost(post);
     } else {
-      Get.delete<CommentsController>();
+      Get.delete<CommentsController>(tag: tag);
     }
 
     isCommentsOpen.toggle();

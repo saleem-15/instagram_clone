@@ -25,7 +25,7 @@ class AnimatedLoveButton extends StatelessWidget {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       icon: Pulse(
-        duration: const Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 400),
         curve: Curves.bounceInOut,
         controller: (animationController) {
           if (onInitAnimationController != null) {

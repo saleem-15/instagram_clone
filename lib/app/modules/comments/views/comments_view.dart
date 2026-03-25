@@ -12,8 +12,12 @@ import 'package:instagram_clone/config/theme/my_styles.dart';
 import '../controllers/comments_controller.dart';
 import 'comment_tile_view.dart';
 
-class CommentsView extends GetView<CommentsController> {
-  const CommentsView({super.key});
+class CommentsView extends StatelessWidget {
+  final String? tag;
+  const CommentsView({super.key, this.tag});
+
+  CommentsController get controller => Get.find<CommentsController>(tag: tag);
+
   @override
   Widget build(BuildContext context) {
     final horizontalPadding = 10.w;

@@ -32,7 +32,8 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
   void initState() {
     super.initState();
     tag = '${widget.reel.id}_${UniqueKey().toString()}';
-    controller = Get.put(ReelPlayerController(reel: widget.reel), tag: tag);
+    controller =
+        Get.put(ReelPlayerController(reel: widget.reel, tag: tag), tag: tag);
     if (widget.isCurrentPage) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.playVideo();
@@ -66,141 +67,157 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
     return GetBuilder<ReelPlayerController>(
       tag: tag,
       builder: (controller) {
-        return Column(
-          children: [
-            Expanded(
-              child: Obx(() {
-                final isCommentsOpen = controller.isCommentsOpen.value;
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutCubic,
-                  margin: isCommentsOpen
-                      ? const EdgeInsets.only(
-                          top: 10, left: 10, right: 10, bottom: 10)
-                      : EdgeInsets.zero,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(isCommentsOpen ? 25 : 0),
-                    color: Colors.black,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Stack(
-                    children: [
-                      // Player + Play/Pause logic
-                      Positioned.fill(
-                        child: ReelPlayer(
-                          tag: tag,
-                          controller: controller,
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final availableHeight = constraints.maxHeight;
+            controller.availableHeight.value = availableHeight;
+            return Column(
+              children: [
+                Obx(() {
+                  final isCommentsOpen = controller.isCommentsOpen.value;
+                  final dragOffset = controller.dragOffset.value;
+                  final isFullOpen = dragOffset <= controller.maxDragUp + 10;
+                  return Expanded(
+                    flex: isFullOpen ? 0 : 1,
+                    child: Visibility(
+                      visible: !isFullOpen,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOutCubic,
+                        margin: isCommentsOpen
+                            ? const EdgeInsets.only(
+                                top: 10, left: 10, right: 10, bottom: 10)
+                            : EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(isCommentsOpen ? 25 : 0),
+                          color: Colors.black,
                         ),
-                      ),
-
-                      // User Info (Bottom Left)
-                      Positioned(
-                        bottom: 60.h,
-                        right: 15,
-                        child: UserInfoWidget(
-                          tag: tag,
-                          controller: controller,
-                        ),
-                      ),
-
-                      // Actions Sidebar (Bottom Right)
-                      Positioned(
-                        bottom: 190.h,
-                        left: 5.w,
-                        child: ActionsSideBar(
-                          tag: tag,
-                          controller: controller,
-                        ),
-                      ),
-                      // Video Progress Indicator
-                      Positioned(
-                        bottom: 0,
-                        child: Visibility(
-                          visible: !controller.isCommentsOpen.value,
-                          child: ReelProgressIndicator(
-                            controller: controller,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ),
-            // Inline Animated Comments View
-            Obx(() {
-              final kbHeight = MediaQuery.of(context).viewInsets.bottom;
-              final maxCommentsHeight = controller.maxCommentsHeight;
-              final maxDragUp = (Get.height * 0.55) - maxCommentsHeight;
-
-              final dragOffset = controller.dragOffset.value;
-              final isSnapping = dragOffset == 0.0 || dragOffset == maxDragUp;
-
-              final targetHeight = (Get.height * 0.55 - dragOffset)
-                  .clamp(0.0, maxCommentsHeight);
-
-              return AnimatedContainer(
-                duration: isSnapping
-                    ? const Duration(milliseconds: 300)
-                    : Duration.zero,
-                curve: Curves.easeOutCubic,
-                height: controller.isCommentsOpen.value ? targetHeight : 0,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: kbHeight),
-                  child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(20)),
-                    child: Container(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onVerticalDragUpdate:
-                                controller.onVerticalDragUpdate,
-                            onVerticalDragEnd: controller.onVerticalDragEnd,
-                            behavior: HitTestBehavior.opaque,
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 12),
-                                Container(
-                                  width: 40,
-                                  height: 5,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[400],
-                                    borderRadius: BorderRadius.circular(2.5),
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                              ],
+                        clipBehavior: Clip.antiAlias,
+                        child: Stack(
+                          children: [
+                            // Player + Play/Pause logic
+                            Positioned.fill(
+                              child: ReelPlayer(
+                                tag: tag,
+                                controller: controller,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: controller.isCommentsOpen.value
-                                ? CommentsView()
-                                : const SizedBox.shrink(),
-                          ),
-                        ],
+
+                            // User Info (Bottom Left)
+                            Positioned(
+                              bottom: 60.h,
+                              right: 15,
+                              child: UserInfoWidget(
+                                tag: tag,
+                                controller: controller,
+                              ),
+                            ),
+
+                            // Actions Sidebar (Bottom Right)
+                            Positioned(
+                              bottom: 190.h,
+                              left: 5.w,
+                              child: ActionsSideBar(
+                                tag: tag,
+                                controller: controller,
+                              ),
+                            ),
+                            // Video Progress Indicator
+                            Positioned(
+                              bottom: 0,
+                              child: Visibility(
+                                visible: !controller.isCommentsOpen.value,
+                                child: ReelProgressIndicator(
+                                  controller: controller,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            }),
+                  );
+                }),
+                // Inline Animated Comments View
+                Obx(() {
+                  final dragOffset = controller.dragOffset.value;
+                  final maxDragUp = controller.maxDragUp;
+                  final isSnapping =
+                      dragOffset == 0.0 || dragOffset == maxDragUp;
 
-            // Comment Text Field at the bottom of the Screen
-            // Obx(() {
-            //   if (controller.isCommentsOpen.value) {
-            //     return const SizedBox.shrink();
-            //   }
-            //   return Container(
-            //     color: Colors.black,
-            //     padding:
-            //         const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            //     child: commentField(controller),
-            //   );
-            // }),
-          ],
+                  final targetHeight = (availableHeight * 0.5 - dragOffset)
+                      .clamp(0.0, availableHeight);
+
+                  return Flexible(
+                    flex: controller.isCommentsOpen.value ? 0 : 0,
+                    child: AnimatedContainer(
+                      duration: isSnapping
+                          ? const Duration(milliseconds: 300)
+                          : Duration.zero,
+                      curve: Curves.easeOutCubic,
+                      height:
+                          controller.isCommentsOpen.value ? targetHeight : 0,
+                      child: ClipRRect(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.r)),
+                        child: Container(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onVerticalDragUpdate:
+                                    controller.onVerticalDragUpdate,
+                                onVerticalDragEnd: controller.onVerticalDragEnd,
+                                behavior: HitTestBehavior.opaque,
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                      width: double.infinity,
+                                    ),
+                                    // handle
+                                    Container(
+                                      width: 35.w,
+                                      height: 2.5.sp,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[400],
+                                        borderRadius:
+                                            BorderRadius.circular(2.5),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: controller.isCommentsOpen.value
+                                    ? CommentsView(tag: tag)
+                                    : const SizedBox.shrink(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+
+                // Comment Text Field at the bottom of the Screen
+                // Obx(() {
+                //   if (controller.isCommentsOpen.value) {
+                //     return const SizedBox.shrink();
+                //   }
+                //   return Container(
+                //     color: Colors.black,
+                //     padding:
+                //         const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                //     child: commentField(controller),
+                //   );
+                // }),
+              ],
+            );
+          },
         );
       },
     );
