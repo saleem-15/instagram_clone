@@ -12,6 +12,7 @@ import '../controllers/profile_controller.dart';
 import '../views/my_posts_tab.dart';
 import '../views/profile_header.dart';
 import '../views/floating_avatar_view.dart';
+import '../views/profile_mentions_tab.dart';
 import '../views/profile_reels_tab.dart';
 import '../controllers/profile_reels_controller.dart';
 
@@ -93,7 +94,7 @@ class ProfileScreen extends StatelessWidget {
                               ProfilePostsTap(controller: userPostsController),
                               ProfileReelsTab(
                                   controller: profileReelsController),
-                              const Center(child: Text('2')),
+                              const ProfileMentionsTab(),
                             ],
                           ),
                         ),
