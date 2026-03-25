@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 
@@ -25,59 +25,81 @@ class UserInfoWidget extends StatelessWidget {
             child: GetBuilder<ReelPlayerController>(
               tag: tag,
               id: 'user_info',
-              builder: (cv) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      // If its not me and I dont follow the user, show follow button
-                      if (!cv.reel.user.isMe && !cv.reel.user.doIFollowHim) ...[
+              builder: (cv) {
+                const List<Shadow> shadows = [
+                  Shadow(
+                    blurRadius: 10,
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
+                  ),
+                ];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        // If its not me and I dont follow the user, show follow button
+                        if (!cv.reel.user.isMe &&
+                            !cv.reel.user.doIFollowHim) ...[
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 0,
+                                vertical: 0,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              minimumSize: const Size(60, 30),
+                              backgroundColor: Colors.transparent,
+                              side: const BorderSide(color: Colors.white),
+                            ),
+                            onPressed: cv.followUser,
+                            child: const Text(
+                              'Follow',
+                              style: TextStyle(
+                                color: Colors.white,
+                                shadows: shadows,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                        ],
+
+                        Text(
+                          cv.reel.user.userName,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12.sp,
+                            shadows: shadows,
+                          ),
+                        ),
                         const SizedBox(width: 10),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 0),
-                            minimumSize: const Size(60, 30),
-                            backgroundColor: Colors.transparent,
-                            side: const BorderSide(color: Colors.white),
-                          ),
-                          onPressed: cv.followUser,
-                          child: const Text(
-                            'Follow',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        UserAvatar.follower(
+                          user: cv.reel.user,
+                          size: 18.sp,
                         ),
                       ],
-
-                      Text(
-                        cv.reel.user.userName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                    ),
+                    if (cv.reel.caption.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        child: Text(
+                          cv.reel.caption,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            shadows: shadows,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      UserAvatar.follower(
-                        user: cv.reel.user,
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                  if (cv.reel.caption.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: Text(
-                        cv.reel.caption,
-                        style: const TextStyle(color: Colors.white),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ]
-                ],
-              ),
+                    ]
+                  ],
+                );
+              },
             ),
           ),
         ));

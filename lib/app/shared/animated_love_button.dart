@@ -33,23 +33,55 @@ class AnimatedLoveButton extends StatelessWidget {
           }
         },
         child: isFavorite
-            ? SvgPicture.asset(
-                'assets/icons/Heart (Filled).svg',
-                colorFilter: const ColorFilter.mode(
-                  Colors.red,
-                  BlendMode.srcIn,
-                ),
-                width: size.sp,
-                height: size.sp,
+            ? Stack(
+                children: [
+                  Transform.translate(
+                    offset: const Offset(1, 1),
+                    child: SvgPicture.asset(
+                      'assets/icons/Heart (Filled).svg',
+                      colorFilter: const ColorFilter.mode(
+                        Colors.black12,
+                        BlendMode.srcIn,
+                      ),
+                      width: size.sp,
+                      height: size.sp,
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    'assets/icons/Heart (Filled).svg',
+                    colorFilter: const ColorFilter.mode(
+                      Colors.red,
+                      BlendMode.srcIn,
+                    ),
+                    width: size.sp,
+                    height: size.sp,
+                  ),
+                ],
               )
-            : SvgPicture.asset(
-                'assets/icons/heart.svg',
-                colorFilter: ColorFilter.mode(
-                  Theme.of(context).iconTheme.color ?? Colors.white,
-                  BlendMode.srcIn,
-                ),
-                width: size.sp,
-                height: size.sp,
+            : Stack(
+                children: [
+                  Transform.translate(
+                    offset: const Offset(1, 1),
+                    child: SvgPicture.asset(
+                      'assets/icons/heart.svg',
+                      colorFilter: const ColorFilter.mode(
+                        Colors.black12,
+                        BlendMode.srcIn,
+                      ),
+                      width: size.sp,
+                      height: size.sp,
+                    ),
+                  ),
+                  SvgPicture.asset(
+                    'assets/icons/heart.svg',
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).iconTheme.color ?? Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                    width: size.sp,
+                    height: size.sp,
+                  ),
+                ],
               ),
       ),
     );

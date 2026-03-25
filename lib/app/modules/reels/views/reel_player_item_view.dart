@@ -96,7 +96,7 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
 
                       // User Info (Bottom Left)
                       Positioned(
-                        bottom: 20,
+                        bottom: 60.h,
                         right: 15,
                         child: UserInfoWidget(
                           tag: tag,
@@ -106,8 +106,8 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
 
                       // Actions Sidebar (Bottom Right)
                       Positioned(
-                        bottom: 130.h,
-                        left: 10,
+                        bottom: 190.h,
+                        left: 5.w,
                         child: ActionsSideBar(
                           tag: tag,
                           controller: controller,
@@ -116,8 +116,6 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                       // Video Progress Indicator
                       Positioned(
                         bottom: 0,
-                        left: 0,
-                        right: 0,
                         child: ReelProgressIndicator(
                           controller: controller,
                         ),
@@ -188,40 +186,44 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
             }),
 
             // Comment Text Field at the bottom of the Screen
-            Obx(() {
-              if (controller.isCommentsOpen.value) {
-                return const SizedBox.shrink();
-              }
-              return Container(
-                color: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: TextField(
-                  readOnly: true,
-                  onTap: controller.comment,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Add a comment...',
-                    hintStyle: const TextStyle(color: Colors.white54),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white24,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                  ),
-                ),
-              );
-            }),
+            // Obx(() {
+            //   if (controller.isCommentsOpen.value) {
+            //     return const SizedBox.shrink();
+            //   }
+            //   return Container(
+            //     color: Colors.black,
+            //     padding:
+            //         const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            //     child: commentField(controller),
+            //   );
+            // }),
           ],
         );
       },
+    );
+  }
+
+  TextField commentField(ReelPlayerController controller) {
+    return TextField(
+      readOnly: true,
+      onTap: controller.comment,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: 'Add a comment...',
+        hintStyle: const TextStyle(color: Colors.white54),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        filled: true,
+        fillColor: Colors.white24,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+      ),
     );
   }
 }

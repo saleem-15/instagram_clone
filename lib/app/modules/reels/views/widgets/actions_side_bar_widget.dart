@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,60 +26,95 @@ class ActionsSideBar extends StatelessWidget {
             child: GetBuilder<ReelPlayerController>(
               tag: tag,
               id: 'actions',
-              builder: (cv) => Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // Love Button
-                  AnimatedLoveButton(
-                    isFavorite: cv.reel.isFavorite,
-                    size: 28,
-                    onHeartPressed: cv.onHeartPressed,
+              builder: (cv) {
+                const List<Shadow> shadows = [
+                  Shadow(
+                    blurRadius: 15,
+                    color: Colors.black12,
+                    offset: Offset(0, 0),
                   ),
-                  Text(
-                    '${cv.reel.numOfLikes}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(height: 15),
-
-                  // Comment Button
-                  IconButton(
-                    icon: const FaIcon(FontAwesomeIcons.comment,
-                        color: Colors.white, size: 26),
-                    onPressed: cv.comment,
-                  ),
-                  Text(
-                    '${cv.reel.numOfComments}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(height: 15),
-
-                  // Send Button
-                  IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/icons/send.svg',
-                      colorFilter: const ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
-                      ),
-                      width: 28.sp,
-                    ),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(height: 15),
-
-                  // Save Button
-                  IconButton(
-                    icon: Icon(
-                      cv.reel.isSaved
-                          ? Icons.bookmark_sharp
-                          : Icons.bookmark_outline_sharp,
-                      color: Colors.white,
+                ];
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Love Button
+                    AnimatedLoveButton(
+                      isFavorite: cv.reel.isFavorite,
                       size: 28,
+                      onHeartPressed: cv.onHeartPressed,
                     ),
-                    onPressed: cv.onSavePressed,
-                  ),
-                ],
-              ),
+                    Text(
+                      '${cv.reel.numOfLikes}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        shadows: shadows,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Comment Button
+                    IconButton(
+                      icon: const FaIcon(
+                        FontAwesomeIcons.comment,
+                        color: Colors.white,
+                        size: 26,
+                        shadows: shadows,
+                      ),
+                      onPressed: cv.comment,
+                    ),
+                    Text(
+                      '${cv.reel.numOfComments}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        shadows: shadows,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Send Button
+                    IconButton(
+                      icon: Stack(
+                        children: [
+                          Transform.translate(
+                            offset: const Offset(1, 1),
+                            child: SvgPicture.asset(
+                              'assets/icons/send.svg',
+                              colorFilter: const ColorFilter.mode(
+                                Colors.black12,
+                                BlendMode.srcIn,
+                              ),
+                              width: 28.sp,
+                            ),
+                          ),
+                          SvgPicture.asset(
+                            'assets/icons/send.svg',
+                            colorFilter: const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
+                            width: 28.sp,
+                          ),
+                        ],
+                      ),
+                      onPressed: () {},
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Save Button
+                    IconButton(
+                      icon: Icon(
+                        cv.reel.isSaved
+                            ? Icons.bookmark_sharp
+                            : Icons.bookmark_outline_sharp,
+                        color: Colors.white,
+                        size: 28,
+                        shadows: shadows,
+                      ),
+                      onPressed: cv.onSavePressed,
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ));
