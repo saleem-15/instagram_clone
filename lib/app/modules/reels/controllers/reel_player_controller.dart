@@ -6,6 +6,8 @@ import 'package:instagram_clone/app/shared/services/video_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/app/modules/comments/controllers/comments_controller.dart';
+import 'package:instagram_clone/app/modules/follows/services/follow_user_service.dart';
+import 'package:instagram_clone/app/modules/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_loved_service.dart';
 import 'package:instagram_clone/app/modules/posts/services/set_post_is_saved_service.dart';
 
@@ -19,16 +21,17 @@ class ReelPlayerController extends GetxController {
   VideoPlayerController? videoController;
   var isInitialized = false.obs;
   var isCommentsOpen = false.obs;
+  late final bool showFollowButton;
 
   var dragOffset = 0.0.obs;
   var availableHeight = 0.0.obs;
 
-  double get maxDragUp =>
-      (availableHeight.value * 0.5) - availableHeight.value;
+  double get maxDragUp => (availableHeight.value * 0.5) - availableHeight.value;
 
   @override
   void onInit() {
     super.onInit();
+    showFollowButton = (!reel.user.isMe && !reel.user.doIFollowHim);
     _initVideo();
   }
 
@@ -43,7 +46,6 @@ class ReelPlayerController extends GetxController {
   }
 
   void onVerticalDragEnd(DragEndDetails details) {
-
     // Swipe down to close
     if (dragOffset.value > 100 || (details.primaryVelocity ?? 0) > 300) {
       isCommentsOpen.value = false;
@@ -150,9 +152,25 @@ class ReelPlayerController extends GetxController {
     isCommentsOpen.toggle();
   }
 
-  void followUser() {
-    reel.user.doIFollowHim = true;
+  void onFollowUserPressed() async {
+    final originalFollowState = reel.user.doIFollowHim;
+    
+    // Optimistic update
+    reel.user.doIFollowHim = !originalFollowState;
     update(['user_info']);
+
+    bool isSuccess;
+    if (originalFollowState) {
+      isSuccess = await unFollowService(reel.user.id);
+    } else {
+      isSuccess = await followService(reel.user.id);
+    }
+
+    if (!isSuccess) {
+      // Revert on failure
+      reel.user.doIFollowHim = originalFollowState;
+      update(['user_info']);
+    }
   }
 
   @override

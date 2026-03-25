@@ -39,24 +39,25 @@ class UserInfoWidget extends StatelessWidget {
                     Row(
                       children: [
                         // If its not me and I dont follow the user, show follow button
-                        if (!cv.reel.user.isMe &&
-                            !cv.reel.user.doIFollowHim) ...[
+                        if (cv.showFollowButton) ...[
                           TextButton(
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                horizontal: 0,
+                                horizontal: 7.sp,
                                 vertical: 0,
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.r),
                               ),
-                              minimumSize: const Size(60, 30),
+                              minimumSize: Size(60, 28.sp),
                               backgroundColor: Colors.transparent,
                               side: const BorderSide(color: Colors.white),
                             ),
-                            onPressed: cv.followUser,
-                            child: const Text(
-                              'Follow',
+                            onPressed: cv.onFollowUserPressed,
+                            child: Text(
+                              cv.reel.user.doIFollowHim
+                                  ? 'Following'
+                                  : 'Follow',
                               style: TextStyle(
                                 color: Colors.white,
                                 shadows: shadows,
