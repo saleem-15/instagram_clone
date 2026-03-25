@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/app/models/reel.dart';
 import 'package:instagram_clone/main.dart';
@@ -10,26 +8,27 @@ import 'dart:io';
 
 class ReelsService {
   static Future<List<Reel>> getUserReels({String? userId}) async {
-    log('user Id: $userId');
     try {
-      final url = userId != null ? '${Api.REELS_URL}/$userId' : Api.REELS_URL;
+      final url =
+          userId != null ? '${Api.REELS_USER_URL}/$userId' : Api.REELS_URL;
       final response = await dio.get(url);
       logger.i(response.data);
 
       List<Reel> reels = [];
       dynamic rawData = response.data;
-      
+
       // Handle cases where the response is a Map with 'data' or 'Data' keys,
       // or if the response itself is a List.
       if (rawData is Map) {
-        final nestedData = rawData['data'] ?? rawData['Data'] ?? rawData['reels'];
+        final nestedData =
+            rawData['data'] ?? rawData['Data'] ?? rawData['reels'];
         if (nestedData is List) {
           for (var item in nestedData) {
             reels.add(Reel.fromMap(item));
           }
         } else if (rawData.containsKey('id')) {
-           // Case where it returned a single reel instead of a list
-           reels.add(Reel.fromMap(rawData as Map<String, dynamic>));
+          // Case where it returned a single reel instead of a list
+          reels.add(Reel.fromMap(rawData as Map<String, dynamic>));
         }
       } else if (rawData is List) {
         for (var item in rawData) {
@@ -57,9 +56,9 @@ class ReelsService {
       dynamic rawData = response.data;
       List<dynamic> dataList = [];
       if (rawData is Map) {
-         dataList = rawData['data'] ?? rawData['Data'] ?? rawData['reels'] ?? [];
+        dataList = rawData['data'] ?? rawData['Data'] ?? rawData['reels'] ?? [];
       } else if (rawData is List) {
-         dataList = rawData;
+        dataList = rawData;
       }
       return dataList.map((reel) => Reel.fromMap(reel)).toList();
     } on DioException catch (e) {
