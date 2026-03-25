@@ -116,8 +116,11 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                       // Video Progress Indicator
                       Positioned(
                         bottom: 0,
-                        child: ReelProgressIndicator(
-                          controller: controller,
+                        child: Visibility(
+                          visible: !controller.isCommentsOpen.value,
+                          child: ReelProgressIndicator(
+                            controller: controller,
+                          ),
                         ),
                       ),
                     ],
