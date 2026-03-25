@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/signup_controller.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class PhoneNumView extends GetView<SignupController> {
@@ -15,7 +16,10 @@ class PhoneNumView extends GetView<SignupController> {
       children: [
         Theme(
           data: Theme.of(context).copyWith(
-            inputDecorationTheme: MyStyles.getInputDecorationTheme(),
+            inputDecorationTheme:
+                Theme.of(context).brightness == Brightness.dark
+                    ? MyDarkStyles.getInputDecorationTheme()
+                    : MyStyles.getInputDecorationTheme(),
             colorScheme: ThemeData().colorScheme.copyWith(
                   primary: Theme.of(context).iconTheme.color,
                 ),
@@ -81,7 +85,9 @@ class PhoneNumView extends GetView<SignupController> {
             onPressed: controller.isPhoneButtonDisable.isTrue
                 ? null
                 : controller.onNextButtonPressedPhoneNumber,
-            style: MyStyles.getAuthButtonStyle(),
+            style: Theme.of(context).brightness == Brightness.dark
+                ? MyDarkStyles.getAuthButtonStyle()
+                : MyStyles.getAuthButtonStyle(),
             child: const Text('Next'),
           ),
         ),

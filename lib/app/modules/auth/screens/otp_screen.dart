@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/controllers/otp_form_controller.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
+import 'package:instagram_clone/config/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class OtpForm extends GetView<OtpFormController> {
@@ -59,9 +61,11 @@ class OtpForm extends GetView<OtpFormController> {
                   child: OutlinedButton(
                     onPressed: controller.resendCode,
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
+                      side: BorderSide(
                         width: 1,
-                        color: LightThemeColors.lightBlue,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? DarkThemeColors.lightGrey
+                            : LightThemeColors.lightBlue,
                       ),
                     ),
                     child: const Text('Resend Code'),
@@ -76,7 +80,9 @@ class OtpForm extends GetView<OtpFormController> {
                       onPressed: controller.isConfirmButtonDisable.isTrue
                           ? null
                           : controller.confirmCode,
-                      style: MyStyles.getAuthButtonStyle(),
+                      style: Theme.of(context).brightness == Brightness.dark
+                          ? MyDarkStyles.getAuthButtonStyle()
+                          : MyStyles.getAuthButtonStyle(),
                       child: controller.isWaitingResponse.isTrue
                           ? const LoadingWidget.button()
                           : const Text('Confirm'),

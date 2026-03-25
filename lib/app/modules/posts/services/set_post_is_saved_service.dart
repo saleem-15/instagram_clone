@@ -6,7 +6,6 @@ import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
-
 /// returnes true if request successed
 Future<bool> setPostIsSavedService(String postId, bool isSave) async {
   if (isSave) {

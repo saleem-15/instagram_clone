@@ -15,10 +15,11 @@ class Api {
   static const FORGET_PASSWORD_URL = '/auth/user/password/code/send';
   static const CHECK_EMAIL_CODE_URL = '/auth/user/password/code/check';
   static const RESET_PASSWORD_URL = '/auth/user/password/reset';
+  static const EDIT_PROFILE_URL = '/auth/user';
 
 //user
   static const USER_URL = '/user';
-  
+
 //post
   static const POST_URL = '/post';
   static const MARK_POST_AS_FAVORITE_URL = '/post/like';
@@ -36,6 +37,11 @@ class Api {
 //story
   static const STORY_URL = '/story';
   static const SET_STORY_AS_WATHCED_URL = '/story/view';
+
+//reels
+  static const REELS_URL = '/reels';
+  static const REELS_USER_URL = '/reels/user';
+  static const REELS_FEED_URL = '/reels/feed';
 
 //profile
   static const PROFILE_PATH = '/profile';

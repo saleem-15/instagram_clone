@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/user.dart';
-import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
+import 'package:instagram_clone/config/theme/my_styles.dart';
 
 class FollowButton extends StatelessWidget {
   FollowButton({
@@ -28,45 +29,25 @@ class FollowButton extends StatelessWidget {
       child: Obx(
         () => doIFollowHim.isTrue
             ? ElevatedButton(
-                style: Theme.of(context)
-                    .elevatedButtonTheme
-                    .style!
-                    .copyWith(
-                      backgroundColor: WidgetStateProperty.all(null),
-                    ),
                 onPressed: () async {
                   final isSuccess = await unFollow(user.id);
                   if (isSuccess) {
                     doIFollowHim(false);
                   }
                 },
-                child: const Text(
-                  'Following',
-                  style: TextStyle(
-                    color: LightThemeColors.buttonTextColor,
-                  ),
-                ),
+                child: const Text('Following'),
               )
             : ElevatedButton(
-                style: Theme.of(context)
-                    .elevatedButtonTheme
-                    .style!
-                    .copyWith(
-                      backgroundColor: WidgetStateProperty.all(
-                          LightThemeColors.lightBlue),
-                    ),
+                style: Theme.of(context).brightness == Brightness.dark
+                    ? MyDarkStyles.getAuthButtonStyle()
+                    : MyStyles.getAuthButtonStyle(),
                 onPressed: () async {
                   final isSuccess = await follow(user.id);
                   if (isSuccess) {
                     doIFollowHim(true);
                   }
                 },
-                child: const Text(
-                  'Follow',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
+                child: const Text('Follow'),
               ),
       ),
     );

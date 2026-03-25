@@ -7,6 +7,7 @@ import 'user.dart';
 class Profile {
   String nickName;
   String? bio;
+  String? dateOfBirth;
   int numOfPost;
   int numOfFollowers;
   int numOfFollowings;
@@ -22,6 +23,7 @@ class Profile {
   Profile({
     required this.nickName,
     required this.bio,
+    this.dateOfBirth,
     required this.numOfPost,
     required this.numOfFollowers,
     required this.numOfFollowings,
@@ -36,6 +38,7 @@ class Profile {
     return Profile(
       nickName: map['nick_name'],
       bio: map['bio'],
+      dateOfBirth: map['date_of_birth'],
       numOfPost: map['posts_num'],
       numOfFollowers: map['followers_num'],
       numOfFollowings: map['following_num'],

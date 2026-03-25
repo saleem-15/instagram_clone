@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/app/models/post.dart';
-import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:video_player/video_player.dart';
+import 'package:instagram_clone/app/shared/services/video_service.dart';
 
 class PostGridTile extends StatelessWidget {
   const PostGridTile({
@@ -71,13 +72,16 @@ class PostGridTile extends StatelessWidget {
           ),
         if (post.postContents.length.isEqual(1) &&
             post.postContents.first.isVideoFileName)
-          const Positioned(
+          Positioned(
             top: 5,
             right: 5,
-            child: Icon(
-              Icons.videocam_rounded,
-              color: Colors.white,
-              size: 20,
+            child: SvgPicture.asset(
+              'assets/icons/Reels.svg',
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+              width: 18.sp,
             ),
           ),
       ],
@@ -100,23 +104,23 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(
-      Uri.parse(widget.videoUrl),
-      httpHeaders: Api.headers,
-    )..initialize().then((_) {
-        if (mounted) {
-          setState(() {
-            _initialized = true;
-            // Optionally seek to 1 second to avoid black frames on some videos
-            _controller.seekTo(const Duration(milliseconds: 100));
-          });
-        }
+    _initController();
+  }
+
+  Future<void> _initController() async {
+    _controller = await VideoService.to.getController(widget.videoUrl);
+    if (mounted) {
+      setState(() {
+        _initialized = true;
+        // Optionally seek to 1 second to avoid black frames on some videos
+        _controller.seekTo(const Duration(milliseconds: 100));
       });
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    VideoService.to.releaseController(widget.videoUrl);
     super.dispose();
   }
 

@@ -37,7 +37,9 @@ class SearchTextField extends StatelessWidget {
           // width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 15.sp, left: 10.w, right: 10.w),
           decoration: BoxDecoration(
-            color: LightThemeColors.lightGrey,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color.fromARGB(255, 38, 38, 38)
+                : LightThemeColors.lightGrey,
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: Row(

@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
-import 'package:instagram_clone/config/theme/light_theme_colors.dart';
+import 'package:instagram_clone/config/theme/my_dark_styles.dart';
 import 'package:instagram_clone/config/theme/my_styles.dart';
 
 import '../controllers/profile_controller.dart';
@@ -21,10 +22,8 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     /// vertical space between the number of (post,follower,following) and the text bellow the num
     final verticalSpace = 5.sp;
-    final numbersTextStyle = Theme.of(context)
-        .textTheme
-        .bodyLarge!
-        .copyWith(fontSize: 16.sp);
+    final numbersTextStyle =
+        Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16.sp);
     return Column(
       children: [
         Column(
@@ -35,8 +34,18 @@ class ProfileHeader extends StatelessWidget {
                 /// user photo and name
                 Column(
                   children: [
-                    UserAvatar.userProfile(
-                      user: profileController.user,
+                    GestureDetector(
+                      onLongPress: () {
+                        HapticFeedback.selectionClick();
+                        profileController.setAvatarFloating(true);
+                      },
+                      onLongPressEnd: (_) {
+                        HapticFeedback.lightImpact();
+                        profileController.setAvatarFloating(false);
+                      },
+                      child: UserAvatar.userProfile(
+                        user: profileController.user,
+                      ),
                     ),
                     SizedBox(
                       height: verticalSpace,
@@ -64,8 +73,7 @@ class ProfileHeader extends StatelessWidget {
                               width: size,
                               height: size,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${profileController.profile.numOfPost}',
@@ -87,8 +95,7 @@ class ProfileHeader extends StatelessWidget {
                               width: size,
                               height: size,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${profileController.profile.numOfFollowers}',
@@ -110,8 +117,7 @@ class ProfileHeader extends StatelessWidget {
                               width: size,
                               height: size,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     '${profileController.profile.numOfFollowings}',
@@ -151,11 +157,12 @@ class ProfileHeader extends StatelessWidget {
 
               /// edit profile button (only if its my profile)
               ? ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/edit_profile',
+                        arguments: profileController.profile);
+                  },
                   child: const Text(
                     'Edit Profile',
-                    style: TextStyle(
-                        color: LightThemeColors.buttonTextColor),
                   ),
                 )
 
@@ -171,20 +178,15 @@ class ProfileHeader extends StatelessWidget {
                     return profileController.profile.doIFollowHim
                         ? ElevatedButton(
                             onPressed: profileController.unFollowUser,
-                            child: Text(
-                              'Following',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge,
-                            ),
+                            child: const Text('Following'),
                           )
                         : ElevatedButton(
-                            style: MyStyles.getAuthButtonStyle(),
+                            style:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? MyDarkStyles.getAuthButtonStyle()
+                                    : MyStyles.getAuthButtonStyle(),
                             onPressed: profileController.followUser,
-                            child: const Text(
-                              'Follow',
-                              style: TextStyle(),
-                            ),
+                            child: const Text('Follow'),
                           );
                   },
                 ),

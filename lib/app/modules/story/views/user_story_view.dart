@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:holding_gesture/holding_gesture.dart';
 import 'package:instagram_clone/app/models/user.dart';
+import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
 import 'package:instagram_clone/app/modules/story/controllers/user_story_controller.dart';
 import 'package:instagram_clone/app/shared/user_avatar.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
@@ -92,9 +93,12 @@ class UserStoriesView extends StatelessWidget {
                 left: 15.w,
                 child: Row(
                   children: [
-                    UserAvatar.story(
-                      user: controller.user,
-                    ),
+                    Obx(() {
+                      Get.find<AppController>().userImage.value;
+                      return UserAvatar.story(
+                        user: controller.user,
+                      );
+                    }),
                     SizedBox(
                       width: 10.w,
                     ),

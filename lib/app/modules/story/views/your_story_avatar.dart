@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/root/controllers/app_controller.dart';
+import 'package:instagram_clone/config/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:instagram_clone/config/theme/my_fonts.dart';
 
@@ -18,18 +19,22 @@ class YourStoryAvatar extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    final me = Get.find<AppController>().myUser;
+    final appController = Get.find<AppController>();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Stack(
           children: [
-            UserAvatar.story(
-              user: me,
-              size: STORY_TILE_SIZE,
-              showRingIfHasStory: false,
-            ),
+            Obx(() {
+              // Access property to trigger reactive rebuilds securely
+              appController.userImage.value;
+              return UserAvatar.story(
+                user: appController.myUser,
+                size: STORY_TILE_SIZE,
+                showRingIfHasStory: false,
+              );
+            }),
             Positioned(
               bottom: 2,
               right: 2,
@@ -43,7 +48,9 @@ class YourStoryAvatar extends StatelessWidget {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       width: 2.sp,
                     ),
-                    color: LightThemeColors.lightBlue,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? DarkThemeColors.authButtonColor
+                        : LightThemeColors.lightBlue,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AnimatedHeart extends StatelessWidget {
   const AnimatedHeart({super.key});
@@ -10,23 +11,28 @@ class AnimatedHeart extends StatelessWidget {
     final iconSize = 90.sp;
     return ElasticIn(
       duration: const Duration(milliseconds: 900),
-      // from: 1.5,
-      // manualTrigger: true,
-      // controller: AnimationController(duration: Duration(milliseconds: 600),vsync: ),
       child: Stack(
         children: [
           Center(
-            child: Icon(
-              Icons.favorite_rounded,
-              color: const Color.fromARGB(15, 0, 0, 0),
-              size: iconSize + 10.sp,
+            child: SvgPicture.asset(
+              'assets/icons/Heart (Filled).svg',
+              colorFilter: const ColorFilter.mode(
+                Color.fromARGB(15, 0, 0, 0),
+                BlendMode.srcIn,
+              ),
+              width: iconSize + 10.sp,
+              height: iconSize + 10.sp,
             ),
           ),
           Center(
-            child: Icon(
-              Icons.favorite_rounded,
-              color: Colors.white,
-              size: iconSize,
+            child: SvgPicture.asset(
+              'assets/icons/Heart (Filled).svg',
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+              width: iconSize,
+              height: iconSize,
             ),
           ),
         ],

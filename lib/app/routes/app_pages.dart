@@ -8,6 +8,10 @@ import 'package:instagram_clone/app/modules/search/search_screen.dart';
 import '../modules/auth/screens/otp_screen.dart';
 import '../modules/auth/screens/signin_screen.dart';
 import '../modules/auth/screens/signup_screen.dart';
+import '../modules/profile/screens/saved_posts_screen.dart';
+import '../modules/profile/controllers/saved_posts_controller.dart';
+import '../modules/profile/screens/edit_profile_screen.dart';
+import '../modules/profile/controllers/edit_profile_controller.dart';
 import '../modules/comments/bindings/comments_binding.dart';
 import '../modules/comments/views/comments_view.dart';
 import '../modules/explorer/bindings/explorer_binding.dart';
@@ -120,6 +124,19 @@ class AppPages {
       name: _Paths.SEARCH,
       page: () => const SearchScreen(),
       binding: SearchBindings(),
+    ),
+    GetPage(
+      name: _Paths.SAVED_POSTS,
+      page: () => const SavedPostsScreen(),
+      binding: BindingsBuilder.put(() => SavedPostsController()),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => const EditProfileScreen(),
+      binding: BindingsBuilder.put(
+          () => EditProfileController(profile: Get.arguments)),
+      transition: Transition.rightToLeft,
     ),
   ];
 }

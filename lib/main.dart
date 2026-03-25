@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
-import 'package:instagram_clone/config/theme/light_theme_colors.dart';
 import 'package:logger/logger.dart';
 
 import 'app/modules/auth/controllers/auth_conroller.dart';
@@ -13,6 +12,7 @@ import 'app/modules/root/controllers/app_controller.dart';
 import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
 import 'app/shared/error_widget.dart';
+import 'app/shared/services/video_service.dart';
 import 'config/theme/my_theme.dart';
 
 Future<void> main() async {
@@ -21,9 +21,12 @@ Future<void> main() async {
 
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
   await MySharedPref.init();
-
   // MySharedPref.setUserToken(null);
   AuthBinding().dependencies();
+  
+  // Inject global services
+  Get.put(VideoService());
+  
   Get.lazyPut(() => AppController(), fenix: true);
 
   runApp(Main());
@@ -44,24 +47,22 @@ class Main extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: "Instagram clone",
           getPages: AppPages.routes,
+          theme: MyTheme.getThemeData(),
+          darkTheme: MyTheme.getDarkThemeData(),
+          themeMode: ThemeMode.system,
           builder: (context, widget) {
-            return Theme(
-              data: MyTheme.getThemeData(),
-              child: MediaQuery(
-                // but we want our app font to still the same and dont get affected
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(1.0)),
-                child: widget!,
-              ),
+            return MediaQuery(
+              // but we want our app font to still the same and dont get affected
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: const TextScaler.linear(1.0)),
+              child: widget!,
             );
           },
           home: Builder(
             builder: (context) {
-              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-                // Match your app background
-                systemNavigationBarColor:
-                    LightThemeColors.scaffoldBackgroundColor,
-                // For white icons
+              SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+              SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+                systemNavigationBarColor: Colors.transparent,
                 systemNavigationBarIconBrightness: Brightness.light,
               ));
 
