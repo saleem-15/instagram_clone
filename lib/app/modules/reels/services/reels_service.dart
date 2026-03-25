@@ -100,8 +100,7 @@ class ReelsService {
       );
       logger.i(response.data);
       CustomSnackBar.showCustomSnackBar(
-        title: 'Success',
-        message: 'Reel uploaded successfully',
+        message: 'Your reel has been shared.',
       );
       return Reel.fromMap(response.data);
     } on DioException catch (e) {

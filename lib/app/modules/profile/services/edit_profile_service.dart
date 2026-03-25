@@ -28,7 +28,7 @@ Future<bool> editProfileService({
     CustomSnackBar.showCustomErrorSnackBar(
       message: e.response?.data != null
           ? formatErrorMsg(e.response!.data)
-          : 'An error occurred',
+          : 'Failed to update profile. Please try again.',
     );
     return false;
   } catch (e) {

@@ -50,7 +50,6 @@ Future<bool> signInService(String firstField, String password) async {
     log(e.response!.data.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(
-      title: 'Failed',
       message: formatErrorMsg(e.response!.data),
     );
     return false;

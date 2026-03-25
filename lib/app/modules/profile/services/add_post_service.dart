@@ -22,6 +22,9 @@ Future<void> addPostService(List<File> media) async {
     final response = await dio.post(Api.POST_URL, data: formData);
     final data = response.data['Data'];
     log(data.toString());
+    CustomSnackBar.showCustomSnackBar(
+      message: 'Your post has been shared.',
+    );
   } on DioException catch (e) {
     log(e.response!.data.toString());
     CustomSnackBar.showCustomErrorSnackBar(

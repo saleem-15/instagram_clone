@@ -31,7 +31,7 @@ Future<bool> updateProfileImageService(File imageFile) async {
     CustomSnackBar.showCustomErrorSnackBar(
       message: e.response?.data != null
           ? formatErrorMsg(e.response!.data)
-          : 'An error occurred uploading the image',
+          : 'Failed to upload profile photo. Please try again.',
     );
     return false;
   } catch (e) {

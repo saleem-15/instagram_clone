@@ -69,10 +69,10 @@ class CommentsController extends GetxController {
     final isSuccess = await addCommentService(myComment, post.id);
 
     if (isSuccess) {
-      CustomSnackBar.showCustomSnackBar(message: 'comment was posted');
+      // No snackbar needed on success as the comment will appear in the list
     } else {
       CustomSnackBar.showCustomErrorSnackBar(
-          message: 'comment was not posted!');
+          message: 'Failed to post comment. Please try again.');
     }
   }
 

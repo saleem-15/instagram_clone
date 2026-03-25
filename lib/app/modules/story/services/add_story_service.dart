@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 
 import '../../../../utils/constants/api.dart';
 import '../../../../utils/custom_snackbar.dart';
-import '../../../../utils/helpers.dart';
 
 Future<bool> addStoryService(String filePath) async {
   FormData formData = FormData.fromMap({});
@@ -22,12 +21,16 @@ Future<bool> addStoryService(String filePath) async {
     final data = response.data;
     log(data.toString());
 
+    CustomSnackBar.showCustomSnackBar(
+      message: 'Your story has been shared.',
+    );
+
     return true;
   } on DioException catch (e) {
     log(e.response!.toString());
 
     CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.message),
+      message: 'Could not share story. Please try again.',
     );
     return false;
   }
