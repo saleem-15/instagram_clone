@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/loading_widget.dart';
@@ -64,9 +65,13 @@ class SigninScreen extends GetView<SigninController> {
             padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
             child: Column(
               children: [
-                Image.asset(
-                  'assets/icons/instagram-word-logo-removebg.png',
+                SvgPicture.asset(
+                  'assets/icons/instagram logo.svg',
                   width: 150.sp,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
                 SizedBox(
                   height: 20.sp,
