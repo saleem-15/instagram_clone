@@ -90,7 +90,7 @@ class CommentTile extends GetView<CommentsController> {
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: Theme.of(context)
                                   .disabledColor
-                                  .withOpacity(0.8),
+                                  .withValues(alpha: 0.8),
                               fontWeight: FontWeight.bold,
                               fontSize: 12.sp,
                             ),
