@@ -16,7 +16,7 @@ Future<bool> editProfileService({
       Api.EDIT_PROFILE_URL,
       data: {
         if (nickName != null) 'nick_name': nickName,
-        if (bio != null) 'bio': bio,
+        'bio': bio,
         if (dateOfBirth != null) 'date_of_birth': dateOfBirth,
       },
     );

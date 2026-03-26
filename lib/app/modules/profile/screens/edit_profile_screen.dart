@@ -39,7 +39,9 @@ class EditProfileScreen extends GetView<EditProfileController> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.sp),
-        child: Column(
+        child: Form(
+          key: controller.formKey,
+          child: Column(
           children: [
             GestureDetector(
               onTap: controller.pickImage,
@@ -76,6 +78,12 @@ class EditProfileScreen extends GetView<EditProfileController> {
             _buildTextField(
               controller: controller.nickNameController,
               label: 'Name',
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Name cannot be empty';
+                }
+                return null;
+              },
             ),
             SizedBox(height: 16.sp),
             _buildTextField(
@@ -92,19 +100,23 @@ class EditProfileScreen extends GetView<EditProfileController> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
     bool readOnly = false,
     VoidCallback? onTap,
+    String? Function(String?)? validator,
   }) {
     return TextFormField(
       controller: controller,
       readOnly: readOnly,
       onTap: onTap,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: label,
         border: const UnderlineInputBorder(),

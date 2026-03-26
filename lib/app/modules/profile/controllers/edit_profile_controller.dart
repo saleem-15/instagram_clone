@@ -20,6 +20,7 @@ class EditProfileController extends GetxController {
   late final TextEditingController dobController;
 
   final Rx<File?> selectedImage = Rx<File?>(null);
+  final formKey = GlobalKey<FormState>();
 
   final isLoading = false.obs;
 
@@ -88,6 +89,7 @@ class EditProfileController extends GetxController {
   }
 
   Future<void> submit() async {
+    if (!formKey.currentState!.validate()) return;
     isLoading.value = true;
 
     // First update the multi-part image, if a new one was selected
