@@ -161,37 +161,38 @@ class PostMedia extends GetView<PostsController> {
         ),
 
         /// post Content Counter (number of images/videos of the post)
-        Positioned(
-          top: 20,
-          right: 20,
-          child: Obx(
-            () => AnimatedOpacity(
-              opacity: isCounterVisible.value ? 1 : 0,
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.black38,
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: GetBuilder<PostsController>(
-                  assignId: true,
-                  id: 'selected content index',
-                  builder: (_) {
-                    return Text(
-                      '${controller.postsIndex[post.id]! + 1}/${post.postContents.length}',
-                      style:
-                          TextStyle(color: Colors.white.withValues(alpha: .9)),
-                    );
-                  },
+        if (post.postContents.length > 1)
+          Positioned(
+            top: 20,
+            right: 20,
+            child: Obx(
+              () => AnimatedOpacity(
+                opacity: isCounterVisible.value ? 1 : 0,
+                duration: const Duration(milliseconds: 300),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black38,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: GetBuilder<PostsController>(
+                    assignId: true,
+                    id: 'selected content index',
+                    builder: (_) {
+                      return Text(
+                        '${controller.postsIndex[post.id]! + 1}/${post.postContents.length}',
+                        style: TextStyle(
+                            color: Colors.white.withValues(alpha: .9)),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
           ),
-        ),
 
         Positioned.fill(
           child: Obx(() {
