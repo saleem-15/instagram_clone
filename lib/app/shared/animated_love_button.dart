@@ -1,9 +1,8 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AnimatedLoveButton extends StatelessWidget {
+class AnimatedLoveButton extends StatefulWidget {
   final bool isFavorite;
   final VoidCallback onHeartPressed;
   final void Function(AnimationController)? onInitAnimationController;
@@ -18,21 +17,51 @@ class AnimatedLoveButton extends StatelessWidget {
   });
 
   @override
+  State<AnimatedLoveButton> createState() => _AnimatedLoveButtonState();
+}
+
+class _AnimatedLoveButtonState extends State<AnimatedLoveButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200));
+    _animation = TweenSequence<double>([
+      TweenSequenceItem(
+          tween: Tween<double>(begin: 1.0, end: 1.2)
+              .chain(CurveTween(curve: Curves.easeOut)),
+          weight: 50),
+      TweenSequenceItem(
+          tween: Tween<double>(begin: 1.2, end: 1.0)
+              .chain(CurveTween(curve: Curves.easeIn)),
+          weight: 50),
+    ]).animate(_controller);
+
+    if (widget.onInitAnimationController != null) {
+      widget.onInitAnimationController!(_controller);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return IconButton(
       key: const ValueKey('Love Button'),
-      onPressed: onHeartPressed,
+      onPressed: widget.onHeartPressed,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      icon: Pulse(
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.bounceInOut,
-        controller: (animationController) {
-          if (onInitAnimationController != null) {
-            onInitAnimationController!(animationController);
-          }
-        },
-        child: isFavorite
+      icon: ScaleTransition(
+        scale: _animation,
+        child: widget.isFavorite
             ? Stack(
                 children: [
                   Transform.translate(
@@ -43,8 +72,8 @@ class AnimatedLoveButton extends StatelessWidget {
                         Colors.black12,
                         BlendMode.srcIn,
                       ),
-                      width: size.sp,
-                      height: size.sp,
+                      width: widget.size.sp,
+                      height: widget.size.sp,
                     ),
                   ),
                   SvgPicture.asset(
@@ -53,8 +82,8 @@ class AnimatedLoveButton extends StatelessWidget {
                       Colors.red,
                       BlendMode.srcIn,
                     ),
-                    width: size.sp,
-                    height: size.sp,
+                    width: widget.size.sp,
+                    height: widget.size.sp,
                   ),
                 ],
               )
@@ -68,8 +97,8 @@ class AnimatedLoveButton extends StatelessWidget {
                         Colors.black12,
                         BlendMode.srcIn,
                       ),
-                      width: size.sp,
-                      height: size.sp,
+                      width: widget.size.sp,
+                      height: widget.size.sp,
                     ),
                   ),
                   SvgPicture.asset(
@@ -78,8 +107,8 @@ class AnimatedLoveButton extends StatelessWidget {
                       Theme.of(context).iconTheme.color ?? Colors.white,
                       BlendMode.srcIn,
                     ),
-                    width: size.sp,
-                    height: size.sp,
+                    width: widget.size.sp,
+                    height: widget.size.sp,
                   ),
                 ],
               ),

@@ -170,5 +170,6 @@ class CommentsController extends GetxController {
     comment.isCommentLiked.toggle();
     heartAnimationControllers[comment.id]?.reset();
     heartAnimationControllers[comment.id]?.forward();
+    update(['love_button_${comment.id}']);
   }
 }

@@ -72,9 +72,10 @@ class CommentTile extends GetView<CommentsController> {
               ],
             ),
           ),
-          Obx(
-            () => AnimatedLoveButton(
-              size: 20.sp,
+          GetBuilder<CommentsController>(
+            id: 'love_button_${comment.id}',
+            builder: (controller) => AnimatedLoveButton(
+              size: 16.sp,
               isFavorite: comment.isCommentLiked.value,
               onHeartPressed: () => controller.onCommentLikePressed(comment),
               onInitAnimationController: (animationController) {
