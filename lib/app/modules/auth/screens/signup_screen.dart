@@ -17,7 +17,10 @@ class SignupScreen extends GetView<SignupController> {
     final horizontalPadding = 15.w;
 
     return Scaffold(
-      appBar: AppBar(),
+      primary: false,
+      appBar: AppBar(
+        primary: false,
+      ),
       bottomNavigationBar: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 50.sp,

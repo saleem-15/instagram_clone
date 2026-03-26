@@ -10,56 +10,54 @@ class ExplorerView extends GetView<ExplorerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SearchTextField(
-              onTap: controller.onSearchFieldPressed,
-              isReadOnly: true,
-              textController: controller.searchTextController,
-            ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SearchTextField(
+            onTap: controller.onSearchFieldPressed,
+            isReadOnly: true,
+            textController: controller.searchTextController,
+          ),
 
-            Expanded(
-              child: PostsGridView(
-                controller: controller.postsGridController,
-              ),
+          Expanded(
+            child: PostsGridView(
+              controller: controller.postsGridController,
             ),
-            // Expanded(
-            //   child: PagedGridView<int, Post>(
-            //     showNewPageErrorIndicatorAsGridChild: false,
-            //     showNoMoreItemsIndicatorAsGridChild: false,
-            //     showNewPageProgressIndicatorAsGridChild: false,
-            //     padding: const EdgeInsets.only(top: 7),
-            //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //       crossAxisCount: 3,
-            //       crossAxisSpacing: 3,
-            //       mainAxisSpacing: 3,
-            //     ),
-            //     pagingController: controller.pagingController,
-            //     //
-            //     builderDelegate: PagedChildBuilderDelegate(
-            //       itemBuilder: (_, post, __) => PostGridTile(
-            //         post: post,
-            //         onPostPressed: controller.onPostPressed,
-            //         onPressedGone: controller.onPostPressGone,
-            //       ),
+          ),
+          // Expanded(
+          //   child: PagedGridView<int, Post>(
+          //     showNewPageErrorIndicatorAsGridChild: false,
+          //     showNoMoreItemsIndicatorAsGridChild: false,
+          //     showNewPageProgressIndicatorAsGridChild: false,
+          //     padding: const EdgeInsets.only(top: 7),
+          //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //       crossAxisCount: 3,
+          //       crossAxisSpacing: 3,
+          //       mainAxisSpacing: 3,
+          //     ),
+          //     pagingController: controller.pagingController,
+          //     //
+          //     builderDelegate: PagedChildBuilderDelegate(
+          //       itemBuilder: (_, post, __) => PostGridTile(
+          //         post: post,
+          //         onPostPressed: controller.onPostPressed,
+          //         onPressedGone: controller.onPostPressGone,
+          //       ),
 
-            //       //
-            //       firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
-            //       //
-            //       newPageProgressIndicatorBuilder: (_) => loadingWidget(),
-            //       //
-            //       noItemsFoundIndicatorBuilder: (context) => noPostsFoundWdget(context),
-            //       //
-            //       firstPageErrorIndicatorBuilder: (_) => errorWidget(),
-            //       //
-            //       newPageErrorIndicatorBuilder: (_) => errorWidget(),
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
+          //       //
+          //       firstPageProgressIndicatorBuilder: (_) => loadingWidget(),
+          //       //
+          //       newPageProgressIndicatorBuilder: (_) => loadingWidget(),
+          //       //
+          //       noItemsFoundIndicatorBuilder: (context) => noPostsFoundWdget(context),
+          //       //
+          //       firstPageErrorIndicatorBuilder: (_) => errorWidget(),
+          //       //
+          //       newPageErrorIndicatorBuilder: (_) => errorWidget(),
+          //     ),
+          //   ),
+          // ),
+        ],
       ),
     );
   }

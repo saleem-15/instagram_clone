@@ -14,6 +14,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        primary: false,
         title: const Text(
           'Forget Password',
         ),

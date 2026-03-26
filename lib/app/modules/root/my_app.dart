@@ -13,6 +13,7 @@ class MyApp extends GetView<AppController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      primary: false,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           /// to remove the splash effect when clicking on a [BottomNavigationBarItem]

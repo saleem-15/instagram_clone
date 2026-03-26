@@ -24,7 +24,9 @@ class SigninScreen extends GetView<SigninController> {
     /// padding for the form
     final horizontalPadding = 20.w;
     return Scaffold(
+      primary: false,
       appBar: AppBar(
+        primary: false,
         iconTheme: Theme.of(context).iconTheme,
       ),
       bottomNavigationBar: SizedBox(

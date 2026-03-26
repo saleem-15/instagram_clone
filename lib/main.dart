@@ -61,10 +61,13 @@ class Main extends StatelessWidget {
           home: Builder(
             builder: (context) {
               SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-              final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+              final isDarkMode =
+                  Theme.of(context).brightness == Brightness.dark;
               SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
                 statusBarIconBrightness:
                     isDarkMode ? Brightness.light : Brightness.dark,
+                systemNavigationBarColor:
+                    Theme.of(context).scaffoldBackgroundColor,
                 systemNavigationBarIconBrightness:
                     isDarkMode ? Brightness.light : Brightness.dark,
               ));

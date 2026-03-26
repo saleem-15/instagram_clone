@@ -11,7 +11,9 @@ class EditProfileScreen extends GetView<EditProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      primary: false,
       appBar: AppBar(
+        primary: false,
         title: const Text('Edit Profile'),
         actions: [
           Obx(

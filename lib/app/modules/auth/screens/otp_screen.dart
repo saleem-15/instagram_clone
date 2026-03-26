@@ -17,6 +17,7 @@ class OtpForm extends GetView<OtpFormController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        primary: false,
         title: const Text('Verification Code'),
       ),
       body: Form(

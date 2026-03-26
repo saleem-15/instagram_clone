@@ -22,7 +22,9 @@ class FollowsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      primary: false,
       appBar: AppBar(
+        primary: false,
         title: Text(
           controller.userName,
         ),

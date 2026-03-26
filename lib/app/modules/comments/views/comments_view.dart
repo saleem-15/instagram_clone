@@ -24,6 +24,7 @@ class CommentsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final horizontalPadding = 10.w;
     return Scaffold(
+      primary: false,
       // resizeToAvoidBottomInset: false,
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,

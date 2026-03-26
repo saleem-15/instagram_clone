@@ -42,6 +42,7 @@ class ProfileScreen extends StatelessWidget {
         /// profile page with all of its components
 
         Scaffold(
+          primary: false,
           appBar: profileAppBar(context, profileController),
           body: Obx(
             () => profileController.isLoading.isTrue
@@ -127,6 +128,7 @@ class ProfileScreen extends StatelessWidget {
 
   AppBar profileAppBar(BuildContext context, ProfileController controller) {
     return AppBar(
+      primary: false,
       title: Text(
         controller.user.userName,
       ),

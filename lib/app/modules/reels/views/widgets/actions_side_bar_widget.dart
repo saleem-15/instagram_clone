@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/shared/animated_love_button.dart';
 
@@ -54,11 +53,13 @@ class ActionsSideBar extends StatelessWidget {
 
                     // Comment Button
                     IconButton(
-                      icon: const FaIcon(
-                        FontAwesomeIcons.comment,
-                        color: Colors.white,
-                        size: 26,
-                        shadows: shadows,
+                      icon: SvgPicture.asset(
+                        'assets/icons/comment.svg',
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                        width: 26.sp,
                       ),
                       onPressed: cv.comment,
                     ),
