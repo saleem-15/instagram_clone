@@ -6,11 +6,13 @@ import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
-/// if comment is posted successfullu it returns true
-Future<bool> addCommentService(String comment, String postId) async {
+import 'package:instagram_clone/app/models/comment.dart';
+
+/// if comment is posted successfullu it returns the comment
+Future<Comment?> addCommentService(String comment, String postId) async {
   try {
     final response = await dio.post(
-   Api.   COMMNETS_URL,
+      Api.COMMNETS_URL,
       queryParameters: {
         'comment': comment,
         'post_id': postId,
@@ -20,7 +22,7 @@ Future<bool> addCommentService(String comment, String postId) async {
     final data = response.data['Data'];
     log(data.toString());
 
-    return true;
+    return Comment.fromMap(data);
   } on DioException catch (e) {
     log(e.response!.data.toString());
 
@@ -29,5 +31,5 @@ Future<bool> addCommentService(String comment, String postId) async {
     );
   }
 
-  return false;
+  return null;
 }
