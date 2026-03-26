@@ -55,16 +55,16 @@ class _ReelsViewState extends State<ReelsView> {
           return Obx(() {
             if (reelsController.isLoading.value) {
               return const Scaffold(
-                backgroundColor: Colors.black,
                 body: Center(child: LoadingWidget()),
               );
             }
             if (reelsController.reels.isEmpty) {
-              return const Scaffold(
-                backgroundColor: Colors.black,
+              return Scaffold(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                   child: Text('No Reels Yet',
-                      style: TextStyle(color: Colors.white)),
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color)),
                 ),
               );
             }
@@ -80,39 +80,37 @@ class _ReelsViewState extends State<ReelsView> {
 
   Widget _buildPageView() {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            PageView.builder(
-              controller: pageController,
-              scrollDirection: Axis.vertical,
-              itemCount: reels.length,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return ReelPlayerItemView(
-                  reel: reels[index],
-                  isCurrentPage: index == currentIndex,
-                );
-              },
-            ),
-            if (isFromProfile)
-              Positioned(
-                top: 10,
-                left: 10,
-                child: IconButton(
-                  onPressed: () => Get.back(),
-                  icon: const Icon(Icons.arrow_back,
-                      color: Colors.white, size: 30),
-                ),
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: pageController,
+            scrollDirection: Axis.vertical,
+            itemCount: reels.length,
+            onPageChanged: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            itemBuilder: (context, index) {
+              return ReelPlayerItemView(
+                reel: reels[index],
+                isCurrentPage: index == currentIndex,
+              );
+            },
+          ),
+          if (isFromProfile)
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                onPressed: () => Get.back(),
+                icon:
+                    const Icon(Icons.arrow_back, color: Colors.white, size: 30),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

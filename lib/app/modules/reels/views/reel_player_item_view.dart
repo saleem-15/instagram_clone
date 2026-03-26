@@ -91,7 +91,7 @@ class _ReelPlayerItemViewState extends State<ReelPlayerItemView> {
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(isCommentsOpen ? 25 : 0),
-                          color: Colors.black,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: Stack(

@@ -23,10 +23,10 @@ Future<void> main() async {
   await MySharedPref.init();
   // MySharedPref.setUserToken(null);
   AuthBinding().dependencies();
-  
+
   // Inject global services
   Get.put(VideoService());
-  
+
   Get.lazyPut(() => AppController(), fenix: true);
 
   runApp(Main());
@@ -61,16 +61,24 @@ class Main extends StatelessWidget {
           home: Builder(
             builder: (context) {
               SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-              SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-                systemNavigationBarColor: Colors.transparent,
-                systemNavigationBarIconBrightness: Brightness.light,
+              final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+                statusBarIconBrightness:
+                    isDarkMode ? Brightness.light : Brightness.dark,
+                systemNavigationBarIconBrightness:
+                    isDarkMode ? Brightness.light : Brightness.dark,
               ));
 
               return Container(
+                padding:
+                    EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
                 color: Theme.of(context).scaffoldBackgroundColor,
-                child: Get.find<AuthController>().isAuthorized
-                    ? MyApp()
-                    : SigninScreen(),
+                child: Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Get.find<AuthController>().isAuthorized
+                      ? MyApp()
+                      : SigninScreen(),
+                ),
               );
             },
           )),

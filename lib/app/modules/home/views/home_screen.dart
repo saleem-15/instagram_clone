@@ -16,38 +16,42 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: SvgPicture.asset(
-          fit: BoxFit.scaleDown,
-          'assets/icons/heart.svg',
-          colorFilter: const ColorFilter.mode(
-            Colors.white,
-            BlendMode.srcIn,
-          ),
-        ),
-        centerTitle: true,
-        title: SvgPicture.asset(
-          'assets/icons/instagram logo.svg',
-          colorFilter: const ColorFilter.mode(
-            Colors.white,
-            BlendMode.srcIn,
-          ),
-          width: 115.sp,
-        ),
-        actions: [
-          Icon(
-            Icons.add,
-            size: 25.sp,
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-        ],
-      ),
       body: PagingListener<int, Post>(
         controller: controller.pagingController,
         builder: (context, state, fetchNextPage) => CustomScrollView(
           slivers: [
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              leading: SvgPicture.asset(
+                fit: BoxFit.scaleDown,
+                'assets/icons/heart.svg',
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
+              centerTitle: true,
+              title: SvgPicture.asset(
+                'assets/icons/instagram logo.svg',
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+                width: 115.sp,
+              ),
+              actions: [
+                Icon(
+                  Icons.add,
+                  size: 25.sp,
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+              ],
+            ),
+
             /// stories List
             SliverToBoxAdapter(
               child: const StoriesView().paddingOnly(
