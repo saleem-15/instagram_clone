@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app/modules/auth/views/info_view.dart';
 import 'package:instagram_clone/app/routes/app_pages.dart';
 import 'package:instagram_clone/utils/constants/api.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../services/sign_up_service.dart';
 
@@ -18,12 +17,8 @@ class SignupController extends GetxController
   final phoneNumberController = TextEditingController();
   final fullNameController = TextEditingController();
   final userNameController = TextEditingController();
-
   final dateOfBirthController = TextEditingController();
-  final dateOfBirthFormatter = MaskTextInputFormatter(
-    mask: '##/##/####',
-    filter: {"#": RegExp(r'[0-9]')},
-  );
+
 
   RxBool isPhoneButtonDisable = true.obs;
   RxBool isEmailButtonDisable = true.obs;
@@ -37,7 +32,22 @@ class SignupController extends GetxController
   String get userName => userNameController.text.trim();
   String get dateOfBirth => dateOfBirthController.text.trim();
 
+  Future<void> showDateOfBirthPicker(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      String day = picked.day.toString().padLeft(2, '0');
+      String month = picked.month.toString().padLeft(2, '0');
+      dateOfBirthController.text = "$day/$month/${picked.year}";
+    }
+  }
+
   final phoneFormKey = GlobalKey<FormState>();
+
   final emailFormKey = GlobalKey<FormState>();
   final formKey = GlobalKey<FormState>();
 

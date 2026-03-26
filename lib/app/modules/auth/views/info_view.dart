@@ -74,13 +74,14 @@ class InfoView extends GetView<SignupController> {
                   controller: controller.dateOfBirthController,
                   validator: controller.dateOfBirthFieldValidator,
                   textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.datetime,
-                  inputFormatters: [controller.dateOfBirthFormatter],
+                  readOnly: true,
+                  onTap: () => controller.showDateOfBirthPicker(context),
                   style: MyFonts.inputTextStyle,
                   decoration: const InputDecoration(
                     hintText: 'Date of birth',
                   ),
                 ),
+
                 SizedBox(
                   height: verticalSpace,
                 ),
