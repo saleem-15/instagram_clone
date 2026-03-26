@@ -14,33 +14,36 @@ class EmailAddressView extends GetView<SignupController> {
   Widget build(BuildContext context) {
     final verticalSpace = 15.h;
 
-    return Column(
-      children: [
-        TextFormField(
-          controller: controller.emailController,
-          validator: controller.emailFieldValidator,
-          textInputAction: TextInputAction.next,
-          keyboardType: TextInputType.emailAddress,
-          style: MyFonts.inputTextStyle,
-          decoration: InputDecoration(
-            hintText: 'Email Address',
+    return Form(
+      key: controller.emailFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: controller.emailController,
+            validator: controller.emailFieldValidator,
+            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.emailAddress,
+            style: MyFonts.inputTextStyle,
+            decoration: const InputDecoration(
+              hintText: 'Email Address',
+            ),
           ),
-        ),
-        SizedBox(
-          height: verticalSpace,
-        ),
-        Obx(
-          () => ElevatedButton(
-            onPressed: controller.isEmailButtonDisable.isTrue
-                ? null
-                : controller.onNextButtonPressedEmail,
-            style: Theme.of(context).brightness == Brightness.dark
-                ? MyDarkStyles.getAuthButtonStyle()
-                : MyStyles.getAuthButtonStyle(),
-            child: const Text('Next'),
+          SizedBox(
+            height: verticalSpace,
           ),
-        ),
-      ],
+          Obx(
+            () => ElevatedButton(
+              onPressed: controller.isEmailButtonDisable.isTrue
+                  ? null
+                  : controller.onNextButtonPressedEmail,
+              style: Theme.of(context).brightness == Brightness.dark
+                  ? MyDarkStyles.getAuthButtonStyle()
+                  : MyStyles.getAuthButtonStyle(),
+              child: const Text('Next'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -12,7 +12,7 @@ import 'package:instagram_clone/app/models/comment.dart';
 Future<Comment?> addCommentService(String comment, String postId) async {
   try {
     final response = await dio.post(
-   Api.   COMMNETS_URL,
+      Api.COMMNETS_URL,
       queryParameters: {
         'comment': comment,
         'post_id': postId,

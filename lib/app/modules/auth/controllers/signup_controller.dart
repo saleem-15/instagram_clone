@@ -9,7 +9,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../services/sign_up_service.dart';
 
-class SignupController extends GetxController {
+class SignupController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late TabController tabController;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -34,24 +37,35 @@ class SignupController extends GetxController {
   String get userName => userNameController.text.trim();
   String get dateOfBirth => dateOfBirthController.text.trim();
 
+  final phoneFormKey = GlobalKey<FormState>();
+  final emailFormKey = GlobalKey<FormState>();
   final formKey = GlobalKey<FormState>();
+
 
   @override
   void onInit() {
+    tabController = TabController(length: 2, vsync: this);
     autoDisableSignUpButtons();
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    tabController.dispose();
+    super.onClose();
+  }
+
   void onNextButtonPressedPhoneNumber() {
-    if (phoneNumber.isBlank! || !phoneNumber.isPhoneNumber) {
+    final isValid = phoneFormKey.currentState!.validate();
+    if (!isValid) {
       return;
     }
-
-    Get.to(() => const InfoView());
+    tabController.animateTo(1);
   }
 
   void onNextButtonPressedEmail() {
-    if (email.isBlank! || !email.isEmail) {
+    final isValid = emailFormKey.currentState!.validate();
+    if (!isValid) {
       return;
     }
     Get.to(() => const InfoView());
