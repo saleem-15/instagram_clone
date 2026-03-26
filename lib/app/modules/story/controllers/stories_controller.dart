@@ -71,8 +71,11 @@ class StoriesController extends GetxController {
   }
 
   void goToNextUserStories(int currentUserIndex) {
+    bool isSingleUserView = Get.parameters['pressed_user_index'] == null;
+
     /// if this user is the last user in the stories list
-    if (currentUserIndex == stories.length - 1) {
+    /// or if it was a single story view (pressedUserIndex == null)
+    if (isSingleUserView || currentUserIndex == stories.length - 1) {
       Get.back();
       return;
     }
