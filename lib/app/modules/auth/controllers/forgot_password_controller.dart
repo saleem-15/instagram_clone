@@ -48,5 +48,4 @@ class ForgotPasswordController extends GetxController {
 
     return 'Enter a valid email';
   }
-
 }

@@ -27,8 +27,7 @@ class ReelPlayer extends StatelessWidget {
         tag: tag,
         id: 'playback',
         builder: (cv) {
-          final isPlaying =
-              cv.videoController!.value.isPlaying;
+          final isPlaying = cv.videoController!.value.isPlaying;
           return GestureDetector(
             onTap: cv.togglePlay,
             child: Stack(
@@ -36,18 +35,12 @@ class ReelPlayer extends StatelessWidget {
               children: [
                 Center(
                   child: AspectRatio(
-                    aspectRatio: cv
-                        .videoController!.value.aspectRatio,
+                    aspectRatio: cv.videoController!.value.aspectRatio,
                     child: Obx(
                       () => ClipRRect(
-                          borderRadius:
-                              BorderRadiusGeometry.circular(
-                                  controller.isCommentsOpen
-                                          .value
-                                      ? 20
-                                      : 0),
-                          child: VideoPlayer(
-                              cv.videoController!)),
+                          borderRadius: BorderRadiusGeometry.circular(
+                              controller.isCommentsOpen.value ? 20 : 0),
+                          child: VideoPlayer(cv.videoController!)),
                     ),
                   ),
                 ),
@@ -58,8 +51,7 @@ class ReelPlayer extends StatelessWidget {
                       height: 60.sp,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.black
-                            .withValues(alpha: 0.5),
+                        color: Colors.black.withValues(alpha: 0.5),
                       ),
                       child: Icon(
                         Icons.play_arrow_rounded,

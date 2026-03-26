@@ -19,7 +19,6 @@ class SignupController extends GetxController
   final userNameController = TextEditingController();
   final dateOfBirthController = TextEditingController();
 
-
   RxBool isPhoneButtonDisable = true.obs;
   RxBool isEmailButtonDisable = true.obs;
 
@@ -50,7 +49,6 @@ class SignupController extends GetxController
 
   final emailFormKey = GlobalKey<FormState>();
   final formKey = GlobalKey<FormState>();
-
 
   @override
   void onInit() {

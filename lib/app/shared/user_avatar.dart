@@ -126,15 +126,13 @@ class UserAvatar extends StatelessWidget {
   }
 }
 
-
-
-      // gradient: LinearGradient(
-                //   begin: Alignment.topCenter,
-                //   colors: [
-                //     Color(0xff515BD4),
-                //     Color(0xff8134AF),
-                //     Color(0xffDD2A7B),
-                //     Color(0xffFEDA77),
-                //     Color(0xffF58529),
-                //   ],
-                // ),
+// gradient: LinearGradient(
+//   begin: Alignment.topCenter,
+//   colors: [
+//     Color(0xff515BD4),
+//     Color(0xff8134AF),
+//     Color(0xffDD2A7B),
+//     Color(0xffFEDA77),
+//     Color(0xffF58529),
+//   ],
+// ),

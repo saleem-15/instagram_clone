@@ -15,8 +15,7 @@ class SearchResultTile extends GetView<SearchController> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data:
-          Theme.of(context).copyWith(splashColor: Colors.transparent),
+      data: Theme.of(context).copyWith(splashColor: Colors.transparent),
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
         onTap: () => controller.onSearchResultPressed(user),

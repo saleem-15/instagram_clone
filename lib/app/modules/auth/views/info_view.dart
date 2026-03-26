@@ -81,7 +81,6 @@ class InfoView extends GetView<SignupController> {
                     hintText: 'Date of birth',
                   ),
                 ),
-
                 SizedBox(
                   height: verticalSpace,
                 ),

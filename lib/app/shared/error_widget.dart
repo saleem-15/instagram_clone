@@ -23,7 +23,8 @@ class MyErrorWidget extends StatelessWidget {
 
     /// copy the error data to the clipboard
     Clipboard.setData(
-      ClipboardData(text: "${details.exception}\nStack trace:\n${details.stack}"),
+      ClipboardData(
+          text: "${details.exception}\nStack trace:\n${details.stack}"),
     );
 
     return SafeArea(

@@ -154,7 +154,7 @@ class ReelPlayerController extends GetxController {
 
   void onFollowUserPressed() async {
     final originalFollowState = reel.user.doIFollowHim;
-    
+
     // Optimistic update
     reel.user.doIFollowHim = !originalFollowState;
     update(['user_info']);

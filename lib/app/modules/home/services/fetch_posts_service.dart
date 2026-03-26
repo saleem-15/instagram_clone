@@ -15,7 +15,7 @@ Future<List<Post>> fetchPostsService(int pageNum) async {
       Api.POST_URL,
       queryParameters: {'page': pageNum},
     );
-      final data = response.data['data'];
+    final data = response.data['data'];
     final metaData = response.data['meta'];
 
     Get.find<HomeController>().numOfPages = metaData['last_page'];

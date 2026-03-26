@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'hide SearchController;
+import 'package:flutter/material.dart' hide SearchController;
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -32,8 +32,6 @@ class SearchScreen extends GetView<SearchController> {
                     textController: controller.searchTextController,
                     focusNode: controller.searchFoucus,
                     showSearchIcon: false,
-                    
-                    
                   ),
                 ),
               ],
@@ -44,7 +42,9 @@ class SearchScreen extends GetView<SearchController> {
             Expanded(
               child: Obx(
                 ///the focus of the textField is removed when the user clicks (search)
-                () => controller.showResults.isTrue ? const Results() : const RecentSearches(),
+                () => controller.showResults.isTrue
+                    ? const Results()
+                    : const RecentSearches(),
               ),
             ),
           ],

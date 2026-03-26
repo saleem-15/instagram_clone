@@ -65,7 +65,8 @@ class StoryProgressIndicator extends StatelessWidget {
                           userStoryController.currentStoryIndex > index) {
                         return Container(
                           margin: indicatorMargin,
-                          width: storyIndicatorController.maxSingleIndicatorWidth,
+                          width:
+                              storyIndicatorController.maxSingleIndicatorWidth,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: indicatorRadius,
@@ -76,11 +77,13 @@ class StoryProgressIndicator extends StatelessWidget {
                       /// if this story is being watched
                       if (userStoryController.currentStoryIndex == index) {
                         return AnimatedBuilder(
-                          animation: storyIndicatorController.animationController,
+                          animation:
+                              storyIndicatorController.animationController,
                           builder: (_, __) {
                             return Container(
                               margin: indicatorMargin,
-                              width: storyIndicatorController.animationController.value,
+                              width: storyIndicatorController
+                                  .animationController.value,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: indicatorRadius,

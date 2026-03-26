@@ -107,7 +107,6 @@ class MyApp extends GetView<AppController> {
   }
 }
 
-
 /// count down UI tester
 /*
 Scaffold(

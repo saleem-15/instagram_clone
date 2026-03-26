@@ -42,67 +42,67 @@ class EditProfileScreen extends GetView<EditProfileController> {
         child: Form(
           key: controller.formKey,
           child: Column(
-          children: [
-            GestureDetector(
-              onTap: controller.pickImage,
-              child: Obx(() => CircleAvatar(
-                    radius: 50.sp,
-                    backgroundColor:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? DarkThemeColors.lightGrey
-                            : Colors.grey.shade200,
-                    backgroundImage: controller.selectedImage.value != null
-                        ? FileImage(controller.selectedImage.value!)
-                            as ImageProvider
-                        : (controller.profile.image != null
-                            ? NetworkImage(controller.profile.image!)
-                                as ImageProvider
-                            : const AssetImage(
-                                    'assets/images/default_user_image.png')
-                                as ImageProvider),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: CircleAvatar(
-                        radius: 16.sp,
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? DarkThemeColors.authButtonColor
-                                : LightThemeColors.lightBlue,
-                        child: Icon(Icons.camera_alt,
-                            color: Colors.white, size: 18.sp),
+            children: [
+              GestureDetector(
+                onTap: controller.pickImage,
+                child: Obx(() => CircleAvatar(
+                      radius: 50.sp,
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? DarkThemeColors.lightGrey
+                              : Colors.grey.shade200,
+                      backgroundImage: controller.selectedImage.value != null
+                          ? FileImage(controller.selectedImage.value!)
+                              as ImageProvider
+                          : (controller.profile.image != null
+                              ? NetworkImage(controller.profile.image!)
+                                  as ImageProvider
+                              : const AssetImage(
+                                      'assets/images/default_user_image.png')
+                                  as ImageProvider),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: CircleAvatar(
+                          radius: 16.sp,
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? DarkThemeColors.authButtonColor
+                                  : LightThemeColors.lightBlue,
+                          child: Icon(Icons.camera_alt,
+                              color: Colors.white, size: 18.sp),
+                        ),
                       ),
-                    ),
-                  )),
-            ),
-            SizedBox(height: 24.sp),
-            _buildTextField(
-              controller: controller.nickNameController,
-              label: 'Name',
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Name cannot be empty';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 16.sp),
-            _buildTextField(
-              controller: controller.bioController,
-              label: 'Bio',
-            ),
-            SizedBox(height: 16.sp),
-            _buildTextField(
-              controller: controller.dobController,
-              label: 'Date of Birth (dd/mm/yyyy)',
-              readOnly: true,
-              onTap: () => controller.selectDate(context),
-            ),
-          ],
+                    )),
+              ),
+              SizedBox(height: 24.sp),
+              _buildTextField(
+                controller: controller.nickNameController,
+                label: 'Name',
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Name cannot be empty';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.sp),
+              _buildTextField(
+                controller: controller.bioController,
+                label: 'Bio',
+              ),
+              SizedBox(height: 16.sp),
+              _buildTextField(
+                controller: controller.dobController,
+                label: 'Date of Birth (dd/mm/yyyy)',
+                readOnly: true,
+                onTap: () => controller.selectDate(context),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildTextField({
     required TextEditingController controller,

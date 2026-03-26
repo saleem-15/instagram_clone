@@ -38,8 +38,7 @@ class MyVideoController {
 
       case DataSourceType.file:
         log('file video');
-        videoPlayerController =
-            VideoPlayerController.file(File(videoPath));
+        videoPlayerController = VideoPlayerController.file(File(videoPath));
         break;
       default:
         throw 'The video source is not from network Nor File, Check if the file path is correct';

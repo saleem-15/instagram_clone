@@ -19,7 +19,9 @@ Future<bool> signInService(String firstField, String password) async {
       queryParameters: {
         if (GetUtils.isEmail(firstField)) 'email': firstField,
         if (GetUtils.isPhoneNumber(firstField)) 'phone': firstField,
-        if (!GetUtils.isEmail(firstField) && !GetUtils.isPhoneNumber(firstField)) 'username': firstField,
+        if (!GetUtils.isEmail(firstField) &&
+            !GetUtils.isPhoneNumber(firstField))
+          'username': firstField,
         'password': password,
       },
     );

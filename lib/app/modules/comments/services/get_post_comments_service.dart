@@ -9,7 +9,8 @@ import '../../../../utils/helpers.dart';
 import '../controllers/comments_controller.dart';
 import '/utils/custom_snackbar.dart';
 
-Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async {
+Future<List<Comment>> fetchPostCommentsService(
+    String postId, int pageKey) async {
   try {
     final response = await dio.get(
       Api.COMMNETS_URL,
@@ -21,7 +22,8 @@ Future<List<Comment>> fetchPostCommentsService(String postId, int pageKey) async
 
     final commentsData = response.data['data'];
 
-    Get.find<CommentsController>().numOfPages = response.data['meta']['last_page'];
+    Get.find<CommentsController>().numOfPages =
+        response.data['meta']['last_page'];
     logger.i(response.data);
 
     return _convertDataToCommentsList(commentsData as List);

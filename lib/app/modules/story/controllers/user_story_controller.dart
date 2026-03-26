@@ -53,7 +53,8 @@ class UserStoryController extends GetxController {
             (horizontalMarginBetweenStroyIndicator * 2);
 
     storyIndicatorController = Get.put(
-      StoryIndicatorController(maxSingleIndicatorWidth: singleStoryIndicatorWidth),
+      StoryIndicatorController(
+          maxSingleIndicatorWidth: singleStoryIndicatorWidth),
       tag: user.id,
     );
 
@@ -71,7 +72,8 @@ class UserStoryController extends GetxController {
     super.onReady();
   }
 
-  Future<VideoPlayerController> initilizeVideoController(String videoUrl) async {
+  Future<VideoPlayerController> initilizeVideoController(
+      String videoUrl) async {
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!.videoPlayerController..play();
     }
@@ -150,7 +152,10 @@ class UserStoryController extends GetxController {
 
     final storyDuration = currentStory.media.isImageFileName
         ? IMAGE_STORY_DURATION
-        : cashedVideos[currentStory.media]!.videoPlayerController.value.duration;
+        : cashedVideos[currentStory.media]!
+            .videoPlayerController
+            .value
+            .duration;
 
     createTimer(storyDuration);
     _timer!.start();

@@ -14,8 +14,7 @@ Future<User> fetchUserService(String userId) async {
     final data = response.data['data'];
     log(data.toString());
 
-  return  User.fromMap(data);
-
+    return User.fromMap(data);
   } on DioException catch (e) {
     log(e.response!.toString());
 
