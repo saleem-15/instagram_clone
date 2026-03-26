@@ -44,6 +44,41 @@ class EditProfileController extends GetxController {
     super.onInit();
   }
 
+  Future<void> selectDate(BuildContext context) async {
+    final currentText = dobController.text.trim();
+    DateTime initialDate = DateTime.now();
+    if (currentText.isNotEmpty) {
+      // Try parsing dd/mm/yyyy first
+      final parts = currentText.split('/');
+      if (parts.length == 3) {
+        final day = int.tryParse(parts[0]);
+        final month = int.tryParse(parts[1]);
+        final year = int.tryParse(parts[2]);
+        if (day != null && month != null && year != null) {
+          initialDate = DateTime(year, month, day);
+        }
+      } else {
+        // Fallback to yyyy-mm-dd
+        initialDate = DateTime.tryParse(currentText) ?? DateTime.now();
+      }
+    }
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null) {
+      // Format as dd/mm/yyyy
+      final day = picked.day.toString().padLeft(2, '0');
+      final month = picked.month.toString().padLeft(2, '0');
+      final year = picked.year.toString();
+      dobController.text = '$day/$month/$year';
+    }
+  }
+
   @override
   void onClose() {
     nickNameController.dispose();

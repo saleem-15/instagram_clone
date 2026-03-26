@@ -11,9 +11,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
       appBar: AppBar(
-        primary: false,
         title: const Text('Edit Profile'),
         actions: [
           Obx(
@@ -87,7 +85,9 @@ class EditProfileScreen extends GetView<EditProfileController> {
             SizedBox(height: 16.sp),
             _buildTextField(
               controller: controller.dobController,
-              label: 'Date of Birth (YYYY-MM-DD)',
+              label: 'Date of Birth (dd/mm/yyyy)',
+              readOnly: true,
+              onTap: () => controller.selectDate(context),
             ),
           ],
         ),
@@ -98,9 +98,13 @@ class EditProfileScreen extends GetView<EditProfileController> {
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
+    bool readOnly = false,
+    VoidCallback? onTap,
   }) {
     return TextFormField(
       controller: controller,
+      readOnly: readOnly,
+      onTap: onTap,
       decoration: InputDecoration(
         labelText: label,
         border: const UnderlineInputBorder(),
