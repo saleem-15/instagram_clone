@@ -15,6 +15,7 @@ import 'package:instagram_clone/app.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/shared/error_widget.dart';
 import 'package:instagram_clone/core/theme/my_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Global helper for logging. In a senior project, we use Get.find(Logger) 
 /// but keeping this for easy global access during refactoring.
@@ -25,6 +26,9 @@ Future<void> main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
+
+  // Load Environment Variables
+  await dotenv.load(fileName: ".env");
 
   // Initialize Core Services
   await Get.putAsync(() => StorageService().init());

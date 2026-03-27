@@ -1,12 +1,10 @@
 import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 class Api {
-  // static const apiUrl = 'http://127.0.0.1:8000/api';
-  static const apiUrl = "http://10.15.4.41:8000/api";
-  // static const apiUrl = "https://8407-213-6-138-53.ngrok-free.app/api";
-
-  static const apikey = 'p@ssword123';
+  static String get apiUrl => dotenv.env['API_URL'] ?? "http://10.15.4.41:8000/api";
+  static String get apikey => dotenv.env['API_KEY'] ?? 'p@ssword123';
 
   static const SIGN_IN_URL = '/auth/user/login';
   static const SIGN_UP_URL = '/auth/user/register';

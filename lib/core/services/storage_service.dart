@@ -1,5 +1,5 @@
 import 'package:instagram_clone/core/translations/localization_service.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +9,8 @@ import 'package:instagram_clone/core/models/user.dart';
 class StorageService {
   // get storage
   late final GetStorage _storage;
+  final _secureStorage = const FlutterSecureStorage();
+  String? _cachedToken;
 
   // STORING KEYS
   static const String _currentLocalKey = 'current_local';
@@ -27,18 +29,26 @@ class StorageService {
   Future<StorageService> init() async {
     await GetStorage.init();
     _storage = GetStorage();
+    _cachedToken = await _secureStorage.read(key: _userToken);
     return this;
   }
 
-  void setUserToken(String? userToken) =>
-      _storage.write(_userToken, userToken);
+  void setUserToken(String? userToken) {
+    _cachedToken = userToken;
+    _storage.write(_userToken, userToken == null ? null : 'securely_stored');
+    
+    if (userToken == null) {
+      _secureStorage.delete(key: _userToken);
+    } else {
+      _secureStorage.write(key: _userToken, value: userToken);
+    }
+  }
 
   /// takse a function that listens to changes to userToken
   void userTokenListener(void Function(dynamic x) listener) =>
       _storage.listenKey(_userToken, listener);
 
-  String? get getToken =>
-      _storage.read(_userToken) == 'null' ? null : _storage.read(_userToken);
+  String? get getToken => _cachedToken;
 
   /// save current locale
   void setCurrentLanguage(String languageCode) =>
@@ -149,5 +159,7 @@ class StorageService {
 
   void clearAllData() {
     _storage.erase();
+    _secureStorage.deleteAll();
+    _cachedToken = null;
   }
 }
