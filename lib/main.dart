@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/app/modules/auth/bindings/auth_binding.dart';
-import 'package:instagram_clone/app/storage/my_shared_pref.dart';
+import 'package:instagram_clone/features/auth/bindings/auth_binding.dart';
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:logger/logger.dart';
 
-import 'app/modules/auth/controllers/auth_conroller.dart';
-import 'app/modules/auth/screens/signin_screen.dart';
-import 'app/modules/root/controllers/app_controller.dart';
-import 'app/modules/root/my_app.dart';
-import 'app/routes/app_pages.dart';
-import 'app/shared/error_widget.dart';
-import 'app/shared/services/api_service.dart';
-import 'app/shared/services/video_service.dart';
-import 'config/theme/my_theme.dart';
+import 'package:instagram_clone/features/auth/controllers/auth_conroller.dart';
+import 'package:instagram_clone/features/auth/views/signin_view.dart';
+import 'package:instagram_clone/features/root/controllers/app_controller.dart';
+import 'package:instagram_clone/app.dart';
+import 'package:instagram_clone/routes/app_pages.dart';
+import 'package:instagram_clone/shared/error_widget.dart';
+import 'package:instagram_clone/core/services/api_service.dart';
+import 'package:instagram_clone/core/services/video_service.dart';
+import 'package:instagram_clone/core/theme/my_theme.dart';
 
 /// Global helper for logging. In a senior project, we use Get.find(Logger) 
 /// but keeping this for easy global access during refactoring.
@@ -27,7 +27,7 @@ Future<void> main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
 
   // Initialize Core Services
-  await MySharedPref.init();
+  await StorageService.init();
   Get.put(Logger());
   await Get.putAsync(() => ApiService().init());
 
@@ -83,7 +83,7 @@ class Main extends StatelessWidget {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   child: Get.find<AuthController>().isAuthorized
                       ? MyApp()
-                      : SigninScreen(),
+                      : SigninView(),
                 ),
               );
             },
