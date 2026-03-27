@@ -1,5 +1,6 @@
 import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/user.dart';
@@ -123,11 +124,15 @@ class AuthService extends GetxService {
         },
       );
 
-      logger.i(response.data);
+      if (!kReleaseMode) {
+        logger.i(response.data);
+      }
 
       return true;
     } on DioException catch (e) {
-      logger.e(e.response);
+      if (!kReleaseMode) {
+        logger.e(e.response);
+      }
 
       CustomSnackBar.showCustomErrorSnackBar(
         title: 'Failed',
@@ -147,11 +152,15 @@ class AuthService extends GetxService {
         },
       );
 
-      logger.i(response.data);
+      if (!kReleaseMode) {
+        logger.i(response.data);
+      }
 
       return true;
     } on DioException catch (e) {
-      logger.e(e.response);
+      if (!kReleaseMode) {
+        logger.e(e.response);
+      }
 
       CustomSnackBar.showCustomErrorSnackBar(
         message: formatErrorMsg(e.response?.data),
@@ -175,11 +184,15 @@ class AuthService extends GetxService {
         },
       );
 
-      logger.i(response.data);
+      if (!kReleaseMode) {
+        logger.i(response.data);
+      }
 
       return true;
     } on DioException catch (e) {
-      logger.e(e.response);
+      if (!kReleaseMode) {
+        logger.e(e.response);
+      }
 
       CustomSnackBar.showCustomErrorSnackBar(
         message: formatErrorMsg(e.response?.data),

@@ -1,8 +1,9 @@
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:instagram_clone/core/utils/constants/api.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 
 class ApiService extends GetxService {
   late final Dio _dio;
@@ -36,7 +37,9 @@ class ApiService extends GetxService {
           return handler.next(options);
         },
         onError: (DioException e, handler) {
-          _logger.e('API ERROR [${e.response?.statusCode}] => PATH: ${e.requestOptions.path}');
+          if (!kReleaseMode) {
+            _logger.e('API ERROR [${e.response?.statusCode}] => PATH: ${e.requestOptions.path}');
+          }
           return handler.next(e);
         },
       ),
