@@ -11,6 +11,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      primary: Navigator.canPop(context),
       appBar: AppBar(
         title: const Text('Edit Profile'),
         actions: [

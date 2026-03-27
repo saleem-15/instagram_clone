@@ -16,13 +16,13 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
+      primary: Navigator.canPop(context),
       body: PagingListener<int, Post>(
         controller: controller.pagingController,
         builder: (context, state, fetchNextPage) => CustomScrollView(
           slivers: [
             SliverAppBar(
-              primary: false,
+              primary: Navigator.canPop(context),
               floating: true,
               snap: true,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,

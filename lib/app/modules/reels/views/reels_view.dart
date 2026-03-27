@@ -54,12 +54,14 @@ class _ReelsViewState extends State<ReelsView> {
         builder: (reelsController) {
           return Obx(() {
             if (reelsController.isLoading.value) {
-              return const Scaffold(
-                body: Center(child: LoadingWidget()),
+              return Scaffold(
+                primary: Navigator.canPop(context),
+                body: const Center(child: LoadingWidget()),
               );
             }
             if (reelsController.reels.isEmpty) {
               return Scaffold(
+                primary: Navigator.canPop(context),
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 body: Center(
                   child: Text('No Reels Yet',
@@ -80,6 +82,7 @@ class _ReelsViewState extends State<ReelsView> {
 
   Widget _buildPageView() {
     return Scaffold(
+      primary: Navigator.canPop(context),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       resizeToAvoidBottomInset: false,
       body: Stack(

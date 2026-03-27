@@ -10,6 +10,7 @@ class ExplorerView extends GetView<ExplorerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      primary: Navigator.canPop(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
