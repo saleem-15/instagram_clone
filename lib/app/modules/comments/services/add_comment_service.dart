@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -20,11 +19,11 @@ Future<Comment?> addCommentService(String comment, String postId) async {
     );
     //
     final data = response.data['Data'];
-    log(data.toString());
+
 
     return Comment.fromMap(data);
   } on DioException catch (e) {
-    log(e.response!.data.toString());
+
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
@@ -54,7 +53,7 @@ Future<Comment?> addReplyService(String reply, String commentId) async {
     }
 
     if (data != null) {
-      log(data.toString());
+
       // Map 'reply' to 'comment' for Comment.fromMap
       if (data.containsKey('reply')) {
         data['comment'] = data['reply'];
@@ -63,7 +62,7 @@ Future<Comment?> addReplyService(String reply, String commentId) async {
     }
   } on DioException catch (e) {
     if (e.response != null) {
-      log(e.response!.data.toString());
+
       CustomSnackBar.showCustomErrorSnackBar(
         message: formatErrorMsg(e.response!.data),
       );

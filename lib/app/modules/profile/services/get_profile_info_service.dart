@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -21,9 +20,9 @@ Future<Profile> fetchProfileInfoService(String userId) async {
     String? errorMsg;
     if (e.response == null) {
       errorMsg = e.error.toString();
-      log(errorMsg);
+
     } else {
-      log(e.response!.data.toString());
+
     }
 
     CustomSnackBar.showCustomErrorSnackBar(

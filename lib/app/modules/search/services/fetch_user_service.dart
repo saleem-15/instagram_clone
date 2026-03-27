@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -12,11 +11,11 @@ Future<User> fetchUserService(String userId) async {
   try {
     final response = await dio.get('${Api.USER_URL}/$userId');
     final data = response.data['data'];
-    log(data.toString());
+
 
     return User.fromMap(data);
   } on DioException catch (e) {
-    log(e.response!.toString());
+
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.message),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/main.dart';
@@ -34,14 +33,14 @@ Future<bool> _markPostAsLovedService(String postId) async {
 
 Future<bool> _removeLoveFromPostService(String postId) async {
   try {
-    final response = await dio.delete(
+    await dio.delete(
       '${Api.MARK_POST_AS_FAVORITE_URL}/$postId',
     );
-    log(response.data.toString());
+
 
     return true;
   } on DioException catch (e) {
-    log(e.response!.data.toString());
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

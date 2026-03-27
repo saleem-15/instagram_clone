@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +58,7 @@ class UserStoriesView extends StatelessWidget {
                     Expanded(
                       child: HoldDetector(
                         onTap: () {
-                          log('onTap');
+
                           controller.goToPreviousStory();
                         },
                         onHold: controller.onHold,
@@ -72,7 +71,7 @@ class UserStoriesView extends StatelessWidget {
                     Expanded(
                       child: HoldDetector(
                         onTap: () {
-                          log('onTap');
+
                           controller.goToNextStory();
                         },
                         onHold: controller.onHold,
@@ -104,7 +103,7 @@ class UserStoriesView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        log('name');
+
                         controller.onUserNamePressed;
                       },
                       child: Text(

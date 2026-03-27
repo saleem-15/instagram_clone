@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -24,14 +23,14 @@ Future<List<User>> searchService(String keyword, int pageKey) async {
     final numOfPages = response.data['meta']['last_page'] as int;
     Get.find<SearchController>().numOfPages = numOfPages;
 
-    log(data.toString());
+
 
     return convertDataToUserList(data as List);
   } on DioException catch (e) {
     if (e.response == null) {
-      log(e.error.toString());
+
     } else {
-      log(e.response!.data.toString());
+
     }
 
     CustomSnackBar.showCustomErrorSnackBar(

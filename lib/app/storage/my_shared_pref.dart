@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -113,7 +112,7 @@ class MySharedPref {
     final String? userId = MySharedPref.getUserId;
 
     if (userId == null) {
-      log('there is no stored data about the user');
+
       return null;
     }
     final name = MySharedPref.getUserName;

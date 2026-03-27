@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -30,7 +29,7 @@ class FloatingPostView extends StatelessWidget {
       tween: Tween<double>(begin: 0.0, end: 12.0),
       duration: const Duration(milliseconds: 500),
       builder: (_, value, child) {
-        log('--------------------------');
+
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: value, sigmaY: value),
           child: child,
@@ -95,21 +94,21 @@ class _PostView extends GetView<PostsController> {
             builder: (context) {
               if (post.postContents.first.isImageFileName ||
                   post.postContents.first.endsWith('.webp')) {
-                log('${post.postContents.first} is image');
+
                 return Image.network(
                   post.postContents.first,
                   alignment: Alignment.center,
                   width: 340.w,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    log('Image error: ${post.postContents.first} \n $error');
+
                     return const Center(
                       child: Icon(Icons.broken_image, color: Colors.grey),
                     );
                   },
                 );
               }
-              log('${post.postContents.first} is video');
+
               return FutureBuilder(
                   future: controller
                       .initilizeVideoController(post.postContents.first),
@@ -149,10 +148,10 @@ class _PostView extends GetView<PostsController> {
                 builder: (controller) {
                   return GestureDetector(
                     onTap: () {
-                      log('HI---------------------');
+
                     },
                     onPanStart: (details) {
-                      log('HI---------------------');
+
                     },
                     child: IconButton(
                       onPressed: () => controller.onHeartPressed(post),

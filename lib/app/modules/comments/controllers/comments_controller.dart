@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -51,11 +50,11 @@ class CommentsController extends GetxController {
 
   Future<List<Comment>> fetchComments(int pageKey) async {
     try {
-      log('fetch comments');
+
       final commentsNewPage = await fetchPostCommentsService(post.id, pageKey);
       return commentsNewPage;
     } catch (error) {
-      log("error fetching comments: $error");
+
       return [];
     }
   }
@@ -199,8 +198,8 @@ class CommentsController extends GetxController {
     try {
       final replies = await fetchCommentRepliesService(comment.id);
       comment.replies.assignAll(replies);
-    } catch (e) {
-      log('Error fetching replies: $e');
+    } catch (_) {
+      // Fail silently if replies cannot be fetched
     }
   }
 

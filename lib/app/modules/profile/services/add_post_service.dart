@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -19,14 +18,13 @@ Future<void> addPostService(List<File> media) async {
     ]);
   }
   try {
-    final response = await dio.post(Api.POST_URL, data: formData);
-    final data = response.data['Data'];
-    log(data.toString());
+    await dio.post(Api.POST_URL, data: formData);
+
     CustomSnackBar.showCustomSnackBar(
       message: 'Your post has been shared.',
     );
   } on DioException catch (e) {
-    log(e.response!.data.toString());
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

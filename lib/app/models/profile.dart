@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:instagram_clone/app/storage/my_shared_pref.dart';
 
@@ -34,7 +33,7 @@ class Profile {
   factory Profile.fromMap(Map<String, dynamic> map) {
     final user = User.fromMap(map);
     final isMe = MySharedPref.getUserId == user.id;
-    log('is My profile: $isMe');
+
     return Profile(
       nickName: map['nick_name'],
       bio: map['bio'],

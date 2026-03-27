@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 
@@ -9,7 +8,7 @@ class AuthController extends GetxController {
   bool isAuthorized = MySharedPref.getToken == null ? false : true;
 
   void tokenListener(dynamic token) {
-    log('token changed');
+
     if (token == null) {
       isAuthorized = false;
     } else {

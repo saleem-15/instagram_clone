@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/reel.dart';
@@ -22,7 +21,7 @@ class ProfileReelsTabController extends GetxController {
 
     final result = await ReelsService.getUserReels(userId: profileUserId);
     reels.assignAll(result);
-    log('Number of reels ${reels.length}');
+
     isLoading(false);
   }
 }

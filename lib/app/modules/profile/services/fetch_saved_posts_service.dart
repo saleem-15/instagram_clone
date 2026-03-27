@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -17,20 +16,20 @@ Future<List<Post>> fetchSavedPostsService(int pageKey, RxInt numOfPages) async {
     final data = response.data['data'];
     final metaData = response.data['meta'];
 
-    log('fetch Saved Posts Service');
+
 
     numOfPages.value = metaData['last_page'];
 
     return _convertDataToPosts(data as List);
   } on DioException catch (e) {
-    log(e.error.toString());
-    log(e.response?.data.toString() ?? e.toString());
+
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response?.data ?? {'message': 'Network Error'}),
     );
     return [];
   } catch (e) {
-    log(e.toString());
+
     return [];
   }
 }

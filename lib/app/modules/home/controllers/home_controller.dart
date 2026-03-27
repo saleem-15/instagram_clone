@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -35,12 +34,12 @@ class HomeController extends GetxController {
 
   Future<List<Post>> fetchPosts(int pageKey) async {
     try {
-      log('fetch posts');
+
       final followersNewPage = await fetchPostsService(pageKey);
 
       return followersNewPage;
     } catch (error) {
-      log("error fetching posts: $error");
+
 
       return [];
     }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -21,13 +20,13 @@ Future<bool> updateProfileImageService(File imageFile) async {
     );
 
     if (response.statusCode == 200) {
-      log('Profile image updated successfully');
+
       return true;
     }
     return false;
   } on DioException catch (e) {
-    log(e.error.toString());
-    log(e.response?.data.toString() ?? e.toString());
+
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: e.response?.data != null
           ? formatErrorMsg(e.response!.data)
@@ -35,7 +34,7 @@ Future<bool> updateProfileImageService(File imageFile) async {
     );
     return false;
   } catch (e) {
-    log('Error: $e');
+
     return false;
   }
 }

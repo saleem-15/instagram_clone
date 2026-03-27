@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -16,10 +15,10 @@ Future<bool> signupService({
   required String dateOfBirth,
   required String phoneNumber,
 }) async {
-  log('sign up service ********');
-  log('name: $name');
-  log('email: $email');
-  log('phone: $phoneNumber');
+
+
+
+
 
   try {
     final response = await dio.post(
@@ -33,8 +32,8 @@ Future<bool> signupService({
         'phone': phoneNumber,
       },
     );
-    log(response.toString());
-    log(response.data.toString());
+
+
 
     final responseData = response.data['Data'];
 
@@ -57,13 +56,13 @@ Future<bool> signupService({
 
     return true;
   } on DioException catch (e) {
-    log(e.error.toString());
+
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response?.data),
     );
-  } catch (e) {
-    log(e.toString());
+  } catch (_) {
+    // Suppress general errors for now; DioException is handled above
   }
 
   return false;

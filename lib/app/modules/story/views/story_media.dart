@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class StoryMedia extends StatelessWidget {
         assignId: true,
         id: 'story media',
         builder: (controller) {
-          log('story media is updated');
+
           final storyUrl = storyController.currentStory.media;
           return storyUrl.isImageFileName
               ?
@@ -34,7 +33,7 @@ class StoryMedia extends StatelessWidget {
               /// image
               Builder(
                   builder: (_) {
-                    log('story iamge url: $storyUrl');
+
                     final image = NetworkImage(storyUrl);
                     return Container(
                       clipBehavior: Clip.antiAlias,

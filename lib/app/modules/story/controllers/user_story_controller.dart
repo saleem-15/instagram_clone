@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/app/models/story.dart';
@@ -143,7 +142,7 @@ class UserStoryController extends GetxController {
   ///
   /// YOU MUST make sure that [currentStoryIndex] has the value of the story that you want to start
   void startStory() {
-    log('this story is watched: ${currentStory.isWathced}---------');
+
     if (!currentStory.isWathced) {
       /// tell the backend that this story is wathed
       setStoryAsWathcedService(currentStory.id);

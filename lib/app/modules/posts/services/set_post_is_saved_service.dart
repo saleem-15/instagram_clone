@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -17,15 +16,15 @@ Future<bool> setPostIsSavedService(String postId, bool isSave) async {
 
 Future<bool> _savePostService(String postId) async {
   try {
-    final response = await dio.post(
+    await dio.post(
       Api.SAVE_POST_URL,
       queryParameters: {'post_id': postId},
     );
-    log(response.data.toString());
+
 
     return true;
   } on DioException catch (e) {
-    log(e.response!.data.toString());
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );
@@ -35,14 +34,14 @@ Future<bool> _savePostService(String postId) async {
 
 Future<bool> _unsavePostService(String postId) async {
   try {
-    final response = await dio.delete(
+    await dio.delete(
       '${Api.SAVE_POST_URL}/$postId',
     );
-    log(response.data.toString());
+
 
     return true;
   } on DioException catch (e) {
-    log(e.response!.data.toString());
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/app/models/profile.dart';
@@ -20,9 +19,9 @@ Future<Profile> fetchUserSearchResultService(String userId) async {
     String? errorMsg;
     if (e.response == null) {
       errorMsg = e.error.toString();
-      log(errorMsg);
+
     } else {
-      log(e.response!.data.toString());
+
     }
 
     CustomSnackBar.showCustomErrorSnackBar(

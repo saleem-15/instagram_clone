@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,7 @@ Future<List<Post>> fetchProfilePostsService(
     final data = response.data['data'];
     final metaData = response.data['meta'];
 
-    log('fetch Profile Posts Service');
+
     // (response.data as Map<String, dynamic>).printMap(ignoreValues: ['links','meta']);
 
     logger.i(response.data);
@@ -29,8 +28,8 @@ Future<List<Post>> fetchProfilePostsService(
 
     return _convertDataToPosts(data as List);
   } on DioException catch (e) {
-    log(e.error.toString());
-    log(e.response!.data.toString());
+
+
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

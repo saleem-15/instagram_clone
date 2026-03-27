@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +53,7 @@ class PostMedia extends GetView<PostsController> {
                         headers: Api.headers,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
-                          log('Image error: ${post.postContents[index]} \n $error');
+
                           return const Center(
                             child: Icon(Icons.broken_image, color: Colors.grey),
                           );
@@ -86,7 +85,7 @@ class PostMedia extends GetView<PostsController> {
                         // Error State
                         if (snapshot.hasError) {
                           // Handle the error state (e.g., show a play error icon)
-                          log('Error loading video: ${snapshot.error}');
+
                           return const Center(
                             child: Icon(Icons.error, color: Colors.white),
                           );

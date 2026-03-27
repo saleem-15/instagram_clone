@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,8 +27,8 @@ class PostView extends GetView<PostsController> {
 
   @override
   Widget build(BuildContext context) {
-    log('post view is built for post ${post.id}');
-    log('post is ${post.postContents.toString()}');
+
+
     // final contr = Get.find<PostsController>(tag: post.id);
     final postPadding = EdgeInsets.only(
       left: 10.w,

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -69,7 +68,7 @@ class FollowersController extends GetxController {
 
       return followersNewPage;
     } catch (error) {
-      log("error fetching followers: $error");
+
       return [];
     }
   }

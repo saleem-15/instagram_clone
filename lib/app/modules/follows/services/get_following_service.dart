@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -20,7 +19,7 @@ Future<List<User>> fetchFollowingsService(String userId, int pageNum,
 
     logger.i(response.data);
     followingController.numOfPages = response.data['meta']['last_page'];
-    log('num of pages: ${followingController.numOfPages}');
+
 
     return _convertDataToFollowing(response.data['data'] as List);
   } on DioException catch (e) {

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 
@@ -73,12 +72,12 @@ class SearchController extends GetxController {
 
   /// makes an api request and returns the list of users
   Future<List<User>> fetchResults(int pageKey) async {
-    log('fetch results is called for page: $pageKey');
+
     try {
       final newUsers = await searchService(searchedKeyWord, pageKey);
       return newUsers;
     } catch (error) {
-      log("error fetching results: $error");
+
       rethrow;
     }
   }
@@ -86,7 +85,7 @@ class SearchController extends GetxController {
   /// this method must be called when the user wants to search.
   /// it should be called only once (its not responsible for pagination).
   void search() async {
-    log('search is called');
+
 
     if (searchedKeyWord.isBlank!) {
       return;

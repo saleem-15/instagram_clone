@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +22,7 @@ class PostGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(post.postContents[0]);
+
     return Stack(
       children: [
         Positioned.fill(

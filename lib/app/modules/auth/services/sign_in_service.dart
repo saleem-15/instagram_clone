@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -13,7 +12,6 @@ import '../../../storage/my_shared_pref.dart';
 /// it returnes true if signup process is successful
 Future<bool> signInService(String firstField, String password) async {
   try {
-    log('sign in service');
     final response = await dio.post(
       Api.SIGN_IN_URL,
       queryParameters: {
@@ -27,7 +25,6 @@ Future<bool> signInService(String firstField, String password) async {
     );
     //
     final data = response.data['Data'];
-    log(data.toString());
 
     /// store the token in shared pref
     final token = data['access_token'].toString();
@@ -48,8 +45,7 @@ Future<bool> signInService(String firstField, String password) async {
 
     return true;
   } on DioException catch (e) {
-    log(e.error.toString());
-    log(e.response!.data.toString());
+    // Log error for debugging internally but removed for portfolio presentation
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),

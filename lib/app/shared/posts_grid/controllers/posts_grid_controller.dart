@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -73,7 +72,7 @@ class PostsGridController extends GetxController {
 
       return followersNewPage;
     } catch (error) {
-      log("error fetching Posts: $error");
+
       return [];
     }
   }

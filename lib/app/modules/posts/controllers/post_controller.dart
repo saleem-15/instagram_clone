@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
@@ -82,7 +81,7 @@ class PostsController extends GetxController {
 
   Future<VideoPlayerController> initilizeVideoController(
       String videoUrl) async {
-    log('video url is $videoUrl');
+
     if (cashedVideos.containsKey(videoUrl)) {
       return cashedVideos[videoUrl]!..play();
     }
@@ -122,6 +121,6 @@ class PostsController extends GetxController {
   }
 
   void share(Post post) {
-    log('Sharing post: ${post.id}');
+
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/main.dart';
@@ -20,14 +19,14 @@ Future<List<User>> fetchFollowersService(String userId, int pageNum,
     logger.i(response.data);
 
     followersController.numOfPages = response.data['meta']['last_page'];
-    log('num of pages: ${followersController.numOfPages}');
+
 
     return _convertDataToFollowers(response.data['data'] as List);
   } on DioException catch (e) {
     if (e.response == null) {
-      log(e.error.toString());
+
     } else {
-      log(e.response!.data.toString());
+
     }
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),

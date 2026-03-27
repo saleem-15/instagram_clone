@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
@@ -7,8 +6,8 @@ import '/utils/custom_snackbar.dart';
 
 Future<void> logoutService() async {
   try {
-    final response = await dio.post(Api.LOGOUT_URL);
-    log(response.data.toString());
+    await dio.post(Api.LOGOUT_URL);
+
   } on DioException catch (e) {
     CustomSnackBar.showCustomErrorSnackBar(
       title: 'Error',
