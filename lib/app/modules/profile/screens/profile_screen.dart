@@ -106,9 +106,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
 
-        /// when the user presses on a post the post appear on the top of the page
-        // if (controller.isTherePostOnTop) const FloatingPostView(),
-
         Obx(() {
           return AnimatedSwitcher(
             duration: const Duration(milliseconds: 150),

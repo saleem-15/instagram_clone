@@ -21,7 +21,6 @@ Future<void> main() async {
 
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
   await MySharedPref.init();
-  // MySharedPref.setUserToken(null);
   AuthBinding().dependencies();
 
   // Inject global services
@@ -39,7 +38,6 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // log(MySharedPref.getToken!);
     logger = Logger();
 
     return ScreenUtilInit(
