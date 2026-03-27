@@ -49,4 +49,7 @@ app.*.map.json
 # FVM related
 .fvm/
 .fvmrc
-settings.json
+
+# Environment variables
+.env
+.env.example
