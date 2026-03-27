@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:instagram_clone/app/models/user.dart';
 import 'package:instagram_clone/app/modules/story/controllers/stories_controller.dart';
@@ -60,7 +61,7 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ImageProvider backgroundImage = user.image == null
         ? const AssetImage('assets/images/default_user_image.png')
-        : NetworkImage(user.image!) as ImageProvider;
+        : CachedNetworkImageProvider(user.image!) as ImageProvider;
 
     return GestureDetector(
       onTap: onTap ?? onUserAvatarTapped,
@@ -110,14 +111,3 @@ class UserAvatar extends StatelessWidget {
     }
   }
 }
-
-// gradient: LinearGradient(
-//   begin: Alignment.topCenter,
-//   colors: [
-//     Color(0xff515BD4),
-//     Color(0xff8134AF),
-//     Color(0xffDD2A7B),
-//     Color(0xffFEDA77),
-//     Color(0xffF58529),
-//   ],
-// ),
