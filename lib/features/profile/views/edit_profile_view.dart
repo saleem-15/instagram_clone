@@ -6,8 +6,8 @@ import 'package:instagram_clone/core/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/core/theme/light_theme_colors.dart';
 import 'package:instagram_clone/features/profile/controllers/edit_profile_controller.dart';
 
-class EditProfileScreen extends GetView<EditProfileController> {
-  const EditProfileScreen({super.key});
+class EditProfileView extends GetView<EditProfileController> {
+  const EditProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
