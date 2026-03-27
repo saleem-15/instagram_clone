@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'user_story_controller.dart';
 
 /// for every user there is a [StoryIndicatorController] controller
-class StoryIndicatorController extends GetxController with GetSingleTickerProviderStateMixin {
+class StoryIndicatorController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   StoryIndicatorController({required this.maxSingleIndicatorWidth});
 
   late AnimationController animationController;

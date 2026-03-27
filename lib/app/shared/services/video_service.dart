@@ -20,10 +20,10 @@ class VideoService extends GetxService {
       Uri.parse(url),
       httpHeaders: Api.headers,
     );
-    
+
     _controllers[url] = controller;
     await controller.initialize();
-    
+
     return controller;
   }
 

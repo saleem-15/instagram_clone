@@ -8,7 +8,8 @@ import 'package:instagram_clone/utils/helpers.dart';
 
 /// follow the user (become a follower to him)
 /// returnes true if the request was successfull
-Future<List<User>> searchForFollowingService(String userId, String keyWord) async {
+Future<List<User>> searchForFollowingService(
+    String userId, String keyWord) async {
   try {
     final response = await dio.post(
       Api.SEARCH_FOLLOWEING_PATH,

@@ -29,6 +29,7 @@ class Api {
 
 //comments
   static const COMMNETS_URL = '/comment';
+  static const COMMENT_REPLY_URL = '/comment/reply';
 
 //search
   static const SEARCH_URL = '/user/search';

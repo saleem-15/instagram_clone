@@ -43,11 +43,10 @@ class SignupScreen extends GetView<SignupController> {
                     child: Text(
                       'Log in',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color:
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? DarkThemeColors.authButtonColor
-                                  : LightThemeColors.authButtonColor
-                                      .withValues(alpha: .6)),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? DarkThemeColors.authButtonColor
+                              : LightThemeColors.authButtonColor
+                                  .withValues(alpha: .6)),
                     ),
                   )
                 ],

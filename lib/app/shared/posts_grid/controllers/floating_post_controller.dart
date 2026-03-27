@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
 
-class FloatingPostController extends GetxController with GetSingleTickerProviderStateMixin {
+class FloatingPostController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   // late  Post post;
 
   late AnimationController _animationController;

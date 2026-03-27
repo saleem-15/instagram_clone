@@ -13,7 +13,8 @@ class OtpFormController extends GetxController {
   // final fifthOtpFieldController = TextEditingController();
   // final sixthOtpFieldController = TextEditingController();
 
-  List<TextEditingController> otpFieldstextControllers = List.generate(6, (_) => TextEditingController());
+  List<TextEditingController> otpFieldstextControllers =
+      List.generate(6, (_) => TextEditingController());
   List<FocusNode> otpFocusNodes = List.generate(6, (_) => FocusNode());
 
   // String get firstOtpField => firstOtpFieldController.text;
@@ -57,8 +58,8 @@ class OtpFormController extends GetxController {
   ///
   /// it checks if all the fields are full so it enables the confirm button
   void changeConfirmButtonStatus() {
-    final bool isAllOtpFieldsFull =
-        otpFieldstextControllers.every((textController) => textController.text.isNotEmpty);
+    final bool isAllOtpFieldsFull = otpFieldstextControllers
+        .every((textController) => textController.text.isNotEmpty);
     if (isAllOtpFieldsFull) {
       isConfirmButtonDisable(false);
     } else {

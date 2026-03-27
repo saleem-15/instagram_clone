@@ -6,7 +6,8 @@ import 'package:instagram_clone/app/models/user.dart';
 
 import 'package:instagram_clone/app/routes/app_pages.dart';
 
-class FollowsTabController extends GetxController with GetSingleTickerProviderStateMixin {
+class FollowsTabController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   FollowsTabController({required this.profile, required this.tab});
 
   late final List<Tab> myTabs;

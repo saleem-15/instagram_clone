@@ -8,11 +8,12 @@ import 'package:instagram_clone/utils/constants/api.dart';
 import 'package:instagram_clone/utils/custom_snackbar.dart';
 import 'package:instagram_clone/utils/helpers.dart';
 
-Future<List<Post>> fetchExplorerPostsService(int pageNum,RxInt numOfPages) async {
+Future<List<Post>> fetchExplorerPostsService(
+    int pageNum, RxInt numOfPages) async {
   try {
     log('before request ************************');
     final response = await dio.get(
-    Api.  POST_URL,
+      Api.POST_URL,
       queryParameters: {'page': pageNum},
     );
     log('after response HI************************');

@@ -14,7 +14,7 @@ class HomeBinding extends Bindings {
     log('home dependencies is called');
     Get.put(PostsController(), permanent: true);
     Get.put(StoriesController(), permanent: true);
-    Get.lazyPut(() => CommentsController(),fenix: true);
+    Get.lazyPut(() => CommentsController(), fenix: true);
     Get.lazyPut(() => HomeController());
   }
 }

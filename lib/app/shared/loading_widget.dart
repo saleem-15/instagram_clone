@@ -7,7 +7,8 @@ class LoadingWidget extends StatelessWidget {
     super.key,
     this.size = 35,
     this.strokeWidth = 2,
-  }) :color = const Color(0xFFBDBDBD);
+  }) : color = const Color(0xFFBDBDBD);
+
   /// Colors.grey.shade400 ==  Color(0xFFBDBDBD)
 
   const LoadingWidget.button({

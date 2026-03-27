@@ -116,7 +116,8 @@ class CountDown {
     /// counted time from the last puase
     final c = _stopwatch.elapsed;
 
-    _periodTimeCounted = Duration(microseconds: c.inMicroseconds % periodTimeCallBack.inMicroseconds);
+    _periodTimeCounted = Duration(
+        microseconds: c.inMicroseconds % periodTimeCallBack.inMicroseconds);
 
     /// total counted time = counted time + counted time from the last puase
     _countedTime += c;

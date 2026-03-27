@@ -60,17 +60,18 @@ class SigninController extends GetxController {
     Get.offNamed(Routes.SIGNUP);
   }
 
-
   void autoDisableLoginButton() {
     firstFieledController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty ||
+          passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }
       isButtonDisable(false);
     });
     passwordController.addListener(() {
-      if (firstFieledController.text.trim().isEmpty || passwordController.text.trim().isEmpty) {
+      if (firstFieledController.text.trim().isEmpty ||
+          passwordController.text.trim().isEmpty) {
         isButtonDisable(true);
         return;
       }

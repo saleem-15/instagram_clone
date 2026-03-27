@@ -10,9 +10,9 @@ class SavedPostsScreen extends GetView<SavedPostsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
+      primary: Navigator.canPop(context),
       appBar: AppBar(
-        primary: false,
+        primary: Navigator.canPop(context),
         title: const Text('Saved'),
       ),
       body: RefreshIndicator(

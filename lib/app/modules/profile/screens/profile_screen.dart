@@ -37,13 +37,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isPushed = Navigator.canPop(context);
     return Stack(
       children: [
         /// profile page with all of its components
 
         Scaffold(
-          primary: false,
-          appBar: profileAppBar(context, profileController),
+          primary: isPushed,
+          appBar: profileAppBar(context, profileController, isPushed),
           body: Obx(
             () => profileController.isLoading.isTrue
                 ? const Center(
@@ -54,8 +55,8 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.w, vertical: 5),
+                          padding: EdgeInsets.only(
+                              left: 15.w, right: 15.w, bottom: 5, top: 0),
                           child: ProfileHeader(
                               profileController: profileController),
                         ),
@@ -126,9 +127,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  AppBar profileAppBar(BuildContext context, ProfileController controller) {
+  AppBar profileAppBar(
+      BuildContext context, ProfileController controller, bool isPrimary) {
     return AppBar(
-      primary: false,
+      primary: isPrimary,
       title: Text(
         controller.user.userName,
       ),

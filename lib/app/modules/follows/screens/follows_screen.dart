@@ -22,9 +22,8 @@ class FollowsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      primary: false,
+      primary: Navigator.canPop(context),
       appBar: AppBar(
-        primary: false,
         title: Text(
           controller.userName,
         ),

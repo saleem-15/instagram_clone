@@ -8,7 +8,9 @@ import '../../../../utils/constants/api.dart';
 
 /// it returnes true if the request  is successful
 Future<bool> resetPasswordService(
-    {required String email, required String code, required String newPassword}) async {
+    {required String email,
+    required String code,
+    required String newPassword}) async {
   try {
     final response = await dio.post(
       Api.RESET_PASSWORD_URL,

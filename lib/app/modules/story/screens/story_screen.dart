@@ -14,8 +14,7 @@ const STORY_SCAFFOLD_COLOR = Colors.black;
 class StoryScreen extends StatelessWidget {
   StoryScreen({super.key}) {
     if (Get.parameters['pressed_user_index'] != null) {
-      pressedUserIndex =
-          int.parse(Get.parameters['pressed_user_index']!);
+      pressedUserIndex = int.parse(Get.parameters['pressed_user_index']!);
     } else {
       pressedUserIndex = null;
     }
@@ -36,10 +35,8 @@ class StoryScreen extends StatelessWidget {
 
     final usersStoriesController = Get.find<StoriesController>();
     final stories = usersStoriesController.stories;
-    final double topViewPadding =
-        MediaQuery.of(context).viewPadding.top;
-    final double topMargin =
-        topViewPadding > 40 ? 40 : topViewPadding;
+    final double topViewPadding = MediaQuery.of(context).viewPadding.top;
+    final double topMargin = topViewPadding > 40 ? 40 : topViewPadding;
     return Scaffold(
       /// dont change scaffold size when the keyboard opens
       resizeToAvoidBottomInset: false,
