@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -48,18 +49,16 @@ class PostMedia extends GetView<PostsController> {
                   GestureDetector(
                       onDoubleTap: () =>
                           controller.onPostDoubleTap(post, isHeartVisible),
-                      child: Image.network(
-                        post.postContents[index],
-                        headers: Api.headers,
+                      child: CachedNetworkImage(
+                        imageUrl: post.postContents[index],
+                        httpHeaders: Api.headers,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-
+                        errorWidget: (context, url, error) {
                           return const Center(
                             child: Icon(Icons.broken_image, color: Colors.grey),
                           );
                         },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
+                        placeholder: (context, url) {
                           return const Center(
                             child: LoadingWidget(size: 60, strokeWidth: 1.0),
                           );

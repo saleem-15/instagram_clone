@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,12 +35,11 @@ class PostGridTile extends StatelessWidget {
               children: [
                 if (post.postContents[0].isImageFileName ||
                     post.postContents[0].endsWith('.webp'))
-                  Image.network(
-                    post.postContents[0],
+                  CachedNetworkImage(
+                    imageUrl: post.postContents[0],
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      debugPrint(
-                          'Image error: ${post.postContents[0]} \n $error');
+                    errorWidget: (context, url, error) {
+                      debugPrint('Image error: ${post.postContents[0]} \n $error');
                       return const Center(
                         child: Icon(Icons.broken_image, color: Colors.grey),
                       );
