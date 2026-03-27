@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ class StoryTile extends GetView<StoriesController> {
   Widget build(BuildContext context) {
     final ImageProvider userImage = (user.image == null
         ? const AssetImage('assets/images/default_user_image.png')
-        : NetworkImage(user.image!)) as ImageProvider;
+        : CachedNetworkImageProvider(user.image!)) as ImageProvider;
 
     return GestureDetector(
       onTap: () => controller.onStoryTilePressed(userIndex),

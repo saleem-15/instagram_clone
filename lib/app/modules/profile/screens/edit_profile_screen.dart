@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -56,7 +57,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                           ? FileImage(controller.selectedImage.value!)
                               as ImageProvider
                           : (controller.profile.image != null
-                              ? NetworkImage(controller.profile.image!)
+                              ? CachedNetworkImageProvider(controller.profile.image!)
                                   as ImageProvider
                               : const AssetImage(
                                       'assets/images/default_user_image.png')

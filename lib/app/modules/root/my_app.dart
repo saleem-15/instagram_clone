@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -87,7 +88,7 @@ class MyApp extends GetView<AppController> {
                         : CircleAvatar(
                             radius: 12.sp,
                             backgroundColor: Colors.transparent,
-                            backgroundImage: NetworkImage(img),
+                            backgroundImage: CachedNetworkImageProvider(img),
                           ),
                   );
                 }),
