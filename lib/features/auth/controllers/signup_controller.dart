@@ -1,12 +1,11 @@
+import 'package:instagram_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/features/auth/views/info_view.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
-import 'package:instagram_clone/core/utils/constants/api.dart';
 
-import '../services/sign_up_service.dart';
 
 class SignupController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -90,7 +89,7 @@ class SignupController extends GetxController
   }
 
   Future<void> signup() async {
-    final isSuccessfull = await signupService(
+    final isSuccessfull = await AuthService.to.signUp(
       email: email,
       password: password,
       name: fullName,
@@ -100,7 +99,6 @@ class SignupController extends GetxController
     );
 
     if (isSuccessfull) {
-      Api.authChanged();
       Get.offAllNamed(Routes.MY_APP);
     }
   }

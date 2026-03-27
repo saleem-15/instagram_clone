@@ -1,6 +1,6 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:logger/logger.dart';
 
@@ -29,7 +29,7 @@ class ApiService extends GetxService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          final token = StorageService.getToken;
+          final token = Get.find<StorageService>().getToken;
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
@@ -91,5 +91,49 @@ class ApiService extends GetxService {
     }
   }
 
-  // Add put, delete, etc. as needed
+  Future<Response> put(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    try {
+      final response = await _dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  Future<Response> delete(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await _dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException {
+      rethrow;
+    }
+  }
 }

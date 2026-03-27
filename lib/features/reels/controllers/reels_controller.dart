@@ -1,8 +1,8 @@
+import 'package:instagram_clone/features/reels/services/reels_service.dart';
 import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/reel.dart';
-import 'package:instagram_clone/features/reels/services/reels_service.dart';
 
 /// Used in ReelsView for the reels page & reels profile tab
 class ReelsController extends GetxController {

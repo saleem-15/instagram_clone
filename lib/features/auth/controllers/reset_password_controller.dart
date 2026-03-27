@@ -1,8 +1,8 @@
+import 'package:instagram_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-import '../services/reset_new_password_service.dart';
 
 class ResetPasswordController extends GetxController {
   late final String email;
@@ -54,7 +54,7 @@ class ResetPasswordController extends GetxController {
 
   Future<void> resetPassword() async {
     isWaitingForRequest(true);
-    final isSuccessfull = await resetPasswordService(
+    final isSuccessfull = await AuthService.to.resetPassword(
       email: email,
       code: code,
       newPassword: newPassword,

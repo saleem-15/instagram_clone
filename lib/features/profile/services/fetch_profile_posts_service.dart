@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ import '../../../../main.dart';
 Future<List<Post>> fetchProfilePostsService(
     String userId, int pageKey, RxInt numOfPages) async {
   try {
-    final response = await dio.get(
+    final response = await ApiService.to.get(
       '${Api.PROFILE_POSTS_URL}/$userId',
       queryParameters: {'page': pageKey},
     );

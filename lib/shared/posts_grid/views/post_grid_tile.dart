@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/video_service.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:get/get.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:video_player/video_player.dart';
-import 'package:instagram_clone/core/services/video_service.dart';
 
 class PostGridTile extends StatelessWidget {
   const PostGridTile({

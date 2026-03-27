@@ -1,3 +1,5 @@
+import 'package:instagram_clone/features/search/services/search_service.dart';
+import 'package:instagram_clone/core/services/storage_service.dart';
 
 import 'package:flutter/cupertino.dart';
 
@@ -7,8 +9,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-import 'package:instagram_clone/core/services/storage_service.dart';
-import '../services/search_service.dart';
 
 class SearchController extends GetxController {
   int numOfPages = 1;
@@ -16,7 +16,7 @@ class SearchController extends GetxController {
 
   //
   RxList<User> recentSearches = <User>[].obs;
-  // RxList<String> recentSearches = StorageService.getRecentSearchs.obs;
+  // RxList<String> recentSearches = Get.find<StorageService>().getRecentSearchs.obs;
 
   final searchTextController = TextEditingController();
   String get searchedKeyWord => searchTextController.text.trim();
@@ -39,7 +39,7 @@ class SearchController extends GetxController {
 
   @override
   Future<void> onReady() async {
-    // for (final userId in StorageService.getRecentSearchs) {
+    // for (final userId in Get.find<StorageService>().getRecentSearchs) {
     //   recentSearches.add(await fetchUserService(userId));
     // }
     super.onReady();
@@ -53,7 +53,7 @@ class SearchController extends GetxController {
   }
 
   void deleteSuggestionAtIndex(int index) {
-    StorageService.removeSearch(recentSearches[index].id);
+    Get.find<StorageService>().removeSearch(recentSearches[index].id);
     recentSearches.removeAt(index);
   }
 
@@ -92,7 +92,7 @@ class SearchController extends GetxController {
     }
 
     // /// store the search to the searches History
-    // StorageService.addSearch(searchedKeyWord);
+    // Get.find<StorageService>().addSearch(searchedKeyWord);
 
     showResults(true);
 
@@ -115,7 +115,7 @@ class SearchController extends GetxController {
 
   void onSearchResultPressed(User user) {
     /// store the search to the searches History
-    StorageService.addSearch(user.id);
+    Get.find<StorageService>().addSearch(user.id);
 
     Get.toNamed(
       Routes.PROFILE,

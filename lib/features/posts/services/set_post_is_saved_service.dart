@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 
@@ -16,7 +17,7 @@ Future<bool> setPostIsSavedService(String postId, bool isSave) async {
 
 Future<bool> _savePostService(String postId) async {
   try {
-    await dio.post(
+    await ApiService.to.post(
       Api.SAVE_POST_URL,
       queryParameters: {'post_id': postId},
     );
@@ -34,7 +35,7 @@ Future<bool> _savePostService(String postId) async {
 
 Future<bool> _unsavePostService(String postId) async {
   try {
-    await dio.delete(
+    await ApiService.to.delete(
       '${Api.SAVE_POST_URL}/$postId',
     );
 

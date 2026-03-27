@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/comment.dart';
 import 'package:instagram_clone/main.dart';
@@ -7,7 +8,7 @@ import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 
 Future<List<Comment>> fetchCommentRepliesService(String commentId) async {
   try {
-    final response = await dio.get(
+    final response = await ApiService.to.get(
       Api.COMMENT_REPLY_URL, // Updated endpoint
       queryParameters: {
         'comment_id': commentId,

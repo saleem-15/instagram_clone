@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/main.dart';
@@ -17,7 +18,7 @@ Future<bool> setPostIsLovedService(String postId, bool isLoved) async {
 
 Future<bool> _markPostAsLovedService(String postId) async {
   try {
-    final response = await dio.post(
+    final response = await ApiService.to.post(
       Api.MARK_POST_AS_FAVORITE_URL,
       queryParameters: {'post_id': postId},
       data: {'post_id': postId},
@@ -33,7 +34,7 @@ Future<bool> _markPostAsLovedService(String postId) async {
 
 Future<bool> _removeLoveFromPostService(String postId) async {
   try {
-    await dio.delete(
+    await ApiService.to.delete(
       '${Api.MARK_POST_AS_FAVORITE_URL}/$postId',
     );
 

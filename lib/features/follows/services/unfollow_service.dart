@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 
@@ -9,7 +10,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 Future<bool> unFollowService(String followingId) async {
 
   try {
-    await dio.delete('${Api.FOLLOW_USER_PATH}/$followingId');
+    await ApiService.to.delete('${Api.FOLLOW_USER_PATH}/$followingId');
 
 
     return true;

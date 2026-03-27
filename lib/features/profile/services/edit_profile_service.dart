@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
@@ -11,7 +12,7 @@ Future<bool> editProfileService({
 }) async {
 
   try {
-    await dio.put(
+    await ApiService.to.put(
       Api.EDIT_PROFILE_URL,
       data: {
         if (nickName != null) 'nick_name': nickName,

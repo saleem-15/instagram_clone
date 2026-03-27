@@ -1,5 +1,6 @@
-
 import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:get/get.dart';
+
 
 import 'user.dart';
 
@@ -17,7 +18,7 @@ class Profile {
   String get userId => user.id;
   bool get isHasNewStory => user.isHasNewStory;
   String? get image => user.image;
-  bool get isMyProfile => StorageService.getUserId == userId;
+  bool get isMyProfile => Get.find<StorageService>().getUserId == userId;
 
   Profile({
     required this.nickName,
@@ -32,7 +33,7 @@ class Profile {
 
   factory Profile.fromMap(Map<String, dynamic> map) {
     final user = User.fromMap(map);
-    final isMe = StorageService.getUserId == user.id;
+    final isMe = Get.find<StorageService>().getUserId == user.id;
 
     return Profile(
       nickName: map['nick_name'],

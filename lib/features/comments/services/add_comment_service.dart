@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 
@@ -10,7 +11,7 @@ import 'package:instagram_clone/core/models/comment.dart';
 /// if comment is posted successfully it returns the comment
 Future<Comment?> addCommentService(String comment, String postId) async {
   try {
-    final response = await dio.post(
+    final response = await ApiService.to.post(
       Api.COMMNETS_URL,
       queryParameters: {
         'comment': comment,
@@ -36,7 +37,7 @@ Future<Comment?> addCommentService(String comment, String postId) async {
 /// New service for adding replies based on official API
 Future<Comment?> addReplyService(String reply, String commentId) async {
   try {
-    final response = await dio.post(
+    final response = await ApiService.to.post(
       Api.COMMENT_REPLY_URL,
       queryParameters: {
         'reply': reply,

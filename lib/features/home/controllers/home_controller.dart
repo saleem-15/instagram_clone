@@ -1,3 +1,4 @@
+import 'package:instagram_clone/features/home/services/fetch_posts_service.dart';
 
 import 'package:flutter/material.dart';
 
@@ -5,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
-import 'package:instagram_clone/features/home/services/fetch_posts_service.dart';
 
 class HomeController extends GetxController {
   int numOfPages = 5;

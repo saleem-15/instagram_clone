@@ -1,11 +1,11 @@
+import 'package:instagram_clone/features/reels/services/reels_service.dart';
+import 'package:instagram_clone/features/profile/services/add_post_service.dart';
 import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../services/add_post_service.dart';
 import 'package:instagram_clone/features/reels/controllers/reels_controller.dart';
-import 'package:instagram_clone/features/reels/services/reels_service.dart';
 
 class AddPostBottomSheetController extends GetxController {
   Future<void> addPost() async {

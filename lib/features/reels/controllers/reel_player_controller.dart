@@ -1,15 +1,16 @@
+import 'package:instagram_clone/features/follows/services/follow_user_service.dart';
+import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
+import 'package:instagram_clone/features/posts/services/set_post_is_saved_service.dart';
+import 'package:instagram_clone/features/posts/services/set_post_is_loved_service.dart';
+import 'package:instagram_clone/features/reels/services/reels_service.dart';
+import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/core/models/reel.dart';
 import 'package:instagram_clone/core/models/post.dart';
-import 'package:instagram_clone/core/services/video_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/features/comments/controllers/comments_controller.dart';
-import 'package:instagram_clone/features/follows/services/follow_user_service.dart';
-import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
-import 'package:instagram_clone/features/posts/services/set_post_is_loved_service.dart';
-import 'package:instagram_clone/features/posts/services/set_post_is_saved_service.dart';
 
 /// Every Reel Has Its Own Controller
 class ReelPlayerController extends GetxController {

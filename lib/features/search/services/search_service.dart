@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ import '../controllers/search_controller.dart';
 
 Future<List<User>> searchService(String keyword, int pageKey) async {
   try {
-    final response = await dio.post(
+    final response = await ApiService.to.post(
       Api.SEARCH_PATH,
       queryParameters: {
         'username': keyword,

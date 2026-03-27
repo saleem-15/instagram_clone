@@ -1,3 +1,7 @@
+import 'package:instagram_clone/features/follows/services/search_for_following_service.dart';
+import 'package:instagram_clone/features/follows/services/follow_user_service.dart';
+import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
+import 'package:instagram_clone/features/follows/services/get_following_service.dart';
 
 import 'package:flutter/material.dart';
 
@@ -6,12 +10,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/core/models/profile.dart';
 
 import 'package:instagram_clone/core/models/user.dart';
-import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-import '../services/follow_user_service.dart';
-import '../services/get_following_service.dart';
-import '../services/search_for_following_service.dart';
 
 class FollowingController extends GetxController {
   FollowingController({required this.profile});

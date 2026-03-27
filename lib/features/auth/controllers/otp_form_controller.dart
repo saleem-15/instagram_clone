@@ -1,9 +1,8 @@
+import 'package:instagram_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-import '../services/forget_password_service.dart';
-import '../services/verify_code_service.dart';
 
 class OtpFormController extends GetxController {
   // final firstOtpFieldController = TextEditingController();
@@ -46,7 +45,7 @@ class OtpFormController extends GetxController {
 
   Future<void> onConfirmButtonPressed() async {
     isWaitingResponse(true);
-    final isSuccessfull = await forgetPasswordService(email);
+    final isSuccessfull = await AuthService.to.forgetPassword(email);
     isWaitingResponse(false);
 
     if (isSuccessfull) {
@@ -69,7 +68,7 @@ class OtpFormController extends GetxController {
 
   Future<void> confirmCode() async {
     isWaitingResponse(true);
-    final isSuccess = await verifyCodeService(
+    final isSuccess = await AuthService.to.verifyCode(
       email: email,
       code: verificationCode,
     );

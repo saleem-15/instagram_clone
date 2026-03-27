@@ -1,3 +1,5 @@
+import 'package:instagram_clone/features/posts/services/set_post_is_saved_service.dart';
+import 'package:instagram_clone/features/posts/services/set_post_is_loved_service.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
@@ -6,11 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
-import 'package:instagram_clone/features/posts/services/set_post_is_loved_service.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 
-import '../services/set_post_is_saved_service.dart';
 
 class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};

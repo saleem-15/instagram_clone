@@ -1,3 +1,6 @@
+import 'package:instagram_clone/features/comments/services/get_comment_replies_service.dart';
+import 'package:instagram_clone/features/comments/services/add_comment_service.dart';
+import 'package:instagram_clone/features/comments/services/get_post_comments_service.dart';
 
 import 'package:flutter/material.dart';
 
@@ -10,9 +13,6 @@ import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/features/root/controllers/app_controller.dart';
 
-import '../services/add_comment_service.dart';
-import '../services/get_comment_replies_service.dart';
-import '../services/get_post_comments_service.dart';
 
 class CommentsController extends GetxController {
   int numOfPages = 1;

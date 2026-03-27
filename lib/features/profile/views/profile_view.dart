@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/features/profile/controllers/user_posts_controller.dart';
 import 'package:instagram_clone/shared/loading_widget.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 
 import '../controllers/profile_controller.dart';
 import '../views/my_posts_tab.dart';
@@ -22,7 +22,7 @@ class ProfileView extends StatelessWidget {
   }) {
     /// if userId = null  ==> then its my profile
     final args = Get.arguments;
-    user = (args is User) ? args : StorageService.getUserData!;
+    user = (args is User) ? args : Get.find<StorageService>().getUserData!;
     profileController = Get.put(ProfileController(), tag: user.id);
     userPostsController = Get.put(UserPostsController(), tag: user.id);
     profileReelsController = Get.put(

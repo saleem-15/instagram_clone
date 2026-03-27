@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/user.dart';
@@ -9,11 +10,10 @@ import 'package:instagram_clone/features/profile/bindings/profile_binding.dart';
 import 'package:instagram_clone/features/profile/views/profile_view.dart';
 import 'package:instagram_clone/features/reels/bindings/reels_binding.dart';
 import 'package:instagram_clone/features/reels/views/reels_view.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 
 class AppController extends GetxController {
-  final User myUser = StorageService.getUserData!;
-  final RxString userImage = (StorageService.getUserImage ?? '').obs;
+  final User myUser = Get.find<StorageService>().getUserData!;
+  final RxString userImage = (Get.find<StorageService>().getUserImage ?? '').obs;
 
   final Rx<int> selectedIndex = 0.obs;
 

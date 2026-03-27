@@ -1,16 +1,16 @@
+import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
+import 'package:instagram_clone/features/follows/services/follow_user_service.dart';
+import 'package:instagram_clone/features/profile/services/get_profile_info_service.dart';
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/models/profile.dart';
 import 'package:instagram_clone/core/models/user.dart';
-import 'package:instagram_clone/features/follows/services/follow_user_service.dart';
-import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/features/profile/views/add_post_bottom_sheet.dart';
 import 'package:instagram_clone/features/profile/views/settings_bottom_sheet.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 
-import '../services/get_profile_info_service.dart';
 
 class ProfileController extends GetxController {
   late Profile profile;
@@ -31,8 +31,8 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     final args = Get.arguments;
-    user = (args is User) ? args : StorageService.getUserData!;
-    isMyProfile = user.id == StorageService.getUserId;
+    user = (args is User) ? args : Get.find<StorageService>().getUserData!;
+    isMyProfile = user.id == Get.find<StorageService>().getUserId;
     super.onInit();
   }
 

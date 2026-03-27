@@ -1,7 +1,7 @@
+import 'package:instagram_clone/features/reels/services/reels_service.dart';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/reel.dart';
-import 'package:instagram_clone/features/reels/services/reels_service.dart';
 
 class ProfileReelsTabController extends GetxController {
   final String profileUserId;

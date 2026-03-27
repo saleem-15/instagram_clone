@@ -1,6 +1,6 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/story.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 
 class User {
   String id;
@@ -10,7 +10,7 @@ class User {
   bool doIFollowHim;
   List<Story> userStories;
   bool get isHasNewStory => userStories.any((story) => !story.isWathced);
-  bool get isMe => StorageService.getUserId == id;
+  bool get isMe => Get.find<StorageService>().getUserId == id;
 
   User({
     required this.id,
@@ -24,7 +24,7 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     // //if it was me
     // if (map['name'] == null) {
-    //   return StorageService.getUserData!;
+    //   return Get.find<StorageService>().getUserData!;
     // }
     return User(
       id: (map['user_id'] ?? map['id']).toString(),

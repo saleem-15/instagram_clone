@@ -1,9 +1,9 @@
+import 'package:instagram_clone/features/story/services/set_story_as_watched_service.dart';
 import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/story.dart';
 import 'package:instagram_clone/core/models/user.dart';
-import 'package:instagram_clone/features/story/services/set_story_as_watched_service.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/core/utils/my_video_controller.dart';
 import 'package:pausable_timer/pausable_timer.dart';

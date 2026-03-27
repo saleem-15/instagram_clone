@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 
@@ -12,7 +13,7 @@ import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 Future<List<User>> fetchFollowingsService(String userId, int pageNum,
     {required FollowingController followingController}) async {
   try {
-    final response = await dio.get(
+    final response = await ApiService.to.get(
       '${Api.FOLLOWEING_PATH}/$userId',
       queryParameters: {'page': pageNum},
     );

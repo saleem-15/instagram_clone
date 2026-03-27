@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/user.dart';
@@ -9,7 +10,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<List<User>> fetchStoriesService() async {
   try {
-    final response = await dio.get(Api.STORY_URL);
+    final response = await ApiService.to.get(Api.STORY_URL);
     logger.i(response.data);
     final data = response.data['Data'];
 

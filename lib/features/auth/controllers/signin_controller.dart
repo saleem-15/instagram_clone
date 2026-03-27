@@ -1,11 +1,10 @@
+import 'package:instagram_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/routes/app_pages.dart';
-import 'package:instagram_clone/core/utils/constants/api.dart';
 
-import '../services/sign_in_service.dart';
 
 class SigninController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -26,11 +25,10 @@ class SigninController extends GetxController {
       return;
     }
     isWaitingResponse(true);
-    final isSuccessfull = await signInService(firstFieled, password);
+    final isSuccessfull = await AuthService.to.signIn(firstFieled, password);
     isWaitingResponse(false);
 
     if (isSuccessfull) {
-      Api.authChanged();
       Get.offAllNamed(Routes.MY_APP);
     }
   }

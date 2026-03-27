@@ -1,9 +1,9 @@
+import 'package:instagram_clone/features/profile/services/fetch_saved_posts_service.dart';
 import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/shared/posts_grid/controllers/posts_grid_controller.dart';
 
-import '../services/fetch_saved_posts_service.dart';
 
 class SavedPostsController extends GetxController {
   late final PostsGridController postsGridController;

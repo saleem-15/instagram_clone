@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/reel.dart';
 import 'package:instagram_clone/main.dart';
@@ -11,7 +12,7 @@ class ReelsService {
     try {
       final url =
           userId != null ? '${Api.REELS_USER_URL}/$userId' : Api.REELS_URL;
-      final response = await dio.get(url);
+      final response = await ApiService.to.get(url);
       logger.i(response.data);
 
       List<Reel> reels = [];
@@ -47,7 +48,7 @@ class ReelsService {
 
   static Future<List<Reel>> getReelsFeed({int page = 1}) async {
     try {
-      final response = await dio.get(
+      final response = await ApiService.to.get(
         Api.REELS_FEED_URL,
         queryParameters: {'page': page},
       );
@@ -72,7 +73,7 @@ class ReelsService {
 
   static Future<Reel?> getReelById(String id) async {
     try {
-      final response = await dio.get('${Api.REELS_URL}/$id');
+      final response = await ApiService.to.get('${Api.REELS_URL}/$id');
       logger.i(response.data);
       return Reel.fromMap(response.data);
     } on DioException catch (e) {
@@ -94,7 +95,7 @@ class ReelsService {
         ),
       });
 
-      final response = await dio.post(
+      final response = await ApiService.to.post(
         Api.REELS_URL,
         data: formData,
       );
@@ -114,7 +115,7 @@ class ReelsService {
 
   static Future<bool> deleteReel(String id) async {
     try {
-      final response = await dio.delete('${Api.REELS_URL}/$id');
+      final response = await ApiService.to.delete('${Api.REELS_URL}/$id');
       logger.i(response.data);
       CustomSnackBar.showCustomSnackBar(
         title: 'Success',

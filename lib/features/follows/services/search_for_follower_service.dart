@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/main.dart';
@@ -11,7 +12,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 Future<List<User>> searchForFollowerService(
     String userId, String keyWord) async {
   try {
-    final response = await dio.post(
+    final response = await ApiService.to.post(
       Api.SEARCH_FOLLOWERS_PATH,
       queryParameters: {
         'user_id': userId,

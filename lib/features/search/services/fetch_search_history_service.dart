@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 
 import 'package:instagram_clone/core/models/user.dart';
@@ -9,7 +10,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<User> fetchSearchHistoryService(String userId) async {
   try {
-    final response = await dio.get(Api.SEARCH_HISTORY_URL);
+    final response = await ApiService.to.get(Api.SEARCH_HISTORY_URL);
     final data = response.data['data'];
     logger.i(response.data);
 

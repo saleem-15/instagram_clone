@@ -1,15 +1,15 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:instagram_clone/core/services/storage_service.dart';
 import 'ar_AR/ar_ar_translation.dart';
 import 'en_US/en_us_translation.dart';
 
 class LocalizationService extends Translations {
   // default language
   static Locale defaultLanguage = supportedLanguages['en']!;
-  static Locale getCurrnetLanguage = StorageService.getCurrentLocal();
+  static Locale getCurrnetLanguage = Get.find<StorageService>().getCurrentLocal();
 
   // supported languages
   static Map<String, Locale> supportedLanguages = {
@@ -38,14 +38,14 @@ class LocalizationService extends Translations {
     assert(isLanguageSupported(languageCode), languageCode);
 
     // update current language in shared pref
-    StorageService.setCurrentLanguage(languageCode);
+    Get.find<StorageService>().setCurrentLanguage(languageCode);
     await Get.updateLocale(supportedLanguages[languageCode]!);
   }
 
   /// check if the language is english
   static bool isItEnglish() =>
-      StorageService.getCurrentLocal().languageCode.toLowerCase().contains('en');
+      Get.find<StorageService>().getCurrentLocal().languageCode.toLowerCase().contains('en');
 
   /// get current locale
-  static Locale getCurrentLocal() => StorageService.getCurrentLocal();
+  static Locale getCurrentLocal() => Get.find<StorageService>().getCurrentLocal();
 }

@@ -1,15 +1,15 @@
+import 'package:instagram_clone/features/profile/services/get_profile_info_service.dart';
+import 'package:instagram_clone/features/profile/services/edit_profile_service.dart';
+import 'package:instagram_clone/features/profile/services/update_profile_image_service.dart';
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/profile.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:instagram_clone/features/profile/controllers/profile_controller.dart';
 import 'package:instagram_clone/features/root/controllers/app_controller.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
-import '../services/edit_profile_service.dart';
-import '../services/get_profile_info_service.dart';
-import '../services/update_profile_image_service.dart';
 
 class EditProfileController extends GetxController {
   final Profile profile;
@@ -39,7 +39,7 @@ class EditProfileController extends GetxController {
 
     // Fallback to locally stored birthday if the profile API payload doesn't provide it
     final defaultDob =
-        profile.dateOfBirth ?? StorageService.getUserDateOfBirth ?? '';
+        profile.dateOfBirth ?? Get.find<StorageService>().getUserDateOfBirth ?? '';
     dobController = TextEditingController(text: defaultDob);
 
     super.onInit();
@@ -118,7 +118,7 @@ class EditProfileController extends GetxController {
         // Critically propagate the freshly updated photo back onto the legacy User property
         pc.user.image = pc.profile.image;
         if (pc.isMyProfile) {
-          StorageService.setUserImage(pc.profile.image);
+          Get.find<StorageService>().setUserImage(pc.profile.image);
           if (Get.isRegistered<AppController>()) {
             Get.find<AppController>().myUser.image = pc.profile.image;
             Get.find<AppController>().userImage.value = pc.profile.image ?? '';

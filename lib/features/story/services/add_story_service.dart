@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 
@@ -13,7 +14,7 @@ Future<bool> addStoryService(String filePath) async {
   ]);
 
   try {
-    await dio.post(
+    await ApiService.to.post(
       Api.STORY_URL,
       data: formData,
     );

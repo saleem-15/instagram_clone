@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/profile.dart';
@@ -10,7 +11,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<Profile> fetchUserSearchResultService(String userId) async {
   try {
-    final response = await dio.get('${Api.PROFILE_PATH}/$userId');
+    final response = await ApiService.to.get('${Api.PROFILE_PATH}/$userId');
     final data = response.data['Data'];
     logger.i(response.data);
 

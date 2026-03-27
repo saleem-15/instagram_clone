@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -18,7 +19,7 @@ Future<void> addPostService(List<File> media) async {
     ]);
   }
   try {
-    await dio.post(Api.POST_URL, data: formData);
+    await ApiService.to.post(Api.POST_URL, data: formData);
 
     CustomSnackBar.showCustomSnackBar(
       message: 'Your post has been shared.',

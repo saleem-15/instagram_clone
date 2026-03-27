@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 
 import 'package:instagram_clone/main.dart';
@@ -8,7 +9,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<bool> deleteSearchHistoryRecordService(String recordId) async {
   try {
-    final response = await dio.delete('${Api.SEARCH_HISTORY_URL}/$recordId');
+    final response = await ApiService.to.delete('${Api.SEARCH_HISTORY_URL}/$recordId');
     logger.i(response.data);
 
     return true;

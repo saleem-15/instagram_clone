@@ -1,12 +1,12 @@
+import 'package:instagram_clone/features/profile/services/fetch_profile_posts_service.dart';
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'dart:async';
 
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/shared/posts_grid/controllers/posts_grid_controller.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 
-import '../services/fetch_profile_posts_service.dart';
 
 class UserPostsController extends GetxController {
   // by default its my profile
@@ -16,7 +16,7 @@ class UserPostsController extends GetxController {
 
   @override
   void onInit() {
-    user = Get.arguments ?? StorageService.getUserData;
+    user = Get.arguments ?? Get.find<StorageService>().getUserData;
 
     postsGridController = Get.put(
       PostsGridController(

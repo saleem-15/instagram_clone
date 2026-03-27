@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 
 import '../../../../main.dart';
@@ -7,7 +8,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<bool> setStoryAsWathcedService(String storyId) async {
   try {
-    final response = await dio.post(
+    final response = await ApiService.to.post(
       Api.SET_STORY_AS_WATHCED_URL,
       queryParameters: {'story_id': storyId},
     );

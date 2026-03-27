@@ -1,19 +1,19 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:instagram_clone/core/services/api_service.dart';
+import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/features/auth/bindings/auth_binding.dart';
-import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:logger/logger.dart';
 
-import 'package:instagram_clone/features/auth/controllers/auth_conroller.dart';
+import 'package:instagram_clone/features/auth/controllers/auth_controller.dart';
 import 'package:instagram_clone/features/auth/views/signin_view.dart';
 import 'package:instagram_clone/features/root/controllers/app_controller.dart';
 import 'package:instagram_clone/app.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/shared/error_widget.dart';
-import 'package:instagram_clone/core/services/api_service.dart';
-import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:instagram_clone/core/theme/my_theme.dart';
 
 /// Global helper for logging. In a senior project, we use Get.find(Logger) 
@@ -27,7 +27,7 @@ Future<void> main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
 
   // Initialize Core Services
-  await StorageService.init();
+  await Get.putAsync(() => StorageService().init());
   Get.put(Logger());
   await Get.putAsync(() => ApiService().init());
 

@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:get/get.dart';
 
 class Api {
   // static const apiUrl = 'http://127.0.0.1:8000/api';
@@ -58,29 +58,11 @@ class Api {
 //search
   static const SEARCH_PATH = '/user/search';
 
-  static Map<String, String> headers = {
+  static Map<String, String> get headers => {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'apiKey': Api.apikey,
-    'Authorization': 'Bearer ${StorageService.getToken}',
+    'Authorization': 'Bearer ${Get.find<StorageService>().getToken}',
     "ngrok-skip-browser-warning": "any-value",
   };
-
-  /// this method is must called when the (Token) is changed
-  ///
-  /// OR YOU WILL HAVE AUTHORIZATION ISSUES WITH THE API
-  static void authChanged() {
-    headers['Authorization'] = 'Bearer ${StorageService.getToken}';
-    dio.options.headers = Api.headers;
-  }
 }
-
-final dio = Dio(
-  BaseOptions(
-    baseUrl: Api.apiUrl,
-    receiveTimeout: const Duration(seconds: 30),
-    connectTimeout: const Duration(seconds: 30),
-    sendTimeout: const Duration(seconds: 30),
-    headers: Api.headers,
-  ),
-);

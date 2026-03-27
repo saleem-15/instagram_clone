@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 
@@ -10,7 +11,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 Future<bool> followService(String userId) async {
 
   try {
-    await dio.post(
+    await ApiService.to.post(
       Api.FOLLOW_USER_PATH,
       queryParameters: {'user_id': userId},
     );

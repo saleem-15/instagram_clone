@@ -1,11 +1,11 @@
+import 'package:instagram_clone/features/story/services/add_story_service.dart';
+import 'package:instagram_clone/features/story/services/fetch_stories_service.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-import '../services/add_story_service.dart';
-import '../services/fetch_stories_service.dart';
 import '../views/stories_view.dart';
 import '../views/story_tile.dart';
 

@@ -1,14 +1,14 @@
+import 'package:instagram_clone/core/translations/localization_service.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:get_storage/get_storage.dart';
 import 'package:instagram_clone/core/models/user.dart';
 
-import 'package:instagram_clone/core/translations/localization_service.dart';
 
 class StorageService {
   // get storage
-  static late final GetStorage _storage;
+  late final GetStorage _storage;
 
   // STORING KEYS
   static const String _currentLocalKey = 'current_local';
@@ -24,27 +24,28 @@ class StorageService {
   static const String _image = 'user_image';
 
   /// init get storage services
-  static Future<void> init() async {
+  Future<StorageService> init() async {
     await GetStorage.init();
     _storage = GetStorage();
+    return this;
   }
 
-  static void setUserToken(String? userToken) =>
+  void setUserToken(String? userToken) =>
       _storage.write(_userToken, userToken);
 
   /// takse a function that listens to changes to userToken
-  static void userTokenListener(void Function(dynamic x) listener) =>
+  void userTokenListener(void Function(dynamic x) listener) =>
       _storage.listenKey(_userToken, listener);
 
-  static String? get getToken =>
+  String? get getToken =>
       _storage.read(_userToken) == 'null' ? null : _storage.read(_userToken);
 
   /// save current locale
-  static void setCurrentLanguage(String languageCode) =>
+  void setCurrentLanguage(String languageCode) =>
       _storage.write(_currentLocalKey, languageCode);
 
   /// get current locale
-  static Locale getCurrentLocal() {
+  Locale getCurrentLocal() {
     String? langCode = _storage.read(_currentLocalKey);
     // default language is english
     if (langCode == null) {
@@ -55,30 +56,30 @@ class StorageService {
 
   //***************     User Data   ******************/
 
-  static String? get getUserId => _storage.read(_userId);
-  static void setUserId(String userId) => _storage.write(_userId, userId);
+  String? get getUserId => _storage.read(_userId);
+  void setUserId(String userId) => _storage.write(_userId, userId);
 
-  static String? get getUserName => _storage.read(_name);
-  static void setUserName(String userName) => _storage.write(_name, userName);
+  String? get getUserName => _storage.read(_name);
+  void setUserName(String userName) => _storage.write(_name, userName);
 
-  static String? get getUserNickName => _storage.read(_nickName);
-  static void setUserNickName(String nickName) =>
+  String? get getUserNickName => _storage.read(_nickName);
+  void setUserNickName(String nickName) =>
       _storage.write(_nickName, nickName);
 
-  static String? get getUserEmail => _storage.read(_email);
-  static void setUserEmail(String userEmail) =>
+  String? get getUserEmail => _storage.read(_email);
+  void setUserEmail(String userEmail) =>
       _storage.write(_email, userEmail);
 
-  static String? get getUserPhoneNumber => _storage.read(_phone);
-  static void setUserPhoneNumber(String phoneNumber) =>
+  String? get getUserPhoneNumber => _storage.read(_phone);
+  void setUserPhoneNumber(String phoneNumber) =>
       _storage.write(_phone, phoneNumber);
 
-  static String? get getUserDateOfBirth => _storage.read(_dateOfBirth);
-  static void setUserDateOfBirth(String dateOfBirth) =>
+  String? get getUserDateOfBirth => _storage.read(_dateOfBirth);
+  void setUserDateOfBirth(String dateOfBirth) =>
       _storage.write(_dateOfBirth, dateOfBirth);
 
-  static String? get getUserImage => _storage.read(_image);
-  static void setUserImage(String? image) {
+  String? get getUserImage => _storage.read(_image);
+  void setUserImage(String? image) {
     if (image != null) {
       _storage.write(_image, image);
     } else {
@@ -86,12 +87,12 @@ class StorageService {
     }
   }
 
-  static void setSearchHisotryList(List<String> searchHistory) =>
+  void setSearchHisotryList(List<String> searchHistory) =>
       _storage.write(_searchHistory, searchHistory);
-  static List<String> get getRecentSearchs =>
+  List<String> get getRecentSearchs =>
       (_storage.read(_searchHistory) ?? []).cast<String>();
 
-  static void addSearch(String suggestion) {
+  void addSearch(String suggestion) {
     final List<String> suggestionsList = getRecentSearchs;
 
     /// if it exists in the search history
@@ -102,22 +103,21 @@ class StorageService {
     setSearchHisotryList(suggestionsList);
   }
 
-  static void removeSearch(String result) {
+  void removeSearch(String result) {
     final List<String> resultsList = getRecentSearchs;
     resultsList.removeWhere((e) => e == result);
     setSearchHisotryList(resultsList);
   }
 
-  static User? get getUserData {
-    final String? userId = StorageService.getUserId;
+  User? get getUserData {
+    final String? userId = getUserId;
 
     if (userId == null) {
-
       return null;
     }
-    final name = StorageService.getUserName;
-    final nickName = StorageService.getUserNickName;
-    final image = StorageService.getUserImage;
+    final name = getUserName;
+    final nickName = getUserNickName;
+    final image = getUserImage;
 
     return User(
       id: userId,
@@ -129,7 +129,7 @@ class StorageService {
     );
   }
 
-  static void storeUserData({
+  void storeUserData({
     required String id,
     required String name,
     required String nickName,
@@ -138,16 +138,16 @@ class StorageService {
     required String phone,
     required String dateOfBirth,
   }) {
-    StorageService.setUserId(id);
-    StorageService.setUserName(name);
-    StorageService.setUserNickName(nickName);
-    StorageService.setUserImage(image);
-    StorageService.setUserEmail(email);
-    StorageService.setUserPhoneNumber(phone);
-    StorageService.setUserDateOfBirth(dateOfBirth);
+    setUserId(id);
+    setUserName(name);
+    setUserNickName(nickName);
+    setUserImage(image);
+    setUserEmail(email);
+    setUserPhoneNumber(phone);
+    setUserDateOfBirth(dateOfBirth);
   }
 
-  static void clearAllData() {
+  void clearAllData() {
     _storage.erase();
   }
 }

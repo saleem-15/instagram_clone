@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/features/profile/controllers/post_bottom_sheet_controller.dart';
@@ -9,7 +10,7 @@ class ProfileBinding extends Bindings {
   void dependencies() {
     /// each opened profile screen has its own [ProfileController] & [UserPostsController]
 
-    // final User user = Get.arguments ?? StorageService.getUserData;
+    // final User user = Get.arguments ?? Get.find<StorageService>().getUserData;
     // String userId = user.id;
 
     // Get.lazyPut(() => UserPostsController(), tag: userId, fenix: true);

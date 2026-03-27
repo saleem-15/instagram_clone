@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/services/api_service.dart';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<List<Post>> fetchSavedPostsService(int pageKey, RxInt numOfPages) async {
   try {
-    final response = await dio.get(
+    final response = await ApiService.to.get(
       Api.SAVE_POST_URL,
       queryParameters: {'page': pageKey},
     );
