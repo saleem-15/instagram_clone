@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart' hide SearchController;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import 'package:instagram_clone/core/models/user.dart';
+import 'package:instagram_clone/shared/user_avatar.dart';
+
+import '../controllers/search_controller.dart';
+
+class RecentSearchTile extends GetView<SearchController> {
+  const RecentSearchTile({
+    super.key,
+    required this.user,
+    required this.index,
+  });
+
+  final User user;
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      // onTap: () => controller.onRecentSearchTilePressed(controller.recentSearches[index]),
+      leading: UserAvatar.follower(user: user),
+      title: const Text('userName'),
+      subtitle: const Text('name'),
+      trailing: SizedBox(
+        height: 30.sp,
+        child: IconButton(
+          onPressed: () => controller.deleteSuggestionAtIndex(index),
+          icon: Icon(
+            Icons.close,
+            size: 15.sp,
+          ),
+        ),
+      ),
+    );
+  }
+}
