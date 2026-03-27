@@ -19,6 +19,7 @@ class UserAvatar extends StatelessWidget {
     required this.user,
     this.size = 20,
     this.showRingIfHasStory = false,
+    this.onTap,
   }) : _avatarMode = AvatarMode.Follower;
 
   const UserAvatar.follower({
@@ -26,6 +27,7 @@ class UserAvatar extends StatelessWidget {
     required this.user,
     this.size = 25,
     this.showRingIfHasStory = true,
+    this.onTap,
   }) : _avatarMode = AvatarMode.Follower;
 
   const UserAvatar.comment({
@@ -33,6 +35,7 @@ class UserAvatar extends StatelessWidget {
     required this.user,
     this.size = 18,
     this.showRingIfHasStory = true,
+    this.onTap,
   }) : _avatarMode = AvatarMode.Comment;
 
   const UserAvatar.userProfile({
@@ -40,6 +43,7 @@ class UserAvatar extends StatelessWidget {
     required this.user,
     this.size = 38,
     this.showRingIfHasStory = true,
+    this.onTap,
   }) : _avatarMode = AvatarMode.Profile;
 
   /// avatar size is in (sp)
@@ -50,73 +54,54 @@ class UserAvatar extends StatelessWidget {
   /// typically the color of the scaffold
   final User user;
   final bool showRingIfHasStory;
+  final VoidCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    // const ImageProvider backgroundImage = AssetImage('assets/images/default_user_image.png');
-    final ImageProvider backgroundImage = (user.image == null
+    final ImageProvider backgroundImage = user.image == null
         ? const AssetImage('assets/images/default_user_image.png')
-        : NetworkImage(user.image!)) as ImageProvider;
+        : NetworkImage(user.image!) as ImageProvider;
 
     return GestureDetector(
-      onTap: onUserAvatarTapped,
+      onTap: onTap ?? onUserAvatarTapped,
       child: user.isHasNewStory && showRingIfHasStory
-          ?
-
-          /// with gradient ring
-          Container(
-              padding: EdgeInsets.all(
-                  _avatarMode == AvatarMode.Comment ? 4.sp : 6.sp),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: user.isHasNewStory
-                    ? const DecorationImage(
-                        image: AssetImage('assets/icons/story_ring.png'),
-                      )
-                    : null,
-              ),
-              child: CircleAvatar(
-                radius: size,
-
-                /// before the actual photo of the user loads, put this photo
-                backgroundImage:
-                    const AssetImage('assets/images/default_user_image.png'),
-                foregroundImage: backgroundImage,
-                onForegroundImageError: (exception, stackTrace) {
-                  debugPrint(
-                      'User Avatar Image error: ${user.image} \n $exception');
-                },
-              ),
-            )
-          :
-
-          /// without gradient ring
-          CircleAvatar(
-              radius: size,
-
-              /// before the actual photo of the user loads, put this photo
-              backgroundImage:
-                  const AssetImage('assets/images/default_user_image.png'),
-              foregroundImage: backgroundImage,
-              onForegroundImageError: (exception, stackTrace) {
-                debugPrint(
-                    'User Avatar Image error: ${user.image} \n $exception');
-              },
-            ),
+          ? _buildWithStoryRing(backgroundImage)
+          : _buildWithoutStoryRing(backgroundImage),
     );
   }
 
-  /// 1- if the user has unWatched stories then it goes to his stories
-  /// Or it will go his profile
+  Widget _buildWithStoryRing(ImageProvider backgroundImage) {
+    return Container(
+      padding: EdgeInsets.all(_avatarMode == AvatarMode.Comment ? 4.sp : 6.sp),
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          image: AssetImage('assets/icons/story_ring.png'),
+        ),
+      ),
+      child: _buildAvatar(backgroundImage),
+    );
+  }
+
+  Widget _buildWithoutStoryRing(ImageProvider backgroundImage) {
+    return _buildAvatar(backgroundImage);
+  }
+
+  Widget _buildAvatar(ImageProvider backgroundImage) {
+    return CircleAvatar(
+      radius: size,
+      backgroundImage: const AssetImage('assets/images/default_user_image.png'),
+      foregroundImage: backgroundImage,
+      onForegroundImageError: (exception, stackTrace) {
+        debugPrint('User Avatar Image error: ${user.image} \n $exception');
+      },
+    );
+  }
+
   void onUserAvatarTapped() {
     if (user.isHasNewStory) {
       Get.find<StoriesController>().goToUserStories(user);
-    }
-
-    if (_avatarMode == AvatarMode.Profile) {
-      return;
-    }
-
-    if (!user.isHasNewStory) {
+    } else if (_avatarMode != AvatarMode.Profile) {
       Get.toNamed(
         Routes.PROFILE,
         arguments: user,

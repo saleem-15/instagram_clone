@@ -12,34 +12,39 @@ import 'app/modules/root/controllers/app_controller.dart';
 import 'app/modules/root/my_app.dart';
 import 'app/routes/app_pages.dart';
 import 'app/shared/error_widget.dart';
+import 'app/shared/services/api_service.dart';
 import 'app/shared/services/video_service.dart';
 import 'config/theme/my_theme.dart';
+
+/// Global helper for logging. In a senior project, we use Get.find(Logger) 
+/// but keeping this for easy global access during refactoring.
+Logger get logger => Get.find<Logger>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
+
+  // Initialize Core Services
   await MySharedPref.init();
+  Get.put(Logger());
+  await Get.putAsync(() => ApiService().init());
+
   AuthBinding().dependencies();
 
   // Inject global services
   Get.put(VideoService());
-
   Get.lazyPut(() => AppController(), fenix: true);
 
-  runApp(Main());
+  runApp(const Main());
 }
-
-late Logger logger;
 
 class Main extends StatelessWidget {
   const Main({super.key});
 
   @override
   Widget build(BuildContext context) {
-    logger = Logger();
-
     return ScreenUtilInit(
       builder: (context, child) => GetMaterialApp(
           debugShowCheckedModeBanner: false,

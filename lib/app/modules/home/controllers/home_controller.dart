@@ -34,13 +34,12 @@ class HomeController extends GetxController {
 
   Future<List<Post>> fetchPosts(int pageKey) async {
     try {
-
-      final followersNewPage = await fetchPostsService(pageKey);
-
-      return followersNewPage;
+      final result = await fetchPostsService(pageKey);
+      numOfPages = result.lastPage;
+      return result.data;
     } catch (error) {
-
-
+      // In their custom PagingController, returning [] or rethrowing might be the way they handle errors.
+      // Based on the original code, returning [] was the default.
       return [];
     }
   }
