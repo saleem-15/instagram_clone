@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:instagram_clone/features/follows/controllers/followers_controller.dart';
-import 'package:instagram_clone/features/follows/views/follow_followin_button.dart';
+import 'package:instagram_clone/features/follows/views/widgets/follow_followin_button.dart';
 import 'package:instagram_clone/shared/user_avatar.dart';
 
 import 'package:instagram_clone/core/models/user.dart';

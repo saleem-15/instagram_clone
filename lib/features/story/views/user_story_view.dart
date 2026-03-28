@@ -10,8 +10,8 @@ import 'package:instagram_clone/features/story/controllers/user_story_controller
 import 'package:instagram_clone/shared/user_avatar.dart';
 import 'package:instagram_clone/core/theme/my_fonts.dart';
 
-import '../views/story_indicator.dart';
-import '../views/story_media.dart';
+import 'widgets/story_progress_indicator_widget.dart';
+import 'widgets/story_media_widget.dart';
 
 class UserStoriesView extends StatelessWidget {
   UserStoriesView({

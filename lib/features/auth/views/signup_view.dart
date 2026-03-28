@@ -6,8 +6,8 @@ import 'package:instagram_clone/core/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/core/theme/light_theme_colors.dart';
 
 import '../controllers/signup_controller.dart';
-import '../views/email_address_view.dart';
-import '../views/phone_num_view.dart';
+import 'widgets/email_address_tab.dart';
+import 'widgets/phone_num_tab.dart';
 
 class SignupView extends GetView<SignupController> {
   const SignupView({super.key});
@@ -93,8 +93,8 @@ class SignupView extends GetView<SignupController> {
                 child: TabBarView(
                   controller: controller.tabController,
                   children: const [
-                    PhoneNumView(),
-                    EmailAddressView(),
+                    PhoneNumTab(),
+                    EmailAddressTab(),
                   ],
                 ),
               ),

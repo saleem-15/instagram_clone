@@ -7,7 +7,7 @@ import 'package:instagram_clone/shared/loading_widget.dart';
 import 'package:instagram_clone/shared/search_field.dart';
 
 import '../controllers/followers_controller.dart';
-import 'follower_tile.dart';
+import 'widgets/follower_tile_widget.dart';
 
 class FollowersView extends StatelessWidget {
   FollowersView({super.key, required Profile profile}) {

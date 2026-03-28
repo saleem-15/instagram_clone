@@ -7,7 +7,7 @@ import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
 import '../views/stories_view.dart';
-import '../views/story_tile.dart';
+import '../views/widgets/story_tile.dart';
 
 /// this is the controller of the stories list that appears in the home page
 class StoriesController extends GetxController {

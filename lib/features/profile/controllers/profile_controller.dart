@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/models/profile.dart';
 import 'package:instagram_clone/core/models/user.dart';
-import 'package:instagram_clone/features/profile/views/add_post_bottom_sheet.dart';
-import 'package:instagram_clone/features/profile/views/settings_bottom_sheet.dart';
+import 'package:instagram_clone/features/profile/views/widgets/add_post_bottom_sheet.dart';
+import 'package:instagram_clone/features/profile/views/widgets/settings_bottom_sheet.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
 

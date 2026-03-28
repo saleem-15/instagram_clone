@@ -9,7 +9,7 @@ import 'package:instagram_clone/core/utils/my_video_controller.dart';
 import 'package:pausable_timer/pausable_timer.dart';
 import 'package:video_player/video_player.dart';
 
-import '../views/story_indicator.dart';
+import '../views/widgets/story_progress_indicator_widget.dart';
 import 'sotry_indicator_controller.dart';
 import 'stories_controller.dart';
 

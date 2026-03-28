@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/shared/posts_grid/views/post_grid_tile.dart';
 
-import '../../../routes/app_pages.dart';
-import '../controllers/profile_reels_controller.dart';
+import '../../../../routes/app_pages.dart';
+import '../../controllers/profile_reels_controller.dart';
 
 class ProfileReelsTab extends StatelessWidget {
   final ProfileReelsTabController controller;

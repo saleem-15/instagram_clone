@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/core/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/core/theme/light_theme_colors.dart';
 
-import '../controllers/search_controller.dart';
+import '../../controllers/search_controller.dart';
 
 class RecentSearches extends GetView<SearchController> {
   const RecentSearches({super.key});

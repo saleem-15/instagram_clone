@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:instagram_clone/shared/posts_grid/views/posts_grid_view.dart';
 
-import '../controllers/user_posts_controller.dart';
+import '../../controllers/user_posts_controller.dart';
 
 class ProfilePostsTap extends StatelessWidget {
   const ProfilePostsTap({

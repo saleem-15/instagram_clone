@@ -9,11 +9,11 @@ import 'package:instagram_clone/features/profile/controllers/user_posts_controll
 import 'package:instagram_clone/shared/loading_widget.dart';
 
 import '../controllers/profile_controller.dart';
-import '../views/my_posts_tab.dart';
-import '../views/profile_header.dart';
-import '../views/floating_avatar_view.dart';
-import '../views/profile_mentions_tab.dart';
-import '../views/profile_reels_tab.dart';
+import 'widgets/profile_posts_tab.dart';
+import 'widgets/profile_header_widget.dart';
+import 'widgets/floating_avatar_widget.dart';
+import 'widgets/profile_mentions_tab.dart';
+import 'widgets/profile_reels_tab.dart';
 import '../controllers/profile_reels_controller.dart';
 
 class ProfileView extends StatelessWidget {

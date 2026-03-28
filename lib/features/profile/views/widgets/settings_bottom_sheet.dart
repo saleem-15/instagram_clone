@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/core/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/core/theme/light_theme_colors.dart';
 
-import '../controllers/settings_bottom_sheet_controller.dart';
+import '../../controllers/settings_bottom_sheet_controller.dart';
 
 class SettingsBottomSheet extends GetView<SettingsBottomSheetController> {
   const SettingsBottomSheet({super.key});

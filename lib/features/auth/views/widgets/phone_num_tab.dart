@@ -6,8 +6,8 @@ import 'package:instagram_clone/core/theme/my_fonts.dart';
 import 'package:instagram_clone/core/theme/my_dark_styles.dart';
 import 'package:instagram_clone/core/theme/my_styles.dart';
 
-class PhoneNumView extends GetView<SignupController> {
-  const PhoneNumView({super.key});
+class PhoneNumTab extends GetView<SignupController> {
+  const PhoneNumTab({super.key});
   @override
   Widget build(BuildContext context) {
     final verticalSpace = 15.h;

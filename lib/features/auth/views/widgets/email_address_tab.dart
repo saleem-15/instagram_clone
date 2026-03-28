@@ -8,8 +8,8 @@ import 'package:instagram_clone/core/theme/my_fonts.dart';
 import 'package:instagram_clone/core/theme/my_dark_styles.dart';
 import 'package:instagram_clone/core/theme/my_styles.dart';
 
-class EmailAddressView extends GetView<SignupController> {
-  const EmailAddressView({super.key});
+class EmailAddressTab extends GetView<SignupController> {
+  const EmailAddressTab({super.key});
   @override
   Widget build(BuildContext context) {
     final verticalSpace = 15.h;

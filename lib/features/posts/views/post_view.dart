@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/post.dart';
-import 'package:instagram_clone/features/posts/views/post_media.dart';
+import 'package:instagram_clone/features/posts/views/widgets/post_media_widget.dart';
 import 'package:instagram_clone/shared/user_avatar.dart';
 import 'package:instagram_clone/shared/animated_love_button.dart';
 import 'package:instagram_clone/core/theme/dark_theme_colors.dart';

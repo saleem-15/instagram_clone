@@ -7,7 +7,7 @@ import 'package:instagram_clone/shared/user_avatar.dart';
 import 'package:instagram_clone/core/theme/my_dark_styles.dart';
 import 'package:instagram_clone/core/theme/my_styles.dart';
 
-import '../controllers/profile_controller.dart';
+import '../../controllers/profile_controller.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({

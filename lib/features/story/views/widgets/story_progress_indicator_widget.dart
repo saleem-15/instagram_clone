@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/theme/colors.dart';
 
-import '../controllers/sotry_indicator_controller.dart';
-import '../controllers/user_story_controller.dart';
+import '../../controllers/sotry_indicator_controller.dart';
+import '../../controllers/user_story_controller.dart';
 
 final horizontalMarginBetweenStroyIndicator = 1.5.sp;
 final double STORY_INDICATOR_HORIZONTAL_MARGIN = 5.w;

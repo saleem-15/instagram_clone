@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/features/posts/controllers/post_controller.dart';
-import 'package:instagram_clone/features/posts/views/animated_heart.dart';
+import 'package:instagram_clone/features/posts/views/widgets/animated_heart_widget.dart';
 import 'package:instagram_clone/shared/loading_widget.dart';
 import 'package:video_player/video_player.dart';
 

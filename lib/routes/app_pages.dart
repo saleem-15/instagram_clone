@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
-import 'package:instagram_clone/features/auth/views/forgot_password_screen.dart';
-import 'package:instagram_clone/features/auth/views/reset_password_screen.dart';
+import 'package:instagram_clone/features/auth/views/forgot_password_view.dart';
+import 'package:instagram_clone/features/auth/views/reset_password_view.dart';
 import 'package:instagram_clone/features/profile/views/edit_profile_view.dart';
 import 'package:instagram_clone/features/root/bindings/my_app_binding.dart';
 import 'package:instagram_clone/app.dart';
 import 'package:instagram_clone/features/search/views/search_view.dart';
 
-import 'package:instagram_clone/features/auth/views/otp_screen.dart';
+import 'package:instagram_clone/features/auth/views/otp_view.dart';
 import 'package:instagram_clone/features/auth/views/signin_view.dart';
 import 'package:instagram_clone/features/auth/views/signup_view.dart';
-import 'package:instagram_clone/features/profile/views/saved_posts_screen.dart';
+import 'package:instagram_clone/features/profile/views/saved_posts_view.dart';
 import 'package:instagram_clone/features/profile/controllers/saved_posts_controller.dart';
 import 'package:instagram_clone/features/profile/controllers/edit_profile_controller.dart';
 import 'package:instagram_clone/features/comments/bindings/comments_binding.dart';

@@ -6,8 +6,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/shared/no_items_found_widget.dart';
 
-import '../controllers/search_controller.dart';
-import '../views/search_result_tile.dart';
+import '../../controllers/search_controller.dart';
+import 'search_result_tile.dart';
 
 class Results extends GetView<SearchController> {
   const Results({super.key});

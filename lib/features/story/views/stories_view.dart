@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../controllers/stories_controller.dart';
-import 'story_tile.dart';
-import 'your_story_avatar.dart';
+import 'widgets/story_tile.dart';
+import 'widgets/your_story_avatar.dart';
 
 class StoriesView extends GetView<StoriesController> {
   const StoriesView({super.key});

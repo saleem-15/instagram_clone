@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/shared/user_avatar.dart';
 
-import '../controllers/search_controller.dart';
+import '../../controllers/search_controller.dart';
 
 class RecentSearchTile extends GetView<SearchController> {
   const RecentSearchTile({

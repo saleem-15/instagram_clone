@@ -12,7 +12,7 @@ import 'package:instagram_clone/core/theme/my_fonts.dart';
 import 'package:instagram_clone/core/theme/my_styles.dart';
 
 import '../controllers/comments_controller.dart';
-import 'comment_tile_view.dart';
+import 'widgets/comment_tile_widget.dart';
 
 class CommentsView extends StatelessWidget {
   final String? tag;

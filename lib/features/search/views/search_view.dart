@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/shared/search_field.dart';
 
 import '../controllers/search_controller.dart';
-import 'results_view.dart';
-import 'recent_searches_view.dart';
+import 'widgets/search_results_widget.dart';
+import 'widgets/recent_searches_widget.dart';
 
 class SearchView extends GetView<SearchController> {
   const SearchView({super.key});

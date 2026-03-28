@@ -19,7 +19,8 @@ class AuthService extends GetxService {
         queryParameters: {
           if (GetUtils.isEmail(firstField)) 'email': firstField,
           if (GetUtils.isPhoneNumber(firstField)) 'phone': firstField,
-          if (!GetUtils.isEmail(firstField) && !GetUtils.isPhoneNumber(firstField))
+          if (!GetUtils.isEmail(firstField) &&
+              !GetUtils.isPhoneNumber(firstField))
             'username': firstField,
           'password': password,
         },
