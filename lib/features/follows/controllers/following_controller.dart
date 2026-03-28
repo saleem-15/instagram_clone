@@ -50,14 +50,15 @@ class FollowingController extends GetxController {
     return state.nextIntPageKey;
   }
 
+  /// Fetches the next page of users followed by the current user.
+  /// Updates [numOfPages] and returns the list of users to the [PagingController].
   Future<List<User>> fetchFollowings(int pageKey) async {
     try {
-      final followersNewPage = await fetchFollowingsService(userId, pageKey,
-          followingController: this);
-
-      return followersNewPage;
+      final result = await fetchFollowingsService(userId, pageKey);
+      numOfPages = result.lastPage;
+      return result.users;
     } catch (error) {
-
+      // In case of error, return an empty list to stop loading or show an error state
       return [];
     }
   }

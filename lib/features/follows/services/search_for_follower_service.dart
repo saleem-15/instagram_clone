@@ -1,34 +1,28 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/user.dart';
-import 'package:instagram_clone/main.dart';
-
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
-/// follow the user (become a follower to him)
-/// returnes true if the request was successfull
+/// Searches for followers of the specified [userId] using a [searchKeyWord].
+/// Returns a list of [User] objects matching the search criteria.
 Future<List<User>> searchForFollowerService(
-    String userId, String keyWord) async {
+    String userId, String searchKeyWord) async {
   try {
     final response = await ApiService.to.post(
       Api.SEARCH_FOLLOWERS_PATH,
       queryParameters: {
         'user_id': userId,
-        'toSearch': keyWord,
+        'toSearch': searchKeyWord,
       },
     );
 
-    logger.i(response.data);
-
     return User.usersListFromJson(response.data['Data']);
-  } on DioException catch (e) {
-    logger.e(e.response);
-
+  } on ApiException catch (e) {
     CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
+      message: formatErrorMsg(e.originalError?.response?.data),
     );
-    rethrow;
+    return [];
   }
 }

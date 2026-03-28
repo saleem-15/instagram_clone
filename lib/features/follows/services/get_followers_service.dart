@@ -1,46 +1,36 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-
-import 'package:dio/dio.dart';
-import 'package:instagram_clone/main.dart';
-
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
-
 import 'package:instagram_clone/core/models/user.dart';
-import '../controllers/followers_controller.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
-Future<List<User>> fetchFollowersService(String userId, int pageNum,
-    {required FollowersController followersController}) async {
+/// Fetches the followers of a specific user with pagination.
+/// Returns a record containing the list of [User]s and the [lastPage] number.
+Future<({List<User> users, int lastPage})> fetchFollowersService(
+    String userId, int pageNum) async {
   try {
     final response = await ApiService.to.get(
       '${Api.FOLLOWERS_PATH}/$userId',
       queryParameters: {'page': pageNum},
     );
-    logger.i(response.data);
 
-    followersController.numOfPages = response.data['meta']['last_page'];
+    final dataList = response.data['data'] as List;
+    final lastPage = response.data['meta']['last_page'] as int;
+    final List<User> users = _convertDataToFollowers(dataList);
 
-
-    return _convertDataToFollowers(response.data['data'] as List);
-  } on DioException catch (e) {
-    if (e.response == null) {
-
-    } else {
-
-    }
-    CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
+    return (
+      users: users,
+      lastPage: lastPage,
     );
-    return [];
+  } on ApiException catch (e) {
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.originalError?.response?.data),
+    );
+    return (users: <User>[], lastPage: 0);
   }
 }
 
 List<User> _convertDataToFollowers(List data) {
-  final List<User> followers = [];
-  for (var follower in data) {
-    followers.add(User.fromMap(follower));
-  }
-
-  return followers;
+  return data.map((follower) => User.fromMap(follower)).toList();
 }
