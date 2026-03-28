@@ -1,51 +1,37 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-import 'package:dio/dio.dart';
-import 'package:get/get.dart';
-
 import 'package:instagram_clone/core/models/comment.dart';
-import 'package:instagram_clone/main.dart';
-
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
-import '../controllers/comments_controller.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
-Future<List<Comment>> fetchPostCommentsService(
+/// Fetches comments for a specific post with pagination.
+/// Returns a record containing the list of [Comment]s and the [lastPage] number.
+Future<({List<Comment> comments, int lastPage})> fetchPostCommentsService(
     String postId, int pageKey) async {
   try {
     final response = await ApiService.to.get(
-      Api.COMMNETS_URL,
+      Api.COMMENTS_URL,
       queryParameters: {
         'post_id': postId,
         'page': pageKey,
       },
     );
 
-    final commentsData = response.data['data'];
+    final commentsData = response.data['data'] as List;
+    final lastPage = response.data['meta']['last_page'] as int;
 
-    Get.find<CommentsController>().numOfPages =
-        response.data['meta']['last_page'];
-    logger.i(response.data);
+    final comments = _convertDataToCommentsList(commentsData);
 
-    return _convertDataToCommentsList(commentsData as List);
-  } on DioException catch (e) {
-    if (e.response == null) {
-      logger.e(e.error);
-    } else {
-      logger.e(e.response!.data);
-      CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response!.data),
-      );
-    }
+    return (comments: comments, lastPage: lastPage);
+  } on ApiException catch (e) {
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.originalError?.response?.data),
+    );
     rethrow;
   }
 }
 
 List<Comment> _convertDataToCommentsList(List responseData) {
-  List<Comment> comments = [];
-  for (var comment in responseData) {
-    comments.add(Comment.fromMap(comment));
-  }
-
-  return comments;
+  return responseData.map((comment) => Comment.fromMap(comment)).toList();
 }

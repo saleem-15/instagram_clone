@@ -1,24 +1,21 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-import 'package:dio/dio.dart';
 import 'package:instagram_clone/core/models/comment.dart';
-import 'package:instagram_clone/main.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
+/// Fetches replies for a specific comment.
+/// Returns a list of [Comment] objects representing the replies.
 Future<List<Comment>> fetchCommentRepliesService(String commentId) async {
   try {
     final response = await ApiService.to.get(
-      Api.COMMENT_REPLY_URL, // Updated endpoint
+      Api.COMMENT_REPLY_URL,
       queryParameters: {
         'comment_id': commentId,
       },
     );
 
-    // The documentation says GET /api/comment/reply?comment_id=5 returns a list directly
-    // based on the response example: [ { "id": 1, ... }, { "id": 2, ... } ]
-    // However, some Laravel APIs wrap it in 'data'. I'll check both if possible,
-    // but the doc shows a list directly.
     final dynamic responseData = response.data;
 
     if (responseData is List) {
@@ -28,25 +25,19 @@ Future<List<Comment>> fetchCommentRepliesService(String commentId) async {
     }
 
     return [];
-  } on DioException catch (e) {
-    if (e.response == null) {
-      logger.e(e.error);
-    } else {
-      logger.e(e.response!.data);
-      CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response!.data),
-      );
-    }
+  } on ApiException catch (e) {
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.originalError?.response?.data),
+    );
     rethrow;
   }
 }
 
 List<Comment> _convertDataToRepliesList(List responseData) {
-  List<Comment> replies = [];
+  final List<Comment> replies = [];
   for (var reply in responseData) {
-    // The API response for reply has 'reply' field instead of 'comment'
-    // but Comment.fromMap expects 'comment'. I'll handle this by mapping 'reply' to 'comment'
     if (reply is Map<String, dynamic> && reply.containsKey('reply')) {
+      // Compatibility: Map 'reply' field to 'comment' field for model parsing
       reply['comment'] = reply['reply'];
     }
     replies.add(Comment.fromMap(reply));

@@ -1,40 +1,34 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-
-import 'package:dio/dio.dart';
-
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
-
 import 'package:instagram_clone/core/models/comment.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
-/// if comment is posted successfully it returns the comment
+/// Posts a new comment to a specific post.
+/// Returns the [Comment] object if successful, `null` otherwise.
 Future<Comment?> addCommentService(String comment, String postId) async {
   try {
     final response = await ApiService.to.post(
-      Api.COMMNETS_URL,
+      Api.COMMENTS_URL,
       queryParameters: {
         'comment': comment,
         'post_id': postId,
       },
     );
-    //
+
     final data = response.data['Data'];
-
-
     return Comment.fromMap(data);
-  } on DioException catch (e) {
-
-
+  } on ApiException catch (e) {
     CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
+      message: formatErrorMsg(e.originalError?.response?.data),
     );
   }
-
   return null;
 }
 
-/// New service for adding replies based on official API
+/// Adds a reply to an existing comment.
+/// Returns the [Comment] object representing the reply if successful, `null` otherwise.
 Future<Comment?> addReplyService(String reply, String commentId) async {
   try {
     final response = await ApiService.to.post(
@@ -45,7 +39,6 @@ Future<Comment?> addReplyService(String reply, String commentId) async {
       },
     );
 
-    // Response (201): { "data": { "id": 1, "reply": "Great post!", ... } }
     final dynamic responseData = response.data;
     Map<String, dynamic>? data;
 
@@ -54,21 +47,16 @@ Future<Comment?> addReplyService(String reply, String commentId) async {
     }
 
     if (data != null) {
-
-      // Map 'reply' to 'comment' for Comment.fromMap
+      // Map 'reply' to 'comment' for Comment.fromMap compatibility
       if (data.containsKey('reply')) {
         data['comment'] = data['reply'];
       }
       return Comment.fromMap(data);
     }
-  } on DioException catch (e) {
-    if (e.response != null) {
-
-      CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response!.data),
-      );
-    }
+  } on ApiException catch (e) {
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.originalError?.response?.data),
+    );
   }
-
   return null;
 }

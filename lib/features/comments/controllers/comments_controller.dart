@@ -48,13 +48,15 @@ class CommentsController extends GetxController {
     super.onInit();
   }
 
+  /// Fetches the next page of comments for the current post.
+  /// Updates [numOfPages] and returns the list of comments to the [PagingController].
   Future<List<Comment>> fetchComments(int pageKey) async {
     try {
-
-      final commentsNewPage = await fetchPostCommentsService(post.id, pageKey);
-      return commentsNewPage;
+      final result = await fetchPostCommentsService(post.id, pageKey);
+      numOfPages = result.lastPage;
+      return result.comments;
     } catch (error) {
-
+      // In case of error, return an empty list to stop loading or show an error state
       return [];
     }
   }
