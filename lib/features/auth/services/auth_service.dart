@@ -1,17 +1,18 @@
 import 'package:instagram_clone/core/services/api_service.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
-import 'package:flutter/foundation.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
-import 'package:instagram_clone/main.dart'; // for logger
+import 'package:instagram_clone/core/network/api_exception.dart';
 
+/// [AuthService] handles all authentication-related requests such as sign in, sign up, and logout.
 class AuthService extends GetxService {
   static AuthService get to => Get.find<AuthService>();
 
+  /// Sign in a user with their [firstField] (email, phone, or username) and [password].
+  /// Returns `true` if successful, `false` otherwise.
   Future<bool> signIn(String firstField, String password) async {
     try {
       final response = await ApiService.to.post(
@@ -25,16 +26,16 @@ class AuthService extends GetxService {
           'password': password,
         },
       );
-      
+
       final data = response.data['Data'];
 
-      /// store the token in shared pref
+      // Store the token in local storage
       final token = data['access_token'].toString();
       Get.find<StorageService>().setUserToken(token);
 
       final user = User.fromMap(data['user']);
 
-      /// store user data
+      // Store user metadata
       Get.find<StorageService>().storeUserData(
         id: user.id,
         name: user.userName,
@@ -46,14 +47,16 @@ class AuthService extends GetxService {
       );
 
       return true;
-    } on DioException catch (e) {
+    } on ApiException catch (e) {
       CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response?.data),
+        message: formatErrorMsg(e.originalError?.response?.data),
       );
       return false;
     }
   }
 
+  /// Sign up a new user with the provided details.
+  /// Returns `true` if successful, `false` otherwise.
   Future<bool> signUp({
     required String email,
     required String password,
@@ -77,13 +80,13 @@ class AuthService extends GetxService {
 
       final responseData = response.data['Data'];
 
-      /// store the token in shared pref
+      // Store the token in local storage
       final token = responseData['access_token'].toString();
       Get.find<StorageService>().setUserToken(token);
 
       final myId = responseData['user']['user_id'].toString();
 
-      /// store user data
+      // Store user metadata
       Get.find<StorageService>().storeUserData(
         id: myId,
         name: name,
@@ -95,88 +98,73 @@ class AuthService extends GetxService {
       );
 
       return true;
-    } on DioException catch (e) {
+    } on ApiException catch (e) {
       CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response?.data),
-      );
-    } catch (_) {
-      // Suppress general errors for now; DioException is handled above
-    }
-    return false;
-  }
-
-  Future<void> logout() async {
-    try {
-      await ApiService.to.post(Api.LOGOUT_URL);
-    } on DioException catch (e) {
-      CustomSnackBar.showCustomErrorSnackBar(
-        title: 'Error',
-        message: e.response?.data['Messages']?.toString() ?? 'Logout failed',
-      );
-    }
-  }
-
-  Future<bool> forgetPassword(String email) async {
-    try {
-      final response = await ApiService.to.post(
-        Api.FORGET_PASSWORD_URL,
-        queryParameters: {
-          'email': email,
-        },
-      );
-
-      if (!kReleaseMode) {
-        logger.i(response.data);
-      }
-
-      return true;
-    } on DioException catch (e) {
-      if (!kReleaseMode) {
-        logger.e(e.response);
-      }
-
-      CustomSnackBar.showCustomErrorSnackBar(
-        title: 'Failed',
-        message: formatErrorMsg(e.response?.data),
+        message: formatErrorMsg(e.originalError?.response?.data),
       );
       return false;
     }
   }
 
+  /// Logs out the current user.
+  Future<void> logout() async {
+    try {
+      await ApiService.to.post(Api.LOGOUT_URL);
+    } on ApiException catch (e) {
+      CustomSnackBar.showCustomErrorSnackBar(
+        title: 'Error',
+        message:
+            e.originalError?.response?.data['Messages']?.toString() ?? 'Logout failed',
+      );
+    }
+  }
+
+  /// Sends a code to the user's [email] for password recovery.
+  Future<bool> forgetPassword(String email) async {
+    try {
+      await ApiService.to.post(
+        Api.FORGET_PASSWORD_URL,
+        queryParameters: {
+          'email': email,
+        },
+      );
+      return true;
+    } on ApiException catch (e) {
+      CustomSnackBar.showCustomErrorSnackBar(
+        title: 'Failed',
+        message: formatErrorMsg(e.originalError?.response?.data),
+      );
+      return false;
+    }
+  }
+
+  /// Verifies the [code] sent to the user's [email].
   Future<bool> verifyCode({required String email, required String code}) async {
     try {
-      final response = await ApiService.to.post(
+      await ApiService.to.post(
         Api.CHECK_EMAIL_CODE_URL,
         queryParameters: {
           'email': email,
           'code': code,
         },
       );
-
-      if (!kReleaseMode) {
-        logger.i(response.data);
-      }
-
       return true;
-    } on DioException catch (e) {
-      if (!kReleaseMode) {
-        logger.e(e.response);
-      }
-
+    } on ApiException catch (e) {
       CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response?.data),
+        message: formatErrorMsg(e.originalError?.response?.data),
       );
       return false;
     }
   }
 
+  /// Resets the user's password to [newPassword] using the [code].
   Future<bool> resetPassword({
     required String email,
     required String code,
     required String newPassword,
   }) async {
     try {
-      final response = await ApiService.to.post(
+      await ApiService.to.post(
         Api.RESET_PASSWORD_URL,
         queryParameters: {
           'email': email,
@@ -184,19 +172,10 @@ class AuthService extends GetxService {
           'password': newPassword,
         },
       );
-
-      if (!kReleaseMode) {
-        logger.i(response.data);
-      }
-
       return true;
-    } on DioException catch (e) {
-      if (!kReleaseMode) {
-        logger.e(e.response);
-      }
-
+    } on ApiException catch (e) {
       CustomSnackBar.showCustomErrorSnackBar(
-        message: formatErrorMsg(e.response?.data),
+        message: formatErrorMsg(e.originalError?.response?.data),
       );
       return false;
     }

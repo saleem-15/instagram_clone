@@ -2,10 +2,16 @@ import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
+/// [Api] contains all constants related to API endpoints and configurations.
 class Api {
-  static String get apiUrl => dotenv.env['API_URL'] ?? "http://10.15.4.41:8000/api";
+  /// The base URL for the API, loaded from .env or defaulting to localhost.
+  static String get apiUrl =>
+      dotenv.env['API_URL'] ?? "http://10.15.4.41:8000/api";
+
+  /// The API key for requests, loaded from .env.
   static String get apikey => dotenv.env['API_KEY'] ?? 'p@ssword123';
 
+  // Auth endpoints
   static const SIGN_IN_URL = '/auth/user/login';
   static const SIGN_UP_URL = '/auth/user/register';
   static const MY_INFO = '/auth/user/info';
@@ -15,52 +21,49 @@ class Api {
   static const RESET_PASSWORD_URL = '/auth/user/password/reset';
   static const EDIT_PROFILE_URL = '/auth/user';
 
-//user
+  // User endpoints
   static const USER_URL = '/user';
 
-//post
+  // Post endpoints
   static const POST_URL = '/post';
   static const MARK_POST_AS_FAVORITE_URL = '/post/like';
-
-//SAVE POST
   static const SAVE_POST_URL = '/post/save';
 
-//comments
-  static const COMMNETS_URL = '/comment';
+  // Comment endpoints
+  static const COMMENTS_URL = '/comment';
   static const COMMENT_REPLY_URL = '/comment/reply';
 
-//search
-  static const SEARCH_URL = '/user/search';
+  // Search endpoints
+  static const SEARCH_PATH = '/user/search';
   static const SEARCH_HISTORY_URL = '/search/history/';
 
-//story
+  // Story endpoints
   static const STORY_URL = '/story';
-  static const SET_STORY_AS_WATHCED_URL = '/story/view';
+  static const SET_STORY_AS_WATCHED_URL = '/story/view';
 
-//reels
+  // Reels endpoints
   static const REELS_URL = '/reels';
   static const REELS_USER_URL = '/reels/user';
   static const REELS_FEED_URL = '/reels/feed';
 
-//profile
+  // Profile endpoints
   static const PROFILE_PATH = '/profile';
   static const PROFILE_POSTS_URL = '/profile/posts';
 
-//follow
+  // Follow endpoints
   static const FOLLOWERS_PATH = '/followers';
   static const SEARCH_FOLLOWERS_PATH = '/followers/search';
-  static const FOLLOWEING_PATH = '/following';
-  static const SEARCH_FOLLOWEING_PATH = '/following/search';
+  static const FOLLOWING_PATH = '/following';
+  static const SEARCH_FOLLOWING_PATH = '/following/search';
   static const FOLLOW_USER_PATH = '/follow';
 
-//search
-  static const SEARCH_PATH = '/user/search';
-
+  /// Returns a map of standard headers including the authentication token.
+  /// Useful for widgets like [CachedNetworkImage] or [VideoPlayer] that need headers.
   static Map<String, String> get headers => {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'apiKey': Api.apikey,
-    'Authorization': 'Bearer ${Get.find<StorageService>().getToken}',
-    "ngrok-skip-browser-warning": "any-value",
-  };
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'apiKey': Api.apikey,
+        'Authorization': 'Bearer ${Get.find<StorageService>().getToken}',
+        "ngrok-skip-browser-warning": "any-value",
+      };
 }
