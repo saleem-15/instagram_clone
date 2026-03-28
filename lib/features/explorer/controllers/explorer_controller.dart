@@ -16,10 +16,7 @@ class ExplorerController extends GetxController {
   void onInit() {
     postsGridController = Get.put(
       PostsGridController(
-        fetchItemsService: (pageKey, numOfPages) => fetchExplorerPostsService(
-          pageKey,
-          numOfPages,
-        ),
+        fetchItemsService: (pageKey) => fetchExplorerPostsService(pageKey),
       ),
     );
 

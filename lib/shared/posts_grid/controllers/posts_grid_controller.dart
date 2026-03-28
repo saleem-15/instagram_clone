@@ -12,11 +12,12 @@ class PostsGridController extends GetxController {
 
   final floatingPostController = Get.put(FloatingPostController());
 
-  /// the function that is used to fetch the posts,
-  /// it must accepts a pageKey (for pagination)
-  final Future<List<Post>> Function(int pageKey, RxInt numOfPages)
+  /// The function that is used to fetch the posts.
+  /// It accepts a [pageKey] for pagination and returns a record with the items and the [lastPage] number.
+  final Future<({List<Post> posts, int lastPage})> Function(int pageKey)
       fetchItemsService;
-  late RxInt numOfPages;
+
+  late int _lastPage;
 
   late final PagingController<int, Post> pagingController;
 
@@ -25,7 +26,7 @@ class PostsGridController extends GetxController {
 
   @override
   void onInit() {
-    numOfPages = RxInt(2);
+    _lastPage = 1;
 
     pagingController = PagingController<int, Post>(
       getNextPageKey: getNextPageKey,
@@ -59,7 +60,7 @@ class PostsGridController extends GetxController {
 
   int? getNextPageKey(PagingState<int, Post> state) {
     int currentPage = state.nextIntPageKey - 1;
-    if (currentPage >= numOfPages.value) {
+    if (currentPage >= _lastPage) {
       return null;
     }
 
@@ -68,11 +69,11 @@ class PostsGridController extends GetxController {
 
   Future<List<Post>> fetchPosts(int pageKey) async {
     try {
-      final followersNewPage = await fetchItemsService(pageKey, numOfPages);
-
-      return followersNewPage;
+      final result = await fetchItemsService(pageKey);
+      _lastPage = result.lastPage;
+      return result.posts;
     } catch (error) {
-
+      // In case of error, return an empty list to stop loading or show an error state
       return [];
     }
   }

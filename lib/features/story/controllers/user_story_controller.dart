@@ -145,7 +145,7 @@ class UserStoryController extends GetxController {
 
     if (!currentStory.isWathced) {
       /// tell the backend that this story is wathed
-      setStoryAsWathcedService(currentStory.id);
+      setStoryAsWatchedService(currentStory.id);
       currentStory.isWathced = true;
     }
 

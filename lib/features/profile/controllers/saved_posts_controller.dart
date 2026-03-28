@@ -12,8 +12,7 @@ class SavedPostsController extends GetxController {
   void onInit() {
     postsGridController = Get.put(
       PostsGridController(
-        fetchItemsService: (pageKey, numOfPages) =>
-            fetchSavedPostsService(pageKey, numOfPages),
+        fetchItemsService: (pageKey) => fetchSavedPostsService(pageKey),
       ),
       tag: 'saved_posts',
     );

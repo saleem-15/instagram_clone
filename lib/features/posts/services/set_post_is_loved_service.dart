@@ -1,13 +1,11 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-
-import 'package:dio/dio.dart';
-import 'package:instagram_clone/main.dart';
-
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
-/// returnes true if request successed
+/// Updates the "loved" (liked) status of a post.
+/// Returns `true` if the request was successful, `false` otherwise.
 Future<bool> setPostIsLovedService(String postId, bool isLoved) async {
   if (isLoved) {
     return await _markPostAsLovedService(postId);
@@ -18,16 +16,13 @@ Future<bool> setPostIsLovedService(String postId, bool isLoved) async {
 
 Future<bool> _markPostAsLovedService(String postId) async {
   try {
-    final response = await ApiService.to.post(
+    await ApiService.to.post(
       Api.MARK_POST_AS_FAVORITE_URL,
       queryParameters: {'post_id': postId},
       data: {'post_id': postId},
     );
-    logger.i(response.data);
-
     return true;
-  } on DioException catch (e) {
-    logger.e(e.response!.data);
+  } on ApiException {
     return false;
   }
 }
@@ -37,13 +32,10 @@ Future<bool> _removeLoveFromPostService(String postId) async {
     await ApiService.to.delete(
       '${Api.MARK_POST_AS_FAVORITE_URL}/$postId',
     );
-
-
     return true;
-  } on DioException catch (e) {
-
+  } on ApiException catch (e) {
     CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
+      message: formatErrorMsg(e.originalError?.response?.data),
     );
     return false;
   }

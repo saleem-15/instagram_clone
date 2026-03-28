@@ -1,48 +1,35 @@
 import 'package:instagram_clone/core/services/api_service.dart';
-
-import 'package:dio/dio.dart';
-import 'package:get/get.dart';
-
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 import 'package:instagram_clone/core/utils/helpers.dart';
+import 'package:instagram_clone/core/network/api_exception.dart';
 
-import '../../../../main.dart';
-
-Future<List<Post>> fetchProfilePostsService(
-    String userId, int pageKey, RxInt numOfPages) async {
+/// Fetches posts for a specific user profile with pagination.
+/// Returns a record containing the list of [Post]s and the [lastPage] number.
+Future<({List<Post> posts, int lastPage})> fetchProfilePostsService(
+    String userId, int pageKey) async {
   try {
     final response = await ApiService.to.get(
       '${Api.PROFILE_POSTS_URL}/$userId',
       queryParameters: {'page': pageKey},
     );
-    final data = response.data['data'];
-    final metaData = response.data['meta'];
 
+    final dataList = response.data['data'] as List;
+    final lastPage = response.data['meta']['last_page'] as int;
 
-    // (response.data as Map<String, dynamic>).printMap(ignoreValues: ['links','meta']);
-
-    logger.i(response.data);
-    // log((response.data as Map<String, dynamic>).printInfo().toString());
-    numOfPages.value = metaData['last_page'];
-
-    return _convertDataToPosts(data as List);
-  } on DioException catch (e) {
-
-
-    CustomSnackBar.showCustomErrorSnackBar(
-      message: formatErrorMsg(e.response!.data),
+    return (
+      posts: _convertDataToPosts(dataList),
+      lastPage: lastPage,
     );
-    return [];
+  } on ApiException catch (e) {
+    CustomSnackBar.showCustomErrorSnackBar(
+      message: formatErrorMsg(e.originalError?.response?.data),
+    );
+    return (posts: <Post>[], lastPage: 0);
   }
 }
 
 List<Post> _convertDataToPosts(List data) {
-  final List<Post> posts = [];
-  for (var post in data) {
-    posts.add(Post.fromMap(post));
-  }
-
-  return posts;
+  return data.map((post) => Post.fromMap(post)).toList();
 }
