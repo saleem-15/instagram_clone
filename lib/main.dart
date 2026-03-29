@@ -18,7 +18,7 @@ import 'package:instagram_clone/shared/error_widget.dart';
 import 'package:instagram_clone/core/theme/my_theme.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// Global helper for logging. In a senior project, we use Get.find(Logger) 
+/// Global helper for logging. In a senior project, we use Get.find(Logger)
 /// but keeping this for easy global access during refactoring.
 Logger get logger => Get.find<Logger>();
 

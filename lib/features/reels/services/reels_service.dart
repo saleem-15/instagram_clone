@@ -9,7 +9,8 @@ import 'dart:io';
 
 /// Fetches reels with pagination.
 /// Returns a record containing the list of [Reel]s and the [lastPage] number.
-Future<({List<Reel> reels, int lastPage})> fetchReelsService(int pageKey) async {
+Future<({List<Reel> reels, int lastPage})> fetchReelsService(
+    int pageKey) async {
   try {
     final response = await ApiService.to.get(
       Api.REELS_URL,
@@ -32,7 +33,9 @@ Future<({List<Reel> reels, int lastPage})> fetchReelsService(int pageKey) async 
 }
 
 List<Reel> _convertDataToReels(List responseData) {
-  return responseData.map((reel) => Reel.fromMap(reel as Map<String, dynamic>)).toList();
+  return responseData
+      .map((reel) => Reel.fromMap(reel as Map<String, dynamic>))
+      .toList();
 }
 
 class ReelsService {

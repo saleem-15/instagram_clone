@@ -11,7 +11,6 @@ import 'package:instagram_clone/features/profile/views/widgets/add_post_bottom_s
 import 'package:instagram_clone/features/profile/views/widgets/settings_bottom_sheet.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class ProfileController extends GetxController {
   late Profile profile;
   late final bool isMyProfile;

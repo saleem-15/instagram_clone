@@ -13,7 +13,8 @@ import 'package:instagram_clone/features/reels/views/reels_view.dart';
 
 class AppController extends GetxController {
   final User myUser = Get.find<StorageService>().getUserData!;
-  final RxString userImage = (Get.find<StorageService>().getUserImage ?? '').obs;
+  final RxString userImage =
+      (Get.find<StorageService>().getUserImage ?? '').obs;
 
   final Rx<int> selectedIndex = 0.obs;
 

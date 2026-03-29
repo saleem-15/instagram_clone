@@ -5,16 +5,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide CarouselController;
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
-import 'package:video_player/video_player.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
-import 'package:instagram_clone/core/utils/constants/api.dart';
-
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
 
 class PostsController extends GetxController {
   final Map<String, int> postsIndex = {};
-  final Map<String, VideoPlayerController> cashedVideos = {};
+  final Map<String, MyVideoController> myVideoControllers = {};
   static final Map<String, AnimationController> heartAnimationControllers = {};
 
   late final CarouselSliderController carouselController;
@@ -79,33 +77,22 @@ class PostsController extends GetxController {
     update(['selected content index']);
   }
 
-  Future<VideoPlayerController> initilizeVideoController(
-      String videoUrl) async {
-
-    if (cashedVideos.containsKey(videoUrl)) {
-      return cashedVideos[videoUrl]!..play();
+  Future<MyVideoController> initilizeVideoController(String videoUrl) async {
+    if (myVideoControllers.containsKey(videoUrl)) {
+      return myVideoControllers[videoUrl]!;
     }
-    final videoController = VideoPlayerController.networkUrl(
-      Uri.parse(videoUrl),
-      httpHeaders: Api.headers,
-    );
-    await videoController.initialize();
 
-    cashedVideos.addIf(true, videoUrl, videoController);
+    final myVideoController = MyVideoController(videoUrl: videoUrl);
+    await myVideoController.initialize();
 
-    /// video is silent by default
-    videoController
-      ..setVolume(0)
-      ..play();
+    myVideoControllers[videoUrl] = myVideoController;
 
-    return videoController;
+    return myVideoController;
   }
 
   void onVideoTapped(
-      VideoPlayerController videoPlayerController, Post post, int videoIndex) {
-    videoPlayerController
-        .setVolume(videoPlayerController.value.volume == 0 ? 1 : 0);
-
+      MyVideoController myVideoController, Post post, int videoIndex) {
+    myVideoController.toggleMute();
     update(['${post.id} $videoIndex']);
   }
 
@@ -120,7 +107,14 @@ class PostsController extends GetxController {
     isHeartVisible(false);
   }
 
-  void share(Post post) {
+  void share(Post post) {}
 
+  @override
+  void onClose() {
+    for (var controller in myVideoControllers.values) {
+      controller.dispose();
+    }
+    myVideoControllers.clear();
+    super.onClose();
   }
 }

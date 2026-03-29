@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/shared/posts_grid/controllers/posts_grid_controller.dart';
 
-
 class ExplorerController extends GetxController {
   final TextEditingController searchTextController = TextEditingController();
 

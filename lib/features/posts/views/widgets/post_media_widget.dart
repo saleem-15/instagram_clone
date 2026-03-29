@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
+import 'package:instagram_clone/features/home/controllers/home_controller.dart';
 import 'package:instagram_clone/features/posts/controllers/post_controller.dart';
 import 'package:instagram_clone/features/posts/views/widgets/animated_heart_widget.dart';
 import 'package:instagram_clone/shared/loading_widget.dart';
 import 'package:video_player/video_player.dart';
-
+import 'package:visibility_detector/visibility_detector.dart';
 
 class PostMedia extends GetView<PostsController> {
   PostMedia({
@@ -68,11 +69,10 @@ class PostMedia extends GetView<PostsController> {
                   :
 
                   /// video
-                  FutureBuilder(
+                  FutureBuilder<MyVideoController>(
                       future: controller
                           .initilizeVideoController(post.postContents[index]),
-                      builder: (context,
-                          AsyncSnapshot<VideoPlayerController> snapshot) {
+                      builder: (context, snapshot) {
                         // Loading State
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -83,72 +83,95 @@ class PostMedia extends GetView<PostsController> {
 
                         // Error State
                         if (snapshot.hasError) {
-                          // Handle the error state (e.g., show a play error icon)
-
                           return const Center(
                             child: Icon(Icons.error, color: Colors.white),
                           );
                         }
 
                         if (snapshot.hasData) {
-                          final videoController = snapshot.data!;
-                          return GestureDetector(
-                            onTap: () {
-                              controller.onVideoTapped(
-                                  snapshot.data!, post, index);
-                              showVideoAudioIconTemporary();
+                          final myVideoController = snapshot.data!;
+                          final videoController =
+                              myVideoController.videoPlayerController!;
+                          return VisibilityDetector(
+                            key: Key('video_${post.id}_$index'),
+                            onVisibilityChanged: (info) {
+                              if (info.visibleFraction > 0.6) {
+                                myVideoController.playIfVisible();
+
+                                // Pre-caching Hook for Home Feed
+                                if (Get.isRegistered<HomeController>()) {
+                                  final homeCtrl = Get.find<HomeController>();
+                                  final postIndex = homeCtrl.posts
+                                      .indexWhere((p) => p.id == post.id);
+                                  if (postIndex != -1) {
+                                    homeCtrl.onPostVisible(postIndex);
+                                  }
+                                }
+                              } else if (info.visibleFraction == 0) {
+                                myVideoController.pauseIfInvisible();
+                              }
                             },
-                            onDoubleTap: () => controller.onPostDoubleTap(
-                                post, isHeartVisible),
-                            child: Stack(children: [
-                              Positioned.fill(
-                                child: ClipRect(
-                                  child: FittedBox(
-                                    fit: BoxFit.cover,
-                                    child: SizedBox(
-                                      width: videoController.value.size.width,
-                                      height: videoController.value.size.height,
-                                      child: VideoPlayer(videoController),
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.onVideoTapped(
+                                    myVideoController, post, index);
+                                showVideoAudioIconTemporary();
+                              },
+                              onDoubleTap: () => controller.onPostDoubleTap(
+                                  post, isHeartVisible),
+                              child: Stack(children: [
+                                Positioned.fill(
+                                  child: ClipRect(
+                                    child: FittedBox(
+                                      fit: BoxFit.cover,
+                                      child: SizedBox(
+                                        width: videoController.value.size.width,
+                                        height:
+                                            videoController.value.size.height,
+                                        child: VideoPlayer(videoController),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Obx(
-                                () => isAudioIconVisible.isFalse
-                                    ? const SizedBox.shrink()
-                                    : GetBuilder<PostsController>(
-                                        assignId: true,
-                                        id: '${post.id} $index',
-                                        builder: (_) {
-                                          return AnimatedScale(
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            scale: 1.2,
-                                            child: Center(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xff2d2d37),
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Icon(
-                                                  videoController
-                                                              .value.volume ==
-                                                          1
-                                                      ? Icons.volume_up_outlined
-                                                      : Icons
-                                                          .volume_off_rounded,
-                                                  color: Colors.white
-                                                      .withValues(alpha: .8),
+                                Obx(
+                                  () => isAudioIconVisible.isFalse
+                                      ? const SizedBox.shrink()
+                                      : GetBuilder<PostsController>(
+                                          assignId: true,
+                                          id: '${post.id} $index',
+                                          builder: (_) {
+                                            return AnimatedScale(
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              scale: 1.2,
+                                              child: Center(
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Color(0xff2d2d37),
+                                                    shape: BoxShape.circle,
+                                                  ),
+                                                  child: Icon(
+                                                    videoController
+                                                                .value.volume >
+                                                            0
+                                                        ? Icons
+                                                            .volume_up_outlined
+                                                        : Icons
+                                                            .volume_off_rounded,
+                                                    color: Colors.white
+                                                        .withValues(alpha: .8),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                              )
-                            ]),
+                                            );
+                                          },
+                                        ),
+                                )
+                              ]),
+                            ),
                           );
                         }
                         return const SizedBox.shrink();

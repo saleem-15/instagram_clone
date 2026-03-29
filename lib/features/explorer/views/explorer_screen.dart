@@ -19,7 +19,6 @@ class ExplorerView extends GetView<ExplorerController> {
             isReadOnly: true,
             textController: controller.searchTextController,
           ),
-
           Expanded(
             child: PostsGridView(
               controller: controller.postsGridController,
@@ -29,5 +28,4 @@ class ExplorerView extends GetView<ExplorerController> {
       ),
     );
   }
-
 }

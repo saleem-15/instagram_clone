@@ -9,7 +9,8 @@ import 'en_US/en_us_translation.dart';
 class LocalizationService extends Translations {
   // default language
   static Locale defaultLanguage = supportedLanguages['en']!;
-  static Locale getCurrnetLanguage = Get.find<StorageService>().getCurrentLocal();
+  static Locale getCurrnetLanguage =
+      Get.find<StorageService>().getCurrentLocal();
 
   // supported languages
   static Map<String, Locale> supportedLanguages = {
@@ -43,9 +44,13 @@ class LocalizationService extends Translations {
   }
 
   /// check if the language is english
-  static bool isItEnglish() =>
-      Get.find<StorageService>().getCurrentLocal().languageCode.toLowerCase().contains('en');
+  static bool isItEnglish() => Get.find<StorageService>()
+      .getCurrentLocal()
+      .languageCode
+      .toLowerCase()
+      .contains('en');
 
   /// get current locale
-  static Locale getCurrentLocal() => Get.find<StorageService>().getCurrentLocal();
+  static Locale getCurrentLocal() =>
+      Get.find<StorageService>().getCurrentLocal();
 }

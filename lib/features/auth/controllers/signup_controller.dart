@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/features/auth/views/info_view.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class SignupController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;

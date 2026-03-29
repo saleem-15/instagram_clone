@@ -20,13 +20,10 @@ Future<bool> updateProfileImageService(File imageFile) async {
     );
 
     if (response.statusCode == 200) {
-
       return true;
     }
     return false;
   } on DioException catch (e) {
-
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: e.response?.data != null
           ? formatErrorMsg(e.response!.data)
@@ -34,7 +31,6 @@ Future<bool> updateProfileImageService(File imageFile) async {
     );
     return false;
   } catch (e) {
-
     return false;
   }
 }

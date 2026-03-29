@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:instagram_clone/shared/posts_grid/controllers/posts_grid_controller.dart';
 
-
 class SavedPostsController extends GetxController {
   late final PostsGridController postsGridController;
 

@@ -21,10 +21,7 @@ Future<Profile> fetchProfileInfoService(String userId) async {
     String? errorMsg;
     if (e.response == null) {
       errorMsg = e.error.toString();
-
-    } else {
-
-    }
+    } else {}
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(errorMsg ?? e.response!.data),

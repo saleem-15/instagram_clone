@@ -2,7 +2,7 @@ import 'package:instagram_clone/features/follows/services/follow_user_service.da
 import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/features/posts/services/set_post_is_saved_service.dart';
 import 'package:instagram_clone/features/posts/services/set_post_is_loved_service.dart';
-import 'package:instagram_clone/core/services/video_service.dart';
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/core/models/reel.dart';
@@ -18,6 +18,7 @@ class ReelPlayerController extends GetxController {
 
   ReelPlayerController({required this.reel, required this.tag});
 
+  MyVideoController? myVideoController;
   VideoPlayerController? videoController;
   var isInitialized = false.obs;
   var isCommentsOpen = false.obs;
@@ -67,17 +68,13 @@ class ReelPlayerController extends GetxController {
   }
 
   void _pauseVideo() {
-    if (videoController != null && videoController!.value.isPlaying) {
-      videoController!.pause();
-      update(['playback']);
-    }
+    myVideoController?.pauseIfInvisible();
+    update(['playback']);
   }
 
   void _resumeVideo() {
-    if (videoController != null && !videoController!.value.isPlaying) {
-      videoController!.play();
-      update(['playback']);
-    }
+    myVideoController?.playIfVisible();
+    update(['playback']);
   }
 
   void playVideo() {
@@ -89,8 +86,10 @@ class ReelPlayerController extends GetxController {
   }
 
   Future<void> _initVideo() async {
-    videoController = await VideoService.to.getController(reel.reelMediaUrl);
-    videoController!.setLooping(true);
+    myVideoController = MyVideoController(videoUrl: reel.reelMediaUrl);
+    videoController = await myVideoController!.initialize();
+
+    // Looping is already set in MyVideoController by default, but we can enforce it
     videoController!.addListener(() {
       update(['playback']);
     });
@@ -100,11 +99,10 @@ class ReelPlayerController extends GetxController {
   void togglePlay() {
     if (videoController == null) return;
     if (videoController!.value.isPlaying) {
-      videoController!.pause();
+      _pauseVideo();
     } else {
-      videoController!.play();
+      _resumeVideo();
     }
-    update(['playback']);
   }
 
   Future<void> onHeartPressed() async {
@@ -175,7 +173,7 @@ class ReelPlayerController extends GetxController {
 
   @override
   void onClose() {
-    VideoService.to.releaseController(reel.reelMediaUrl);
+    myVideoController?.dispose();
     super.onClose();
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -173,7 +172,6 @@ class ProfileHeader extends StatelessWidget {
                   assignId: true,
                   id: 'do I follow him',
                   builder: (_) {
-
                     return profileController.profile.doIFollowHim
                         ? ElevatedButton(
                             onPressed: profileController.unFollowUser,

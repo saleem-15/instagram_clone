@@ -12,7 +12,6 @@ import 'package:instagram_clone/core/models/profile.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class FollowersController extends GetxController {
   FollowersController({required this.profile});
 

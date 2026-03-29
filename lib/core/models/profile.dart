@@ -1,7 +1,6 @@
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 
-
 import 'user.dart';
 
 class Profile {

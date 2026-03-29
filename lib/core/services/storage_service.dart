@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:instagram_clone/core/models/user.dart';
 
-
 class StorageService {
   // get storage
   late final GetStorage _storage;
@@ -36,7 +35,7 @@ class StorageService {
   void setUserToken(String? userToken) {
     _cachedToken = userToken;
     _storage.write(_userToken, userToken == null ? null : 'securely_stored');
-    
+
     if (userToken == null) {
       _secureStorage.delete(key: _userToken);
     } else {
@@ -73,12 +72,10 @@ class StorageService {
   void setUserName(String userName) => _storage.write(_name, userName);
 
   String? get getUserNickName => _storage.read(_nickName);
-  void setUserNickName(String nickName) =>
-      _storage.write(_nickName, nickName);
+  void setUserNickName(String nickName) => _storage.write(_nickName, nickName);
 
   String? get getUserEmail => _storage.read(_email);
-  void setUserEmail(String userEmail) =>
-      _storage.write(_email, userEmail);
+  void setUserEmail(String userEmail) => _storage.write(_email, userEmail);
 
   String? get getUserPhoneNumber => _storage.read(_phone);
   void setUserPhoneNumber(String phoneNumber) =>

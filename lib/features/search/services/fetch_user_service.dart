@@ -13,11 +13,8 @@ Future<User> fetchUserService(String userId) async {
     final response = await ApiService.to.get('${Api.USER_URL}/$userId');
     final data = response.data['data'];
 
-
     return User.fromMap(data);
   } on DioException catch (e) {
-
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.message),
     );

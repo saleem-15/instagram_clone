@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class ResetPasswordController extends GetxController {
   late final String email;
   late final String code;

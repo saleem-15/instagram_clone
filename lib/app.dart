@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/features/root/controllers/app_controller.dart';
 
-
 /// this is parent of the all app (Except all auth related screens)
 class MyApp extends GetView<AppController> {
   const MyApp({super.key});

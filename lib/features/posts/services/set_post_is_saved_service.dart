@@ -22,10 +22,8 @@ Future<bool> _savePostService(String postId) async {
       queryParameters: {'post_id': postId},
     );
 
-
     return true;
   } on DioException catch (e) {
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );
@@ -39,10 +37,8 @@ Future<bool> _unsavePostService(String postId) async {
       '${Api.SAVE_POST_URL}/$postId',
     );
 
-
     return true;
   } on DioException catch (e) {
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

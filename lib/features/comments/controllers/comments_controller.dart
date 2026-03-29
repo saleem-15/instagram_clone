@@ -13,7 +13,6 @@ import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/features/root/controllers/app_controller.dart';
 
-
 class CommentsController extends GetxController {
   int numOfPages = 1;
   late final PagingController<int, Comment> pagingController;

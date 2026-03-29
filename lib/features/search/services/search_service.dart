@@ -24,15 +24,10 @@ Future<List<User>> searchService(String keyword, int pageKey) async {
     final numOfPages = response.data['meta']['last_page'] as int;
     Get.find<SearchController>().numOfPages = numOfPages;
 
-
-
     return convertDataToUserList(data as List);
   } on DioException catch (e) {
     if (e.response == null) {
-
-    } else {
-
-    }
+    } else {}
 
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.message),

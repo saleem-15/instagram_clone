@@ -9,7 +9,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class SearchController extends GetxController {
   int numOfPages = 1;
   late final PagingController<int, User> pagingController;
@@ -72,12 +71,10 @@ class SearchController extends GetxController {
 
   /// makes an api request and returns the list of users
   Future<List<User>> fetchResults(int pageKey) async {
-
     try {
       final newUsers = await searchService(searchedKeyWord, pageKey);
       return newUsers;
     } catch (error) {
-
       rethrow;
     }
   }
@@ -85,8 +82,6 @@ class SearchController extends GetxController {
   /// this method must be called when the user wants to search.
   /// it should be called only once (its not responsible for pagination).
   void search() async {
-
-
     if (searchedKeyWord.isBlank!) {
       return;
     }

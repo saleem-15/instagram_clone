@@ -1,51 +1,22 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
-import 'package:instagram_clone/core/utils/constants/api.dart';
 
 class VideoService extends GetxService {
   static VideoService get to => Get.find();
 
-  final Map<String, VideoPlayerController> _controllers = {};
-  final Map<String, int> _refCounts = {};
+  final DefaultCacheManager _cacheManager = DefaultCacheManager();
 
-  Future<VideoPlayerController> getController(String url) async {
-    // Increment reference count
-    _refCounts[url] = (_refCounts[url] ?? 0) + 1;
-
-    if (_controllers.containsKey(url)) {
-      return _controllers[url]!;
-    }
-
-    final controller = VideoPlayerController.networkUrl(
-      Uri.parse(url),
-      httpHeaders: Api.headers,
-    );
-
-    _controllers[url] = controller;
-    await controller.initialize();
-
-    return controller;
+  /// Gets the cached video file if it exists.
+  Future<FileInfo?> getCachedVideo(String url) async {
+    return await _cacheManager.getFileFromCache(url);
   }
 
-  void releaseController(String url) {
-    if (!_refCounts.containsKey(url)) return;
-
-    _refCounts[url] = _refCounts[url]! - 1;
-
-    if (_refCounts[url]! <= 0) {
-      _controllers[url]?.dispose();
-      _controllers.remove(url);
-      _refCounts.remove(url);
-    }
-  }
-
-  @override
-  void onClose() {
-    for (var controller in _controllers.values) {
-      controller.dispose();
-    }
-    _controllers.clear();
-    _refCounts.clear();
-    super.onClose();
+  /// Triggers a background download to cache the video.
+  void cacheVideo(String url) {
+    // Fire and forget caching
+    _cacheManager.downloadFile(url).catchError((e) {
+      Get.log('Video caching failed for $url: $e');
+      throw e;
+    });
   }
 }

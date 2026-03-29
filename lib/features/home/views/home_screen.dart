@@ -11,7 +11,7 @@ import '../controllers/home_controller.dart';
 
 // HomeScreen (public): Acts as the public entry point for your Router.
 // Its only job is to resolve the dependency (controller = Get.find()) and pass it down.
-// _HomeScreenBody (private): Only worries about the UI lifecycle (initState, ScrollController). 
+// _HomeScreenBody (private): Only worries about the UI lifecycle (initState, ScrollController).
 // It doesn't need to know where the controller came from,
 // making it potentially more reusable and easier to mock in tests
 // because you are passing the controller in through the constructor.

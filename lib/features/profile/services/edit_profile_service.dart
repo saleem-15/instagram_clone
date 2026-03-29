@@ -10,7 +10,6 @@ Future<bool> editProfileService({
   String? bio,
   String? dateOfBirth,
 }) async {
-
   try {
     await ApiService.to.put(
       Api.EDIT_PROFILE_URL,
@@ -23,8 +22,6 @@ Future<bool> editProfileService({
 
     return true;
   } on DioException catch (e) {
-
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: e.response?.data != null
           ? formatErrorMsg(e.response!.data)
@@ -32,7 +29,6 @@ Future<bool> editProfileService({
     );
     return false;
   } catch (e) {
-
     return false;
   }
 }

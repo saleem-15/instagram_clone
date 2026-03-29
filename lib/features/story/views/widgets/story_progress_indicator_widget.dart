@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -33,7 +32,6 @@ class StoryProgressIndicator extends StatelessWidget {
 
     final indicatorRadius = BorderRadius.circular(5.sp);
 
-
     return SizedBox(
       width: screenWidth - STORY_INDICATOR_HORIZONTAL_MARGIN * 2,
       height: 2.sp,
@@ -56,8 +54,6 @@ class StoryProgressIndicator extends StatelessWidget {
                     assignId: true,
                     id: 'story media',
                     builder: (controller) {
-
-
                       /// if its already wathced AND its not currently being reWathced
                       /// then display that its wathced
                       if (userStoryController.storiesList[index].isWathced &&

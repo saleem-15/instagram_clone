@@ -26,7 +26,6 @@ class StoryMedia extends StatelessWidget {
         assignId: true,
         id: 'story media',
         builder: (controller) {
-
           final storyUrl = storyController.currentStory.media;
           return storyUrl.isImageFileName
               ?
@@ -34,7 +33,6 @@ class StoryMedia extends StatelessWidget {
               /// image
               Builder(
                   builder: (_) {
-
                     final image = CachedNetworkImageProvider(storyUrl);
                     return Container(
                       clipBehavior: Clip.antiAlias,

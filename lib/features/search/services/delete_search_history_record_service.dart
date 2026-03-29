@@ -9,7 +9,8 @@ import 'package:instagram_clone/core/utils/helpers.dart';
 
 Future<bool> deleteSearchHistoryRecordService(String recordId) async {
   try {
-    final response = await ApiService.to.delete('${Api.SEARCH_HISTORY_URL}/$recordId');
+    final response =
+        await ApiService.to.delete('${Api.SEARCH_HISTORY_URL}/$recordId');
     logger.i(response.data);
 
     return true;

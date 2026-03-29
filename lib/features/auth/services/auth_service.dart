@@ -113,8 +113,8 @@ class AuthService extends GetxService {
     } on ApiException catch (e) {
       CustomSnackBar.showCustomErrorSnackBar(
         title: 'Error',
-        message:
-            e.originalError?.response?.data['Messages']?.toString() ?? 'Logout failed',
+        message: e.originalError?.response?.data['Messages']?.toString() ??
+            'Logout failed',
       );
     }
   }

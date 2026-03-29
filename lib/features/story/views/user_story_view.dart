@@ -58,7 +58,6 @@ class UserStoriesView extends StatelessWidget {
                     Expanded(
                       child: HoldDetector(
                         onTap: () {
-
                           controller.goToPreviousStory();
                         },
                         onHold: controller.onHold,
@@ -71,7 +70,6 @@ class UserStoriesView extends StatelessWidget {
                     Expanded(
                       child: HoldDetector(
                         onTap: () {
-
                           controller.goToNextStory();
                         },
                         onHold: controller.onHold,
@@ -103,7 +101,6 @@ class UserStoriesView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-
                         controller.onUserNamePressed;
                       },
                       child: Text(

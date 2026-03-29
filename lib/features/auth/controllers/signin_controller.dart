@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class SigninController extends GetxController {
   final formKey = GlobalKey<FormState>();
 

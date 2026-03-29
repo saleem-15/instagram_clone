@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:ui';
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
@@ -29,7 +30,6 @@ class FloatingPostView extends StatelessWidget {
       tween: Tween<double>(begin: 0.0, end: 12.0),
       duration: const Duration(milliseconds: 500),
       builder: (_, value, child) {
-
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: value, sigmaY: value),
           child: child,
@@ -94,14 +94,12 @@ class _PostView extends GetView<PostsController> {
             builder: (context) {
               if (post.postContents.first.isImageFileName ||
                   post.postContents.first.endsWith('.webp')) {
-
                 return Image.network(
                   post.postContents.first,
                   alignment: Alignment.center,
                   width: 340.w,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-
                     return const Center(
                       child: Icon(Icons.broken_image, color: Colors.grey),
                     );
@@ -109,13 +107,14 @@ class _PostView extends GetView<PostsController> {
                 );
               }
 
-              return FutureBuilder(
+              return FutureBuilder<MyVideoController>(
                   future: controller
                       .initilizeVideoController(post.postContents.first),
-                  builder:
-                      (context, AsyncSnapshot<VideoPlayerController> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      final videoController = snapshot.data!;
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.hasData) {
+                      final videoController =
+                          snapshot.data!.videoPlayerController!;
                       return ClipRect(
                         child: FittedBox(
                           fit: BoxFit.cover,
@@ -147,12 +146,8 @@ class _PostView extends GetView<PostsController> {
                 id: '${post.id} love button',
                 builder: (controller) {
                   return GestureDetector(
-                    onTap: () {
-
-                    },
-                    onPanStart: (details) {
-
-                    },
+                    onTap: () {},
+                    onPanStart: (details) {},
                     child: IconButton(
                       onPressed: () => controller.onHeartPressed(post),
                       splashColor: Colors.transparent,

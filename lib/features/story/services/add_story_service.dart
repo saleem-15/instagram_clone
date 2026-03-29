@@ -8,7 +8,6 @@ import 'package:instagram_clone/core/utils/custom_snackbar.dart';
 Future<bool> addStoryService(String filePath) async {
   FormData formData = FormData.fromMap({});
 
-
   formData.files.addAll([
     MapEntry("media", await MultipartFile.fromFile(filePath)),
   ]);
@@ -19,15 +18,12 @@ Future<bool> addStoryService(String filePath) async {
       data: formData,
     );
 
-
     CustomSnackBar.showCustomSnackBar(
       message: 'Your story has been shared.',
     );
 
     return true;
   } on DioException catch (_) {
-
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: 'Could not share story. Please try again.',
     );

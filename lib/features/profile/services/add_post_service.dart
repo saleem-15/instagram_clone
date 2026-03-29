@@ -25,7 +25,6 @@ Future<void> addPostService(List<File> media) async {
       message: 'Your post has been shared.',
     );
   } on DioException catch (e) {
-
     CustomSnackBar.showCustomErrorSnackBar(
       message: formatErrorMsg(e.response!.data),
     );

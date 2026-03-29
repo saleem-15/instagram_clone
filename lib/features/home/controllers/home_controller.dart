@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/services/cache_service.dart';
+import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:instagram_clone/features/home/services/fetch_posts_service.dart';
 
 /// Controls the Home feed state: pagination, caching, and refresh logic.
@@ -95,6 +96,24 @@ class HomeController extends GetxController {
       hasReachedMax.value = _currentPage >= _lastPage;
     } catch (_) {
       // On failure the list keeps its current data.
+    }
+  }
+
+  // ─── Pre-caching logic ──────────────────────────────────────────────────
+  void onPostVisible(int index) {
+    if (index + 1 < posts.length) {
+      _precacheMedia(posts[index + 1]);
+    }
+    if (index + 2 < posts.length) {
+      _precacheMedia(posts[index + 2]);
+    }
+  }
+
+  void _precacheMedia(Post post) {
+    for (var url in post.postContents) {
+      if (!url.isImageFileName && !url.endsWith('.webp')) {
+        VideoService.to.cacheVideo(url);
+      }
     }
   }
 }

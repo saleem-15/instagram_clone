@@ -38,8 +38,9 @@ class EditProfileController extends GetxController {
     bioController = TextEditingController(text: profile.bio ?? '');
 
     // Fallback to locally stored birthday if the profile API payload doesn't provide it
-    final defaultDob =
-        profile.dateOfBirth ?? Get.find<StorageService>().getUserDateOfBirth ?? '';
+    final defaultDob = profile.dateOfBirth ??
+        Get.find<StorageService>().getUserDateOfBirth ??
+        '';
     dobController = TextEditingController(text: defaultDob);
 
     super.onInit();

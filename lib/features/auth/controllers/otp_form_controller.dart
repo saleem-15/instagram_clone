@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 
-
 class OtpFormController extends GetxController {
   // final firstOtpFieldController = TextEditingController();
   // final secondOtpFieldController = TextEditingController();

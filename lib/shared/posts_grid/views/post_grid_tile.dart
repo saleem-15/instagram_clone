@@ -1,4 +1,4 @@
-import 'package:instagram_clone/core/services/video_service.dart';
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,6 @@ class PostGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
         Positioned.fill(
@@ -39,7 +38,8 @@ class PostGridTile extends StatelessWidget {
                     imageUrl: post.postContents[0],
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) {
-                      debugPrint('Image error: ${post.postContents[0]} \n $error');
+                      debugPrint(
+                          'Image error: ${post.postContents[0]} \n $error');
                       return const Center(
                         child: Icon(Icons.broken_image, color: Colors.grey),
                       );
@@ -97,7 +97,8 @@ class VideoThumbnail extends StatefulWidget {
 }
 
 class _VideoThumbnailState extends State<VideoThumbnail> {
-  late VideoPlayerController _controller;
+  late MyVideoController _myVideoController;
+  VideoPlayerController? _controller;
   bool _initialized = false;
 
   @override
@@ -107,32 +108,34 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
   }
 
   Future<void> _initController() async {
-    _controller = await VideoService.to.getController(widget.videoUrl);
+    _myVideoController = MyVideoController(videoUrl: widget.videoUrl);
+    _controller = await _myVideoController.initialize();
+
     if (mounted) {
       setState(() {
         _initialized = true;
         // Optionally seek to 1 second to avoid black frames on some videos
-        _controller.seekTo(const Duration(milliseconds: 100));
+        _controller!.seekTo(const Duration(milliseconds: 100));
       });
     }
   }
 
   @override
   void dispose() {
-    VideoService.to.releaseController(widget.videoUrl);
+    _myVideoController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _initialized
+    return _initialized && _controller != null
         ? ClipRect(
             child: FittedBox(
               fit: BoxFit.cover,
               child: SizedBox(
-                width: _controller.value.size.width,
-                height: _controller.value.size.height,
-                child: VideoPlayer(_controller),
+                width: _controller!.value.size.width,
+                height: _controller!.value.size.height,
+                child: VideoPlayer(_controller!),
               ),
             ),
           )
