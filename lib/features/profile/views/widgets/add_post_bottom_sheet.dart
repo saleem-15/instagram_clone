@@ -40,27 +40,33 @@ class AddPostBottomSheet extends GetView<AddPostBottomSheetController> {
           MyListTile(
             leading: const Icon(
               Icons.grid_4x4_outlined,
-              color: Colors.black,
             ),
-            title: const Text('Post'),
+            title: Text(
+              'Post',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             onTap: controller.addPost,
             endsWithDivider: true,
           ),
           MyListTile(
             leading: const Icon(
               Icons.add_circle_outline,
-              color: Colors.black,
             ),
-            title: const Text('Story'),
+            title: Text(
+              'Story',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             endsWithDivider: true,
             onTap: () {},
           ),
           MyListTile(
             leading: const Icon(
               Icons.video_library_outlined,
-              color: Colors.black,
             ),
-            title: const Text('Reel'),
+            title: Text(
+              'Reel',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
             onTap: controller.addReel,
           ),
         ],
