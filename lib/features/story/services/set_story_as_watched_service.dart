@@ -1,4 +1,4 @@
-import 'package:instagram_clone/core/services/api_service.dart';
+import 'package:instagram_clone/core/network/api_service.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/core/network/api_exception.dart';
 

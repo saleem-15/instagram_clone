@@ -1,5 +1,5 @@
 import 'package:instagram_clone/core/services/storage_service.dart';
-import 'package:instagram_clone/core/services/api_service.dart';
+import 'package:instagram_clone/core/network/api_service.dart';
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

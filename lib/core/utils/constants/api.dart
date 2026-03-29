@@ -5,11 +5,10 @@ import 'package:get/get.dart';
 /// [Api] contains all constants related to API endpoints and configurations.
 class Api {
   /// The base URL for the API, loaded from .env or defaulting to localhost.
-  static String get apiUrl =>
-      dotenv.env['API_URL'] ?? "http://10.15.4.41:8000/api";
+  static String get apiUrl => dotenv.env['API_URL']!;
 
   /// The API key for requests, loaded from .env.
-  static String get apikey => dotenv.env['API_KEY'] ?? 'p@ssword123';
+  static String get apikey => dotenv.env['API_KEY']!;
 
   // Auth endpoints
   static const SIGN_IN_URL = '/auth/user/login';

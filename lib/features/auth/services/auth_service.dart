@@ -1,4 +1,4 @@
-import 'package:instagram_clone/core/services/api_service.dart';
+import 'package:instagram_clone/core/network/api_service.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/user.dart';
