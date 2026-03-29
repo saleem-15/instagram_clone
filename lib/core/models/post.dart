@@ -25,6 +25,18 @@ class Post {
     required this.postContents,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'post_id': id,
+      'user': user.toMap(),
+      'is_favorite': isFavorite,
+      'likes_num': numOfLikes,
+      'num_of_comments': numOfComments,
+      'post_media': postContents,
+      'caption': caption,
+    };
+  }
+
   factory Post.fromMap(Map<String, dynamic> map) {
     return Post(
       id: map['post_id'].toString(),

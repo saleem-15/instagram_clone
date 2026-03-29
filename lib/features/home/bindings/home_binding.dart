@@ -10,7 +10,6 @@ import '../controllers/home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-
     Get.put(PostsController(), permanent: true);
     Get.put(StoriesController(), permanent: true);
     Get.lazyPut(() => CommentsController(), fenix: true);

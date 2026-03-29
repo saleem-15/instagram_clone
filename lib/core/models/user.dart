@@ -21,6 +21,17 @@ class User {
     required this.userStories,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'user_id': id,
+      'name': userName,
+      'nick_name': nickName,
+      'image_url': image,
+      'youFollowHim': doIFollowHim,
+      'user_stories': userStories.map((s) => s.toMap()).toList(),
+    };
+  }
+
   factory User.fromMap(Map<String, dynamic> map) {
     // //if it was me
     // if (map['name'] == null) {

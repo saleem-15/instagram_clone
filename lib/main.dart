@@ -1,4 +1,5 @@
 import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:instagram_clone/core/services/cache_service.dart';
 import 'package:instagram_clone/core/network/api_service.dart';
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ Future<void> main() async {
   await Get.putAsync(() => StorageService().init());
   Get.put(Logger());
   await Get.putAsync(() => ApiService().init());
+  await Get.putAsync(() => CacheService().init());
 
   AuthBinding().dependencies();
 

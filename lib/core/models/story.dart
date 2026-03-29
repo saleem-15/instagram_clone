@@ -16,6 +16,14 @@ class Story {
     required this.isWathced,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'story_id': id,
+      'media': media,
+      'is_watched': isWathced,
+    };
+  }
+
   factory Story.fromMap(Map<String, dynamic> map) {
     return Story(
       id: map['story_id'].toString(),
