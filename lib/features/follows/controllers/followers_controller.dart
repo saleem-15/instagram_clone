@@ -1,0 +1,106 @@
+import 'package:instagram_clone/features/follows/services/follow_user_service.dart';
+import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
+import 'package:instagram_clone/features/follows/services/search_for_follower_service.dart';
+import 'package:instagram_clone/features/follows/services/get_followers_service.dart';
+
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:instagram_clone/core/models/profile.dart';
+
+import 'package:instagram_clone/core/models/user.dart';
+import 'package:instagram_clone/routes/app_pages.dart';
+
+
+class FollowersController extends GetxController {
+  FollowersController({required this.profile});
+
+  int numOfPages = 1;
+  int setNumOfPages = 1;
+  int totalNumOfProducts = 1;
+
+  final Profile profile;
+  User get user => profile.user;
+  String get userId => user.id;
+
+  late final PagingController<int, User> pagingController;
+
+  RxBool isSearchMode = false.obs;
+  RxBool isLoadingResults = false.obs;
+  final searchTextController = TextEditingController();
+  List<User> searchResults = [];
+  RxBool showCancelButtonForSearchField = false.obs;
+
+  @override
+  onInit() {
+    showCancelButtonAutomatically();
+    pagingController = PagingController<int, User>(
+      getNextPageKey: getNextPageKey,
+      fetchPage: fetchFollowers,
+    );
+
+    super.onInit();
+  }
+
+  void showCancelButtonAutomatically() {
+    searchTextController.addListener(() {
+      ///if the search field has text inside it
+      if (searchTextController.text.isNotEmpty) {
+        showCancelButtonForSearchField(true);
+      }
+    });
+  }
+
+  int? getNextPageKey(PagingState<int, User> state) {
+    int currentPage = state.nextIntPageKey - 1;
+    if (currentPage >= numOfPages) {
+      return null;
+    }
+
+    return state.nextIntPageKey;
+  }
+
+  /// Fetches the next page of followers for the current user.
+  /// Updates [numOfPages] and returns the list of users to the [PagingController].
+  Future<List<User>> fetchFollowers(int pageKey) async {
+    try {
+      final result = await fetchFollowersService(userId, pageKey);
+      numOfPages = result.lastPage;
+      return result.users;
+    } catch (error) {
+      // In case of error, return an empty list to stop loading or show an error state
+      return [];
+    }
+  }
+
+  void goToUserProfile(User following) {
+    Get.toNamed(
+      Routes.PROFILE,
+      arguments: following,
+      parameters: {'user_id': following.id},
+    );
+  }
+
+  Future<void> search() async {
+    isSearchMode(true);
+    final searchKeyWord = searchTextController.text.trim();
+    isLoadingResults(true);
+    searchResults = await searchForFollowerService(userId, searchKeyWord);
+    isLoadingResults(false);
+  }
+
+  Future<bool> unFollow(String id) async {
+    return await unFollowService(id);
+  }
+
+  Future<bool> follow(String id) async {
+    return await followService(id);
+  }
+
+  void onSearchFieldCancelButtonPressed() {
+    searchTextController.clear();
+    isSearchMode(false);
+    showCancelButtonForSearchField(false);
+  }
+}

@@ -3,7 +3,7 @@ version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
 environment: 
-  sdk: '>=2.17.6 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies: 
   cupertino_icons: ^1.0.2
@@ -29,11 +29,16 @@ dependencies:
   flutter_carousel_slider: ^1.0.9    #used in story
   logger: ^2.6.2
   animate_do: ^4.2.0                
+  cached_network_image: ^3.4.1
+  flutter_secure_storage: ^10.0.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies: 
+  build_runner: ^2.13.1
   flutter_lints: ^6.0.0
   flutter_test: 
     sdk: flutter
+  mockito: ^5.6.4
 
 flutter: 
   uses-material-design: true
@@ -41,7 +46,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-
+    - .env
 
 flutter_icons:
   android: true

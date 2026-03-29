@@ -1,0 +1,83 @@
+import 'package:instagram_clone/features/auth/services/auth_service.dart';
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
+import 'package:instagram_clone/routes/app_pages.dart';
+
+
+class SigninController extends GetxController {
+  final formKey = GlobalKey<FormState>();
+
+  final firstFieledController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  String get firstFieled => firstFieledController.text.trim();
+  String get password => passwordController.text.trim();
+
+  RxBool isButtonDisable = true.obs;
+  RxBool isWaitingResponse = false.obs;
+
+  Future<void> logIn() async {
+    final isValid = formKey.currentState!.validate();
+
+    if (!isValid) {
+      return;
+    }
+    isWaitingResponse(true);
+    final isSuccessfull = await AuthService.to.signIn(firstFieled, password);
+    isWaitingResponse(false);
+
+    if (isSuccessfull) {
+      Get.offAllNamed(Routes.MY_APP);
+    }
+  }
+
+  @override
+  void onInit() {
+    autoDisableLoginButton();
+    super.onInit();
+  }
+
+  String? emailFieldValidator(String? value) {
+    if (firstFieled.isBlank!) {
+      return 'required';
+    }
+
+    return null;
+  }
+
+  String? passwordFieldValidator(String? value) {
+    if (passwordController.text.length.isLowerThan(6)) {
+      return 'Wrong password';
+    }
+    return null;
+  }
+
+  void goToSignup() {
+    Get.offNamed(Routes.SIGNUP);
+  }
+
+  void autoDisableLoginButton() {
+    firstFieledController.addListener(() {
+      if (firstFieledController.text.trim().isEmpty ||
+          passwordController.text.trim().isEmpty) {
+        isButtonDisable(true);
+        return;
+      }
+      isButtonDisable(false);
+    });
+    passwordController.addListener(() {
+      if (firstFieledController.text.trim().isEmpty ||
+          passwordController.text.trim().isEmpty) {
+        isButtonDisable(true);
+        return;
+      }
+      isButtonDisable(false);
+    });
+  }
+
+  void forgotPassword() {
+    Get.toNamed(Routes.FORGOT_PASSWORD);
+  }
+}
