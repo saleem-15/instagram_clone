@@ -10,7 +10,7 @@
 
 This project is a feature-rich, complex Instagram clone built with Flutter. It was originally developed in late 2022 to push the boundaries of mobile UI development, focusing on scalable state management, robust networking, and intricate native-like animations.
 
-> **Note on Backend:** The backend for this application is a custom Laravel API developed by a colleague. You can view the backend repository here: [Insert Backend Repository Link Here]
+> **Note on Backend:** The backend for this application is a custom Laravel API developed by a colleague. You can view the backend repository here: [https://github.com/Mohammed-Alijl/instagram-API]
 
 ### 💡 The Developer's Backstory
 > *"I built this application to prove my capability in handling complex architectural patterns in Flutter. However, due to the war in Gaza, my career was placed on an unavoidable, forced hiatus from July 2023 to January 2026—a period where I survived without basic infrastructure like electricity and internet. Returning to the tech industry, the first thing I did was successfully compile and modernize this codebase. This project stands not just as a portfolio piece, but as a testament to my profound resilience, adaptability, and unwavering dedication to software engineering."*
