@@ -5,10 +5,12 @@ import 'package:instagram_clone/core/models/user.dart';
 import 'package:instagram_clone/features/explorer/bindings/explorer_binding.dart';
 import 'package:instagram_clone/features/explorer/views/explorer_screen.dart';
 import 'package:instagram_clone/features/home/bindings/home_binding.dart';
+import 'package:instagram_clone/features/home/controllers/home_controller.dart';
 import 'package:instagram_clone/features/home/views/home_screen.dart';
 import 'package:instagram_clone/features/profile/bindings/profile_binding.dart';
 import 'package:instagram_clone/features/profile/views/profile_view.dart';
 import 'package:instagram_clone/features/reels/bindings/reels_binding.dart';
+import 'package:instagram_clone/features/reels/controllers/reels_controller.dart';
 import 'package:instagram_clone/features/reels/views/reels_view.dart';
 
 class AppController extends GetxController {
@@ -16,6 +18,7 @@ class AppController extends GetxController {
   final RxString userImage = (Get.find<StorageService>().getUserImage ?? '').obs;
 
   final Rx<int> selectedIndex = 0.obs;
+  int _previousIndex = 0;
 
   List<bool> isBindingsInitilized = List.generate(4, (index) => false);
   List<Bindings> bindings = [
@@ -26,6 +29,8 @@ class AppController extends GetxController {
   ];
 
   Widget get selectedScreen {
+    _cleanupPreviousTab(selectedIndex.value);
+    _previousIndex = selectedIndex.value;
     switch (selectedIndex.value) {
       case 0:
         checkBindings(0);
@@ -42,6 +47,24 @@ class AppController extends GetxController {
       default:
         checkBindings(3);
         return ProfileView();
+    }
+  }
+
+  /// Cleans up video controllers from the tab the user is leaving.
+  ///
+  /// This prevents idle videos from consuming memory while the user is on
+  /// an entirely different screen.
+  void _cleanupPreviousTab(int newIndex) {
+    if (newIndex == _previousIndex) return;
+
+    // If leaving the home tab (index 0), clean up home videos.
+    if (_previousIndex == 0 && isBindingsInitilized[0]) {
+      Get.find<HomeController>().cleanupAllVideos();
+    }
+
+    // If leaving the reels tab (index 2), clean up reel videos.
+    if (_previousIndex == 2 && isBindingsInitilized[2]) {
+      Get.find<ReelsController>().cleanupAllVideos();
     }
   }
 

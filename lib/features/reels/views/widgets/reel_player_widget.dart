@@ -42,68 +42,66 @@ class _ReelPlayerState extends State<ReelPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (!_myVideoController.isInitialized || _myVideoController.controller == null) {
-        return const Center(child: LoadingWidget());
-      }
-      return GetBuilder<ReelPlayerController>(
-        tag: widget.tag,
-        id: 'playback',
-        builder: (cv) {
-          final isPlaying = !_myVideoController.isPaused;
-          return VisibilityDetector(
-            key: Key('reel_${widget.controller.reel.id}'),
-            onVisibilityChanged: (info) {
-              _myVideoController.handleVisibility(info.visibleFraction, onStateChanged: () {
-                if (mounted) setState(() {});
-              });
+    if (!_myVideoController.isInitialized || _myVideoController.controller == null) {
+      return const Center(child: LoadingWidget());
+    }
+    return GetBuilder<ReelPlayerController>(
+      tag: widget.tag,
+      id: 'playback',
+      builder: (cv) {
+        final isPlaying = !_myVideoController.isPaused;
+        return VisibilityDetector(
+          key: Key('reel_${widget.controller.reel.id}'),
+          onVisibilityChanged: (info) {
+            _myVideoController.handleVisibility(info.visibleFraction, onStateChanged: () {
+              if (mounted) setState(() {});
+            });
+          },
+          child: GestureDetector(
+            onTap: () {
+              if (_myVideoController.isPaused) {
+                _myVideoController.playVideo();
+              } else {
+                _myVideoController.pauseVideo();
+              }
+              setState(() {});
             },
-            child: GestureDetector(
-              onTap: () {
-                if (_myVideoController.isPaused) {
-                  _myVideoController.playVideo();
-                } else {
-                  _myVideoController.pauseVideo();
-                }
-                setState(() {});
-              },
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Center(
+                  child: AspectRatio(
+                    aspectRatio: _myVideoController.controller!.value.aspectRatio,
+                    child: Obx(
+                      () => ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(
+                              widget.controller.isCommentsOpen.value ? 20 : 0),
+                          child: VideoPlayer(_myVideoController.controller!)),
+                    ),
+                  ),
+                ),
+                if (!isPlaying)
                   Center(
-                    child: AspectRatio(
-                      aspectRatio: _myVideoController.controller!.value.aspectRatio,
-                      child: Obx(
-                        () => ClipRRect(
-                            borderRadius: BorderRadiusGeometry.circular(
-                                widget.controller.isCommentsOpen.value ? 20 : 0),
-                            child: VideoPlayer(_myVideoController.controller!)),
+                    child: Container(
+                      width: 60.sp,
+                      height: 60.sp,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withValues(alpha: 0.1),
+                      ),
+                      child: Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 40.sp,
                       ),
                     ),
                   ),
-                  if (!isPlaying)
-                    Center(
-                      child: Container(
-                        width: 60.sp,
-                        height: 60.sp,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black.withValues(alpha: 0.1),
-                        ),
-                        child: Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                          size: 40.sp,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+              ],
             ),
-          );
-        },
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 }
 
