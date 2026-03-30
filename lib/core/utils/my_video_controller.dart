@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:video_player/video_player.dart';
 
@@ -46,6 +48,8 @@ class MyVideoController {
   /// This is the core of the "safe pause" guarantee — see class-level docs.
   bool _pendingPause = false;
 
+  Timer? _visibilityTimer;
+
   MyVideoController({required this.videoUrl});
 
   /// Initializes the video controller using the [VideoService] caching pipeline.
@@ -83,6 +87,24 @@ class MyVideoController {
       _isPaused = true;
       _pendingPause = false;
     }
+  }
+
+  /// Debounces visibility events to avoid triggering playback during rapid scrolls.
+  void handleVisibility(double visibleFraction, {VoidCallback? onStateChanged}) {
+    _visibilityTimer?.cancel();
+    _visibilityTimer = Timer(const Duration(milliseconds: 200), () {
+      if (visibleFraction >= 0.5) {
+        if (_isPaused) {
+          playVideo();
+          if (onStateChanged != null) onStateChanged();
+        }
+      } else {
+        if (!_isPaused) {
+          pauseVideo();
+          if (onStateChanged != null) onStateChanged();
+        }
+      }
+    });
   }
 
   /// Starts or resumes video playback.
@@ -125,6 +147,7 @@ class MyVideoController {
   ///
   /// Always call this when the owning widget is removed from the tree.
   void disposeVideo() {
+    _visibilityTimer?.cancel();
     _controller?.dispose();
     _controller = null;
     _isInitialized = false;
