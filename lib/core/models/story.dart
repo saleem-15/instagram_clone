@@ -23,9 +23,9 @@ class Story {
 
   factory Story.fromMap(Map<String, dynamic> map) {
     return Story(
-      id: map['story_id'].toString(),
-      media: map['media'],
-      isWathced: map['is_watched'],
+      id: map['story_id']?.toString() ?? '',
+      media: map['media'] ?? '',
+      isWathced: map['is_watched'] ?? false,
     );
   }
   static List<Story> storiesListFromMap(List data) {

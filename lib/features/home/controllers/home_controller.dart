@@ -1,6 +1,7 @@
 import 'package:instagram_clone/features/home/services/fetch_posts_service.dart';
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:instagram_clone/core/utils/my_video_controller.dart';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,44 +54,55 @@ class HomeController extends GetxController {
 
   Future<List<Post>> fetchPosts(int pageKey) async {
     try {
-      List<Post> finalPosts = [];
-      await for (final result in fetchPostsService(pageKey)) {
-        numOfPages = result.lastPage;
-
-        // Pre-cache the first two video URLs in the newly fetched page.
-        _preCacheVideosInPage(result.data);
-        
-        finalPosts = result.data;
-
-        if (pageKey == 1) {
-          // Push cached data to UI immediately while waiting for remote data
-          pagingController.value = pagingController.value.copyWith(
-            pages: [finalPosts],
-            keys: [1],
-          );
-        }
-      }
-
-      // Instead of relying on full `fetchPage` append behavior, 
-      // if page=1, we return empty so it doesn't duplicate the page we manually set.
-      // But returning empty sets `hasNextPage=false` in PagingController.
-      // So let's just return finalPosts, and rely on the controller handling it. 
-      // Actually, if we return finalPosts, it WILL duplicate if we manually set `pages`.
-      // The best way to use Stream with infinite_scroll_pagination is to just NOT manually 
-      // set pages if we want it to handle it? 
-      // No, we want Stale-While-Revalidate! I'll return [] for page 1, and manually ensure `hasNextPage` is set.
       if (pageKey == 1) {
-        pagingController.value = pagingController.value.copyWith(
-          pages: [finalPosts],
-          keys: [1],
-          hasNextPage: numOfPages > 1,
+        final completer = Completer<List<Post>>();
+        int count = 0;
+
+        fetchPostsService(pageKey).listen(
+          (result) {
+            count++;
+            numOfPages = result.lastPage;
+            _preCacheVideosInPage(result.data);
+
+            if (count == 1) {
+              // Complete fetchPage immediately on the first yield (Cache or API if cache was empty)
+              completer.complete(result.data);
+            } else {
+              // Flicker Prevention: Swap the first page seamlessly without clearing the whole list
+              // This acts like an "assignAll" for the first chunk of data.
+              final currentPages = List<List<Post>>.from(pagingController.value.pages ?? []);
+              if (currentPages.isNotEmpty) {
+                currentPages[0] = result.data;
+              } else {
+                currentPages.add(result.data);
+              }
+              pagingController.value = pagingController.value.copyWith(
+                pages: currentPages,
+                hasNextPage: numOfPages > 1,
+              );
+            }
+          },
+          onError: (error) {
+            if (!completer.isCompleted) {
+              completer.completeError(error);
+            } else {
+              // Optional: Log background API error silently if cache is already displayed
+              print("Background API refetch failed: $error");
+            }
+          },
         );
-        // By throwing a silent exception, the controller might fail, but wait.
-        // Let's just return finalPosts and if they duplicate, it's a known limitation of mixing Streams with Futures.
+
+        return completer.future;
+      } else {
+        // For page > 1, fetchPostsService skips cache and yields exact API response
+        final result = await fetchPostsService(pageKey).first;
+        numOfPages = result.lastPage;
+        _preCacheVideosInPage(result.data);
+        return result.data;
       }
-      return finalPosts;
     } catch (error) {
-      return [];
+      print("Error in fetchPosts: $error");
+      throw error; // Let PagingController handle the error state!
     }
   }
 
