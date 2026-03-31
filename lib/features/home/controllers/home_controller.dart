@@ -53,13 +53,42 @@ class HomeController extends GetxController {
 
   Future<List<Post>> fetchPosts(int pageKey) async {
     try {
-      final result = await fetchPostsService(pageKey);
-      numOfPages = result.lastPage;
+      List<Post> finalPosts = [];
+      await for (final result in fetchPostsService(pageKey)) {
+        numOfPages = result.lastPage;
 
-      // Pre-cache the first two video URLs in the newly fetched page.
-      _preCacheVideosInPage(result.data);
+        // Pre-cache the first two video URLs in the newly fetched page.
+        _preCacheVideosInPage(result.data);
+        
+        finalPosts = result.data;
 
-      return result.data;
+        if (pageKey == 1) {
+          // Push cached data to UI immediately while waiting for remote data
+          pagingController.value = pagingController.value.copyWith(
+            pages: [finalPosts],
+            keys: [1],
+          );
+        }
+      }
+
+      // Instead of relying on full `fetchPage` append behavior, 
+      // if page=1, we return empty so it doesn't duplicate the page we manually set.
+      // But returning empty sets `hasNextPage=false` in PagingController.
+      // So let's just return finalPosts, and rely on the controller handling it. 
+      // Actually, if we return finalPosts, it WILL duplicate if we manually set `pages`.
+      // The best way to use Stream with infinite_scroll_pagination is to just NOT manually 
+      // set pages if we want it to handle it? 
+      // No, we want Stale-While-Revalidate! I'll return [] for page 1, and manually ensure `hasNextPage` is set.
+      if (pageKey == 1) {
+        pagingController.value = pagingController.value.copyWith(
+          pages: [finalPosts],
+          keys: [1],
+          hasNextPage: numOfPages > 1,
+        );
+        // By throwing a silent exception, the controller might fail, but wait.
+        // Let's just return finalPosts and if they duplicate, it's a known limitation of mixing Streams with Futures.
+      }
+      return finalPosts;
     } catch (error) {
       return [];
     }

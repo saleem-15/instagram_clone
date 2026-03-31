@@ -1,3 +1,4 @@
+import 'package:instagram_clone/core/models/story.dart';
 import 'package:isar/isar.dart';
 import 'package:instagram_clone/core/models/user.dart';
 
