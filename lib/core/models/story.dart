@@ -1,8 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:isar/isar.dart';
 import 'package:get/utils.dart';
 
+part 'story.g.dart';
+
+/// Story model annotated for Isar embedding.
+@embedded
 class Story {
-  String id;
+  /// API Story ID. Defaulted for Isar compatibility.
+  String id = '';
 
   /// url to the media (photo /video)
   String media;
@@ -11,9 +16,9 @@ class Story {
   bool get isPhoto => media.isImageFileName;
 
   Story({
-    required this.id,
-    required this.media,
-    required this.isWathced,
+    this.id = '',
+    this.media = '',
+    this.isWathced = false,
   });
 
   factory Story.fromMap(Map<String, dynamic> map) {

@@ -1,9 +1,15 @@
+import 'package:isar/isar.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/story.dart';
 
+part 'user.g.dart';
+
+/// User model annotated for Isar embedding.
+@embedded
 class User {
-  String id;
+  /// API User ID. Defaulted for Isar compatibility.
+  String id = '';
   String userName;
   String nickName;
   String? image;
@@ -13,12 +19,12 @@ class User {
   bool get isMe => Get.find<StorageService>().getUserId == id;
 
   User({
-    required this.id,
-    required this.userName,
-    required this.nickName,
-    required this.image,
-    required this.doIFollowHim,
-    required this.userStories,
+    this.id = '',
+    this.userName = '',
+    this.nickName = '',
+    this.image,
+    this.doIFollowHim = false,
+    this.userStories = const [],
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
