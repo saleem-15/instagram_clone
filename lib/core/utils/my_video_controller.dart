@@ -68,7 +68,7 @@ class MyVideoController {
 
     if (cachedFile != null) {
       // Cache hit: play from local storage — no network cost.
-      _controller = VideoPlayerController.file(cachedFile.file);
+      _controller = VideoPlayerController.file(cachedFile.file,);
     } else {
       // Cache miss: stream over the network and cache for the next session.
       _controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl));

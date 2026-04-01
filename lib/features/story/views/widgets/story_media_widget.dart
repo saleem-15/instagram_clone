@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -51,8 +52,10 @@ class StoryMedia extends StatelessWidget {
                           child: Image(
                             image: image,
                             errorBuilder: (context, error, stackTrace) {
-                              debugPrint(
-                                  'Story Media Image error: $storyUrl \n $error');
+                              AppLogger.error(
+                                  'Story Media Image error: $storyUrl',
+                                  error,
+                                  stackTrace);
                               return const Center(
                                 child: Icon(Icons.broken_image,
                                     color: Colors.grey),

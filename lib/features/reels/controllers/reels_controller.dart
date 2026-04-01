@@ -2,6 +2,7 @@ import 'package:instagram_clone/features/reels/services/reels_service.dart';
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:instagram_clone/core/utils/my_video_controller.dart';
 import 'dart:io';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/reel.dart';
@@ -79,6 +80,7 @@ class ReelsController extends GetxController {
         .toList();
 
     for (final i in indicesToRemove) {
+      AppLogger.debug('🗑️ [MEMORY]: Disposing controller at index $i');
       _activeControllers[i]?.disposeVideo();
       _activeControllers.remove(i);
     }

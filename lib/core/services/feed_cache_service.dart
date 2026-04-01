@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/models/reel.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 class FeedCacheService {
   // Singleton pattern
@@ -44,7 +45,9 @@ class FeedCacheService {
 
   /// Retrieves the saved posts from the local Isar cache.
   Future<List<Post>> getCachedHomeFeed() async {
-    return await isar.posts.where().findAll();
+    final posts = await isar.posts.where().findAll();
+    AppLogger.success('📦 [ISAR]: Loaded ${posts.length} posts from local DB');
+    return posts;
   }
 
   // --- Reels Feed Caching ---
@@ -63,6 +66,8 @@ class FeedCacheService {
 
   /// Retrieves the saved reels from the local Isar cache.
   Future<List<Reel>> getCachedReelsFeed() async {
-    return await isar.reels.where().findAll();
+    final reelsList = await isar.reels.where().findAll();
+    AppLogger.success('📦 [ISAR]: Loaded ${reelsList.length} reels from local DB');
+    return reelsList;
   }
 }

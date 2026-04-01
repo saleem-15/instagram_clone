@@ -27,7 +27,7 @@ dependencies:
   holding_gesture: ^1.1.0           
   pausable_timer: ^3.1.0+3           #used in story
   flutter_carousel_slider: ^1.0.9    #used in story
-  logger: ^2.6.2
+  logger: ^2.7.0
   animate_do: ^4.2.0                
   cached_network_image: ^3.4.1
   flutter_secure_storage: ^10.0.0

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 /// A customized [CacheManager] specifically tailored for managing video files.
 ///
@@ -83,8 +84,10 @@ class VideoService extends GetxService {
     VideoPlayerController controller;
 
     if (fileInfo != null) {
+      AppLogger.success('✅ [VIDEO CACHE HIT]: Playing from File');
       controller = VideoPlayerController.file(fileInfo.file);
     } else {
+      AppLogger.info('🌐 [VIDEO CACHE MISS]: Fetching from Network');
       controller = VideoPlayerController.networkUrl(
         Uri.parse(url),
         httpHeaders: Api.headers,

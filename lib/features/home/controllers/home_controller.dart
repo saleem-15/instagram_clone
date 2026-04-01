@@ -2,6 +2,7 @@ import 'package:instagram_clone/features/home/services/fetch_posts_service.dart'
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:instagram_clone/core/utils/my_video_controller.dart';
 import 'dart:async';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,8 @@ class HomeController extends GetxController {
             } else {
               // Flicker Prevention: Swap the first page seamlessly without clearing the whole list
               // This acts like an "assignAll" for the first chunk of data.
-              final currentPages = List<List<Post>>.from(pagingController.value.pages ?? []);
+              final currentPages =
+                  List<List<Post>>.from(pagingController.value.pages ?? []);
               if (currentPages.isNotEmpty) {
                 currentPages[0] = result.data;
               } else {
@@ -87,7 +89,7 @@ class HomeController extends GetxController {
               completer.completeError(error);
             } else {
               // Optional: Log background API error silently if cache is already displayed
-              print("Background API refetch failed: $error");
+              AppLogger.error("Background API refetch failed", error);
             }
           },
         );
@@ -101,8 +103,8 @@ class HomeController extends GetxController {
         return result.data;
       }
     } catch (error) {
-      print("Error in fetchPosts: $error");
-      throw error; // Let PagingController handle the error state!
+      AppLogger.error("Error in fetchPosts", error);
+      rethrow; // Let PagingController handle the error state!
     }
   }
 
@@ -154,11 +156,11 @@ class HomeController extends GetxController {
   void _enforceRuleOfThree(int currentIndex) {
     final keepRange = {currentIndex - 1, currentIndex, currentIndex + 1};
 
-    final indicesToRemove = _activeControllers.keys
-        .where((i) => !keepRange.contains(i))
-        .toList();
+    final indicesToRemove =
+        _activeControllers.keys.where((i) => !keepRange.contains(i)).toList();
 
     for (final i in indicesToRemove) {
+      AppLogger.debug('🗑️ [MEMORY]: Disposing controller at index $i');
       _activeControllers[i]?.disposeVideo();
       _activeControllers.remove(i);
     }
