@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:instagram_clone/core/utils/my_video_controller.dart';
@@ -9,6 +8,7 @@ import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/features/posts/controllers/post_controller.dart';
 import 'package:instagram_clone/features/posts/views/widgets/animated_heart_widget.dart';
+import 'package:instagram_clone/shared/widgets/app_network_image.dart';
 import 'package:instagram_clone/shared/loading_widget.dart';
 import 'package:video_player/video_player.dart';
 
@@ -50,20 +50,11 @@ class PostMedia extends GetView<PostsController> {
                   GestureDetector(
                       onDoubleTap: () =>
                           controller.onPostDoubleTap(post, isHeartVisible),
-                      child: CachedNetworkImage(
+                      child: AppNetworkImage(
                         imageUrl: post.postContents[index],
                         httpHeaders: Api.headers,
                         fit: BoxFit.cover,
-                        errorWidget: (context, url, error) {
-                          return const Center(
-                            child: Icon(Icons.broken_image, color: Colors.grey),
-                          );
-                        },
-                        placeholder: (context, url) {
-                          return const Center(
-                            child: LoadingWidget(size: 60, strokeWidth: 1.0),
-                          );
-                        },
+                        memCacheWidth: 800,
                       ),
                     )
                   :
