@@ -1,51 +1,64 @@
-import 'package:instagram_clone/core/services/storage_service.dart';
-import 'package:instagram_clone/core/network/api_service.dart';
-import 'package:instagram_clone/core/services/video_service.dart';
-import 'package:instagram_clone/core/services/feed_cache_service.dart';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:instagram_clone/app.dart';
+import 'package:instagram_clone/core/network/api_service.dart';
+import 'package:instagram_clone/core/services/feed_cache_service.dart';
+import 'package:instagram_clone/core/services/storage_service.dart';
+import 'package:instagram_clone/core/services/video_service.dart';
+import 'package:instagram_clone/core/theme/my_theme.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 import 'package:instagram_clone/features/auth/bindings/auth_binding.dart';
-import 'package:logger/logger.dart';
-
 import 'package:instagram_clone/features/auth/controllers/auth_controller.dart';
 import 'package:instagram_clone/features/auth/views/signin_view.dart';
 import 'package:instagram_clone/features/root/controllers/app_controller.dart';
-import 'package:instagram_clone/app.dart';
 import 'package:instagram_clone/routes/app_pages.dart';
 import 'package:instagram_clone/shared/error_widget.dart';
-import 'package:instagram_clone/core/theme/my_theme.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 
-/// Global helper for logging. In a senior project, we use Get.find(Logger) 
+/// Global helper for logging. In a senior project, we use Get.find(Logger)
 /// but keeping this for easy global access during refactoring.
 Logger get logger => Get.find<Logger>();
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  ErrorWidget.builder = (FlutterErrorDetails details) => MyErrorWidget(details);
+    // Handle Flutter UI Errors
+    FlutterError.onError = (FlutterErrorDetails details) {
+      AppLogger.error('Flutter UI Error', details.exception, details.stack);
+    };
 
-  // Load Environment Variables
-  await dotenv.load(fileName: ".env");
+    ErrorWidget.builder =
+        (FlutterErrorDetails details) => MyErrorWidget(details);
 
-  // Initialize Core Services
-  await Get.putAsync(() => StorageService().init());
-  Get.put(Logger());
-  await Get.putAsync(() => ApiService().init());
-  
-  // Initialize Offline Cache Service
-  await FeedCacheService().init();
+    // Load Environment Variables
+    await dotenv.load(fileName: ".env");
 
-  AuthBinding().dependencies();
+    // Initialize Core Services
+    await Get.putAsync(() => StorageService().init());
+    Get.put(Logger());
+    await Get.putAsync(() => ApiService().init());
 
-  // Inject global services
-  Get.put(VideoService());
-  Get.lazyPut(() => AppController(), fenix: true);
+    // Initialize Offline Cache Service
+    await FeedCacheService().init();
 
-  runApp(const Main());
+    AuthBinding().dependencies();
+
+    // Inject global services
+    Get.put(VideoService());
+    Get.lazyPut(() => AppController(), fenix: true);
+
+    runApp(const Main());
+  }, (error, stack) {
+    // Handle Unhandled Asynchronous Errors
+    AppLogger.error('Unhandled Async Error', error, stack);
+  });
 }
 
 class Main extends StatelessWidget {
