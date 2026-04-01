@@ -1,4 +1,5 @@
 import 'package:instagram_clone/core/services/video_service.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class PostGridTile extends StatelessWidget {
                     imageUrl: post.postContents[0],
                     fit: BoxFit.cover,
                     errorWidget: (context, url, error) {
-                      debugPrint('Image error: ${post.postContents[0]} \n $error');
+                      AppLogger.error('Image error: ${post.postContents[0]}', error);
                       return const Center(
                         child: Icon(Icons.broken_image, color: Colors.grey),
                       );

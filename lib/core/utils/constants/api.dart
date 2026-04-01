@@ -27,7 +27,6 @@ class Api {
   static const POST_URL = '/post';
   static const MARK_POST_AS_FAVORITE_URL = '/post/like';
   static const SAVE_POST_URL = '/post/save';
-
   // Comment endpoints
   static const COMMENTS_URL = '/comment';
   static const COMMENT_REPLY_URL = '/comment/reply';

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -56,8 +57,8 @@ class StoryTile extends GetView<StoriesController> {
                 radius: STORY_TILE_SIZE,
                 backgroundImage: userImage,
                 onBackgroundImageError: (exception, stackTrace) {
-                  debugPrint(
-                      'Story Tile Image error: ${user.image} \n $exception');
+                  AppLogger.error(
+                      'Story Tile Image error: ${user.image}', exception, stackTrace);
                 },
               ),
               // .marginAll(5.sp),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/core/models/user.dart';
@@ -29,8 +30,10 @@ class FloatingAvatarView extends StatelessWidget {
                   const AssetImage('assets/images/default_user_image.png'),
               foregroundImage: backgroundImage,
               onForegroundImageError: (exception, stackTrace) {
-                debugPrint(
-                    'User Avatar Image error: ${user.image} \n $exception');
+                AppLogger.error(
+                    'User Avatar Image error: ${user.image}',
+                    exception,
+                    stackTrace);
               },
             ),
           ),

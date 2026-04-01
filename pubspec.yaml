@@ -27,18 +27,25 @@ dependencies:
   holding_gesture: ^1.1.0           
   pausable_timer: ^3.1.0+3           #used in story
   flutter_carousel_slider: ^1.0.9    #used in story
-  logger: ^2.6.2
+  logger: ^2.7.0
   animate_do: ^4.2.0                
   cached_network_image: ^3.4.1
   flutter_secure_storage: ^10.0.0
   flutter_dotenv: ^6.0.0
+  flutter_cache_manager: ^3.4.1
+  visibility_detector: ^0.4.0+2
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  path_provider: ^2.1.2
 
 dev_dependencies: 
-  build_runner: ^2.13.1
   flutter_lints: ^6.0.0
+  isar_generator: ^3.1.0+1
+  build_runner: ^2.4.8
+
   flutter_test: 
     sdk: flutter
-  mockito: ^5.6.4
+  mockito: ^5.4.4
 
 flutter: 
   uses-material-design: true

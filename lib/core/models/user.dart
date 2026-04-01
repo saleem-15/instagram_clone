@@ -1,9 +1,15 @@
+import 'package:isar/isar.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/story.dart';
 
+part 'user.g.dart';
+
+/// User model annotated for Isar embedding.
+@embedded
 class User {
-  String id;
+  /// API User ID. Defaulted for Isar compatibility.
+  String id = '';
   String userName;
   String nickName;
   String? image;
@@ -13,27 +19,21 @@ class User {
   bool get isMe => Get.find<StorageService>().getUserId == id;
 
   User({
-    required this.id,
-    required this.userName,
-    required this.nickName,
-    required this.image,
-    required this.doIFollowHim,
-    required this.userStories,
+    this.id = '',
+    this.userName = '',
+    this.nickName = '',
+    this.image,
+    this.doIFollowHim = false,
+    this.userStories = const [],
   });
 
   factory User.fromMap(Map<String, dynamic> map) {
-    // //if it was me
-    // if (map['name'] == null) {
-    //   return Get.find<StorageService>().getUserData!;
-    // }
     return User(
       id: (map['user_id'] ?? map['id']).toString(),
-      userName: map['name'],
-      nickName: map['nick_name'],
+      userName: map['name'] ?? '',
+      nickName: map['nick_name'] ?? '',
       image: _getImage(map['image_url']),
       userStories: Story.storiesListFromMap(map['user_stories'] ?? []),
-
-      /// map['youFollowHim'] is null when its your profile/user info
       doIFollowHim: map['youFollowHim'] ?? false,
     );
   }

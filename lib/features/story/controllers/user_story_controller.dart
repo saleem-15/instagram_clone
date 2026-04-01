@@ -71,20 +71,29 @@ class UserStoryController extends GetxController {
     super.onReady();
   }
 
+  /// Initializes and returns a [VideoPlayerController] for the given [videoUrl].
+  ///
+  /// If a controller for this URL was already initialized, it is returned from
+  /// the in-memory cache and immediately starts playing.
+  /// Otherwise a new [MyVideoController] is created, awaited, then cached.
   Future<VideoPlayerController> initilizeVideoController(
       String videoUrl) async {
     if (cashedVideos.containsKey(videoUrl)) {
-      return cashedVideos[videoUrl]!.videoPlayerController..play();
+      // Cache hit: reuse the existing controller and resume playback.
+      cashedVideos[videoUrl]!.playVideo();
+      return cashedVideos[videoUrl]!.controller!;
     }
 
     isLoading(true);
-    final videoController = MyVideoController.network(videoPath: videoUrl);
+    // Use the new single-constructor API introduced in Task 2.
+    final videoController = MyVideoController(videoUrl: videoUrl);
     cashedVideos.addAll({videoUrl: videoController});
     await videoController.initialize();
 
     isLoading(false);
 
-    return videoController.videoPlayerController;
+    // .controller is the nullable getter that replaces the old .videoPlayerController.
+    return videoController.controller!;
   }
 
   /// returnes the index of the first unwathced story
@@ -103,7 +112,8 @@ class UserStoryController extends GetxController {
 
     /// pause the video (if the story was a video)
     if (currentStory.media.isVideoFileName) {
-      cashedVideos[currentStory.media]!.pause();
+      // .pauseVideo() replaces the old .pause() after the Task 2 rename.
+      cashedVideos[currentStory.media]!.pauseVideo();
     }
 
     /// if all stories of this user has finished
@@ -123,7 +133,7 @@ class UserStoryController extends GetxController {
   void goToPreviousStory() {
     /// pause the video (if the story was a video)
     if (currentStory.media.isVideoFileName) {
-      cashedVideos[currentStory.media]!.pause();
+      cashedVideos[currentStory.media]!.pauseVideo();
     }
 
     /// if this is the first story for
@@ -151,8 +161,9 @@ class UserStoryController extends GetxController {
 
     final storyDuration = currentStory.media.isImageFileName
         ? IMAGE_STORY_DURATION
+        // .controller replaces the old .videoPlayerController getter.
         : cashedVideos[currentStory.media]!
-            .videoPlayerController
+            .controller!
             .value
             .duration;
 
@@ -167,7 +178,7 @@ class UserStoryController extends GetxController {
 
     /// pause the video (if the story was a video)
     if (currentStory.media.isVideoFileName) {
-      cashedVideos[currentStory.media]!.pause();
+      cashedVideos[currentStory.media]!.pauseVideo();
     }
   }
 
@@ -177,7 +188,8 @@ class UserStoryController extends GetxController {
 
     /// resume the video (if the story was a video)
     if (currentStory.media.isVideoFileName) {
-      cashedVideos[currentStory.media]!.resume();
+      // .playVideo() replaces the old .resume() after the Task 2 rename.
+      cashedVideos[currentStory.media]!.playVideo();
     }
   }
 
@@ -201,9 +213,9 @@ class UserStoryController extends GetxController {
 
   @override
   void onClose() {
-    /// pause the video (if the story was video)
+    /// Pause the video and dispose resources when the controller is destroyed.
     if (currentStory.media.isVideoFileName) {
-      cashedVideos[currentStory.media]!.pause();
+      cashedVideos[currentStory.media]!.pauseVideo();
     }
     _timer?.cancel();
     super.onClose();

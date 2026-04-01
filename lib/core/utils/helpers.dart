@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 String formatErrorMsg(dynamic data) {
   if (data is int) {
@@ -47,7 +47,7 @@ extension JsonExtensions on Map {
       if (ignoreValues.contains(key)) {
         continue;
       }
-      debugPrint('   $key: ');
+      AppLogger.debug('   $key: ');
 
       if (value is Map) {
         value.printMap();

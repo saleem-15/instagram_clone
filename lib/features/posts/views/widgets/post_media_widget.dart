@@ -1,6 +1,7 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -68,92 +69,14 @@ class PostMedia extends GetView<PostsController> {
                   :
 
                   /// video
-                  FutureBuilder(
-                      future: controller
-                          .initilizeVideoController(post.postContents[index]),
-                      builder: (context,
-                          AsyncSnapshot<VideoPlayerController> snapshot) {
-                        // Loading State
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: LoadingWidget(size: 60, strokeWidth: 1.0),
-                          );
-                        }
-
-                        // Error State
-                        if (snapshot.hasError) {
-                          // Handle the error state (e.g., show a play error icon)
-
-                          return const Center(
-                            child: Icon(Icons.error, color: Colors.white),
-                          );
-                        }
-
-                        if (snapshot.hasData) {
-                          final videoController = snapshot.data!;
-                          return GestureDetector(
-                            onTap: () {
-                              controller.onVideoTapped(
-                                  snapshot.data!, post, index);
-                              showVideoAudioIconTemporary();
-                            },
-                            onDoubleTap: () => controller.onPostDoubleTap(
-                                post, isHeartVisible),
-                            child: Stack(children: [
-                              Positioned.fill(
-                                child: ClipRect(
-                                  child: FittedBox(
-                                    fit: BoxFit.cover,
-                                    child: SizedBox(
-                                      width: videoController.value.size.width,
-                                      height: videoController.value.size.height,
-                                      child: VideoPlayer(videoController),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Obx(
-                                () => isAudioIconVisible.isFalse
-                                    ? const SizedBox.shrink()
-                                    : GetBuilder<PostsController>(
-                                        assignId: true,
-                                        id: '${post.id} $index',
-                                        builder: (_) {
-                                          return AnimatedScale(
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            scale: 1.2,
-                                            child: Center(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xff2d2d37),
-                                                  shape: BoxShape.circle,
-                                                ),
-                                                child: Icon(
-                                                  videoController
-                                                              .value.volume ==
-                                                          1
-                                                      ? Icons.volume_up_outlined
-                                                      : Icons
-                                                          .volume_off_rounded,
-                                                  color: Colors.white
-                                                      .withValues(alpha: .8),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                              )
-                            ]),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
+                  _PostVideoItem(
+                    videoUrl: post.postContents[index],
+                    post: post,
+                    index: index,
+                    postsController: controller,
+                    isAudioIconVisible: isAudioIconVisible,
+                    isHeartVisible: isHeartVisible,
+                  ),
             );
           },
         ),
@@ -225,5 +148,122 @@ class PostMedia extends GetView<PostsController> {
     isAudioIconVisible(true);
     await Future.delayed(const Duration(seconds: 2));
     isAudioIconVisible(false);
+  }
+}
+
+class _PostVideoItem extends StatefulWidget {
+  final String videoUrl;
+  final Post post;
+  final int index;
+  final PostsController postsController;
+  final RxBool isAudioIconVisible;
+  final RxBool isHeartVisible;
+
+  const _PostVideoItem({
+    required this.videoUrl,
+    required this.post,
+    required this.index,
+    required this.postsController,
+    required this.isAudioIconVisible,
+    required this.isHeartVisible,
+  });
+
+  @override
+  State<_PostVideoItem> createState() => _PostVideoItemState();
+}
+
+class _PostVideoItemState extends State<_PostVideoItem> {
+  late MyVideoController _myVideoController;
+
+  @override
+  void initState() {
+    super.initState();
+    _myVideoController = MyVideoController(videoUrl: widget.videoUrl);
+    _myVideoController.initialize().then((_) {
+      _myVideoController.controller?.setVolume(0); // Videos are silent by default
+      if (mounted) setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _myVideoController.disposeVideo();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_myVideoController.isInitialized || _myVideoController.controller == null) {
+      return const Center(
+        child: LoadingWidget(size: 60, strokeWidth: 1.0),
+      );
+    }
+    
+    final videoController = _myVideoController.controller!;
+    
+    return VisibilityDetector(
+      key: Key('post_${widget.post.id}_${widget.index}'),
+      onVisibilityChanged: (info) {
+        _myVideoController.handleVisibility(info.visibleFraction, onStateChanged: () {
+          if (mounted) setState(() {});
+        });
+      },
+      child: GestureDetector(
+        onTap: () {
+          videoController.setVolume(videoController.value.volume == 0 ? 1 : 0);
+          widget.postsController.update(['${widget.post.id} ${widget.index}']);
+          
+          widget.isAudioIconVisible(true);
+          Future.delayed(const Duration(seconds: 2)).then((_){
+            widget.isAudioIconVisible(false);
+          });
+        },
+        onDoubleTap: () => widget.postsController.onPostDoubleTap(
+            widget.post, widget.isHeartVisible),
+        child: Stack(children: [
+          Positioned.fill(
+            child: ClipRect(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: videoController.value.size.width,
+                  height: videoController.value.size.height,
+                  child: VideoPlayer(videoController),
+                ),
+              ),
+            ),
+          ),
+          Obx(
+            () => widget.isAudioIconVisible.isFalse
+                ? const SizedBox.shrink()
+                : GetBuilder<PostsController>(
+                    assignId: true,
+                    id: '${widget.post.id} ${widget.index}',
+                    builder: (_) {
+                      return AnimatedScale(
+                        duration: const Duration(milliseconds: 300),
+                        scale: 1.2,
+                        child: Center(
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                              color: Color(0xff2d2d37),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              videoController.value.volume == 1
+                                  ? Icons.volume_up_outlined
+                                  : Icons.volume_off_rounded,
+                              color: Colors.white.withValues(alpha: .8),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+          )
+        ]),
+      ),
+    );
   }
 }

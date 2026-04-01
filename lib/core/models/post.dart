@@ -1,8 +1,18 @@
+import 'package:instagram_clone/core/models/story.dart';
+import 'package:isar/isar.dart';
 import 'user.dart';
+
+part 'post.g.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+@collection
 class Post {
+  /// Internal Isar ID required for 64-bit local storage.
+  Id isarId = Isar.autoIncrement;
+
+  /// Unique API String ID. Indexed for fast local lookups and conflict resolution.
+  @Index(unique: true, replace: true)
   String id;
   User user;
   bool isFavorite;
