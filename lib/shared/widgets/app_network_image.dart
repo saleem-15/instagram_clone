@@ -9,6 +9,7 @@ class AppNetworkImage extends StatelessWidget {
   final BoxFit fit;
   final int? memCacheWidth;
   final int? memCacheHeight;
+  final Map<String, String>? httpHeaders;
 
   const AppNetworkImage({
     super.key,
@@ -18,6 +19,7 @@ class AppNetworkImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.memCacheWidth,
     this.memCacheHeight,
+    this.httpHeaders,
   });
 
   @override
@@ -37,6 +39,7 @@ class AppNetworkImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
+      httpHeaders: httpHeaders,
       cacheManager: ImageCacheService.imageManager,
       memCacheWidth: calculatedMemCacheWidth,
       memCacheHeight: calculatedMemCacheHeight,
