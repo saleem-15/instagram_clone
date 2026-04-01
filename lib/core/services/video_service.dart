@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
@@ -83,10 +84,17 @@ class VideoService extends GetxService {
     final fileInfo = await getCachedVideo(url);
     VideoPlayerController controller;
 
-    if (fileInfo != null) {
+    if (fileInfo != null &&
+        await fileInfo.file.exists() &&
+        await fileInfo.file.length() > 0) {
       AppLogger.success('✅ [VIDEO CACHE HIT]: Playing from File');
       controller = VideoPlayerController.file(fileInfo.file);
     } else {
+      if (fileInfo != null) {
+        AppLogger.warning(
+            '⚠️ [VIDEO CACHE CORRUPTED]: Detected 0-byte or missing file for $url. Deleting.');
+        await fileInfo.file.delete();
+      }
       AppLogger.info('🌐 [VIDEO CACHE MISS]: Fetching from Network');
       controller = VideoPlayerController.networkUrl(
         Uri.parse(url),
@@ -95,7 +103,30 @@ class VideoService extends GetxService {
     }
 
     _controllers[url] = controller;
-    await controller.initialize();
+
+    try {
+      await controller.initialize();
+    } catch (e) {
+      if (e is PlatformException) {
+        AppLogger.warning(
+            '❌ [VIDEO INIT ERROR]: PlatformException for $url. Falling back to network.');
+
+        // If the failed controller was playing from a file, try network as fallback
+        if (controller.dataSourceType == DataSourceType.file) {
+          await controller.dispose();
+          controller = VideoPlayerController.networkUrl(
+            Uri.parse(url),
+            httpHeaders: Api.headers,
+          );
+          _controllers[url] = controller;
+          await controller.initialize();
+        } else {
+          rethrow;
+        }
+      } else {
+        rethrow;
+      }
+    }
 
     return controller;
   }
