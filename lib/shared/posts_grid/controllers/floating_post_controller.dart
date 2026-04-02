@@ -20,7 +20,8 @@ class FloatingPostController extends GetxController
 
     animation = CurvedAnimation(
       parent: _animationController,
-      curve: Curves.easeInOut,
+      curve: Curves.easeOut,
+      // curve: Curves.easeOutBack,
     );
 
     super.onInit();
