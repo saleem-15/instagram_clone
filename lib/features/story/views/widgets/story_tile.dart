@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instagram_clone/core/utils/logger.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,9 +24,10 @@ class StoryTile extends GetView<StoriesController> {
 
   @override
   Widget build(BuildContext context) {
-    final ImageProvider userImage = (user.image == null
+    final normalizedImage = user.image != null ? Api.normalizeUrl(user.image!) : null;
+    final ImageProvider userImage = (normalizedImage == null
         ? const AssetImage('assets/images/default_user_image.png')
-        : CachedNetworkImageProvider(user.image!)) as ImageProvider;
+        : CachedNetworkImageProvider(normalizedImage)) as ImageProvider;
 
     return GestureDetector(
       onTap: () => controller.onStoryTilePressed(userIndex),

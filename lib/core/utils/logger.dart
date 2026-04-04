@@ -9,7 +9,7 @@ class AppLogger {
 
     // Professional colored formatting.
     printer: PrettyPrinter(
-      methodCount: 1, // Number of method calls to display.
+      methodCount: 2, // Number of method calls to display.
 
       // Number of method calls to display if stacktrace is provided.
       errorMethodCount: 8,

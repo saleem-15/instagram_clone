@@ -1,6 +1,7 @@
 import 'package:instagram_clone/core/models/story.dart';
 import 'package:isar/isar.dart';
 import 'package:instagram_clone/core/models/user.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 
 part 'reel.g.dart';
 
@@ -21,8 +22,8 @@ class Reel {
   ///
   /// Storage: Storing strings as primary keys consumes significantly more memory and disk space.
   ///
-  /// Solution: By adding a separate isarId field of type int, 
-  /// you let Isar manage its own efficient internal primary key 
+  /// Solution: By adding a separate isarId field of type int,
+  /// you let Isar manage its own efficient internal primary key
   /// while still using your API's id for unique identification and conflict resolution.
   Id isarId = Isar.autoIncrement;
 
@@ -52,7 +53,7 @@ class Reel {
   factory Reel.fromMap(Map<String, dynamic> map) {
     return Reel(
       id: map['reels_id'].toString(),
-      reelMediaUrl: map['reels'],
+      reelMediaUrl: Api.normalizeUrl(map['reels'] ?? ''),
       user: User.fromMap(map['user']),
       isFavorite: map['is_favorite'] ?? false,
       isSaved: map['is_saved'] ?? false, // Defaulting if API lacks it

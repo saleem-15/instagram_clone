@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instagram_clone/core/utils/logger.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class StoryMedia extends StatelessWidget {
         id: 'story media',
         builder: (controller) {
 
-          final storyUrl = storyController.currentStory.media;
+          final storyUrl = Api.normalizeUrl(storyController.currentStory.media);
           return storyUrl.isImageFileName
               ?
 

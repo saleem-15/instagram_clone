@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instagram_clone/core/utils/logger.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:instagram_clone/core/models/user.dart';
@@ -12,9 +13,10 @@ class FloatingAvatarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ImageProvider backgroundImage = (user.image == null
+    final normalizedImage = user.image != null ? Api.normalizeUrl(user.image!) : null;
+    final ImageProvider backgroundImage = (normalizedImage == null
         ? const AssetImage('assets/images/default_user_image.png')
-        : CachedNetworkImageProvider(user.image!)) as ImageProvider;
+        : CachedNetworkImageProvider(normalizedImage)) as ImageProvider;
 
     return Positioned.fill(
       child: BackdropFilter(

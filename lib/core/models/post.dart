@@ -1,5 +1,6 @@
 import 'package:instagram_clone/core/models/story.dart';
 import 'package:isar/isar.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'user.dart';
 
 part 'post.g.dart';
@@ -46,7 +47,7 @@ class Post {
       numOfLikes: map['likes_num'],
       numOfComments: map['num_of_comments'],
       postContents: List<String>.from(map['post_media'])
-          // .map((e) => 'http://$baseUrl/${e.substring(17)}')
+          .map((e) => Api.normalizeUrl(e))
           .toList(),
       caption: map['caption'],
     );

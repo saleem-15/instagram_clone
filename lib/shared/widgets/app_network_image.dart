@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/core/services/image_cache_service.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 
 class AppNetworkImage extends StatelessWidget {
   final String imageUrl;
@@ -35,7 +36,7 @@ class AppNetworkImage extends StatelessWidget {
         (height != null ? (height! * devicePixelRatio).round() : null);
 
     return CachedNetworkImage(
-      imageUrl: imageUrl,
+      imageUrl: Api.normalizeUrl(imageUrl),
       width: width,
       height: height,
       fit: fit,

@@ -55,6 +55,41 @@ class Api {
   static const SEARCH_FOLLOWING_PATH = '/following/search';
   static const FOLLOW_USER_PATH = '/follow';
 
+  /// Fixes media URLs from the backend.
+  ///
+  /// The backend always prepends its storage path to image URLs stored in the DB.
+  /// When the DB already contains an absolute URL (e.g. from Gravatar/Pravatar),
+  /// the result is a broken nested URL like:
+  ///   `http://10.15.4.120:8000/img/users/profile/https://i.pravatar.cc/300?u=saleem`
+  ///
+  /// This method detects nested protocols and extracts the real URL.
+  /// For relative paths (no protocol at all), it prepends [apiUrl].
+  static String normalizeUrl(String url) {
+    if (url.isEmpty) return url;
+
+    // Find the LAST occurrence of http:// or https://
+    // If there are two protocols, the second one is the real URL.
+    final httpsIndex = url.lastIndexOf('https://');
+    final httpIndex = url.lastIndexOf('http://');
+    final lastProtocol = httpsIndex > httpIndex ? httpsIndex : httpIndex;
+
+    // If a protocol exists and it's NOT at position 0, it's nested → extract it
+    if (lastProtocol > 0) {
+      return url.substring(lastProtocol);
+    }
+
+    // If a protocol exists at position 0, the URL is already valid
+    if (lastProtocol == 0) {
+      return url;
+    }
+
+    // No protocol found → relative path, prepend base URL
+    final cleanPath = url.startsWith('/') ? url : '/$url';
+    final base =
+        apiUrl.endsWith('/') ? apiUrl.substring(0, apiUrl.length - 1) : apiUrl;
+    return '$base$cleanPath';
+  }
+
   /// Returns a map of standard headers including the authentication token.
   /// Useful for widgets like [CachedNetworkImage] or [VideoPlayer] that need headers.
   static Map<String, String> get headers => {
