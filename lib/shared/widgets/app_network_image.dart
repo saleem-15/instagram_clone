@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/core/services/image_cache_service.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 class AppNetworkImage extends StatelessWidget {
   final String imageUrl;
@@ -49,18 +50,21 @@ class AppNetworkImage extends StatelessWidget {
         height: height,
         color: Colors.grey.withValues(alpha: .1),
       ),
-      errorWidget: (context, url, error) => Container(
-        width: width,
-        height: height,
-        color: Colors.grey.withValues(alpha: .1),
-        child: const Center(
-          child: Icon(
-            Icons.wifi_off_rounded,
-            color: Colors.grey,
-            size: 24,
+      errorWidget: (context, url, error) {
+        AppLogger.error('Image error: $url', error, StackTrace.current);
+        return Container(
+          width: width,
+          height: height,
+          color: Colors.grey.withValues(alpha: .1),
+          child: const Center(
+            child: Icon(
+              Icons.wifi_off_rounded,
+              color: Colors.grey,
+              size: 24,
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

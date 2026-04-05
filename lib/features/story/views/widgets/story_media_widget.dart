@@ -37,7 +37,7 @@ class StoryMedia extends StatelessWidget {
               Builder(
                   builder: (_) {
 
-                    final image = CachedNetworkImageProvider(storyUrl);
+                    final image = CachedNetworkImageProvider(storyUrl, headers: Api.headers);
                     return Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(

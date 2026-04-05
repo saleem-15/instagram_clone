@@ -62,8 +62,8 @@ class EditProfileView extends GetView<EditProfileController> {
                           ? FileImage(controller.selectedImage.value!)
                               as ImageProvider
                           : (normalizedImage != null
-                              ? CachedNetworkImageProvider(normalizedImage)
-                                  as ImageProvider
+                              ? CachedNetworkImageProvider(normalizedImage,
+                                  headers: Api.headers) as ImageProvider
                               : const AssetImage(
                                       'assets/images/default_user_image.png')
                                   as ImageProvider),

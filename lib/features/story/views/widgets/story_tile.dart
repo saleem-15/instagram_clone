@@ -27,7 +27,8 @@ class StoryTile extends GetView<StoriesController> {
     final normalizedImage = user.image != null ? Api.normalizeUrl(user.image!) : null;
     final ImageProvider userImage = (normalizedImage == null
         ? const AssetImage('assets/images/default_user_image.png')
-        : CachedNetworkImageProvider(normalizedImage)) as ImageProvider;
+        : CachedNetworkImageProvider(normalizedImage, headers: Api.headers))
+            as ImageProvider;
 
     return GestureDetector(
       onTap: () => controller.onStoryTilePressed(userIndex),
