@@ -147,6 +147,12 @@ class VideoService extends GetxService {
     }
   }
 
+  /// Clears all cached video files from the custom video cache.
+  Future<void> clearCache() async {
+    await CustomCacheManager().emptyCache();
+    AppLogger.success('🗑️ [VIDEO CACHE]: All video files cleared successfully');
+  }
+
   @override
   void onClose() {
     for (var controller in _controllers.values) {
