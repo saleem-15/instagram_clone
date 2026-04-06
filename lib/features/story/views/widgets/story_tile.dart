@@ -24,11 +24,12 @@ class StoryTile extends GetView<StoriesController> {
 
   @override
   Widget build(BuildContext context) {
-    final normalizedImage = user.image != null ? Api.normalizeUrl(user.image!) : null;
+    final normalizedImage =
+        user.image != null ? Api.normalizeUrl(user.image!) : null;
     final ImageProvider userImage = (normalizedImage == null
-        ? const AssetImage('assets/images/default_user_image.png')
-        : CachedNetworkImageProvider(normalizedImage, headers: Api.headers))
-            as ImageProvider;
+            ? const AssetImage('assets/images/default_user_image.png')
+            : CachedNetworkImageProvider(normalizedImage, headers: Api.headers))
+        as ImageProvider;
 
     return GestureDetector(
       onTap: () => controller.onStoryTilePressed(userIndex),
@@ -50,8 +51,8 @@ class StoryTile extends GetView<StoriesController> {
                     : null,
                 border: !user.isHasNewStory
                     ? Border.all(
-                        color: Colors.grey.shade300,
-                        width: 1.5,
+                        color: Colors.grey.shade800,
+                        width: 3.sp,
                         style: BorderStyle.solid,
                       )
                     : null,
@@ -60,8 +61,8 @@ class StoryTile extends GetView<StoriesController> {
                 radius: STORY_TILE_SIZE,
                 backgroundImage: userImage,
                 onBackgroundImageError: (exception, stackTrace) {
-                  AppLogger.error(
-                      'Story Tile Image error: ${user.image}', exception, stackTrace);
+                  AppLogger.error('Story Tile Image error: ${user.image}',
+                      exception, stackTrace);
                 },
               ),
               // .marginAll(5.sp),
