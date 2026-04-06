@@ -11,12 +11,72 @@
 
 ---
 
-## Demo
+## 🎬 Demo
 
-<!-- Replace with actual recordings when available -->
-| Home Feed | Reels | Offline Mode |
-|:---------:|:-----:|:------------:|
-| ![Feed Demo](docs/demo_feed.gif) | ![Reels Demo](docs/demo_reels.gif) | ![Offline Demo](docs/demo_offline.gif) |
+<table>
+  <tr>
+    <td align="center"><b>Home Feed — SWR & Infinite Scroll</b></td>
+    <td align="center"><b>Reels — Zero-Latency Playback</b></td>
+  </tr>
+  <tr>
+    <td><video src="docs/videos/home%20feed.mp4" autoplay muted loop width="100%"></video></td>
+    <td><video src="docs/videos/reels.mp4" autoplay muted loop width="100%"></video></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Stories — Auto-Advance Timer</b></td>
+    <td align="center"><b>Explorer — Long-Press Quick Peek</b></td>
+  </tr>
+  <tr>
+    <td><video src="docs/videos/stories.mp4" autoplay muted loop width="100%"></video></td>
+    <td><video src="docs/videos/floating%20post.mp4" autoplay muted loop width="100%"></video></td>
+  </tr>
+</table>
+
+---
+
+## 📱 Screenshots
+
+<table>
+  <tr>
+    <td align="center"><b>Home Feed</b></td>
+    <td align="center"><b>Post in Feed</b></td>
+    <td align="center"><b>Reels</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/home.jpg" width="220"/></td>
+    <td><img src="docs/screenshots/post%20on%20home%20feed.jpg" width="220"/></td>
+    <td><img src="docs/screenshots/reel.jpg" width="220"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Stories</b></td>
+    <td align="center"><b>Explorer Grid</b></td>
+    <td align="center"><b>Comments</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/story.jpg" width="220"/></td>
+    <td><img src="docs/screenshots/explorer.jpg" width="220"/></td>
+    <td><img src="docs/screenshots/comments.jpg" width="220"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Profile</b></td>
+    <td align="center"><b>Followers</b></td>
+    <td align="center"><b>Edit Profile</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/profile.jpg" width="220"/></td>
+    <td><img src="docs/screenshots/followers.jpg" width="220"/></td>
+    <td><img src="docs/screenshots/edit%20profile.jpg" width="220"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Quick Peek</b></td>
+    <td align="center"><b></b></td>
+    <td align="center"><b></b></td>
+  </tr>
+  <tr>
+    <td colspan="1"><img src="docs/screenshots/Quick%20Peek.jpg" width="220"/></td>
+    <td colspan="2"></td>
+  </tr>
+</table>
 
 ---
 
