@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:instagram_clone/shared/loading_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../controllers/reel_player_controller.dart';
 
-class ReelPlayer extends StatefulWidget {
+class ReelPlayer extends StatelessWidget {
   const ReelPlayer({
     super.key,
     required this.tag,
@@ -18,52 +17,38 @@ class ReelPlayer extends StatefulWidget {
   final ReelPlayerController controller;
 
   @override
-  State<ReelPlayer> createState() => _ReelPlayerState();
-}
-
-class _ReelPlayerState extends State<ReelPlayer> {
-  @override
-  void initState() {
-    super.initState();
-    // Re-render when initialized
-    widget.controller.myVideoController.initialize().then((_) {
-      if (mounted) setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (!widget.controller.myVideoController.isInitialized || widget.controller.myVideoController.controller == null) {
-      return const Center(child: LoadingWidget());
-    }
     return GetBuilder<ReelPlayerController>(
-      tag: widget.tag,
+      tag: tag,
       id: 'playback',
       builder: (cv) {
-        final isPlaying = !widget.controller.myVideoController.isPaused;
+        final myVc = controller.myVideoController;
+
+        // ── Not ready yet → seamless black background (no spinner) ──
+        if (!myVc.isInitialized || myVc.controller == null) {
+          return Container(color: Colors.black);
+        }
+
+        final isPlaying = !myVc.isPaused;
+
         return VisibilityDetector(
-          key: Key('reel_${widget.controller.reel.id}'),
+          key: Key('reel_${controller.reel.id}'),
           onVisibilityChanged: (info) {
-            widget.controller.myVideoController.handleVisibility(info.visibleFraction, onStateChanged: () {
-              if (mounted) setState(() {});
-            });
+            myVc.handleVisibility(info.visibleFraction);
           },
           child: GestureDetector(
-            onTap: () {
-              widget.controller.togglePlay();
-              setState(() {});
-            },
+            onTap: controller.togglePlay,
             child: Stack(
               fit: StackFit.expand,
               children: [
                 Center(
                   child: AspectRatio(
-                    aspectRatio: widget.controller.myVideoController.controller!.value.aspectRatio,
+                    aspectRatio: myVc.controller!.value.aspectRatio,
                     child: Obx(
                       () => ClipRRect(
                           borderRadius: BorderRadiusGeometry.circular(
-                              widget.controller.isCommentsOpen.value ? 20 : 0),
-                          child: VideoPlayer(widget.controller.myVideoController.controller!)),
+                              controller.isCommentsOpen.value ? 20 : 0),
+                          child: VideoPlayer(myVc.controller!)),
                     ),
                   ),
                 ),
@@ -91,4 +76,3 @@ class _ReelPlayerState extends State<ReelPlayer> {
     );
   }
 }
-

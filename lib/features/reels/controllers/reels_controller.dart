@@ -33,6 +33,13 @@ class ReelsController extends GetxController {
   /// Tracks the [MyVideoController] instance per reel index for lifecycle management.
   final Map<int, MyVideoController> _activeControllers = {};
 
+  /// Pre-initialized [MyVideoController]s for upcoming reels, keyed by URL.
+  ///
+  /// When the user is watching reel `i`, we eagerly create and initialize
+  /// the controller for reel `i+1`. By the time they swipe, the native
+  /// decoder is already ready — no loading circle.
+  final Map<String, MyVideoController> _preInitControllers = {};
+
   @override
   void onInit() {
     super.onInit();
@@ -45,6 +52,11 @@ class ReelsController extends GetxController {
     AppLogger.debug('reels: $result');
     reels.assignAll(result);
 
+    // Eagerly pre-init the first reel so it's ready the instant the UI builds.
+    if (reels.isNotEmpty) {
+      _preInitForUrl(reels[0].reelMediaUrl);
+    }
+
     isLoading(false);
   }
 
@@ -52,10 +64,11 @@ class ReelsController extends GetxController {
   ///
   /// Performs three operations in order:
   /// 1. Pre-caches the videos at `index + 1` and `index + 2`.
-  /// 2. Disposes any controllers outside the `[index-1, index+1]` window.
-  /// 3. Registers the current index's controller if not already tracked.
+  /// 2. Pre-initializes the native decoder for `index + 1`.
+  /// 3. Disposes any controllers outside the `[index-1, index+1]` window.
   void onPageChanged(int index) {
     _preCacheAhead(index);
+    _preInitAhead(index);
     _enforceRuleOfThree(index);
   }
 
@@ -67,6 +80,35 @@ class ReelsController extends GetxController {
         VideoService.to.preCacheVideo(reels[targetIndex].reelMediaUrl);
       }
     }
+  }
+
+  /// Eagerly initializes [MyVideoController] for the next reel.
+  ///
+  /// Because the video file is already disk-cached (via [_preCacheAhead]),
+  /// this initialization is essentially just setting up the native decoder
+  /// (~50-100 ms from disk), making the transition completely seamless.
+  void _preInitAhead(int currentIndex) {
+    final nextIndex = currentIndex + 1;
+    if (nextIndex < reels.length) {
+      _preInitForUrl(reels[nextIndex].reelMediaUrl);
+    }
+  }
+
+  /// Creates and starts initializing a [MyVideoController] for [url] if one
+  /// doesn't already exist in the pre-init cache.
+  void _preInitForUrl(String url) {
+    if (_preInitControllers.containsKey(url)) return;
+    final ctrl = MyVideoController(videoUrl: url);
+    _preInitControllers[url] = ctrl;
+    ctrl.initialize(); // fire-and-forget; idempotent if called again
+  }
+
+  /// Returns (and removes) a pre-initialized controller for [url], or `null`.
+  ///
+  /// Called by [ReelPlayerController.onInit] to claim a warm controller
+  /// instead of creating a cold one from scratch.
+  MyVideoController? takePreInitController(String url) {
+    return _preInitControllers.remove(url);
   }
 
   /// Disposes every controller outside the `[i-1, i+1]` window.
@@ -93,7 +135,7 @@ class ReelsController extends GetxController {
     _activeControllers[index] = controller;
   }
 
-  /// Disposes **every** active video controller.
+  /// Disposes **every** active video controller and pre-initialized controller.
   ///
   /// Used when the user switches bottom-navigation tabs or leaves the reels
   /// screen entirely. This is the nuclear cleanup option.
@@ -102,6 +144,11 @@ class ReelsController extends GetxController {
       controller.disposeVideo();
     }
     _activeControllers.clear();
+
+    for (final controller in _preInitControllers.values) {
+      controller.disposeVideo();
+    }
+    _preInitControllers.clear();
   }
 
   Future<void> uploadReel(File videoFile) async {

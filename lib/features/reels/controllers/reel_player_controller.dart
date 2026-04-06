@@ -9,6 +9,7 @@ import 'package:instagram_clone/core/models/post.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/features/comments/controllers/comments_controller.dart';
 import 'package:instagram_clone/core/utils/my_video_controller.dart';
+import 'package:instagram_clone/features/reels/controllers/reels_controller.dart';
 
 /// Every Reel Has Its Own Controller
 class ReelPlayerController extends GetxController {
@@ -31,7 +32,20 @@ class ReelPlayerController extends GetxController {
   void onInit() {
     super.onInit();
     showFollowButton = (!reel.user.isMe && !reel.user.doIFollowHim);
-    myVideoController = MyVideoController(videoUrl: reel.reelMediaUrl);
+
+    // Try to claim a pre-initialized controller from ReelsController.
+    // If the user is swiping through the feed, the next reel's decoder
+    // is already warm — resulting in zero loading time.
+    MyVideoController? preInit;
+    try {
+      preInit = Get.find<ReelsController>().takePreInitController(reel.reelMediaUrl);
+    } catch (_) {
+      // ReelsController may not exist (e.g., reel opened from a profile).
+    }
+
+    myVideoController = preInit ?? MyVideoController(videoUrl: reel.reelMediaUrl);
+
+    // Idempotent: if pre-init already completed, this returns immediately.
     myVideoController.initialize().then((_) {
       isInitialized(true);
       update(['playback']);
