@@ -1,4 +1,5 @@
 import 'package:instagram_clone/core/models/story.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 import 'package:isar/isar.dart';
 import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'user.dart';
@@ -37,6 +38,7 @@ class Post {
   });
 
   factory Post.fromMap(Map<String, dynamic> map) {
+    AppLogger.debug('post: $map');
     return Post(
       id: map['post_id'].toString(),
       user: User.fromMap(map['user']),

@@ -2,14 +2,13 @@ import 'package:instagram_clone/features/follows/services/follow_user_service.da
 import 'package:instagram_clone/features/follows/services/unfollow_service.dart';
 import 'package:instagram_clone/features/posts/services/set_post_is_saved_service.dart';
 import 'package:instagram_clone/features/posts/services/set_post_is_loved_service.dart';
-import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 import 'package:instagram_clone/core/models/reel.dart';
 import 'package:instagram_clone/core/models/post.dart';
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/features/comments/controllers/comments_controller.dart';
+import 'package:instagram_clone/core/utils/my_video_controller.dart';
 
 /// Every Reel Has Its Own Controller
 class ReelPlayerController extends GetxController {
@@ -18,7 +17,7 @@ class ReelPlayerController extends GetxController {
 
   ReelPlayerController({required this.reel, required this.tag});
 
-  VideoPlayerController? videoController;
+  late final MyVideoController myVideoController;
   var isInitialized = false.obs;
   var isCommentsOpen = false.obs;
   late final bool showFollowButton;
@@ -32,7 +31,11 @@ class ReelPlayerController extends GetxController {
   void onInit() {
     super.onInit();
     showFollowButton = (!reel.user.isMe && !reel.user.doIFollowHim);
-    _initVideo();
+    myVideoController = MyVideoController(videoUrl: reel.reelMediaUrl);
+    myVideoController.initialize().then((_) {
+      isInitialized(true);
+      update(['playback']);
+    });
   }
 
   void onVerticalDragUpdate(DragUpdateDetails details) {
@@ -50,7 +53,6 @@ class ReelPlayerController extends GetxController {
     if (dragOffset.value > 100 || (details.primaryVelocity ?? 0) > 300) {
       isCommentsOpen.value = false;
       dragOffset.value = 0.0;
-      isCommentsOpen.value = false;
       Get.delete<CommentsController>(tag: tag);
       _resumeVideo();
     }
@@ -67,17 +69,13 @@ class ReelPlayerController extends GetxController {
   }
 
   void _pauseVideo() {
-    if (videoController != null && videoController!.value.isPlaying) {
-      videoController!.pause();
-      update(['playback']);
-    }
+    myVideoController.pauseVideo();
+    update(['playback']);
   }
 
   void _resumeVideo() {
-    if (videoController != null && !videoController!.value.isPlaying) {
-      videoController!.play();
-      update(['playback']);
-    }
+    myVideoController.playVideo();
+    update(['playback']);
   }
 
   void playVideo() {
@@ -88,21 +86,11 @@ class ReelPlayerController extends GetxController {
     _pauseVideo();
   }
 
-  Future<void> _initVideo() async {
-    videoController = await VideoService.to.getController(reel.reelMediaUrl);
-    videoController!.setLooping(true);
-    videoController!.addListener(() {
-      update(['playback']);
-    });
-    isInitialized(true);
-  }
-
   void togglePlay() {
-    if (videoController == null) return;
-    if (videoController!.value.isPlaying) {
-      videoController!.pause();
+    if (myVideoController.isPaused) {
+      myVideoController.playVideo();
     } else {
-      videoController!.play();
+      myVideoController.pauseVideo();
     }
     update(['playback']);
   }
@@ -175,7 +163,7 @@ class ReelPlayerController extends GetxController {
 
   @override
   void onClose() {
-    VideoService.to.releaseController(reel.reelMediaUrl);
+    myVideoController.disposeVideo();
     super.onClose();
   }
 }

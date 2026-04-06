@@ -28,7 +28,6 @@ class StoryMedia extends StatelessWidget {
         assignId: true,
         id: 'story media',
         builder: (controller) {
-
           final storyUrl = Api.normalizeUrl(storyController.currentStory.media);
           return storyUrl.isImageFileName
               ?
@@ -36,8 +35,8 @@ class StoryMedia extends StatelessWidget {
               /// image
               Builder(
                   builder: (_) {
-
-                    final image = CachedNetworkImageProvider(storyUrl, headers: Api.headers);
+                    final image = CachedNetworkImageProvider(storyUrl,
+                        headers: Api.headers);
                     return Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
@@ -78,6 +77,13 @@ class StoryMedia extends StatelessWidget {
                         (_, AsyncSnapshot<VideoPlayerController> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const LoadingWidget();
+                      }
+                      if (snapshot.hasError) {
+                        AppLogger.error('Story Media Video error: $storyUrl',
+                            snapshot.error, snapshot.stackTrace);
+                        return const Center(
+                          child: Icon(Icons.broken_image, color: Colors.grey),
+                        );
                       }
                       final videoController = snapshot.data!;
 

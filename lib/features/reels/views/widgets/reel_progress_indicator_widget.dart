@@ -17,12 +17,12 @@ class ReelProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isInitialized.value &&
-          controller.videoController != null) {
+          controller.myVideoController.controller != null) {
         return SizedBox(
           height: 12.sp,
           width: Get.width,
           child: VideoProgressIndicator(
-            controller.videoController!,
+            controller.myVideoController.controller!,
             allowScrubbing: true,
             padding: EdgeInsets.only(top: 5.sp, bottom: 5.sp),
             colors: const VideoProgressColors(

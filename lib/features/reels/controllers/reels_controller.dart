@@ -42,6 +42,7 @@ class ReelsController extends GetxController {
   Future<void> fetchReels() async {
     isLoading(true);
     final result = await ReelsService.getReelsFeed();
+    AppLogger.debug('reels: $result');
     reels.assignAll(result);
 
     isLoading(false);
@@ -75,9 +76,8 @@ class ReelsController extends GetxController {
   void _enforceRuleOfThree(int currentIndex) {
     final keepRange = {currentIndex - 1, currentIndex, currentIndex + 1};
 
-    final indicesToRemove = _activeControllers.keys
-        .where((i) => !keepRange.contains(i))
-        .toList();
+    final indicesToRemove =
+        _activeControllers.keys.where((i) => !keepRange.contains(i)).toList();
 
     for (final i in indicesToRemove) {
       AppLogger.debug('🗑️ [MEMORY]: Disposing controller at index $i');

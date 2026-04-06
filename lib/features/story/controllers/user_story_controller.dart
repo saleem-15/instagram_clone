@@ -152,7 +152,6 @@ class UserStoryController extends GetxController {
   ///
   /// YOU MUST make sure that [currentStoryIndex] has the value of the story that you want to start
   void startStory() {
-
     if (!currentStory.isWathced) {
       /// tell the backend that this story is wathed
       setStoryAsWatchedService(currentStory.id);
@@ -162,10 +161,7 @@ class UserStoryController extends GetxController {
     final storyDuration = currentStory.media.isImageFileName
         ? IMAGE_STORY_DURATION
         // .controller replaces the old .videoPlayerController getter.
-        : cashedVideos[currentStory.media]!
-            .controller!
-            .value
-            .duration;
+        : cashedVideos[currentStory.media]!.controller!.value.duration;
 
     createTimer(storyDuration);
     _timer!.start();

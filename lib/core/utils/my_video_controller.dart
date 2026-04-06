@@ -40,7 +40,7 @@ class MyVideoController {
   bool get isInitialized => _isInitialized;
 
   /// Whether the video is currently paused.
-  bool _isPaused = false;
+  bool _isPaused = true;
   bool get isPaused => _isPaused;
 
   /// Captures a pause intent that was requested before initialization finished.
@@ -79,6 +79,7 @@ class MyVideoController {
     }
 
     await _controller!.initialize();
+    _controller!.setLooping(true); // Always loop reels
     _isInitialized = true;
 
     // Apply the pending pause that arrived before init completed.
@@ -86,6 +87,9 @@ class MyVideoController {
       _controller!.pause();
       _isPaused = true;
       _pendingPause = false;
+    } else if (!_isPaused) {
+      // If playVideo() was called during initialization, actually play it!
+      _controller!.play();
     }
   }
 
