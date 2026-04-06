@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:instagram_clone/app.dart';
 import 'package:instagram_clone/core/network/api_service.dart';
 import 'package:instagram_clone/core/services/feed_cache_service.dart';
+import 'package:instagram_clone/core/services/image_cache_service.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:instagram_clone/core/services/video_service.dart';
 import 'package:instagram_clone/core/theme/my_theme.dart';
@@ -46,12 +47,20 @@ Future<void> main() async {
 
     // Initialize Offline Cache Service
     await FeedCacheService().init();
-
     AuthBinding().dependencies();
 
     // Inject global services
     Get.put(VideoService());
     Get.lazyPut(() => AppController(), fenix: true);
+
+    // Clear Isar Feed Cache (Posts/Reels)
+    // await FeedCacheService().clearCache();
+
+    // Clear Image Cache
+    await ImageCacheService().clearCache();
+
+    // Clear Video Cache
+    // await VideoService.to.clearCache();
 
     runApp(const Main());
   }, (error, stack) {
