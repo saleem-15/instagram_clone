@@ -93,24 +93,24 @@
 │                     Flutter Client                          │
 │                                                             │
 │  ┌───────────┐    ┌──────────────┐    ┌──────────────────┐  │
-│  │   Views    │───▶│  Controllers │───▶│    Services       │  │
-│  │  (GetView) │    │   (GetX)     │    │ (FeedCache, Video)│  │
+│  │   Views   │───▶│  Controllers │──▶│     Services      │  │
+│  │ (GetView) │    │   (GetX)     │    │(FeedCache, Video)│  │
 │  └───────────┘    └──────┬───────┘    └────────┬─────────┘  │
-│                          │                     │             │
+│                          │                     │            │
 │                 ┌────────▼────────┐   ┌────────▼─────────┐  │
 │                 │  Isar NoSQL DB  │   │  VideoService    │  │
 │                 │  (Post, Reel,   │   │  (Ref-Counted    │  │
 │                 │   User schemas) │   │   Controllers +  │  │
 │                 │                 │   │   CacheManager)  │  │
 │                 └─────────────────┘   └──────────────────┘  │
-│                          │                     │             │
+│                          │                     │            │
 │                 ┌────────▼─────────────────────▼─────────┐  │
-│                 │            ApiService (Dio)             │  │
+│                 │            ApiService (Dio)            │  │
 │                 │  ┌─────────────────────────────────┐   │  │
-│                 │  │  InterceptorsWrapper             │   │  │
-│                 │  │  • Auto-attach Bearer token      │   │  │
-│                 │  │  • Environment-aware error log   │   │  │
-│                 │  │  • Timeout policies (30s)        │   │  │
+│                 │  │  InterceptorsWrapper            │   │  │
+│                 │  │  • Auto-attach Bearer token     │   │  │
+│                 │  │  • Environment-aware error log  │   │  │
+│                 │  │  • Timeout policies (30s)       │   │  │
 │                 │  └─────────────────────────────────┘   │  │
 │                 └────────────────────┬───────────────────┘  │
 └──────────────────────────────────────┼──────────────────────┘
