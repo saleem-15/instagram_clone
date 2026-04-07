@@ -15,20 +15,26 @@
 
 <table>
   <tr>
-    <td align="center"><b>Home Feed — SWR & Infinite Scroll</b></td>
-    <td align="center"><b>Reels — Zero-Latency Playback</b></td>
+    <td align="center"><b>📡 Offline Mode — Isar-Powered Local Persistence</b></td>
+    <td align="center"><b>🎬 Reels — Pre-Initialized, Zero-Latency Playback</b></td>
   </tr>
   <tr>
-    <td><video src="docs/videos/home_feed_demo.mp4" autoplay muted loop width="100%"></video></td>
-    <td><video src="docs/videos/reels_demo.mp4" autoplay muted loop width="100%"></video></td>
+    <td><img src="docs/videos/home_feed_demo.gif" width="100%" /></td>
+    <td><img src="docs/videos/reels_demo.gif" width="100%" /></td>
   </tr>
   <tr>
-    <td align="center"><b>Stories — Auto-Advance Timer</b></td>
-    <td align="center"><b>Explorer — Long-Press Quick Peek</b></td>
+    <td align="center"><b>📖 Stories — Auto-Advance with Pause & Resume</b></td>
+    <td align="center"><b>🔍 Explorer — Long-Press Quick Peek Preview</b></td>
   </tr>
   <tr>
     <td><img src="docs/videos/stories_demo.gif" width="100%" /></td>
     <td><img src="docs/videos/quick_peek_demo.gif" width="100%" /></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><b>❤️ Double-Tap to Like — Animated Heart Reaction</b></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="docs/videos/offline_mode_demo.gif" width="50%" /></td>
   </tr>
 </table>
 
