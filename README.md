@@ -1,6 +1,6 @@
-# 📸 Instagram Clone — Offline-First, Memory-Safe Social Media Client
+# 📸 Social Media Architecture (Instagram UI)
 
-**A high-performance Flutter frontend for a collaborative full-stack Instagram clone, built against a custom Laravel REST API. Engineered for offline resilience, deterministic video memory management, and zero-crash production stability.**
+**An offline-first, memory-safe social media client built in Flutter, engineered for high-load media handling and zero-crash stability.**
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?style=flat-square&logo=dart&logoColor=white)](https://dart.dev/)
