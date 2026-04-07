@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:instagram_clone/core/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/models/story.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 
 part 'user.g.dart';
 
@@ -55,7 +56,7 @@ class User {
     if (last == 'default.png' || last.isBlank!) {
       return null;
     }
-    return image;
+    return Api.normalizeUrl(image);
   }
 
   @override

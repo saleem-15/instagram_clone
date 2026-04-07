@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 class FloatingPostController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  // late  Post post;
 
   late AnimationController _animationController;
   late Animation<double> animation;
@@ -20,7 +19,8 @@ class FloatingPostController extends GetxController
 
     animation = CurvedAnimation(
       parent: _animationController,
-      curve: Curves.easeInOut,
+      curve: Curves.easeOut,
+      // curve: Curves.easeOutBack,
     );
 
     super.onInit();

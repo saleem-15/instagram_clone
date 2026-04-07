@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:get/utils.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 
 part 'story.g.dart';
 
@@ -24,7 +25,7 @@ class Story {
   factory Story.fromMap(Map<String, dynamic> map) {
     return Story(
       id: map['story_id']?.toString() ?? '',
-      media: map['media'] ?? '',
+      media: Api.normalizeUrl(map['media'] ?? ''),
       isWathced: map['is_watched'] ?? false,
     );
   }

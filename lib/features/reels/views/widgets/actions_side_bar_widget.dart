@@ -42,13 +42,13 @@ class ActionsSideBar extends StatelessWidget {
                       size: 28,
                       onHeartPressed: cv.onHeartPressed,
                     ),
-                    Text(
-                      '${cv.reel.numOfLikes}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        shadows: shadows,
-                      ),
-                    ),
+                    // Text(
+                    //   '${cv.reel.numOfLikes}',
+                    //   style: const TextStyle(
+                    //     color: Colors.white,
+                    //     shadows: shadows,
+                    //   ),
+                    // ),
                     const SizedBox(height: 15),
 
                     // Comment Button
@@ -63,13 +63,13 @@ class ActionsSideBar extends StatelessWidget {
                       ),
                       onPressed: cv.comment,
                     ),
-                    Text(
-                      '${cv.reel.numOfComments}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        shadows: shadows,
-                      ),
-                    ),
+                    // Text(
+                    //   '${cv.reel.numOfComments}',
+                    //   style: const TextStyle(
+                    //     color: Colors.white,
+                    //     shadows: shadows,
+                    //   ),
+                    // ),
                     const SizedBox(height: 15),
 
                     // Send Button

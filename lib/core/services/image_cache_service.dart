@@ -1,4 +1,5 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:instagram_clone/core/utils/logger.dart';
 
 class ImageCacheService {
   // Singleton pattern
@@ -18,4 +19,10 @@ class ImageCacheService {
       maxNrOfCacheObjects: 200,
     ),
   );
+
+  /// Clears all cached images from the custom image cache.
+  Future<void> clearCache() async {
+    await imageManager.emptyCache();
+    AppLogger.success('🗑️ [IMAGE CACHE]: All cached images cleared successfully');
+  }
 }

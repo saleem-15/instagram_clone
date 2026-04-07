@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:instagram_clone/core/theme/dark_theme_colors.dart';
 import 'package:instagram_clone/core/theme/light_theme_colors.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:instagram_clone/features/profile/controllers/edit_profile_controller.dart';
 
 class EditProfileView extends GetView<EditProfileController> {
@@ -47,7 +48,11 @@ class EditProfileView extends GetView<EditProfileController> {
             children: [
               GestureDetector(
                 onTap: controller.pickImage,
-                child: Obx(() => CircleAvatar(
+                child: Obx(() {
+                  final normalizedImage = controller.profile.image != null
+                      ? Api.normalizeUrl(controller.profile.image!)
+                      : null;
+                  return CircleAvatar(
                       radius: 50.sp,
                       backgroundColor:
                           Theme.of(context).brightness == Brightness.dark
@@ -56,9 +61,9 @@ class EditProfileView extends GetView<EditProfileController> {
                       backgroundImage: controller.selectedImage.value != null
                           ? FileImage(controller.selectedImage.value!)
                               as ImageProvider
-                          : (controller.profile.image != null
-                              ? CachedNetworkImageProvider(controller.profile.image!)
-                                  as ImageProvider
+                          : (normalizedImage != null
+                              ? CachedNetworkImageProvider(normalizedImage,
+                                  headers: Api.headers) as ImageProvider
                               : const AssetImage(
                                       'assets/images/default_user_image.png')
                                   as ImageProvider),
@@ -74,7 +79,8 @@ class EditProfileView extends GetView<EditProfileController> {
                               color: Colors.white, size: 18.sp),
                         ),
                       ),
-                    )),
+                    );
+                }),
               ),
               SizedBox(height: 24.sp),
               _buildTextField(

@@ -6,8 +6,10 @@ import 'package:instagram_clone/core/models/post.dart';
 import 'package:instagram_clone/shared/loading_widget.dart';
 import 'package:instagram_clone/shared/no_items_found_widget.dart';
 import 'package:instagram_clone/shared/posts_grid/views/post_grid_tile.dart';
+import 'package:get/get.dart';
 
 import '../controllers/posts_grid_controller.dart';
+import 'floating_post_view.dart';
 
 class PostsGridView extends StatelessWidget {
   const PostsGridView({
@@ -60,14 +62,17 @@ class PostsGridView extends StatelessWidget {
             ),
           ),
         ),
-        // SizedBox(
-        //   width: MediaQuery.of(context).size.width,
-        //   height: MediaQuery.of(context).size.height,
-        //   child: FloatingPostView(
-        //     post: controller.pagingController.itemList!.first,
-        //     controller: Get.put(FloatingPostController()),
-        //   ),
-        // )
+        Obx(() {
+          if (controller.isPostFloating.value) {
+            return Positioned.fill(
+              child: FloatingPostView(
+                post: controller.floatingPost,
+                controller: controller.floatingPostController,
+              ),
+            );
+          }
+          return const SizedBox.shrink();
+        }),
       ],
     );
   }

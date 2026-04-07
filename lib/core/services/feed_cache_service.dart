@@ -70,4 +70,14 @@ class FeedCacheService {
     AppLogger.success('📦 [ISAR]: Loaded ${reelsList.length} reels from local DB');
     return reelsList;
   }
+
+  /// Clears all cached feed data (both posts and reels).
+  /// Useful for development and manual cache clearing.
+  Future<void> clearCache() async {
+    await isar.writeTxn(() async {
+      await isar.posts.clear();
+      await isar.reels.clear();
+    });
+    AppLogger.success('🗑️ [ISAR]: Cached feed data cleared successfully');
+  }
 }

@@ -4,7 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
 
-import '../views/floating_post_view.dart';
+
 import 'floating_post_controller.dart';
 
 class PostsGridController extends GetxController {
@@ -45,16 +45,9 @@ class PostsGridController extends GetxController {
 
   void hideFloatingPost() {
     floatingPostController.resetAnimation();
-    Get.back();
   }
 
   void showFloatingPost() {
-    Get.dialog(
-      FloatingPostView(
-        post: floatingPost,
-        controller: floatingPostController,
-      ),
-    );
     floatingPostController.startAnimation();
   }
 

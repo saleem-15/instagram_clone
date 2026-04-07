@@ -40,7 +40,7 @@ class MyVideoController {
   bool get isInitialized => _isInitialized;
 
   /// Whether the video is currently paused.
-  bool _isPaused = false;
+  bool _isPaused = true;
   bool get isPaused => _isPaused;
 
   /// Captures a pause intent that was requested before initialization finished.
@@ -50,25 +50,37 @@ class MyVideoController {
 
   Timer? _visibilityTimer;
 
+  /// Tracks the in-flight initialization [Future] to guarantee idempotency.
+  ///
+  /// If [initialize] is called a second time before the first completes, the
+  /// same [Future] is returned — preventing duplicate native video decoders.
+  Future<void>? _initFuture;
+
   MyVideoController({required this.videoUrl});
 
   /// Initializes the video controller using the [VideoService] caching pipeline.
+  ///
+  /// This method is **idempotent**: calling it multiple times returns the same
+  /// [Future] and will never create a second native decoder.
   ///
   /// Steps:
   /// 1. Checks [VideoService] for a locally-cached copy of [videoUrl].
   /// 2. Creates the appropriate [VideoPlayerController] (file or network).
   /// 3. If no cache exists, fires a background pre-cache for the next session.
   /// 4. After `initialize()` completes, applies any pending pause intent.
-  ///
-  /// Throws if the URL is empty or initialization itself fails.
-  Future<void> initialize() async {
+  Future<void> initialize() {
+    _initFuture ??= _doInitialize();
+    return _initFuture!;
+  }
+
+  Future<void> _doInitialize() async {
     assert(videoUrl.isNotEmpty, 'videoUrl must not be empty');
 
     final cachedFile = await VideoService.to.getCachedVideo(videoUrl);
 
     if (cachedFile != null) {
       // Cache hit: play from local storage — no network cost.
-      _controller = VideoPlayerController.file(cachedFile.file,);
+      _controller = VideoPlayerController.file(cachedFile.file);
     } else {
       // Cache miss: stream over the network and cache for the next session.
       _controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
@@ -79,6 +91,7 @@ class MyVideoController {
     }
 
     await _controller!.initialize();
+    _controller!.setLooping(true);
     _isInitialized = true;
 
     // Apply the pending pause that arrived before init completed.
@@ -86,6 +99,9 @@ class MyVideoController {
       _controller!.pause();
       _isPaused = true;
       _pendingPause = false;
+    } else if (!_isPaused) {
+      // If playVideo() was called during initialization, actually play it!
+      _controller!.play();
     }
   }
 

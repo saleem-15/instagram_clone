@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, non_constant_identifier_names
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instagram_clone/core/utils/logger.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,9 +24,12 @@ class StoryTile extends GetView<StoriesController> {
 
   @override
   Widget build(BuildContext context) {
-    final ImageProvider userImage = (user.image == null
-        ? const AssetImage('assets/images/default_user_image.png')
-        : CachedNetworkImageProvider(user.image!)) as ImageProvider;
+    final normalizedImage =
+        user.image != null ? Api.normalizeUrl(user.image!) : null;
+    final ImageProvider userImage = (normalizedImage == null
+            ? const AssetImage('assets/images/default_user_image.png')
+            : CachedNetworkImageProvider(normalizedImage, headers: Api.headers))
+        as ImageProvider;
 
     return GestureDetector(
       onTap: () => controller.onStoryTilePressed(userIndex),
@@ -47,8 +51,8 @@ class StoryTile extends GetView<StoriesController> {
                     : null,
                 border: !user.isHasNewStory
                     ? Border.all(
-                        color: Colors.grey.shade300,
-                        width: 1.5,
+                        color: Colors.grey.shade800,
+                        width: 3.sp,
                         style: BorderStyle.solid,
                       )
                     : null,
@@ -57,8 +61,8 @@ class StoryTile extends GetView<StoriesController> {
                 radius: STORY_TILE_SIZE,
                 backgroundImage: userImage,
                 onBackgroundImageError: (exception, stackTrace) {
-                  AppLogger.error(
-                      'Story Tile Image error: ${user.image}', exception, stackTrace);
+                  AppLogger.error('Story Tile Image error: ${user.image}',
+                      exception, stackTrace);
                 },
               ),
               // .marginAll(5.sp),

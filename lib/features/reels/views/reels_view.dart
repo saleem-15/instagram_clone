@@ -95,6 +95,10 @@ class _ReelsViewState extends State<ReelsView> {
               setState(() {
                 currentIndex = index;
               });
+              // Activates pre-caching, pre-initialization, and Rule of 3.
+              if (!isFromProfile) {
+                Get.find<ReelsController>().onPageChanged(index);
+              }
             },
             itemBuilder: (context, index) {
               return ReelPlayerItemView(

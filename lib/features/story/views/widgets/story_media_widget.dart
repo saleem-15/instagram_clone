@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:instagram_clone/core/utils/logger.dart';
+import 'package:instagram_clone/core/utils/constants/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -27,16 +28,15 @@ class StoryMedia extends StatelessWidget {
         assignId: true,
         id: 'story media',
         builder: (controller) {
-
-          final storyUrl = storyController.currentStory.media;
+          final storyUrl = Api.normalizeUrl(storyController.currentStory.media);
           return storyUrl.isImageFileName
               ?
 
               /// image
               Builder(
                   builder: (_) {
-
-                    final image = CachedNetworkImageProvider(storyUrl);
+                    final image = CachedNetworkImageProvider(storyUrl,
+                        headers: Api.headers);
                     return Container(
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
@@ -77,6 +77,13 @@ class StoryMedia extends StatelessWidget {
                         (_, AsyncSnapshot<VideoPlayerController> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const LoadingWidget();
+                      }
+                      if (snapshot.hasError) {
+                        AppLogger.error('Story Media Video error: $storyUrl',
+                            snapshot.error, snapshot.stackTrace);
+                        return const Center(
+                          child: Icon(Icons.broken_image, color: Colors.grey),
+                        );
                       }
                       final videoController = snapshot.data!;
 

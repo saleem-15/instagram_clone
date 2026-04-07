@@ -21,7 +21,7 @@ class StoriesView extends GetView<StoriesController> {
             SliverToBoxAdapter(
               child: YourStoryAvatar(
                 onTap: controller.onMyStoryAvatarPressed,
-              ).paddingOnly(left: 10.w),
+              ).marginOnly(left: 10.sp),
             ),
 
             /// people you follow stories

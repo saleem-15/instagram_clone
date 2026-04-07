@@ -1,16 +1,14 @@
-import 'package:instagram_clone/core/services/video_service.dart';
-import 'package:instagram_clone/core/utils/logger.dart';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:instagram_clone/core/models/post.dart';
-import 'package:video_player/video_player.dart';
+import 'package:instagram_clone/shared/widgets/app_network_image.dart';
+import 'package:instagram_clone/shared/widgets/app_video_player.dart';
+import 'package:instagram_clone/shared/widgets/hold_gesture_detector.dart';
 
-class PostGridTile extends StatelessWidget {
+class PostGridTile extends StatefulWidget {
   const PostGridTile({
     super.key,
     required this.post,
@@ -23,44 +21,61 @@ class PostGridTile extends StatelessWidget {
   final Function(Post post) onPressedGone;
 
   @override
-  Widget build(BuildContext context) {
+  State<PostGridTile> createState() => _PostGridTileState();
+}
 
+class _PostGridTileState extends State<PostGridTile> {
+  bool _isPressed = false;
+
+  void _onHold() {
+    setState(() {
+      _isPressed = true;
+    });
+    widget.onPostPressed(widget.post);
+  }
+
+  void _onHoldEnd() {
+    setState(() {
+      _isPressed = false;
+    });
+    widget.onPressedGone(widget.post);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned.fill(
-          child: Listener(
-            onPointerDown: (event) => onPostPressed(post),
-            onPointerUp: (event) => onPressedGone(post),
+          child: HoldGestureDetector(
+            onHold: _onHold,
+            onHoldEnd: _onHoldEnd,
+            holdDuration: const Duration(milliseconds: 300),
             child: Stack(
               fit: StackFit.expand,
               children: [
-                if (post.postContents[0].isImageFileName ||
-                    post.postContents[0].endsWith('.webp'))
-                  CachedNetworkImage(
-                    imageUrl: post.postContents[0],
+                if (widget.post.postContents[0].isImageFileName ||
+                    widget.post.postContents[0].endsWith('.webp'))
+                  AppNetworkImage(
+                    imageUrl: widget.post.postContents[0],
                     fit: BoxFit.cover,
-                    errorWidget: (context, url, error) {
-                      AppLogger.error('Image error: ${post.postContents[0]}', error);
-                      return const Center(
-                        child: Icon(Icons.broken_image, color: Colors.grey),
-                      );
-                    },
                   )
                 else
-                  VideoThumbnail(videoUrl: post.postContents[0]),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    highlightColor: Colors.black45,
-                    splashColor: Colors.transparent,
-                    onTap: () {},
+                  AppVideoPlayer(
+                    videoUrl: widget.post.postContents[0],
+                    isMuted: true,
+                    isLooping: false,
+                    showVolumeToggle: false,
+                    showLoading: false,
                   ),
-                ),
+                if (_isPressed)
+                  Container(
+                    color: Colors.black.withValues(alpha: 0.4),
+                  ),
               ],
             ),
           ),
         ),
-        if (post.postContents.length.isGreaterThan(1))
+        if (widget.post.postContents.length.isGreaterThan(1))
           const Positioned(
             top: 5,
             right: 5,
@@ -70,8 +85,8 @@ class PostGridTile extends StatelessWidget {
               size: 20,
             ),
           ),
-        if (post.postContents.length.isEqual(1) &&
-            post.postContents.first.isVideoFileName)
+        if (widget.post.postContents.length.isEqual(1) &&
+            widget.post.postContents.first.isVideoFileName)
           Positioned(
             top: 5,
             right: 5,
@@ -86,57 +101,5 @@ class PostGridTile extends StatelessWidget {
           ),
       ],
     );
-  }
-}
-
-class VideoThumbnail extends StatefulWidget {
-  final String videoUrl;
-  const VideoThumbnail({super.key, required this.videoUrl});
-
-  @override
-  State<VideoThumbnail> createState() => _VideoThumbnailState();
-}
-
-class _VideoThumbnailState extends State<VideoThumbnail> {
-  late VideoPlayerController _controller;
-  bool _initialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _initController();
-  }
-
-  Future<void> _initController() async {
-    _controller = await VideoService.to.getController(widget.videoUrl);
-    if (mounted) {
-      setState(() {
-        _initialized = true;
-        // Optionally seek to 1 second to avoid black frames on some videos
-        _controller.seekTo(const Duration(milliseconds: 100));
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    VideoService.to.releaseController(widget.videoUrl);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _initialized
-        ? ClipRect(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: _controller.value.size.width,
-                height: _controller.value.size.height,
-                child: VideoPlayer(_controller),
-              ),
-            ),
-          )
-        : Container(color: Colors.black12);
   }
 }
