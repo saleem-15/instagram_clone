@@ -19,16 +19,16 @@
     <td align="center"><b>Reels — Zero-Latency Playback</b></td>
   </tr>
   <tr>
-    <td><video src="docs/videos/home%20feed.mp4" autoplay muted loop width="100%"></video></td>
-    <td><video src="docs/videos/reels.mp4" autoplay muted loop width="100%"></video></td>
+    <td><video src="docs/videos/home_feed_demo.mp4" autoplay muted loop width="100%"></video></td>
+    <td><video src="docs/videos/reels_demo.mp4" autoplay muted loop width="100%"></video></td>
   </tr>
   <tr>
     <td align="center"><b>Stories — Auto-Advance Timer</b></td>
     <td align="center"><b>Explorer — Long-Press Quick Peek</b></td>
   </tr>
   <tr>
-    <td><video src="docs/videos/stories.mp4" autoplay muted loop width="100%"></video></td>
-    <td><video src="docs/videos/floating%20post.mp4" autoplay muted loop width="100%"></video></td>
+    <td><img src="docs/videos/stories_demo.gif" width="100%" /></td>
+    <td><img src="docs/videos/quick_peek_demo.gif" width="100%" /></td>
   </tr>
 </table>
 
