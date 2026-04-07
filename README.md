@@ -93,7 +93,7 @@
 │                     Flutter Client                          │
 │                                                             │
 │  ┌───────────┐    ┌──────────────┐    ┌──────────────────┐  │
-│  │   Views   │───▶│  Controllers │──▶│     Services      │  │
+│  │   Views   │───▶│  Controllers │──▶│     Services     │  │
 │  │ (GetView) │    │   (GetX)     │    │(FeedCache, Video)│  │
 │  └───────────┘    └──────┬───────┘    └────────┬─────────┘  │
 │                          │                     │            │
@@ -116,11 +116,11 @@
 └──────────────────────────────────────┼──────────────────────┘
                                        │ HTTPS
                               ┌────────▼────────┐
-                              │  Laravel API     │
-                              │  (Sanctum Auth,  │
-                              │   MySQL,         │
-                              │   Paginated      │
-                              │   Endpoints)     │
+                              │  Laravel API    │
+                              │  (Sanctum Auth, │
+                              │   MySQL,        │
+                              │   Paginated     │
+                              │   Endpoints)    │
                               └─────────────────┘
 ```
 
